@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>购物</title>
+
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+
+    <script type="text/javascript">
+    var kaiping=document.getElementsByTagName('html');
+    kaiping[0].style.display="none";
+  //延迟关闭开屏
+    setTimeout(function() {
+        document.getElementById('zhezhao').style.display="none";
+            },500); 
+  </script>
+  </head>
+  <body>
+    <!-- 开屏 -->
+   <div  class="zhezhao" id="zhezhao" style="height:100%;width:100%;position: fixed;left: 0;top: 0;z-index:99999;">
+  <img alt="icon" style="height:100%;width:100%;" src="http://wd.geilicdn.com/vshop333816149-1457602899113-8730418.jpg?w=400&h=400&cp=1">
+  </div>
+     <!-- 购物header -->
+<div  class="header-banner">
+    <div class="header-banner-left  pull-left" onclick="doSomething()">本真茶园</div>
+     <input class="header-banner-center pull-left" type="text" placeholder="&nbsp;&nbsp;黑茶">
+  	<div class="btn  btn-small btn-info header-banner-right pull-right glyphicon glyphicon-search">
+  	</div>
+</div>
+<!-- end购物header-->
+  <!-- 购物轮播-->
+    <div id="myCarousel" class="carousel slide">
+   <!-- 轮播（Carousel）指标 -->
+   <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+   </ol>   
+   <!-- 轮播（Carousel）项目 -->
+   <div class="carousel-inner">
+      <div class="item active">
+         <img class="carouselIMG" src="http://www.yayao8.com/resources/img/carousel/carousel1.jpg" alt="First slide">
+      </div>
+      <div class="item">
+         <img class="carouselIMG" src="http://www.yayao8.com/resources/img/carousel/carousel2.jpg" alt="Second slide">
+      </div>
+      <div class="item">
+         <img class="carouselIMG" src="http://www.yayao8.com/resources/img/carousel/carousel3.jpg" alt="Third slide">
+      </div>
+   </div>
+   <!-- 轮播（Carousel）导航 -->
+   <a class="carousel-control left" href="#myCarousel" 
+      data-slide="prev">&lsaquo;</a>
+   <a class="carousel-control right" href="#myCarousel" 
+      data-slide="next">&rsaquo;</a>
+</div> 
+    <!-- end购物轮播-->
+    <!-- 购物九宫格-->
+    <ul class="list-inline text-center home3">
+  <li>
+  <i class="glyphicon glyphicon-user" style="background-color:maroon;"></i>
+        <br/>新人礼包
+</li>
+  <li >
+<i class="glyphicon glyphicon-glass" style="background-color:orange;" ></i>
+         <br/> 物美价廉
+</li>
+  <li >
+<i class="glyphicon glyphicon-tree-deciduous" style="background-color:purple;"></i>
+          <br/>免费专区
+</li>
+</ul>
+
+<ul class="list-inline text-center home3">
+  <li >
+<i class="glyphicon glyphicon-fire"></i>
+          <br/>TOP热卖
+</li>
+  <li >
+<i class="glyphicon glyphicon-tree-conifer" style="background-color: green;"></i>
+           <br/>茶艺文化
+</li>
+  <li >
+<i class="glyphicon glyphicon-envelope" style="background-color:navy; "></i>
+          <br/>包邮专区
+</li>
+  
+</ul>
+    <!-- end购物九宫格-->
+    <!-- 购物热门推荐虚线-->
+    <div class=" rmtjxx">
+    <div ><hr/></div>
+    <div class="rmtjxx-c">热门推荐</div>
+    <div ><hr/></div>
+    </div>
+    <!-- end购物热门推荐虚线-->
+    <!-- 购物热门推荐商品-->
+    <div class=" rmtjsp">
+        <a class=" list-card well" href="http://weidian.com/item.html?itemID=1759015038&p=-1">
+          <div class="thumbnail">
+          <img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1">
+          </div>
+          <div  class="caption">
+          <h3 class="goods-title">【包邮】【送茶刀】湖南安化黑茶 金花茯砖茶 施兆鹏八十大寿寿礼茶 收藏茶1936g</h3>
+          <p>原价：<span class="goods-price">¥3980.00</span>
+          </p>
+          <p >
+          <span class="goods-relprice">惊爆价：¥2980.00</span>
+        </p>
+          </div>
+        </a>
+        <a class="list-card well " href="http://weidian.com/item.html?itemID=1759015038&p=-1">
+          <div class="thumbnail">
+          <img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1">
+          </div>
+          <div  class="caption">
+          <h3 class="goods-title">【包邮】【送茶刀】湖南安化黑茶 金花茯砖茶 施兆鹏八十大寿寿礼茶 收藏茶1936g</h3>
+          <p>原价：<span class="goods-price">¥3980.00</span>
+          </p>
+          <p>
+          <span class="goods-relprice">惊爆价：¥2980.00</span>
+        </p>
+          </div>
+        </a>
+
+    </div>
+    <!-- end购物热门推荐商品-->
+    <!-- 底部导航-->
+    <ul class="list-inline fixed-footer">
+    	<a class="btn glyphicon glyphicon-home active-a" href="index.html"><br/>购物</a>
+    	<a class="btn glyphicon glyphicon-th" href="classification.html"><br/>分类</a>
+    	<a class="btn glyphicon glyphicon-comment" href="shoppingCircle.html"><br/>购物圈</a>
+    	<a class="btn glyphicon glyphicon-shopping-cart" href=""><br/>购物车</a>
+    	<a class="btn glyphicon glyphicon-user" href=""><br/>个人中心</a>
+    </ul>
+    <!-- end底部导航-->
+    
+  </body>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- <script src="cordova.js"></script> -->
+
+    <!-- your app's js -->
+       <script src="resources/js/jquery2.1.js"></script> 
+       <script src="resources/js/bootstrap3.2.0.js"></script>
+        <script type="text/javascript">
+   kaiping[0].style.display='block'; 
+   $("#myCarousel").carousel('cycle');
+   	
+  </script>
+  
+</html>

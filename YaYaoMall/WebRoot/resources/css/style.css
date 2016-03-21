@@ -1,0 +1,312 @@
+
+/*
+**rest
+*/
+p{
+	text-indent: 2rem;
+	white-space:normal !important;
+	color:#000;
+}
+span{
+	font-size: 10px;
+	color: #999;
+}
+/*
+**input file
+*/
+input[type="file"]{
+	opacity:0;
+	filter:alpha(opacity=0);
+	width:100%;
+	height:100%;
+}
+/*
+**底部导航固定
+*/
+.fixed-footer{
+	bottom:0;
+	margin-bottom:0px;
+	position: fixed;
+	 width:100%;
+	text-align:center;
+	/* border: 1px solid red; */
+	background-color: #E8E4E4;
+}
+.fixed-footer a{
+	font-size:1rem;
+	color:#999;
+	/* border: 1px solid red; */
+}
+.fixed-footer a:hover,.fixed-footer a:active{
+	color:red;
+}
+/**
+**设置红色active-a
+*/
+.active-a
+{
+	color:red !important;
+}
+/*
+**顶部搜索
+*/
+.header-banner{
+	font-size:18px;
+	width:100%;
+	text-align: center;
+	height:34px;
+	background-color: #E8E4E4;
+}
+.header-banner-left{
+	display:inline-block;
+	line-height: 40px;
+	width:25%;
+	color:green;
+	font-weight: bold;
+}
+.header-banner-center{
+	display:inline-block;
+	line-height: 30px;
+	border:1px solid #999;
+	border-radius:15px;
+	width:55%;
+	
+}
+.header-banner-right{
+	display:inline-block;
+	width:18%;
+	border-radius:15px;
+	font-size:2rem;
+	padding:0;
+	
+}
+/*
+**购物轮播图
+*/
+ .carouselIMG{
+ height:100px !important;
+ }
+/*
+**购物九宫格
+*/ 
+  .home3{
+  margin:10px;
+  padding:10px;
+  color: #666;
+  }
+ .home3 i{
+ display: inline-block;
+ height:30px;
+ width:30px;
+ border:0px solid red;
+ border-radius:15px;
+ background-color: red;
+ color: white;
+ font-size: 20px;
+ line-height: 30px;
+ margin:10px 10px;;
+ }
+ /*
+**热门推荐虚线
+*/
+.rmtjxx{
+	margin-top:20px !important;
+	
+}
+.rmtjxx-c{
+	text-align: center;
+	color:#666;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+/*
+**热门推荐主体商品
+*/
+.rmtjsp{
+	margin-bottom:50px !important;
+	text-align: center;
+}
+.list-card{
+	width:45%;
+	display: inline-block;
+	margin:1%;
+	padding:1%;
+}
+.goods-title{
+	font-size: 1rem;
+	text-align: justify;
+	color:#000;
+}
+.goods-price{
+	text-decoration: line-through;
+}
+.goods-relprice{
+	color:red !important;
+	font-weight: bold;
+}
+/*
+*分类
+*/
+
+.classification-left{
+	display:inline-block;
+	width:30%;
+	background-color: #E8E4E4 !important;
+	margin-bottom: 45px;
+	overflow: scroll;
+}
+.classification-left a{
+	display:block;
+	background-color: #E8E4E4;
+}
+.classification-left a img{
+	max-width:30px !important;
+	max-height:30px !important;
+}
+.classification-left-title{
+	line-height: 30px;
+	margin-left: -20px;
+}
+.classification-right{
+	display:inline-block;
+	width:70% !important;
+	background-color: #fff; 
+	float: right;
+}
+.classification-right-div{
+	 padding:3% !important;	
+}
+.classification-right-div a{
+	display:inline-block;
+	margin:2% !important;
+	height: 100px;
+	padding:5% !important;
+	border: 0px solid #999;
+}
+
+.classification-right-div a img{
+	height: 66px;
+}
+.classification-right-div a p{
+	text-indent:0;
+	text-align: center;
+}
+/*
+**热门推荐主体商品下拉刷新
+*/
+
+/*
+**tab-person
+*/
+.person-home2{
+   
+  color: #666;
+}
+.person-home2 i{
+ display: inline-block;
+ height:30px;
+ width:30px;
+ border:0px solid red;
+ border-radius:15px;
+ background-color: red;
+ color: white;
+ font-size: 22px !important;
+ line-height: 30px;
+ margin-bottom: 10px;
+ }
+ /*
+**九宫格
+*/
+ .jiugongge{
+  border: 1px solid #ccc;
+ }
+.jiugongge div{
+  text-align:center;
+  background-color: #ccc;
+ }
+.jiugongge div a{
+	background-color: #fff;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid #fff;
+  border-radius:20%;
+  box-shadow:0 0 5px #fff;
+margin:1%;
+width:30%;
+padding:5%;
+  color:black;
+}
+.jiugongge div a i{
+  display:block;
+ height:3rem;
+ width:3rem;
+ border:0px solid blue;
+ border-radius:1.5rem;
+ background-color: blue;
+ color: white;
+ font-size: 2rem !important;
+ line-height: 3rem;
+ margin:0px auto;
+}
+/*
+*用户信息
+*/
+.user-information
+{
+	display:inline-block;
+	text-align: left;
+	line-height: 1rem;
+	margin-top:0.55rem;
+}
+.user-information-img
+{	
+	float: right;
+	width:50px;
+	height:50px;
+	margin-top:-0.25rem;
+}
+.user-information-info
+{	
+	color:#ccc;
+	float: right;
+	margin-top:0.55rem;
+	font-size: 1rem;
+	
+}
+.user-information-error
+{	
+	color:red;
+	margin-top:10px;
+	font-size: 1rem;
+}
+.user-information-icon{
+	float: right;
+	font-size: 1rem;
+	color:#ccc;
+	margin-top:0.5rem;
+}
+/*
+*购物车
+*/
+.cat-no-body{
+	margin-top:30%;
+}
+.cat-no-icon{
+	font-size:8rem;
+	margin:10% 35%;
+	color:#999;
+}
+.cat-no-font{
+	text-align: center;
+	font-size:0.8rem;
+}
+.cat-no-btn{
+	width:6rem;
+	margin: 10% 35%;
+}
+
+
+/*
+*购物圈
+*/
