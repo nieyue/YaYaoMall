@@ -1,0 +1,234 @@
+
+  <ion-view >
+<ion-header-bar align-title="center" class="bar-positive">
+  <h1 class="title">我</h1>
+</ion-header-bar>
+<ion-content >
+   <div class="has-header ionic-pseudo" ng-switch="123">
+   <div class="list" ng-switch-when="123">
+        <a class="item item-avatar" ng-click="openUserInfo()" href="#">
+           <img src="{{user.userimg}}" ng-if="haveImg">
+           <img alt="icon" src="img/preLoding.jpg" ng-if="!haveImg"> 
+          <h2>{{user.usernicename||user.username}}</h2>
+           <span class="item-note">用户信息></span>
+          <p>{{user.usersignature}}</p>
+        </a>
+      </div>
+      <div class="list" ng-switch-default>
+        <a class="item item-avatar" ng-click="openLogin()" href="#">
+          <img alt="icon" src="img/preLoding.jpg">
+          <h2>请先登录，更多惊喜！</h2>
+           <span class="item-note">点击登录></span>
+          <p>添加个性签名</p>
+        </a>
+      </div>
+    </div>
+
+   <div class="row text-center person-home2">
+     <div class="col">
+   <a class="tab-item">
+     <i class="icon ion-chatbox-working"></i>
+     消息
+   </a>
+     </div>
+     <div class="col">
+     <a class="tab-item">
+     <i class="icon ion-person-stalker"></i>
+     好友
+   </a>
+     </div>
+     <div class="col">
+     <a class="tab-item">
+     <i class="icon ion-person-add"></i>
+     添加
+   </a>
+     </div>
+   </div> 
+
+
+<div class="jiugongge">
+  <div >
+     <a ><i class="icon ion-ios-list-outline" style="background-color:#ec3;"></i>订单</a>
+  
+    <a ><i class="icon ion-ios-albums" style="background-color:red;"></i>卡卷包</a>
+  
+    <a ><i class="icon ion-social-reddit" style="background-color:green;"></i>积分</a>
+  </div>
+    <div >
+     <a ><i class="icon ion-social-yen" style="background-color:red;"></i>待付款</a>
+  
+    <a ><i class="icon ion-android-plane" style="background-color:blue;"></i>待发货</a>
+  
+    <a ><i class="icon ion-briefcase" style="background-color:yellow;"></i>待收货</a>
+  </div>  
+     <div>
+     <a ><i class="icon ion-chatbubbles" style="background-color:yellow;"></i>待评价</a>
+  
+    <a ><i class="icon ion-ios-briefcase" style="background-color:green;"></i>我的收藏</a>
+  
+    <a ><i class="icon ion-android-person" style="background-color:blue;"></i>会员中心</a>
+  </div> 
+</div>
+<ion-refresher on-refresh="doRefresh()"  
+            >  
+             <!-- pulling-text="正在加载..."   
+              refreshing-text="加载完成！"  
+            refreshing-icon="ion-loading-b" -->
+                  
+            </ion-refresher>  
+</ion-content>
+</ion-view>
+<!-- 登录界面 -->
+<script id="tab-login.html" type="text/ng-template">
+  <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">登录</h1>
+          <button class="button button-clear button-primary" ng-click="modal.remove()">取消</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            <label class="item item-input">
+              <span class="input-label">用户名</span>
+              <input ng-model="newUser.firstName" type="text">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">密码</span>
+              <input ng-model="newUser.lastName" type="password">
+            </label>
+          
+            <button class="button button-full button-positive" ng-click="createContact(newUser)">点击登录</button>
+            还没账号？请先点击-><a ng-click="LoginToRegister()">注册</a>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+
+</script>
+<!-- 注册界面 -->
+<script id="tab-register.html" type="text/ng-template">
+  <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">注册</h1>
+          <button class="button button-clear button-primary" ng-click="openLogin()">取消</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+           <label class="item item-input">
+              <span class="input-label">Email</span>
+              <input ng-model="newUser.email" type="text">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">密码</span>
+              <input ng-model="newUser.password" type="password">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">重复密码</span>
+              <input ng-model="newUser.password2" type="password">
+            </label>
+            <button class="button button-full button-positive" ng-click="createContact(newUser)">点击提交</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+
+</script>
+<!-- 用户信息界面 -->
+<script id="tab-userinfo.html" type="text/ng-template">
+  <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <button class="button button-clear" ng-click="modal.remove()" ><i class="ion-android-arrow-back" style="font-size:2rem"></i></button>
+          <h1 class="title">用户信息</h1>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+           <a class="item" href="javascript:;">
+              <div class="user-information">头像</div>
+              <div class="user-information-icon">></div>
+			<img class="user-information-img"  src="{{user.userimg}}" ng-if="haveImg"/>
+			<img class="user-information-img"  src="img/preLoding.jpg" ng-if="!haveImg"/>
+			<input type="file" accept="image/*" onchange="userimgupload(this)" id="userimg"/>
+            </a>
+            <a class="item" ng-click="UserInfoToUserNiceName()">
+              <div class="user-information">昵称</div>
+              <div class="user-information-icon">></div>
+              <div class="user-information-info">{{user.usernicename}}</div>
+            </a>
+            <a class="item" ng-click="UserInfoToUserSignature()">
+              <div class="user-information">个性签名</div>
+              <div class="user-information-icon">></div>
+              <div class="user-information-info">{{user.usersignature}}</div>
+            </a>
+            <a class="item">
+              <div class="user-information">邮箱</div>
+              <div class="user-information-info">{{user.username}}</div>
+            </a>
+            <a class="item" ng-click="UserInfoToShippingAddress()">
+              <div class="user-information">收货地址</div>
+              <div class="user-information-icon">></div>
+            </a>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+
+</script>
+<!-- 昵称界面 -->
+<script id="tab-usernicename.html" type="text/ng-template">
+  <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <button class="button button-clear" ng-click="openUserInfo()" ><i class="ion-android-arrow-back" style="font-size:2rem"></i></button>
+          <h1 class="title">昵称</h1>
+          <button class="button button-clear" ng-click="saveusernicename(10)" >保存</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+        <div class="list">
+            <label class="item item-input">
+              <span class="input-label">昵称</span>
+              <input ng-model="user.setusernicename" ng-change="usernicenamecheck(10)" type="text">
+            </label>
+				<span class="user-information-error" ng-bind="usernicenameerror"></span>
+	 			<div class="user-information-info">昵称最多10个字符，设置后，其他人将看到你的昵称。</div>
+ 		</div>
+        </ion-content>
+      </ion-modal-view>
+
+</script>
+<!-- 个性签名界面 -->
+<script id="tab-usersignature.html" type="text/ng-template">
+  <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <button class="button button-clear" ng-click="openUserInfo()" ><i class="ion-android-arrow-back" style="font-size:2rem"></i></button>
+          <h1 class="title">个性签名</h1>
+          <button class="button button-clear" ng-click="saveusersignature(10)" >保存</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+        <div class="list">
+            <label class="item item-input">
+              <span class="input-label">个性签名</span>
+              <input ng-model="user.setusersignature" ng-change="usersignaturecheck(10)" type="text"/>
+            </label>
+				<span class="user-information-error" ng-bind="usersignatureerror"></span>
+	 			<div class="user-information-info">个性签名最多10个字符，设置后，其他人将看到你的个性签名。</div>
+ 		</div>
+        </ion-content>
+      </ion-modal-view>
+
+</script>
+<!-- 收货地址 -->
+<script id="tab-shippingaddress.html" type="text/ng-template">
+  <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <button class="button button-clear" ng-click="openUserInfo()" ><i class="ion-android-arrow-back" style="font-size:2rem"></i></button>
+          <h1 class="title">收货地址管理</h1>
+          <button class="button button-clear" ng-click="saveusersignature(10)" >新增</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+       <div class="list">
+            <a class="item" ng-click="UserInfoToUserNiceName()">
+              <div class="user-information">收货人</div>
+              <div class="user-information-icon">></div>
+              <div class="user-information-info">15111336587</div>
+              <div class="user-information-info">收货地址</div>
+            </a>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+
+</script>
