@@ -8,25 +8,40 @@
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
 
-    <script type="text/javascript">
-    var kaiping=document.getElementsByTagName('html');
-    kaiping[0].style.display="none";
-  //延迟关闭开屏
-    setTimeout(function() {
-        document.getElementById('zhezhao').style.display="none";
-            },500); 
-  </script>
   </head>
   <body>
     <!-- 开屏 -->
-   <div  class="zhezhao" id="zhezhao" style="height:100%;width:100%;position: fixed;left: 0;top: 0;z-index:99999;">
+   <div  class="zhezhao" id="zhezhao" style="height:100%;width:100%;position: fixed;left: 0;top: 0;z-index:99999;display: none;">
   <img alt="icon" style="height:100%;width:100%;" src="http://wd.geilicdn.com/vshop333816149-1457602899113-8730418.jpg?w=400&h=400&cp=1">
   </div>
+    <script type="text/javascript">
+    var indexShopping={
+    kaiping:document.getElementsByTagName('html'),
+    zhezhao:document.querySelector('#zhezhao')
+    };
+    if(sessionStorage.getItem("iskaiping")!=1){
+  sessionStorage.setItem("iskaiping",1 );
+    indexShopping.kaiping[0].style.display="none";
+    indexShopping.zhezhao.style.display="block";
+    	//console.log("0");
+    }else{
+    	//console.log("sdf")
+    	
+    }
+  //延迟关闭开屏
+    setTimeout(function() {
+    	indexShopping.zhezhao.style.display="none";
+            },500); 
+  </script>
      <!-- 购物header -->
 <div  class="header-banner">
-    <div class="header-banner-left  pull-left" onclick="doSomething()">本真茶园</div>
-     <input class="header-banner-center pull-left" type="text" placeholder="&nbsp;&nbsp;黑茶">
-  	<div class="btn  btn-small btn-info header-banner-right pull-right glyphicon glyphicon-search">
+    <div class="header-banner-left" onclick="doSomething()">本真茶园</div>
+     <div class="header-banner-center">
+     <span class="header-banner-icon glyphicon glyphicon-search"></span>
+     <input id="searchAll" type="text" placeholder="黑茶">
+     </div>
+  	<div class="btn  btn-small btn-info header-banner-right">
+  	搜索
   	</div>
 </div>
 <!-- end购物header-->
@@ -51,43 +66,43 @@
       </div>
    </div>
    <!-- 轮播（Carousel）导航 -->
-   <a class="carousel-control left" href="#myCarousel" 
+   <a class="carousel-control left" style="margin-top:30px;" href="#myCarousel" 
       data-slide="prev">&lsaquo;</a>
-   <a class="carousel-control right" href="#myCarousel" 
-      data-slide="next">&rsaquo;</a>
+   <a class="carousel-control right" style="margin-top:30px;" href="#myCarousel" 
+      data-slide="next">&rsaquo;</a> 
 </div> 
     <!-- end购物轮播-->
     <!-- 购物九宫格-->
-    <ul class="list-inline text-center home3">
-  <li>
+    <div class="home3">
+  <div>
   <i class="glyphicon glyphicon-user" style="background-color:maroon;"></i>
         <br/>新人礼包
-</li>
-  <li >
+</div>
+  <div >
 <i class="glyphicon glyphicon-glass" style="background-color:orange;" ></i>
          <br/> 物美价廉
-</li>
-  <li >
+</div>
+  <div >
 <i class="glyphicon glyphicon-tree-deciduous" style="background-color:purple;"></i>
           <br/>免费专区
-</li>
-</ul>
+</div>
+</div>
 
-<ul class="list-inline text-center home3">
-  <li >
+<div class="home3">
+  <div >
 <i class="glyphicon glyphicon-fire"></i>
           <br/>TOP热卖
-</li>
-  <li >
+</div>
+  <div >
 <i class="glyphicon glyphicon-tree-conifer" style="background-color: green;"></i>
            <br/>茶艺文化
-</li>
-  <li >
+</div>
+  <div >
 <i class="glyphicon glyphicon-envelope" style="background-color:navy; "></i>
           <br/>包邮专区
-</li>
+</div>
   
-</ul>
+</div>
     <!-- end购物九宫格-->
     <!-- 购物热门推荐虚线-->
     <div class=" rmtjxx">
@@ -128,13 +143,13 @@
     </div>
     <!-- end购物热门推荐商品-->
     <!-- 底部导航-->
-    <ul class="list-inline fixed-footer">
-    	<a class="btn glyphicon glyphicon-home active-a" href="index.html"><br/>购物</a>
-    	<a class="btn glyphicon glyphicon-th" href="classification.html"><br/>分类</a>
-    	<a class="btn glyphicon glyphicon-comment" href="shoppingCircle.html"><br/>购物圈</a>
-    	<a class="btn glyphicon glyphicon-shopping-cart" href=""><br/>购物车</a>
-    	<a class="btn glyphicon glyphicon-user" href=""><br/>个人中心</a>
-    </ul>
+    <div class="list-inline fixed-footer">
+    	<a class="btn active-a" href="index.html"><i class="glyphicon glyphicon-home"></i><div class="active-a">购物</div></a>
+    	<a class="btn" href="classification.html"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
+    	<a class="btn" href="shoppingCircle.html"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
+    	<a class="btn" href="cat.html"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
+    	<a class="btn" href="person.html"><i class="glyphicon glyphicon-user"></i><div>我</div></a>
+    </div>
     <!-- end底部导航-->
     
   </body>
@@ -145,9 +160,20 @@
     <!-- your app's js -->
        <script src="resources/js/jquery2.1.js"></script> 
        <script src="resources/js/bootstrap3.2.0.js"></script>
+       <script src="resources/js/base.js"></script>
         <script type="text/javascript">
-   kaiping[0].style.display='block'; 
-   $("#myCarousel").carousel('cycle');
+   //显示所有html
+   indexShopping.kaiping[0].style.display='block'; 
+   //轮播
+   $(".myCarousel").carousel('cycle');
+   //监听窗口大小，隐藏底部导航
+   $(window).on("resize",function(){
+   if($(window).height()<380){
+	   $(".fixed-footer").hide();   
+	   }else{
+		   $(".fixed-footer").show();
+	   }
+   });
    	
   </script>
   
