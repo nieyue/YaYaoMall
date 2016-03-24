@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>用户信息</title>
+
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+  </head>
+  <body>
+   <div class="person-common-header">
+  	<div><a class="pull-left" href="person.html">&lt;返回</a></div>
+  	<div class="text-center person-common-header-center">用户信息</div>
+  </div>
+  
+  <ul class="list-group person-userinfo">
+   <li class="list-group-item person-userinfo-img">
+   头像 
+   <span class="pull-right">&gt;</span>
+   <div>
+   <img id="userInfoIMG" alt="" src="resources/img/preLoding.jpg"></div>
+   </li>
+   <li class="list-group-item">
+   昵称
+   <span class="pull-right">&gt;</span>
+   <div id="userInfoNiceName"></div>
+   </li>
+   <li class="list-group-item">
+   个性签名
+   <span class="pull-right">&gt;</span>
+   <div id="userSignature"></div>
+   </li>
+   <li class="list-group-item">
+   邮箱
+   <span class="pull-right">&gt;</span>
+   <div id="userEmail"></div>
+   </li>
+   <li class="list-group-item">
+   手机号
+   <span class="pull-right">&gt;</span>
+   <div id="userPhone"></div>
+   </li>
+   <li class="list-group-item">
+   身份认证
+   <span class="pull-right">&gt;</span>
+   <div id="userIdentity"></div>
+   </li>
+   <li class="list-group-item">
+   收货地址
+   <span class="pull-right">&gt;</span>
+   <div id="userReceiptAddress"></div>
+   </li>
+	</ul>
+	<button class="btn btn-primary btn-block">退出登陆</button>
+	</body>
+       <script src="resources/js/jquery2.1.js"></script>  
+       <script src="resources/js/bootstrap3.2.0.js"></script>
+       <script src="resources/js/sha1.js"></script>
+       <script src="resources/js/base.js"></script>
+       <script type="text/javascript">
+      		$(function(){
+      			if(localStorage.getItem("loginstate")==1){
+      				document.querySelector("#userInfoIMG").src=userData.userPerson.userIMG||userData.userInit.userIMG;
+      				document.querySelector("#userInfoNiceName").innerHTML=userData.userPerson.userNiceName||userData.userInit.userNiceName;
+      				document.querySelector("#userSignature").innerHTML=userData.userPerson.userSignature||userData.userInit.userSignature;
+      				document.querySelector("#userEmail").innerHTML=userData.userPerson.userEmail||userData.userInit.userEmail;
+      				document.querySelector("#userPhone").innerHTML=userData.userPerson.userPhone||userData.userInit.userPhone;
+      				document.querySelector("#userIdentity").innerHTML=userData.userPerson.userIdentity||userData.userInit.userPerson;
+      				document.querySelector("#userReceiptAddress").innerHTML=userData.userPerson.userReceiptAddress||userData.userInit.userReceiptAddress;
+      		//console.log()	 
+      			}
+      			
+      			
+      		});
+       </script>
+  
+</html>

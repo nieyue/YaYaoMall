@@ -7,21 +7,19 @@
 
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
-
     
   </head>
   <body>
   <div class="person-header">
-        <a class="shoppingCircle-body-list-star person-header-body" href="#">
-          <img alt="icon" src="resources/img/preLoding.jpg">
+        <a class="shoppingCircle-body-list-star person-header-body" id="userHref" href="person_login.html">
+          <img id='userIMG' alt="icon" src="resources/img/preLoding.jpg">
           <div>
-          <h2>请先登录，更多惊喜！</h2>
-          <span>点击登录></span>
-          <div>添加个性签名</div>
+          <h2 id="userNiceName">请先登录，更多惊喜！</h2>
+          <span id="userAccess">点击登录></span>
+          <div id="userSignature">添加个性签名</div>
           </div>
         </a>
  </div>
-
    <div class="text-center person-middle-body">
      <div class="item btn">
    <a >
@@ -87,11 +85,17 @@
     <!-- your app's js -->
        <script src="resources/js/jquery2.1.js"></script>  
        <script src="resources/js/bootstrap3.2.0.js"></script>
+       <script src="resources/js/sha1.js"></script>
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
-      		
-      			
+      			if(localStorage.getItem("loginstate")==1){
+      				document.querySelector("#userNiceName").innerHTML=userData.userPerson.userNiceName||localStorage.getItem("userName");
+      				document.querySelector("#userIMG").src=userData.userPerson.userIMG;
+      				document.querySelector("#userAccess").innerHTML='';
+      				document.querySelector("#userSignature").innerHTML=userData.userPerson.userSignature;
+      				document.querySelector("#userHref").href='user_info.html';
+      				}
       		});
        </script>
   

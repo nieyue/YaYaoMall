@@ -1,4 +1,24 @@
-
+/**
+**基础rest
+*/
+/* body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,figcaption,figure,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0}
+body,button,input,select,textarea{font:12px/1 Lucida Grande,'Microsoft YaHei',"Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif}
+h1{font-size:18px;font-weight:normal}
+h2{font-size:16px;font-weight:normal}
+h3{font-size:14px;font-weight:normal}
+h4,h5,h6{font-size:100%;font-weight:normal}
+address,cite,dfn,em,var{font-style:normal}
+code,kbd,pre,samp,tt{font-family:"Courier New",Courier,monospace}
+small{font-size:12px}
+ul,ol,li{list-style:none}
+a{text-decoration:none}
+abbr[title],acronym[title]{border-bottom:1px dotted;cursor:help}
+q:before,q:after{content:''}
+legend{color:#000}
+fieldset,img{border:0}
+table{border-collapse:collapse;border-spacing:0}
+hr{border:0;height:1px}
+*{-ms-word-break:break-all;word-break:break-all;-ms-word-wrap:break-word;word-wrap:break-word;-webkit-tap-highlight-color:rgba(0,0,0,0)} */
 /*
 **rest
 */
@@ -316,6 +336,15 @@ input[type="file"]{
 	width:4rem;
 	border-radius:2rem;
 }
+@media screen(min-width:568px){
+	.shoppingCircle-body-list-star img{
+	margin:0;
+	display:inline-block;
+	height:4rem;
+	width:4rem;
+	border-radius:2rem;
+}
+}
 .shoppingCircle-body-list-star div{
 	width:70%;
 	display:inline-block;
@@ -406,10 +435,22 @@ input[type="file"]{
 	color:#ccc !important;
 }
 
+@media screen(min-width:768px){
+	.cat-no-icon{
+	font-size:100px;
+	margin:0 45%;
+	color:#999;
+}
+.cat-no-btn{
+	width:100px;
+	margin: 0 45%;
+	text-align: center !important;
+}
+}
 /*
 **tab-person
 */
-.person-home2{
+/* .person-home2{
    
   color: #666;
 }
@@ -424,7 +465,7 @@ input[type="file"]{
  font-size: 22px !important;
  line-height: 30px;
  margin-bottom: 10px;
- }
+ } */
  /*
 **九宫格
 */
@@ -471,6 +512,21 @@ padding:5%;
 	color:black !important;
 	background-color: #ccc;
 }
+/* @media(max-width:1026px){
+	.person-header-body img{
+	margin:0rem;
+	}
+} */
+@media screen(min-width:768px,max-width:1026px){
+	.person-header-body img{
+	margin:0rem;
+	}
+}
+@media screen(min-width:1026px){
+	.person-header-body img{
+	margin:1rem;
+	}
+}
 .person-header-body div h2{
 	font-size: 1.5rem !important;
 }
@@ -479,6 +535,7 @@ padding:5%;
 	font-size: 1rem !important;
 }
 .person-header-body div div{
+	display:block;
 	font-size: 1.5rem !important;
 }
 
@@ -540,5 +597,85 @@ padding:5%;
 	color:#ccc;
 	margin-top:0.5rem;
 }
-
-
+/**
+**登录
+**注册
+*/
+.person-common-header{
+	border: 1px solid #ccc;
+	margin:1px 0;
+	height:40px;
+	line-height: 40px;
+	font-size:16px;
+	color:#ccc;
+}
+.person-common-header-center{
+	margin-right:10%;
+	color:black;
+	font-size: 20px;
+}
+.person-login-body{
+	font-family:cursive;
+	width:300px;
+	height: 200px;
+	border: 1px solid #ccc;
+	border-radius:3px;
+	padding:10px;
+	margin:40px auto;
+}
+.person-login-footer{
+	width:300px;
+	margin:10px auto;
+	height: 40px;
+	line-height: 40px;
+}
+.person-register-body-toggle{
+	/* border:1px solid #ccc; */
+	border-radius:3px 3px 0 0;
+	width:298px;
+	margin:20px auto 0 auto;
+}
+.person-register-body-toggle span{
+	display: inline-block;
+	width:149px;
+	padding:10px;
+	text-align: center;
+	border:1px solid #ccc;
+}
+.person-register-body-toggle span.emailspan{
+	float: left;
+	background-color:#ccc;
+	color:white;
+}
+.person-register-body{
+	font-family:cursive;
+	width:298px;
+	height: 330px;
+	border: 1px solid #ccc;
+	border-top:0px;
+	border-radius:0 0 3px 3px;
+	padding:10px;
+	margin:0 auto;
+}
+/**
+**用户信息
+**
+*/
+.person-userinfo div{
+	color:#ccc;
+	display: inline-block;
+	float: right;
+	}
+.person-userinfo span{
+	color:#ccc;
+	display: inline-block;
+}
+.person-userinfo li:first-child{
+	height: 60px;
+	line-height: 30px;
+	
+}
+.person-userinfo div img{
+	height: 38px;
+	width: 38px;
+}

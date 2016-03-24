@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>注册</title>
+
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+
+    
+  </head>
+  <body>
+  <div class="person-common-header">
+  	<div><a class="pull-left" href="person_login.html">&lt;返回</a></div>
+  	<div class="text-center person-common-header-center">账户注册</div>
+  </div>
+  <div class="person-register-body-toggle">
+  	<span class="emailspan">邮箱注册</span>
+  	<span class="phonespan">手机注册</span>
+  </div>
+  <div class="person-register-body">
+ <form class="form-horizontal" role="form" id="emailForm">
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userName" class="control-label">账号</label>
+         <input type="text" class="form-control" id="userName" 
+            placeholder="邮箱">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userPassword" class="control-label">密码</label>
+         <input type="password" class="form-control" id="userPassword" 
+            placeholder="密码">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="reUserPassword" class="control-label">重复密码</label>
+         <input type="password" class="form-control" id="reUserPassword" 
+            placeholder="重复密码">
+      </div>
+   </div>
+   
+   <div class="form-group">
+      <div class="col-sm-10 text-center">
+         <button type="submit" class="btn btn-default btn-block btn-primary">注册</button>
+      </div>
+   </div>
+</form>
+
+<form class="form-horizontal" role="form" style="display:none;" id="phoneForm">
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userName" class="control-label">账号</label>
+         <input type="text" class="form-control" id="userName" 
+            placeholder="手机号">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userPassword" class="control-label">密码</label>
+         <input type="password" class="form-control" id="userPassword" 
+            placeholder="密码">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="reUserPassword" class="control-label">重复密码</label>
+         <input type="password" class="form-control" id="reUserPassword" 
+            placeholder="重复密码">
+      </div>
+      </div>
+   <div class="form-group">
+      <div class="col-sm-6">
+         <input type="text" style="width:60%;" class="form-control pull-left" id="reUserPassword" 
+            placeholder="验证码">
+      </div>
+         <button type="submit" class="btn btn-default pull-left">获取验证码</button>
+   </div>
+   
+   <div class="form-group">
+      <div class="col-sm-10 text-center">
+         <button type="submit" class="btn btn-default btn-block btn-primary">注册</button>
+      </div>
+   </div>
+</form>
+  </div>
+    
+  </body>
+  
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- <script src="cordova.js"></script> -->
+
+    <!-- your app's js -->
+       <script src="resources/js/jquery2.1.js"></script>  
+       <script src="resources/js/bootstrap3.2.0.js"></script>
+       <script src="resources/js/base.js"></script>
+       <script type="text/javascript">
+      		$(function(){
+      			if(localStorage.getItem("loginstate")==1){
+          			location.replace("person.html")
+          			}
+      		$(".emailspan").on("click",function(){
+      			$("#phoneForm").css("display","none");
+      			$("#emailForm").css("display","block");
+      			$(".phonespan").css({"background-color":"#fff","color":"#ccc"});
+      			$(this).css({"background-color":"#ccc","color":"white"});
+      		});
+      		$(".phonespan").on("click",function(){
+      			$("#emailForm").css("display","none");
+      			$("#phoneForm").css("display","block");
+      			$(".emailspan").css({"background-color":"#fff","color":"#ccc"});
+      			$(this).css({"background-color":"#ccc","color":"white"});
+      		});
+      			
+      		});
+       </script>
+  
+</html>
