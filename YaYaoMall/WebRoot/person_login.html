@@ -72,15 +72,16 @@
       				success:function(data){
       					if(data!=null){
       						localStorage.setItem("loginstate",1);
-      						localStorage.setItem("userName",moniLogin.userName);
-      						localStorage.setItem("userpassword",moniLogin.userPassword);
-      						location.replace("person.html");
+      						localStorage.setItem("userName",userData.userPerson.userName);
+      						localStorage.setItem("userpassword",userData.userPerson.userPassword);
+      						myUtils.myPrevToast("登录成功",function(){
+      			      			location.replace("person.html");
+      			      			});
       					}
       					
-      					alert("登录成功！")
       				},
       				error:function(){
-      					alert("登录失败！")
+      					myUtils.myToast("登录失败");
       				}
       			}); 
       			//alert("asdfsdaf");

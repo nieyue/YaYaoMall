@@ -52,7 +52,7 @@
    <div id="userReceiptAddress"></div>
    </li>
 	</ul>
-	<button class="btn btn-primary btn-block">退出登陆</button>
+	<button class="btn btn-primary btn-block" id="userLoginOut">退出登陆</button>
 	</body>
        <script src="resources/js/jquery2.1.js"></script>  
        <script src="resources/js/bootstrap3.2.0.js"></script>
@@ -60,6 +60,7 @@
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
+      			//登录成功的用户信息
       			if(localStorage.getItem("loginstate")==1){
       				document.querySelector("#userInfoIMG").src=userData.userPerson.userIMG||userData.userInit.userIMG;
       				document.querySelector("#userInfoNiceName").innerHTML=userData.userPerson.userNiceName||userData.userInit.userNiceName;
@@ -68,10 +69,47 @@
       				document.querySelector("#userPhone").innerHTML=userData.userPerson.userPhone||userData.userInit.userPhone;
       				document.querySelector("#userIdentity").innerHTML=userData.userPerson.userIdentity||userData.userInit.userPerson;
       				document.querySelector("#userReceiptAddress").innerHTML=userData.userPerson.userReceiptAddress||userData.userInit.userReceiptAddress;
-      		//console.log()	 
+      			}else{
+      				location.replace("person.html");
       			}
-      			
-      			
+      		//登录退出
+      		$("#userLoginOut").on(myTouchEvents.touchstart,function(){
+      			localStorage.removeItem("loginstate");
+      			localStorage.removeItem("userName");
+      			localStorage.removeItem("userPassword");
+      			myUtils.myPrevToast("退出成功",function(){
+      			location.replace("person.html");
+      			});
+      		});
+  			//获取移动的物体
+  			$("#userInfoIMG").on(myTouchEvents.touchstart,function(event){
+  				var x=0,y=0;
+      		myTouchEvents.touchstart=='touchstart'?(x=event.originalEvent.targetTouches[0].pageX) && (y=event.originalEvent.targetTouches[0].pageY):(x=event.pageX) && (y=event.pageY);
+      			thistouchmove();
+      			$("#userInfoIMG").css({"position":"fixed","left":(x-parseInt($("#userInfoIMG").css("width"))/2)+'px',"top":(y-parseInt($("#userInfoIMG").css("width"))/2)+'px',"z-index":"99999"});
+      		});
+  		  		//在整个页面移动物体
+  		  		function thistouchmove(){
+  		  			
+  		  			$("html").on(myTouchEvents.touchmove,function(event){
+  		  				event.preventDefault();
+  		  				var x=0,y=0;
+  		      		myTouchEvents.touchmove=='touchmove'?(x=event.originalEvent.targetTouches[0].pageX) && (y=event.originalEvent.targetTouches[0].pageY):(x=event.pageX) && (y=event.pageY);
+  		      		
+  		      		//if($("#userInfoIMG").bind(myTouchEvents.touchmove))
+  		      		$("#userInfoIMG").css({"left":(x-parseInt($("#userInfoIMG").css("width"))/2)+'px',"top":(y-parseInt($("#userInfoIMG").css("width"))/2)+'px'});
+  		  			//console.log($("#userInfoIMG").css("left"))
+  		  			});
+  		  		}
+  		      		//释放物体
+  		  			$("html").on(myTouchEvents.touchend,function(event){
+  		      		$("#userInfoIMG").css({"left":parseInt($("#userInfoIMG").css("left"))+'px',"top":parseInt($("#userInfoIMG").css("top"))+'px'});
+  		  				//event.preventDefault();
+  		  				$("html").off(myTouchEvents.touchmove);
+  		  					//console.log("解除")
+  		  			});
+  		  		
+      		
       		});
        </script>
   

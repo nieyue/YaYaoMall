@@ -192,19 +192,46 @@ input[type="file"]{
 **热门推荐主体商品
 */
 .rmtjsp{
-	margin-bottom:50px !important;
+	margin-bottom:100px !important;
 	text-align: center;
+	overflow: hidden;
 }
 .list-card{
-	width:45%;
+	width:48%;
 	display: inline-block;
 	margin:1%;
 	padding:1%;
+	float: left;
+}
+.itemimg img{
+	width:100%;
+	height: 150px;
+}
+@media screen(min-width:450,max-width:768px){
+	.itemimg img{
+	width:100%;
+	height: 300px;
+}
+}
+@media screen(min-width:768px){
+	.itemimg img{
+	width:100%;
+	height: 500px;
+}
+}
+.iteminfo{
+	height:100px;
+}
+.iteminfo p{
+	float: left;
+	
 }
 .goods-title{
 	font-size: 14px;
 	text-align: justify;
 	color:#000;
+	height:30px;
+	overflow: hidden;
 }
 .goods-price{
 	text-decoration: line-through;

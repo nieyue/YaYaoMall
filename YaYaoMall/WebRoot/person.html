@@ -90,12 +90,14 @@
        <script type="text/javascript">
       		$(function(){
       			if(localStorage.getItem("loginstate")==1){
+      				document.querySelector("#userHref").href='user_info.html';
       				document.querySelector("#userNiceName").innerHTML=userData.userPerson.userNiceName||localStorage.getItem("userName");
       				document.querySelector("#userIMG").src=userData.userPerson.userIMG;
       				document.querySelector("#userAccess").innerHTML='';
       				document.querySelector("#userSignature").innerHTML=userData.userPerson.userSignature;
-      				document.querySelector("#userHref").href='user_info.html';
       				}
+      			
+      			
       		});
        </script>
   

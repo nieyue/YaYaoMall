@@ -112,35 +112,23 @@
     </div>
     <!-- end购物热门推荐虚线-->
     <!-- 购物热门推荐商品-->
-    <div class=" rmtjsp">
+    <div class="rmtjsp" id="remtjsp">
         <a class=" list-card well" href="http://weidian.com/item.html?itemID=1759015038&p=-1">
-          <div class="thumbnail">
+          <div class="itemimg">
           <img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1">
           </div>
-          <div  class="caption">
+          <div  class="iteminfo">
           <h3 class="goods-title">【包邮】【送茶刀】湖南安化黑茶 金花茯砖茶 施兆鹏八十大寿寿礼茶 收藏茶1936g</h3>
           <p>原价：<span class="goods-price">¥3980.00</span>
           </p>
           <p >
           <span class="goods-relprice">惊爆价：¥2980.00</span>
-        </p>
-          </div>
-        </a>
-        <a class="list-card well " href="http://weidian.com/item.html?itemID=1759015038&p=-1">
-          <div class="thumbnail">
-          <img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1">
-          </div>
-          <div  class="caption">
-          <h3 class="goods-title">【包邮】【送茶刀】湖南安化黑茶 金花茯砖茶 施兆鹏八十大寿寿礼茶 收藏茶1936g</h3>
-          <p>原价：<span class="goods-price">¥3980.00</span>
-          </p>
-          <p>
-          <span class="goods-relprice">惊爆价：¥2980.00</span>
-        </p>
+        </p> 
           </div>
         </a>
 
     </div>
+    
     <!-- end购物热门推荐商品-->
     <!-- 底部导航-->
     <div class="list-inline fixed-footer">
@@ -174,6 +162,24 @@
 	   }else{
 		   $(".fixed-footer").show();
 	   }
+   });
+   $(function(){
+	   function merchandiseList(){
+	   for ( var merchandise in userData.merchandiseData) {
+			var mer=userData.merchandiseData[merchandise];
+		   $("#remtjsp").append(
+		"<a class='list-card well' href='http://weidian.com/item.html?itemID=1759015038&p=-1'>"+
+		"<div class='itemimg'><img src='"+mer.imgs[0]+"'></div>"+
+        "<div  class='iteminfo'>"+
+        "<h3 class='goods-title'>"+mer.itemname+"</h3>"+
+        "<p>原价：<span class='goods-price'>"+mer.itemolderprice+"</span></p>"+
+        "<p><span class='goods-relprice'>惊爆价："+mer.itemprice+"</span></p>"+
+        "</div></a>");
+		 console.log(userData.merchandiseData[merchandise].itemprice)
+		  
+	}
+   }
+	   merchandiseList();
    });
    	
   </script>
