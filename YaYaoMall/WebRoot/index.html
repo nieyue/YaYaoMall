@@ -37,7 +37,7 @@
 <div  class="header-banner">
     <div class="header-banner-left" onclick="doSomething()">本真茶园</div>
      <div class="header-banner-center">
-     <span class="header-banner-icon glyphicon glyphicon-search"></span>
+     <div class="glyphicon glyphicon-search header-banner-icon"></div>
      <input id="searchAll" type="text" placeholder="黑茶">
      </div>
   	<div class="btn  btn-small btn-info header-banner-right">
@@ -54,7 +54,7 @@
       <li data-target="#myCarousel" data-slide-to="2"></li>
    </ol>   
    <!-- 轮播（Carousel）项目 -->
-   <div class="carousel-inner">
+   <!-- <div class="carousel-inner">
       <div class="item active">
          <img class="carouselIMG" src="http://www.yayao8.com/resources/img/carousel/carousel1.jpg" alt="First slide">
       </div>
@@ -65,12 +65,33 @@
          <img class="carouselIMG" src="http://www.yayao8.com/resources/img/carousel/carousel3.jpg" alt="Third slide">
       </div>
    </div>
-   <!-- 轮播（Carousel）导航 -->
+   轮播（Carousel）导航
    <a class="carousel-control left" style="margin-top:30px;" href="#myCarousel" 
       data-slide="prev">&lsaquo;</a>
    <a class="carousel-control right" style="margin-top:30px;" href="#myCarousel" 
       data-slide="next">&rsaquo;</a> 
-</div> 
+</div>  -->
+	<div class="main_visual">
+	<div class="flicking_con">
+		<a href="#">1</a>
+		<a href="#">2</a>
+		<a href="#">3</a>
+		<a href="#">4</a>
+		<a href="#">5</a>
+	</div>
+	<div class="main_image">
+		<ul>
+			<li><span class="img_1"></span></li>
+			<li><span class="img_2"></span></li>
+			<li><span class="img_3"></span></li>
+			<li><span class="img_4"></span></li>
+			<li><span class="img_5"></span></li>
+		</ul>
+		<a href="javascript:;" id="btn_prev"></a>
+		<a href="javascript:;" id="btn_next"></a>
+	</div>
+</div>
+
     <!-- end购物轮播-->
     <!-- 购物九宫格-->
     <div class="home3">
@@ -147,14 +168,17 @@
 
     <!-- your app's js -->
        <script src="resources/js/jquery2.1.js"></script> 
+       <script src="resources/js/jquery.event.drag-1.5.min.js"></script> 
+       <script src="resources/js/jquery.touchSlider.js"></script> 
        <script src="resources/js/bootstrap3.2.0.js"></script>
        <script src="resources/js/sha1.js"></script>
        <script src="resources/js/base.js"></script>
         <script type="text/javascript">
    //显示所有html
    indexShopping.kaiping[0].style.display='block'; 
-   //轮播
-   $(".myCarousel").carousel('cycle');
+  
+  /*  $(".myCarousel").carousel('cycle'); */
+
    //监听窗口大小，隐藏底部导航
    $(window).on("resize",function(){
    if($(window).height()<380){
@@ -168,20 +192,75 @@
 	   for ( var merchandise in userData.merchandiseData) {
 			var mer=userData.merchandiseData[merchandise];
 		   $("#remtjsp").append(
-		"<a class='list-card well' href='http://weidian.com/item.html?itemID=1759015038&p=-1'>"+
+		"<a class='list-card well' href='"+mer.itemurl+"'>"+
 		"<div class='itemimg'><img src='"+mer.imgs[0]+"'></div>"+
         "<div  class='iteminfo'>"+
         "<h3 class='goods-title'>"+mer.itemname+"</h3>"+
         "<p>原价：<span class='goods-price'>"+mer.itemolderprice+"</span></p>"+
         "<p><span class='goods-relprice'>惊爆价："+mer.itemprice+"</span></p>"+
         "</div></a>");
-		 console.log(userData.merchandiseData[merchandise].itemprice)
-		  
+		 //console.log(userData.merchandiseData[merchandise].itemprice)
 	}
    }
 	   merchandiseList();
+	   
+	   //轮播图
+	   $(".main_visual").hover(function(){
+			$("#btn_prev,#btn_next").fadeIn()
+		},function(){
+			$("#btn_prev,#btn_next").fadeOut()
+		});
+		
+		$dragBln = false;
+		
+		$(".main_image").touchSlider({
+			flexible : true,
+			speed : 200,
+			btn_prev : $("#btn_prev"),
+			btn_next : $("#btn_next"),
+			paging : $(".flicking_con a"),
+			counter : function (e){
+				$(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on");
+			}
+		});
+		
+		$(".main_image").bind("mousedown", function() {
+			$dragBln = false;
+		});
+		
+		$(".main_image").bind("dragstart", function() {
+			$dragBln = true;
+		});
+		
+		$(".main_image a").click(function(){
+			if($dragBln) {
+				return false;
+			}
+		});
+		
+		timer = setInterval(function(){
+			$("#btn_next").click();
+		}, 5000);
+		
+		$(".main_visual").hover(function(){
+			clearInterval(timer);
+		},function(){
+			timer = setInterval(function(){
+				$("#btn_next").click();
+			},5000);
+		});
+		
+		$(".main_image").bind("touchstart",function(){
+			clearInterval(timer);
+		}).bind("touchend", function(){
+			timer = setInterval(function(){
+				$("#btn_next").click();
+			}, 5000);
+		});
+		
+   //ahover
+   myUtils.ahover();
    });
-   	
   </script>
   
 </html>

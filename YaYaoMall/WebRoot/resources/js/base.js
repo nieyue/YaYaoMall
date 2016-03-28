@@ -1,24 +1,22 @@
 /**
- * 自动a标签滑过透明
- */
-for (var int = 0; int < document.getElementsByTagName('a').length; int++) {
-	//var divthis=document.getElementsByTagName('div')[int];
-
-	//console.log(divthis)
-	(function(int){
-	document.getElementsByTagName('a')[int].addEventListener('mouseover',function aaa(){
-		this.style.opacity=0.5;
-	});
-	document.getElementsByTagName('a')[int].addEventListener('mouseout',function aaa(){
-		this.style.opacity=1;
-	});
-	})(int);
-	
-}
-/**
 **工具包
 */
 var myUtils={
+		// 自动a标签滑过透明
+		ahover:function(){
+		for (var int = 0; int < document.getElementsByTagName('a').length; int++) {
+			//var divthis=document.getElementsByTagName('div')[int];
+			//console.log(divthis)
+			(function(int){
+			document.getElementsByTagName('a')[int].addEventListener('mouseover',function aaa(){
+				this.style.opacity=0.5;
+			});
+			document.getElementsByTagName('a')[int].addEventListener('mouseout',function aaa(){
+				this.style.opacity=1;
+			});
+			})(int);	
+		}
+		},
 	//实现闪现闪退的的toast
 	myToast:function(value){
 	$("body").append("<div id='toast' style='display:none;width:100px;height:30px;background-color:black;color:white;margin:-50% auto;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;z-index:999999;'>"+value+"</div>");
@@ -50,6 +48,15 @@ $("#toast").fadeOut(function(){
 				fn();
 			},1000);
 		});
+	},
+	//截取文字为...
+	  interceptString:function(elements,hgt){
+		for (var i = 0; i < elements.length; i++) {
+		if(elements[i].css("height")>=hgt){
+			elements[i].css("overflow","hidden")
+			
+		}
+		}
 	}
 
 };
@@ -131,7 +138,7 @@ var userData={
 	  merchandiseData:[
 	 {
 		  itemid:1,
-		  itemurl:'http://weidian.com/item.html?itemID=1739996534&p=0',
+		  itemurl:'http://weidian.com/item.html?itemID=1739996534&pc=1',
 		  itemname:'【包邮】 湘丰茶叶湖南安化黑茶金花茯砖茶茯砖颗粒罐装95g',
 		  itemstock:20,//库存
 		  itemolderprice:'69.00',//原始价格
