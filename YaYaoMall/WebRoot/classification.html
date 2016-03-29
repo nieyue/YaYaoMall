@@ -159,32 +159,12 @@
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
-      			var startY,moveY;
-      				console.log($("#classification-left").__proto__.__proto__);
-      			$("#classification-left").on(myTouchEvents.touchstart,function(event){
-      				event.preventDefault();
-      				//  console.log(event.originalEvent.touches[0].pageX);
-       	           // console.log(event.originalEvent.targetTouches);
-       	           // console.log(event.originalEvent.changedTouches);
-      				startY=event.originalEvent.targetTouches[0].pageY;
-      				console.log(startY);
-      			});
-      			$("#classification-left").on(myTouchEvents.touchmove,function(event){
-      				moveY=event.originalEvent.targetTouches[0].pageY;
-      				if(moveY-startY<50&&moveY-startY>-50){
-      					$("#classification-left").css("margin-top",moveY-startY);
-      				}
-      					
-      				console.log(moveY-startY);
-      			});
-      			$("#classification-left").on(myTouchEvents.touchend,function(event){
-      				/* $("#hideDIV").hide(function(){
-  						$("#hideDIV").slideUp();
-  					}); */
-      				$("#classification-left").css("margin-top",0);
-      			});
-      		//ahover
-      		   myUtils.ahover();	
+      	//弹性滑动
+      	myUtils.elasticSlide("#classification-left");
+      	//myUtils.elasticSlide("#remtjsp");
+      	
+      	//ahover
+      	myUtils.ahover();	
       		});
        </script>
   

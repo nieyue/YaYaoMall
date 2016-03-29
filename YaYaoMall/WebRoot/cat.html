@@ -11,6 +11,7 @@
     
   </head>
   <body>
+  <div class="cat-body">
    <!-- 购物车无商品 -->
   <div class="cat-no-body">
   <i class="glyphicon glyphicon-shopping-cart cat-no-icon"></i>
@@ -20,6 +21,7 @@
    <a class="btn btn-info cat-no-btn"  href="index.html" >去选宝贝</a>
   </div>
   <!-- end购物车无商品 -->
+  </div>
   
     <!-- 底部导航-->
       <div class="list-inline fixed-footer">
@@ -43,7 +45,8 @@
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
-      		
+      		//弹性滑动
+      	      	myUtils.elasticSlide("html");
       			
       		});
        </script>
