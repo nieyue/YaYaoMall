@@ -14,39 +14,41 @@
   	<div class="text-center person-common-header-center">用户信息</div>
   </div>
   
+   <input type="file" id="fileUserInfoIMG" accept="image/*" style="display: none;"/>
   <ul class="list-group person-userinfo">
-   <li class="list-group-item person-userinfo-img" id="updateIMG">
+   <li class="list-group-item person-userinfo-img" id="updateUserInfoIMG">
    头像 
    <span class="pull-right">&gt;</span>
    <div>
-   <img id="userInfoIMG" alt="" src="resources/img/preLoding.jpg"></div>
+   <img id="userInfoIMG" alt="" src="resources/img/preLoding.jpg">
+   </div>
    </li>
-   <li class="list-group-item" id="">
+   <li class="list-group-item" id="updateUserInfoNiceName">
    昵称
    <span class="pull-right">&gt;</span>
    <div id="userInfoNiceName"></div>
    </li>
-   <li class="list-group-item">
+   <li class="list-group-item" id="updateUserSignature">
    个性签名
    <span class="pull-right">&gt;</span>
    <div id="userSignature"></div>
    </li>
-   <li class="list-group-item">
+   <li class="list-group-item" id="updateUserEmail">
    邮箱
    <span class="pull-right">&gt;</span>
    <div id="userEmail"></div>
    </li>
-   <li class="list-group-item">
+   <li class="list-group-item" id="updateUserPhone">
    手机号
    <span class="pull-right">&gt;</span>
    <div id="userPhone"></div>
    </li>
-   <li class="list-group-item">
+   <li class="list-group-item" id="updateUserIdentity">
    身份认证
    <span class="pull-right">&gt;</span>
    <div id="userIdentity"></div>
    </li>
-   <li class="list-group-item">
+   <li class="list-group-item" id="updateUserReceiptAddress">
    收货地址
    <span class="pull-right">&gt;</span>
    <div id="userReceiptAddress"></div>
@@ -55,33 +57,27 @@
 	<button class="btn btn-primary btn-block" id="userLoginOut">退出登陆</button>
 	
 	<!-- 按钮触发模态框 -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" 
-   data-target="#myModal">
-   开始演示模态框
+<button class="hide" data-toggle="modal" 
+   data-target="#myModal" id="mymodal">
 </button>
 	<!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
-   aria-labelledby="myModalLabel" aria-hidden="true" style="margin:30% auto;">
+   aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" 
-               data-dismiss="modal" aria-hidden="true">
+               data-dismiss="modal" aria-hidden="true" id="closeModal">
                   &times;
             </button>
             <h4 class="modal-title" id="myModalLabel">
-               模态框（Modal）标题
             </h4>
          </div>
          <div class="modal-body">
-            在这里添加一些文本
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-default" 
-               data-dismiss="modal">关闭
-            </button>
-            <button type="button" class="btn btn-primary">
-               提交更改
+            <button type="button" class="btn btn-primary" id="submit">
+               提交
             </button>
          </div>
       </div><!-- /.modal-content -->
@@ -116,7 +112,7 @@
       			location.replace("person.html");
       			});
       		});
-  			//获取移动的物体
+  			/* //获取移动的物体
   			$("#userInfoIMG").on(myTouchEvents.touchstart,function(event){
   				var x=0,y=0;
       		myTouchEvents.touchstart=='touchstart'?(x=event.originalEvent.targetTouches[0].pageX) && (y=event.originalEvent.targetTouches[0].pageY):(x=event.pageX) && (y=event.pageY);
@@ -125,29 +121,75 @@
       		});
   		  		//在整个页面移动物体
   		  		function thistouchmove(){
-  		  			
   		  			$("html").on(myTouchEvents.touchmove,function(event){
   		  				event.preventDefault();
   		  				var x=0,y=0;
   		      		myTouchEvents.touchmove=='touchmove'?(x=event.originalEvent.targetTouches[0].pageX) && (y=event.originalEvent.targetTouches[0].pageY):(x=event.pageX) && (y=event.pageY);
   		      		
-  		      		//if($("#userInfoIMG").bind(myTouchEvents.touchmove))
   		      		$("#userInfoIMG").css({"left":(x-parseInt($("#userInfoIMG").css("width"))/2)+'px',"top":(y-parseInt($("#userInfoIMG").css("width"))/2)+'px'});
-  		  			//console.log($("#userInfoIMG").css("left"))
   		  			});
   		  		}
   		      		//释放物体
   		  			$("html").on(myTouchEvents.touchend,function(event){
   		      		$("#userInfoIMG").css({"left":parseInt($("#userInfoIMG").css("left"))+'px',"top":parseInt($("#userInfoIMG").css("top"))+'px'});
-  		  				//event.preventDefault();
   		  				$("html").off(myTouchEvents.touchmove);
-  		  					//console.log("解除")
-  		  			});
+  		  			}); */
+  		  		//修改头像
+  		  		$("#updateUserInfoIMG").on('click',function(){
+  		  			$("#fileUserInfoIMG").trigger('click');
+  		  		});
+  		  		$("#fileUserInfoIMG").change(function(){
+  		  			var file=document.querySelector("#fileUserInfoIMG");
+  		  		  photoExt=file.value.substr(file.value.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+  				//判断照片格式
+  				  if(photoExt!='.jpg'&&photoExt!='.png'){
+  				     alert("请上传后缀名为jpg/png的照片!");
+  				      return false;
+  				  }
+  				  var fileSize = 0;
+  				  var isIE = /msie/i.test(navigator.userAgent) && !window.opera;            
+  				  if (isIE && !file.files) {          
+  				       var filePath = file.value;            
+  				       var fileSystem = new ActiveXObject("Scripting.FileSystemObject");   
+  				       var file = fileSystem.GetFile (filePath);               
+  				       fileSize = file.Size;         
+  				  }else {  
+  				       fileSize = file.files[0].size;     
+  				  } 
+  				  fileSize=Math.round(fileSize/1024*100/1024)/100; //单位为MB
+  				  if(fileSize>=2){
+  				      alert("图片大小为"+fileSize+"MB，超过最大尺寸为2MB，请重新上传!");
+  				      return false;
+  				  }		  
+  			    	if (file.files && file.files[0])  
+  			    	 {
+  			         var reader = new FileReader(); 
+  			      	reader.onload = function(e){
+  			      		console.log(e.target.result);
+  			      		myUtils.myPrevToast("上传中···",function(){
+  			      		$("#userInfoIMG").attr("src",e.target.result);
+  			      		});
+  			    	}
+  			      	reader.readAsDataURL(file.files[0]);
+  				  console.log(file.files[0]);
+  			      }else{
+  			    	$("#userInfoIMG").attr("src",file.value);
+  			      }
+  		  			
+  		  		});
   		  		//修改昵称
-  		  		
+  		  		$('#updateUserInfoNiceName').click(function(){
+  		  			$('#mymodal').click();
+  		  			$('#myModalLabel').text("修改昵称");
+  		  			$('.modal-body').html("<input type='text' class='form-control' placeholder='"+$('#userInfoNiceName').text()+"' id='userInfoNiceNameModal'/>");
+  		  		$('#submit').click(function(){
+  		  		$('#userInfoNiceName').text($('#userInfoNiceNameModal').val());
+  		  		$('#closeModal').click();
+  		  			console.log($('#userInfoNiceNameModal').val());
+  		  		});
+  		  		});
   		  		//ahover
   		  		   myUtils.ahover();
       		});
        </script>
-  
 </html>

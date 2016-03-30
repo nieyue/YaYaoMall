@@ -35,6 +35,10 @@ a:hover,a:active {
 	text-decoration: none;
 	color: red !important;
 }
+li:hover,a:active {
+	background-color:#ccc;
+	color:white !important;
+}
 
 p {
 	text-indent: 2rem;

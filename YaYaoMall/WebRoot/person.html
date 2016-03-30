@@ -45,7 +45,7 @@
 
 <div class="jiugongge">
   <div >
-     <a ><i class="glyphicon glyphicon-list-alt" style="background-color:#ec3;"></i>订单</a>
+     <a id="dingdan"><i class="glyphicon glyphicon-list-alt" style="background-color:#ec3;"></i>订单</a>
   
     <a ><i class="glyphicon glyphicon-inbox" style="background-color:red;"></i>卡卷包</a>
   
@@ -96,9 +96,15 @@
       				document.querySelector("#userAccess").innerHTML='';
       				document.querySelector("#userSignature").innerHTML=userData.userPerson.userSignature;
       				}
-      			
+      		//弹性滑动
+      	      myUtils.elasticSlide("body");
+/*       	      myUtils.elasticSlide(".jiugongge"); */
       		//ahover
       		   myUtils.ahover();	
+      		 $("#dingdan").click(function(){
+      		myUtils.myToast("会员中心")
+      			 
+      		 });  
       		});
        </script>
   

@@ -29,26 +29,36 @@ var myUtils = {
 	           // console.log(event.originalEvent.targetTouches);
 	           // console.log(event.originalEvent.changedTouches);
 				startY=event.originalEvent.targetTouches[0].pageY;
+				thismove();
 			});
+			function thismove(){
 		$(attrValue).on(myTouchEvents.touchmove,function(event){
 			event.stopPropagation();
 			moveY=event.originalEvent.targetTouches[0].pageY;
 			event.preventDefault();
 			if(moveY-startY<100&&moveY-startY>0){
-				//if(myUtils.isScrollTop()){
+				if(myUtils.isScrollTop()){
 					//console.log(myUtils.isScrollTop());
-				//}
 					$(attrValue).css("margin-top",(moveY-startY));
+				}else {
+					$(attrValue).unbind(myTouchEvents.touchmove);
+				}
 			}
 			else if(moveY-startY<0&&moveY-startY>-100){
 				//window.event.preventDefault();
+				if(myUtils.isScrollBottom(attrValue)){
 				$(attrValue).css("margin-top",(moveY-startY));
+				}else{
+					$(attrValue).unbind(myTouchEvents.touchmove);
+				}
 			}
 		});
+			}
 		$(attrValue).on(myTouchEvents.touchend,function(event){
 			//event.preventDefault();
 			event.stopPropagation();
 			$(attrValue).css("margin-top",0);
+			//$(this).unbind(myTouchEvents.touchmove);
 		});
 	},
 	//判断是否滑动到顶部
@@ -64,10 +74,12 @@ var myUtils = {
 	isScrollBottom:function(element){
 		var isscrollbottom=false;
 	      	　　var scrollTop = $(window).scrollTop();
-	      	　　var scrollHeight = $(element).height();
+	      	　　var scrollHeight = $(document).height();
+	      	   var elementHeight = $(element).height();
 	      	　　var windowHeight = $(window).height();
-	      	　　if((scrollTop + windowHeight == scrollHeight)||(scrollHeight<=windowHeight)){
+	      	　　if((scrollTop + windowHeight == scrollHeight)||(elementHeight<=windowHeight)){
 	      		isscrollbottom=true;
+	      		//console.log((scrollTop + windowHeight == scrollHeight)||(elementHeight<=windowHeight))
 	      	　　}
 	      	return isscrollbottom;
 },
@@ -75,28 +87,26 @@ var myUtils = {
 	myToast : function(value) {
 		$("body")
 				.append(
-						"<div id='toast' style='display:none;width:100px;height:30px;background-color:black;color:white;margin:-50% auto;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;z-index:999999;'>"
-								+ value + "</div>");
+						"<div id='toast' style='display:none;width:100%;max-width:640px;height:30px;position:fixed;color:white;top:200px;'><div style='background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;height:30px;width:100px;margin:0 auto;'>"
+						+ value + "</div></div>");
 		$("#toast").fadeIn();
-		$("#toast").fadeOut(function() {
-			setTimeout(function() {
-				$("#toast").remove();
+		setTimeout(function() {
+			$("#toast").fadeOut('slow');
+			$("#toast").remove();
 			}, 1000);
-		});
 	},
 	// 实现事件执行前的toast
 	myPrevToast : function(value, fn) {
 		$("body")
 				.append(
-						"<div id='toast' style='display:none;width:100px;height:30px;background-color:black;color:white;margin:-50% auto;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;z-index:999;'>"
-								+ value + "</div>");
+						"<div id='toast' style='display:none;width:100%;max-width:640px;height:30px;position:fixed;color:white;top:200px;'><div style='background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;height:30px;width:100px;margin:0 auto;'>"
+								+ value + "</div></div>");
 		$("#toast").fadeIn();
-		$("#toast").fadeOut(function() {
-			setTimeout(function() {
-				$("#toast").remove();
-				fn();
+		setTimeout(function() {
+			$("#toast").fadeOut('slow');
+			$("#toast").remove();
+			fn();
 			}, 1000);
-		});
 	},
 	// 实现事件执行中的toast
 	myLoadingToast : function(value, fn) {
