@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>收货地址</title>
+
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+    
+  </head>
+  <body>
+   <div class="person-common-header">
+  	<div><a class="pull-left" href="user_info.html">&lt;返回</a></div>
+  	<div class="text-center person-common-header-center">收货地址</div>
+  	<div  class="pull-right btn btn-sm btn-primary" style="margin-top:5px;" id="addAddress">新增</div>
+  </div>
+  <div style="background-color:#f0f0f0;width:100%;height:100%;display:none;top:0;left:0;z-index:99999999;position:fixed;" id="addressContent">
+ <div class="person-common-header">
+  	<div><a class="pull-left" href="#" onclick="javascript:window.history.go(-1)">&lt;返回</a></div>
+  	<div class="text-center person-common-header-center">收货地址</div>
+  	<div  class="pull-right btn btn-sm btn-primary" style="margin-top:5px;display:none;" id="delAddress">删除</div>
+  </div>
+ <form class="form-horizontal" style="width:80%;margin:50px auto;max-width:640px;" role="form" id="addressForm">
+   <div class="form-group">
+         <input type="text" class="form-control" id="addressName" 
+            placeholder="收货人">
+   </div>
+   <div class="form-group">
+         <input type="text" class="form-control" id="addressPhone" 
+            placeholder="手机号码">
+   </div>
+   
+    <div class="form-group">
+	<label style="color:#ccc;font-weight:normal; font-size:16px;" >收货地址</label>
+		<select id="sheng" name="province">
+		 <!-- <option >广东</option> -->
+		</select>
+		<select id="shi" name="city" >
+		 <!-- <option >广州</option> --> 
+		</select>
+		<select id="xian" name="country">
+			<!-- <option >天河</option> -->
+		</select>
+		<select id="xiang" name="street" >
+								
+			<!--  <option >--</option> -->
+								
+		</select>
+
+  </div>
+   <div class="form-group">
+		<input type="text" class="form-control" id="addressDetailed" name="addressDetailed" placeholder="请输入详细地址"/>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10 text-center">
+         <button type="submit" class="btn btn-default btn-primary btn-block">保存</button>
+      </div>
+   </div>
+</form>
+  </div>
+  <ul class="list-group" id="updateAddress">
+   <li class="list-group-item">
+   <span class="pull-right address-phone">15111556548</span>
+   <div class="address-name">聂跃</div>
+   <span class="pull-right">&gt;</span>
+   <div class="address-place">
+   		<span class="sheng">湖南</span>
+   		<span class="shi">长沙</span>
+   		<span class="xian">岳麓区</span>
+   		<span class="addressDetailed">湘雅三医院</span>
+   </div>
+	</li>
+   <li class="list-group-item">
+   <span class="pull-right address-phone">15111264433</span>
+   <div class="address-name">聂跃2</div>
+   <span class="pull-right">&gt;</span>
+   <div class="address-place">
+		<span class="sheng">湖南</span>
+   		<span class="shi">长沙</span>
+   		<span class="xian">岳麓区</span>
+   		<span class="addressDetailed">湘雅三医院2</span>
+	</div>
+	</li>
+   <li class="list-group-item">
+   <span class="pull-right address-phone">15111354326</span>
+   <div class="address-name">聂跃3</div>
+   <span class="pull-right">&gt;</span>
+   <div class="address-place">
+		<span class="sheng">湖南</span>
+   		<span class="shi">长沙</span>
+   		<span class="xian">岳麓区</span>
+   		<span class="addressDetailed">湘雅三医院3</span>
+	</div>
+	</li>
+   
+  </ul>
+    <div id="label"></div>
+  </body>
+  
+       <script src="resources/js/jquery2.1.js"></script>  
+       <script src="resources/js/bootstrap3.2.0.js"></script>
+       <script src="resources/js/sha1.js"></script>
+       <script src="resources/js/GlobalProvinces_extend.js" ></script>
+       <script src="resources/js/GlobalProvinces_main.js" ></script>
+       <script src="resources/js/initLocation.js" ></script>
+       <script src="resources/js/base.js"></script>
+       
+       <script type="text/javascript">
+       initLocation(
+				{sheng_val:"---",shi_val:"---",
+				xian_val:"---"});
+      	
+      	$(function() {	
+      		/**
+      		**切换
+      		*/
+      		function triggerAddress(){
+      			if($("#addressContent").css("display")=="none"){
+      				$("#addressContent").slideDown();
+        		window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        		window.history.forward(1);
+      			}else{
+      				$("#addressContent").slideUp();
+      			}
+      				if (window.history && window.history.pushState) {
+      				 $(window).on('popstate', function () {
+    				if($("#addressContent").css("display")=="block"){
+      				$("#addressContent").slideUp();
+    	  			}
+    			});
+    		} 
+      		}
+    		//新增收货地址
+      		$("#addAddress").click(function(){
+      			$('#delAddress').hide();
+      			$('#addressName').val('');
+      			$('#addressPhone').val('');
+      			initLocation(
+      					{sheng_val:"---",shi_val:"---",
+      						xian_val:"---"});
+      			$('#addressDetailed').val('');
+      			triggerAddress();
+      			
+  			});
+    		//修改删除收货地址 
+    	$("#updateAddress li").on('click',function(){
+      		var addressPhone=$(this).children('.address-phone').text().trim();
+      		var addressName=$(this).children('.address-name').text().trim();
+      		var addressSheng=$(this).children('.address-place').children('.sheng').text().trim();
+      		var addressShi=$(this).children('.address-place').children('.shi').text().trim();
+      		var addressXian=$(this).children('.address-place').children('.xian').text().trim();
+      		var addressDetailed=$(this).children('.address-place').children('.addressDetailed').text().trim();
+      		$('#delAddress').show();
+      		$('#addressName').val(addressName);
+      		$('#addressPhone').val(addressPhone);
+      		 initLocation(
+     				{sheng_val:addressSheng,shi_val:addressShi,
+     				xian_val:addressXian});
+      		$('#addressDetailed').val(addressDetailed);
+      		triggerAddress();
+      	 
+    	});
+    	});
+       </script>
+  
+</html>

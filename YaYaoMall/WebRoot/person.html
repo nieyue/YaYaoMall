@@ -102,8 +102,10 @@
       		//ahover
       		   myUtils.ahover();	
       		 $("#dingdan").click(function(){
-      		myUtils.myToast("会员中心")
-      			 
+      		//myUtils.myToast("会员中心")
+      			myUtils.myConfirm("确定删除吗？",function(){
+      				console.log("点击确认");
+      			});	 
       		 });  
       		});
        </script>

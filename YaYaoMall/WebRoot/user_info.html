@@ -76,6 +76,7 @@
          <div class="modal-body">
          </div>
          <div class="modal-footer">
+         	<div id="errorInfo" class="text-justify text-danger"></div>
             <button type="button" class="btn btn-primary" id="submit">
                提交
             </button>
@@ -98,19 +99,22 @@
       				document.querySelector("#userSignature").innerHTML=userData.userPerson.userSignature||userData.userInit.userSignature;
       				document.querySelector("#userEmail").innerHTML=userData.userPerson.userEmail||userData.userInit.userEmail;
       				document.querySelector("#userPhone").innerHTML=userData.userPerson.userPhone||userData.userInit.userPhone;
-      				document.querySelector("#userIdentity").innerHTML=userData.userPerson.userIdentity||userData.userInit.userPerson;
+      				document.querySelector("#userIdentity").innerHTML=userData.userPerson.userIdentity||userData.userInit.userIdentity;
       				document.querySelector("#userReceiptAddress").innerHTML=userData.userPerson.userReceiptAddress||userData.userInit.userReceiptAddress;
       			}else{
       				location.replace("person.html");
       			}
       		//登录退出
       		$("#userLoginOut").on(myTouchEvents.touchstart,function(){
+      			myUtils.myLoginOut("确定退出吗？",function(){
       			localStorage.removeItem("loginstate");
       			localStorage.removeItem("userName");
       			localStorage.removeItem("userPassword");
       			myUtils.myPrevToast("退出成功",function(){
       			location.replace("person.html");
       			});
+      			});
+      			
       		});
   			/* //获取移动的物体
   			$("#userInfoIMG").on(myTouchEvents.touchstart,function(event){
@@ -138,58 +142,33 @@
   		  		$("#updateUserInfoIMG").on('click',function(){
   		  			$("#fileUserInfoIMG").trigger('click');
   		  		});
+  		  		//上传图像
   		  		$("#fileUserInfoIMG").change(function(){
-  		  			var file=document.querySelector("#fileUserInfoIMG");
-  		  		  photoExt=file.value.substr(file.value.lastIndexOf(".")).toLowerCase();//获得文件后缀名
-  				//判断照片格式
-  				  if(photoExt!='.jpg'&&photoExt!='.png'){
-  				     alert("请上传后缀名为jpg/png的照片!");
-  				      return false;
-  				  }
-  				  var fileSize = 0;
-  				  var isIE = /msie/i.test(navigator.userAgent) && !window.opera;            
-  				  if (isIE && !file.files) {          
-  				       var filePath = file.value;            
-  				       var fileSystem = new ActiveXObject("Scripting.FileSystemObject");   
-  				       var file = fileSystem.GetFile (filePath);               
-  				       fileSize = file.Size;         
-  				  }else {  
-  				       fileSize = file.files[0].size;     
-  				  } 
-  				  fileSize=Math.round(fileSize/1024*100/1024)/100; //单位为MB
-  				  if(fileSize>=2){
-  				      alert("图片大小为"+fileSize+"MB，超过最大尺寸为2MB，请重新上传!");
-  				      return false;
-  				  }		  
-  			    	if (file.files && file.files[0])  
-  			    	 {
-  			         var reader = new FileReader(); 
-  			      	reader.onload = function(e){
-  			      		console.log(e.target.result);
-  			      		myUtils.myPrevToast("上传中···",function(){
-  			      		$("#userInfoIMG").attr("src",e.target.result);
-  			      		});
-  			    	}
-  			      	reader.readAsDataURL(file.files[0]);
-  				  console.log(file.files[0]);
-  			      }else{
-  			    	$("#userInfoIMG").attr("src",file.value);
-  			      }
-  		  			
+  		  			myUtils.fileUpload("#fileUserInfoIMG","#userInfoIMG");
   		  		});
   		  		//修改昵称
-  		  		$('#updateUserInfoNiceName').click(function(){
-  		  			$('#mymodal').click();
-  		  			$('#myModalLabel').text("修改昵称");
-  		  			$('.modal-body').html("<input type='text' class='form-control' placeholder='"+$('#userInfoNiceName').text()+"' id='userInfoNiceNameModal'/>");
-  		  		$('#submit').click(function(){
-  		  		$('#userInfoNiceName').text($('#userInfoNiceNameModal').val());
-  		  		$('#closeModal').click();
-  		  			console.log($('#userInfoNiceNameModal').val());
-  		  		});
-  		  		});
+  		  		myUtils.updateOne('#updateUserInfoNiceName',"修改昵称",'#userInfoNiceName','#userInfoNiceNameModal',"※1-10位，不能有空格");
+  		  		//修改个性签名
+  		  		myUtils.updateOne('#updateUserSignature',"修改个性签名",'#userSignature','#userSignatureModal',"※1-15位，不能有空格");
+  		  		//邮箱
+  		  		if(!userData.userPerson.userEmail){
+  		  		myUtils.updateOne('#updateUserEmail',"添加邮箱",'#userEmail','#userEmailModal',"※请输入正确的邮箱");
+  		  		}
+   		  		//手机
+   		  		if(!userData.userPerson.userPhone){
+  		  		myUtils.updateOne('#updateUserPhone',"添加手机",'#userPhone','#userPhoneModal',"※请输入正确的手机");
+   		  		}
+   		  		//身份认证
+   		  		if(!userData.userPerson.userIdentity){
+  		  		myUtils.updateOne('#updateUserIdentity',"身份认证",'#userIdentity','#userIdentityModal',"※请输入正确的身份证");
+   		  		}
+   		  		//收货地址	
+   		  		$("#updateUserReceiptAddress").click(function(){
+   		  			location.href='receiptAddress.html';
+   		  		});
   		  		//ahover
-  		  		   myUtils.ahover();
+  		  		 myUtils.ahover();
+  		  		
       		});
        </script>
 </html>
