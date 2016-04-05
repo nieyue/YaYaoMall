@@ -6,6 +6,7 @@ var myUtils = {
 	 * 验证规则
 	 */	
 	userVerification:{
+		catNum:/^\+?[1-9][0-9]*$/,//非零正整数
 		nicename: /^[^\s]{1,10}$/,//1-10位,不包含空格。
 		signature:/^[^\s]{1,15}$/,//1-15位,不包含空格.
 		email:/^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$/, //邮箱
@@ -285,9 +286,47 @@ var myUtils = {
 			$("#goBackTop").css({"-webkit-transform":"rotate(1000deg)","-moz-transform":"rotate(1000deg)","transform":"rotate(1000deg)"});
 			return false;
 		});
+	},
+	/**
+	 * 商品数量选定组件
+	 */
+	merchandiseNumber:function (mun,add,minus){
+		
+	//商品选购数量
+		$(mun).on('change',function(){
+			var munthis=$(this);
+			if(myUtils.userVerification.catNum.test(munthis.val())&&(munthis.val()<=userData.merchandiseData[0].itemstock)){
+				return;
+			}else{
+				munthis.val(1);
+			}
+		});
+			//商品增加数量
+		$(add).on('click',function(){
+			var addthis=$(this);
+			var numthis=addthis.prev();
+			if(myUtils.userVerification.catNum.test(numthis.val())&&(numthis.val()<userData.merchandiseData[0].itemstock)){
+				numthis.val(parseInt(numthis.val())+1);
+				return;
+			}else{
+				numthis.val(1);
+			}
+		});
+			//商品减少数量
+		$(minus).on('click',function(){
+			var minusthis=$(this);
+			var numthis=minusthis.next();
+			if(myUtils.userVerification.catNum.test(numthis.val())&&(numthis.val()<=userData.merchandiseData[0].itemstock)){
+				if(numthis.val()==1){
+					return;
+				}
+				numthis.val(parseInt(numthis.val())-1);
+				return;
+			}else{
+				numthis.val(1);
+			}
+		});
 	}
-	// 截取文字为...
-	
 
 };
 /**

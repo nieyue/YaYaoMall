@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>购物车</title>
+    <title>确认订单</title>
 
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
@@ -13,37 +13,26 @@
   <body>
   <div class="person-common-header">
   	<div><a class="pull-left" href="javascript:history.go(-1)">&lt;返回</a></div>
-  	<div class="text-center person-common-header-center">购物车</div>
+  	<div class="text-center person-common-header-center">确认订单</div>
   </div>
   
-  <div class="cat-body">
-   <!-- 购物车无商品 -->
-  <div class="cat-no-body">
-  <i class="glyphicon glyphicon-shopping-cart cat-no-icon"></i>
-   <div class="cat-no-font">
-    购物车还是空的，去挑几件吧
-   </div>
-   <a class="btn btn-info cat-no-btn"  href="index.html" >去选宝贝</a>
-  </div>
-  <!-- end购物车无商品 -->
-  </div>
   
-  <div class="cat-merchandise">
-  <div class="cat-merchandise-div">
-   <div class="cat-merchandise-div-radio"><input type="radio"/></div>
-   <div class="cat-merchandise-div-img"><img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1"/></div>
-   <div class="cat-merchandise-div-body">
-		<div class="cat-merchandise-div-body-mername">【送茶刀】【包邮】 施兆鹏八十大寿礼茶 湖南安化黑茶 金花茯砖 收藏茶 盒装1936g</div>
-		<div class="cat-merchandise-div-body-merprice">¥2820.00</div>
-		<div class="cat-merchandise-div-body-mernum">
-  			<span class="merchandise-font">数量:</span>
-  			<span class="merchandise-minus glyphicon glyphicon-minus"></span>
-        	<input class="merchandise-num" value="1">
-        	<span class="merchandise-add glyphicon glyphicon-plus"></span>
- 		</div>
+  <div class="order-merchandise">
+  <ul class="list-group" style="margin-bottom:0;" id="updateAddress">
+  <li class="no-address-div">还没收货地址？点击添加收货地址&gt;</li>
+   <li class="list-group-item">
+   <span class="pull-right address-phone">15111556548</span>
+   <div class="address-name">聂跃</div>
+   <span class="pull-right">&gt;</span>
+   <div class="address-place">
+   		<span class="sheng">湖南</span>
+   		<span class="shi">长沙</span>
+   		<span class="xian">岳麓区</span>
+   		<span class="addressDetailed">湘雅三医院</span>
    </div>
-	</div>
-	<div class="merchandise-comment-div-footer"></div>
+	</li>
+	</ul>
+	
 	<div class="separate-space"></div>
 	
   <div class="cat-merchandise-div">
@@ -54,15 +43,13 @@
 		<div class="cat-merchandise-div-body-merprice">¥2820.00</div>
 		<div class="cat-merchandise-div-body-mernum">
   			<span class="merchandise-font">数量:</span>
-  			<span class="merchandise-minus glyphicon glyphicon-minus"></span>
-        	<input class="merchandise-num" value="1">
-        	<span class="merchandise-add glyphicon glyphicon-plus"></span>
+  			<span class="merchandise-relnum">22</span>
+        	
  		</div>
    </div>
 	</div>
 	<div class="merchandise-comment-div-footer"></div>
 	<div class="separate-space"></div>
-	
   <div class="cat-merchandise-div">
    <div class="cat-merchandise-div-radio"><input type="radio"/></div>
    <div class="cat-merchandise-div-img"><img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1"/></div>
@@ -71,45 +58,48 @@
 		<div class="cat-merchandise-div-body-merprice">¥2820.00</div>
 		<div class="cat-merchandise-div-body-mernum">
   			<span class="merchandise-font">数量:</span>
-  			<span class="merchandise-minus glyphicon glyphicon-minus"></span>
-        	<input class="merchandise-num" value="1">
-        	<span class="merchandise-add glyphicon glyphicon-plus"></span>
- 		</div>
+  			<span class="merchandise-relnum">22</span>
+   		</div>
    </div>
 	</div>
 	<div class="merchandise-comment-div-footer"></div>
 	<div class="separate-space"></div>
+  <div class="cat-merchandise-div">
+   <div class="cat-merchandise-div-radio"><input type="radio"/></div>
+   <div class="cat-merchandise-div-img"><img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1"/></div>
+   <div class="cat-merchandise-div-body">
+		<div class="cat-merchandise-div-body-mername">【送茶刀】【包邮】 施兆鹏八十大寿礼茶 湖南安化黑茶 金花茯砖 收藏茶 盒装1936g</div>
+		<div class="cat-merchandise-div-body-merprice">¥2820.00</div>
+		<div class="cat-merchandise-div-body-mernum">
+  			<span class="merchandise-font">数量:</span>
+  			<span class="merchandise-relnum">22</span>
+   		</div>
+   </div>
+	</div>
+	<div class="merchandise-comment-div-footer"></div>
 	
-    <!-- 底部购物栏-->
+    <!-- 底部付款栏-->
      <div class="cat-footer">
-    	<div class="cat-footer-radio"><input type="radio"/>全选</div>
+    	<div class="cat-footer-radio"></div>
     	<div class="cat-footer-price">总计(不含运费):<span>￥50.00</span></div>
-    	<div class="cat-footer-buy">去结算(<span>1</span>)</div>
+    	<div class="cat-footer-buy" id="payBuy">去付款</div>
     </div>
-    <!-- end底部购物栏-->
+    <!-- end底部付款栏-->
   </div>
   
     
   </body>
-  
-    <!-- cordova script (this will be a 404 during development) -->
-    <!-- <script src="cordova.js"></script> -->
-
-    <!-- your app's js -->
        <script src="resources/js/jquery2.1.js"></script>  
        <script src="resources/js/bootstrap3.2.0.js"></script>
        <script src="resources/js/sha1.js"></script>
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
-      			$(".cat-body").css("display","none");
-      			//$(".cat-merchandise").css("display","none");
-      			$(".cat-footer-buy").click(function(){
+      			$("#payBuy").click(function(){
       				location.href="pay_buy.html";
       			});
-      		//初始化购物数量
-      		myUtils.merchandiseNumber(".merchandise-num",".merchandise-add",".merchandise-minus");
-
+				$("#updateAddress .list-group-item").css("display","none");
+				//$("#updateAddress .no-address-div").css("display","none");
       		});
        </script>
   
