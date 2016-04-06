@@ -61,11 +61,11 @@
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-	<property name="packagesToScan">
-		<list>
-			<value>com.yayao.bean.*</value>
-		</list>
-	</property> 
+	<property name="packagesToScan" >
+	<list>
+		<value>com.yayao.*</value>
+	</list>
+	</property>
 		<property name="hibernateProperties">
 			<props>
 		
@@ -77,7 +77,7 @@
 		
 		<!-- javax.persistence.validation.mode默认情况下是auto的，就是说如果不设置的话它是会自动去你的classpath下面找一个bean-validation**包 
           所以把它设置为none即可 -->
-		<prop key="javax.persistence.validation.mode" >auto</prop>
+		<prop key="javax.persistence.validation.mode" >none</prop>
 <!-- 指定hibernate在何时释放JDBC连接 -->
 		<prop key="hibernate.connection.release_mode" >auto</prop>
        

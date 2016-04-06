@@ -7,6 +7,6 @@ import javax.persistence.Embeddable;
  * @author yy
  *
  */
-//@Embeddable
+@Embeddable
 public class UserLevel {
 }

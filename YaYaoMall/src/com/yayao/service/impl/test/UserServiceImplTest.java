@@ -55,11 +55,11 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testAddUser() {
-		System.out.println("dsf");
 		User user =new User();
-		user.setIntegral(1);
+		user.setIntegral(new Integer(1));
 		user.setUserName("聂跃");
 		user.setUserPassword("123456");
+		System.out.println("dsf");
 		userService.addUser(user);
 	}
 

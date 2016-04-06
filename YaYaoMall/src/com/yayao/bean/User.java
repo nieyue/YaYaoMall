@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -64,6 +65,7 @@ public class User implements java.io.Serializable {
 	/**
 	 * 卡卷包
 	 */
+	@Embedded
 	private CardPackage cardPackage;
 	/**
 	 * 积分
@@ -76,7 +78,7 @@ public class User implements java.io.Serializable {
 	/**
 	 * 账户等级
 	 */
-	//@Embedded
+	@Embedded
 	private UserLevel userLevel;
 	/**
 	 * 注册日期
@@ -89,22 +91,27 @@ public class User implements java.io.Serializable {
 	/**
 	 * 收货地址
 	 */
+	@Transient
 	private Set<UserReceiptAddress> userReceiptAddress=new HashSet<UserReceiptAddress>();
 	/**
 	 * 好友
 	 */
+	@Transient
 	private Set<Friends> friends=new HashSet<Friends>();
 	/**
 	 * 订单
 	 */
+	@Transient
 	private Set<Orders> orders = new HashSet<Orders>();
 	/**
 	 * 商品收藏
 	 */
+	@Transient
 	private Set<MerCollections> merCollections = new HashSet<MerCollections>();
 	/**
 	 * 评论
 	 */
+	@Transient
 	private Set<Comments> comments=new HashSet<Comments>();
 	
 	

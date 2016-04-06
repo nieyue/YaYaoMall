@@ -1,5 +1,6 @@
 package com.yayao.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +54,11 @@ public class UserServiceImpl implements UserService {
 	/** 新增注册账户 */
 	@Override
 	public void addUser(User user) {
-		user.setRegDate(DateUtil.getFormatCurrentTime());
+		user.setRegDate(new Date());
 		//UserLevel ul=userDao.loadUserLevel(1);
 		//user.setUserLevel(ul);
-		user.setIntegral(1);
-		user.setLastLoginTime(DateUtil.getFormatCurrentTime());
+		user.setIntegral(new Integer(1));
+		user.setLastLoginTime(new Date());
 		user.setIsLogin(new Integer(1));
 		userDao.addUser(user);
 	}
