@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.yayao.bean.User;
-import com.yayao.bean.UserLevel;
 import com.yayao.dao.UserDao;
-
+/**
+ * 账户数据访问实现
+ * @author yy
+ *
+ */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
 	@Autowired
@@ -85,30 +88,11 @@ public class UserDaoImpl implements UserDao {
 
 	/** 装载注册账户 */
 	public User loadUser(Integer id) {
-		User user = (User) getSession().get(User.class, id);
+		User user=null;
+		user= (User) getSession().load(User.class, id);
 		return user;
 	}
 
-	/**
-	 * 浏览账户级别
-	 */
-	@SuppressWarnings("unchecked")
-	public List<User> browseUserLevel() {
-		List<User> list = null;
-		Query query = getSession().createQuery(
-				"from Memberlevel as a order by a.id");
-		list = query.list();
-		return list;
-	}
-
-	/**
-	 * 装载账户级别
-	 */
-	public UserLevel loadMemberLevel(Integer id) {
-		UserLevel level = null;
-		level = (UserLevel) getSession().get(UserLevel.class, id);
-		return level;
-	}
 
 	/**
 	 * 查询注册账户
@@ -132,14 +116,4 @@ public class UserDaoImpl implements UserDao {
 		user = (User) c.uniqueResult();
 		return user;
 	}
-
-	/**
-	 * 加载单个用户等级
-	 */
-	public UserLevel loadUserLevel(Integer id) {
-		UserLevel userLevel=null;
-		userLevel= (UserLevel) getSession().load(UserLevel.class, id);
-		return userLevel;
-	}
-
 }

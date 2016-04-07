@@ -1,17 +1,19 @@
 package com.yayao.bean;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.GenericGenerator;
 
 
 
@@ -31,9 +33,9 @@ public class User implements java.io.Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	//@GeneratedValue(strategy=GenerationType.AUTO,generator="id")
-	//@GenericGenerator(name="id",strategy="assigned")
-	private Integer id;
+	//@GeneratedValue(strategy=GenerationType.AUTO,generator="userid")
+	//@GenericGenerator(name="userid",strategy="assigned")
+	private Integer userid;
 	/**
 	 * 账户名
 	 */
@@ -65,8 +67,9 @@ public class User implements java.io.Serializable {
 	/**
 	 * 卡卷包
 	 */
-	@Embedded
-	private CardPackage cardPackage;
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY)
+	@JoinColumn(name="userid")
+	private Set<CardPackage> cardPackages;
 	/**
 	 * 积分
 	 */
@@ -78,7 +81,8 @@ public class User implements java.io.Serializable {
 	/**
 	 * 账户等级
 	 */
-	@Embedded
+	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@JoinColumn(name="userlevelid")
 	private UserLevel userLevel;
 	/**
 	 * 注册日期
@@ -92,42 +96,42 @@ public class User implements java.io.Serializable {
 	 * 收货地址
 	 */
 	@Transient
-	private Set<UserReceiptAddress> userReceiptAddress=new HashSet<UserReceiptAddress>();
+	private Set<UserReceiptAddress> userReceiptAddress;
 	/**
 	 * 好友
 	 */
 	@Transient
-	private Set<Friends> friends=new HashSet<Friends>();
+	private Set<Friends> friends;
 	/**
 	 * 订单
 	 */
 	@Transient
-	private Set<Orders> orders = new HashSet<Orders>();
+	private Set<Orders> orders ;
 	/**
 	 * 商品收藏
 	 */
 	@Transient
-	private Set<MerCollections> merCollections = new HashSet<MerCollections>();
+	private Set<MerCollections> merCollections ;
 	/**
 	 * 评论
 	 */
 	@Transient
-	private Set<Comments> comments=new HashSet<Comments>();
+	private Set<Comments> comments;
 	
 	
 	
 	public User() {
 	}
 	
-	public User(Integer id, String userName, String userNiceName,
+	public User(Integer userid, String userName, String userNiceName,
 			String userPassword, String userSignature, String userEmail,
-			String userPhone, String userIdentity, CardPackage cardPackage,
+			String userPhone, String userIdentity, Set<CardPackage> cardPackages,
 			Integer integral, Integer isLogin, Date regDate,
 			Date lastLoginTime,UserLevel userLevel, Set<UserReceiptAddress> userReceiptAddress,
 			Set<Friends> friends, Set<Orders> orders,
 			Set<MerCollections> merCollections, Set<Comments> comments) {
 		super();
-		this.id = id;
+		this.userid = userid;
 		this.userName = userName;
 		this.userNiceName = userNiceName;
 		this.userPassword = userPassword;
@@ -135,7 +139,7 @@ public class User implements java.io.Serializable {
 		this.userEmail = userEmail;
 		this.userPhone = userPhone;
 		this.userIdentity = userIdentity;
-		this.cardPackage = cardPackage;
+		this.cardPackages = cardPackages;
 		this.integral = integral;
 		this.isLogin = isLogin;
 		this.regDate = regDate;
@@ -148,12 +152,12 @@ public class User implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getUserid() {
+		return userid;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUserid(Integer userid) {
+		this.userid = userid;
 	}
 
 	public String getUserName() {
@@ -212,12 +216,12 @@ public class User implements java.io.Serializable {
 		this.userIdentity = userIdentity;
 	}
 
-	public CardPackage getCardPackage() {
-		return cardPackage;
+	public Set<CardPackage> getCardPackages() {
+		return cardPackages;
 	}
 
-	public void setCardPackage(CardPackage cardPackage) {
-		this.cardPackage = cardPackage;
+	public void setCardPackages(Set<CardPackage> cardPackages) {
+		this.cardPackages = cardPackages;
 	}
 
 	public Integer getIntegral() {

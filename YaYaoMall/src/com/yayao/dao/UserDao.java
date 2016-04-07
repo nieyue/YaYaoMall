@@ -3,10 +3,9 @@ package com.yayao.dao;
 import java.util.List;
 
 import com.yayao.bean.User;
-import com.yayao.bean.UserLevel;
 
 /**
- * 账户接口
+ * 账户数据访问接口
  * @author yy
  *
  */
@@ -29,10 +28,7 @@ public interface UserDao {
 	public void delUser(Integer id) ;
 	/**装载注册账户 */	
 	public User loadUser(Integer id);	
-	/** 浏览账户级别 */
-	public List<User> browseUserLevel() ;
-	/** 装载账户级别 */
-	public UserLevel loadUserLevel(Integer id);
+	
 	
 }
 

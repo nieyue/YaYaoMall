@@ -6,19 +6,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.yayao.bean.User;
-import com.yayao.bean.UserLevel;
 import com.yayao.dao.UserDao;
 import com.yayao.service.UserService;
 import com.yayao.util.DateUtil;
 /**
- * 账户服务接口实现类
+ * 账户业务实现类
  * @author yy
  *
  */
-@Transactional
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -56,11 +53,13 @@ public class UserServiceImpl implements UserService {
 	public void addUser(User user) {
 		user.setRegDate(new Date());
 		//UserLevel ul=userDao.loadUserLevel(1);
+		//if(ul!=null){
 		//user.setUserLevel(ul);
 		user.setIntegral(new Integer(1));
 		user.setLastLoginTime(new Date());
 		user.setIsLogin(new Integer(1));
 		userDao.addUser(user);
+		//}
 	}
 	/** 修改注册账户 */
 	@Override
@@ -107,18 +106,6 @@ public class UserServiceImpl implements UserService {
 	public User loadUser(Integer id) {
 		User user=userDao.loadUser(id);
 		return user;
-	}
-	/**浏览注册账户等级 */
-	@Override
-	public List<User> browseUserLevel() {
-		List<User> l = userDao.browseUserLevel();
-		return l;
-	}
-	/**装载注册账户 级别*/
-	@Override
-	public UserLevel loadUserLevel(Integer id) {
-		UserLevel ml = userDao.loadUserLevel(id);
-		return ml;
 	}
 
 }

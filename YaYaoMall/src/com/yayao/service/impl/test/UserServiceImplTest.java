@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,12 +41,15 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testUserLogin() {
-		fail("Not yet implemented");
+		User user = userService.userLogin("聂跃2", "123456");
+		System.out.println(user);
 	}
 
 	@Test
 	public void testChkLoginName() {
-		fail("Not yet implemented");
+		 boolean status = userService.chkLoginName("聂跃");
+		 Assert.assertEquals(true, status);;
+		 System.out.println(status);
 	}
 
 	@Test
@@ -55,7 +59,10 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testAddUser() {
+		//UserLevel userlevel=new UserLevel();
+		//userlevel.setUserGrade(1);
 		User user =new User();
+		//user.setUserLevel(userlevel);
 		user.setIntegral(new Integer(1));
 		user.setUserName("聂跃");
 		user.setUserPassword("123456");
@@ -65,7 +72,11 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testUpdateUser() {
-		fail("Not yet implemented");
+		User u = userService.loadUser(1);
+		//UserLevel ul = userService.loadUserLevel(1);
+		//ul=null;
+		//u.setUserLevel(ul);
+		userService.updateUser(u);
 	}
 
 	@Test
@@ -90,17 +101,8 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testLoadUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testBrowseUserLevel() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testLoadUserLevel() {
-		fail("Not yet implemented");
+		User u = userService.loadUser(1);
+		System.out.println(u);
 	}
 
 }

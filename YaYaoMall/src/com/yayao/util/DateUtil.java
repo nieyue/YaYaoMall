@@ -98,13 +98,46 @@ public class DateUtil {
 		} 
     	return time1;  
     }  
+    /**
+     * 获取两日期之间的相隔天数
+     * @param args
+     * @throws ParseException 
+     */
+    public static Long getSeparatedTime() {  
+    	String date01 = "2016-3-1 9:20:00";
+    	String date02 = "2016-3-2 9:19:00";
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date d1 = null;
+    	Date d2 = null;
+		try {
+			d1 = sdf.parse(date01);
+			d2 = sdf.parse(date02);
+			System.out.println(d1);
+			System.out.println(d2);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	long daysBetween = (d2.getTime()-d1.getTime())/(3600*24*1000);//两日期之间相隔的天数 
+    	return daysBetween;  
+    }  
+    /**
+     * 获取从起始日期开始几天后的日期
+     * @param args
+     * @throws ParseException 
+     */
+    public static Date getFirstToTime(Date firstDate,long coupleDay) {  
+    	//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date lastDate = new Date(coupleDay*3600*24*1000+firstDate.getTime());//两日期之间相隔的天数 
+    	return lastDate;  
+    }  
 	
     
     //  输出结果：  
     //  timeStamp=1417792627  
     //  date=2014-12-05 23:17:07  
     //  1417792627  
-    static HttpServletRequest request=((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+    //static HttpServletRequest request=((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
     public static void main(String[] args) {  
     	System.out.println(getCurrentTime());
     	System.out.println(getOrdersTime());
@@ -117,9 +150,11 @@ public class DateUtil {
         String timeStamp2 = date2TimeStamp(date, "yyyy-MM-dd HH:mm:ss");  
         System.out.println(timeStamp2); 
         System.out.println(getFormatCurrentTime().toLocaleString());
-        HttpSession session = request.getSession();
-        session.setAttribute("nieyue", "dsfsdfsdf");
+      //  HttpSession session = request.getSession();
+       // session.setAttribute("nieyue", "dsfsdfsdf");
         //String nieyue = (String) session.getAttribute("nieyue");
-        System.out.println(session); 
+       // System.out.println(session); 
+        System.out.println(getSeparatedTime());
+        System.out.println(getFirstToTime(new Date(), 25).toLocaleString());
     }  
 }
