@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yayao.bean.Cart" table="cart_tb" catalog="YaYaoXiangXiu_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="money" type="java.lang.Double">
+            <column name="Money" precision="9" />
+        </property>
+        <property name="cartStatus" type="java.lang.Integer">
+            <column name="CartStatus" />
+        </property>
+        
+         <!-- 映射Cart到Member得多对一单向关联 -->
+        <many-to-one name="member"
+        			 column="MemberID"
+        			 class="com.yayao.bean.Member"
+        			 lazy="false"
+        			 not-null="true"/>  
+        			 
+		<!--映射Cart到Merchandise的多对多单向关联-->	
+		  <!-- <set name="merchandises"
+			 table="cartselectedmer_tb"
+			 lazy="true"
+			 cascade="save-update">
+			 <key column="CartID"/>
+			 <many-to-many class="com.yayao.bean.Merchandise" column="MerchandiseID"/>
+		</set>	 -->      			        
+    </class>
+</hibernate-mapping>

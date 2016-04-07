@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
+ <!-- 定义 Autowired  自动注入 bean -->
+  <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
+ <!-- 扫描注解Bean -->
+   <context:component-scan base-package="com.yayao" annotation-config="true">
+   <!--  
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+     -->
+    </context:component-scan>
+   
+    <!-- 国际化的消息资源文件
+        <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+            <property name="basenames">  
+                <list>  
+     -->  
+                    <!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找  
+                    <value>classpath:ApplicationResources</value>  
+                </list>  
+            </property>  
+            <property name="defaultEncoding" value="UTF-8"/>  
+            <property name="cacheSeconds" value="60"/>  
+        </bean>  
+                    -->  
+
+<!-- cp30配置方式 -->
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass"
+			value="com.mysql.jdbc.Driver">
+			</property>
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/YaYaoXiangXiu_db">
+		</property>
+		<property name="user" value="root"></property>
+		<property name="password" value="liliu"></property>
+		
+		   <property name="minPoolSize" value="2"/>
+		  <property name="maxPoolSize" value="1000"/>
+		  <property name="initialPoolSize" value="2"/>
+		     <property name="acquireIncrement" value="15"/>
+		     <property name="idleConnectionTestPeriod" value="10"/>
+		     <property name="maxStatements" value="0"/> 
+		     <property name="acquireRetryAttempts" value="30" />
+		
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	<property name="packagesToScan">
+		<list>
+			<value>com.yayao.bean</value>
+		</list>
+	</property> 
+		<property name="hibernateProperties">
+			<props>
+		
+		<!-- Hibernate4需要通过getCurrentSession()获取session -->
+		<!--  
+		<prop key="hibernate.current_session_context_class" >org.springframework.orm.hibernate4.SpringSessionContext</prop>
+		<prop key="hibernate.current_session_context_class" >thread</prop>
+		-->
+		
+		<!-- javax.persistence.validation.mode默认情况下是auto的，就是说如果不设置的话它是会自动去你的classpath下面找一个bean-validation**包 
+          所以把它设置为none即可 -->
+		<prop key="javax.persistence.validation.mode" >none</prop>
+<!-- 指定hibernate在何时释放JDBC连接 -->
+		<prop key="hibernate.connection.release_mode" >auto</prop>
+       
+		<!-- 二级缓存提供类
+		 <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.cache.EhCacheProvider  </prop> 
+		 -->
+        <!-- 二级缓存的提供类 在hibernate4.0版本以后我们都是配置这个属性来指定二级缓存的提供类
+        <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+        -->
+        
+		<!-- 开启二级缓存 
+        <prop key="hibernate.cache.use_second_level_cache">false</prop>
+		-->
+        <!-- 设置查询缓存 如果不设置'查询缓存'，那么hibernate只会缓存使用load()方法获得的单个持久化对象，  
+    如果想缓存使用 findall()、list()、Iterator()、createCriteria()、createQuery()等方法获得的数据结果集的话，  
+    就需要设置 hibernate.cache.use_query_cache true 才行 
+		<prop key="hibernate.cache.use_query_cache">true</prop> 
+    -->  
+        <!-- 二级缓存配置文件的位置 
+        <prop key="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</prop>
+        -->
+		 
+		        <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+		<!-- hibernate分页出现 ResultSet may only be accessed in a forward direction需要设置hibernate结果集滚动 -->
+		<prop key="jdbc.use_scrollable_resultset">false</prop>		
+				<prop key="hibernate.show_sql">true</prop>
+		        <prop key="hibernate.format_sql">true</prop>
+		    <!-- 让hibernate输出SQL语句，以便更加深入查询 -->   
+		        <prop key="hibernate.use_sql_commants">true</prop>
+		       <!-- 
+		        -->
+		         <prop key="hibernate.hbm2ddl.auto">update</prop>
+		        <!-- 
+		             -->
+		         <prop key="hibernate.connection.autocommit">true</prop>
+                <!-- 
+                <prop key="hibernate.transaction.factory_class">
+                    org.hibernate.transaction.JDBCTransactionFactory
+                   </prop>
+                     -->
+        <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+			</props>
+		</property>
+		
+		 <property name="mappingResources">
+			<list>
+				 <value>com/yayao/bean/Member.hbm.xml</value>
+				 <value>com/yayao/bean/Admin.hbm.xml</value>
+				 <value>com/yayao/bean/Consignee.hbm.xml</value>
+				<value>com/yayao/bean/Category.hbm.xml</value>
+				<value>com/yayao/bean/Merchandise.hbm.xml</value>
+				<value>com/yayao/bean/Memberlevel.hbm.xml</value>
+				<value>com/yayao/bean/Cart.hbm.xml</value>
+				<value>com/yayao/bean/Cartselectedmer.hbm.xml</value>
+				<value>com/yayao/bean/Orders.hbm.xml</value>
+				<value>com/yayao/bean/Comment.hbm.xml</value>
+				<value>com/yayao/bean/ExclusiveCustom.hbm.xml</value>
+		<!--
+		-->
+				</list>
+		</property> 
+		
+		</bean>
+	
+		
+	
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 开启注解事务 只对当前配置文件有效 
+	-->	
+	<!-- <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+ -->	<!-- 开启AOP监听 只对当前配置文件有效 -->
+	 <aop:aspectj-autoproxy expose-proxy="true"/> 
+	 <aop:config>
+        <aop:pointcut id="txPointcut" expression="execution(* com.yayao.service..*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+	
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="clear*" propagation="REQUIRED" />
+            <tx:method name="modi*" propagation="REQUIRED" />
+            <tx:method name="merge*" propagation="REQUIRED" />
+            
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="create*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="put*" propagation="REQUIRED" />
+            <tx:method name="use*" propagation="REQUIRED"/> 
+           
+           
+            
+            <tx:method name="chk*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="mem*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="admin*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="load*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="browse*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>  
+	</beans>

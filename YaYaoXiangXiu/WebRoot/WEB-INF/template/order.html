@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>个人中心</title>
+	<link rel="stylesheet" href="css/base.css" type="text/css" />
+	<link rel="stylesheet" href="css/common.css" type="text/css" />
+	<link rel="stylesheet" href="css/manager.css" type="text/css" />
+	<link rel="stylesheet" href="css/zzsc.css" type="text/css" />
+    <script type="text/javascript" src="js/jquery.js" ></script>
+    <script type="text/javascript" src="js/topNav.js" ></script>
+	<script language="javascript" type="text/javascript">
+function showDiv(){
+document.getElementById('popDiv').style.display='block';
+document.getElementById('popIframe').style.display='block';
+document.getElementById('bg').style.display='block';
+}
+function closeDiv(){
+document.getElementById('popDiv').style.display='none';
+document.getElementById('bg').style.display='none';
+document.getElementById('popIframe').style.display='none';
+}
+</script>
+</head>
+<body>
+<div id="popDiv" class="mydiv" style="display:none;">
+
+<table width="450" height="180" border="0" cellspacing="0">
+  <tr bgcolor="#555" style="color:#FFFFFF;">
+    <td width="60" height="30" style="font-size:13px;">评价</td>
+    <td width="40">&nbsp;</td>
+    <td width="200">&nbsp;</td>
+
+    <td width="40" >&nbsp;</td>
+    <td width="40" class="guan"><a href="javascript:closeDiv()">关闭</a></td>
+  </tr>
+
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td align="left"><table width="200" border="0" cellspacing="0">
+      <tr>
+        <td width="20"><label>
+          <input type="radio" name="radiobutton" value="radiobutton">
+        </label></td>
+        <td width="50"><img src="images/p1.png" width="24" height="24"></td>
+        <td width="20"><input type="radio" name="radiobutton" value="radiobutton"></td>
+        <td width="50"><img src="images/p2.png" width="24" height="23"></td>
+        <td width="20"><input type="radio" name="radiobutton" value="radiobutton"></td>
+        <td><img src="images/p3.png" width="24" height="20"></td>
+      </tr>
+    </table></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td  align="left"><textarea cols="40" rows="5" class="form-text"></textarea></td>
+
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td  align="left"><input name="submit" type="submit" class="form-submit" value="保存修改" /></td>
+
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  
+</table>
+				
+</div>
+<div id="bg" class="bg" style="display:none;"></div>
+<iframe id='popIframe' class='popIframe' frameborder='0' ></iframe>
+	<!-- Header-->
+	<div class="shop_hd">
+
+		<div class="shop_hd_topNav">
+			<div class="shop_hd_topNav_all">
+				<div class="shop_hd_topNav_all_left"><a href="#"><img src="images/0.jpg" /></a></div>
+				<div class="shop_hd_topNav_all_right">
+					<ul class="topNav_quick_menu">
+						<li><a href="gouwu1.dhtml"><img src="images/1.jpg" border="0" /></a></li>
+						<li><a href="login.dhtml"><img src="images/2.jpg" border="0" /></a></li>
+						<li><a href="reg.dhtml"><img src="images/3.jpg" border="0" /></a></li>
+						<li><a href="#"><img src="images/user.jpg" /></a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="clear"></div>
+		
+  <div class="shop_hd_menu">
+            <!-- 普通导航菜单 -->
+    <ul class="shop_hd_menu_nav">
+				<li class="link"><a href="index.dhtml"><img src="images/m1.jpg" border="0" /></a></li>
+				<li class="link"><a href="xiangd.dhtml"><img src="images/m2.jpg" border="0" /></a></li>
+				<li class="link"><a href="taod.dhtml"><img src="images/m3.jpg" border="0" /></a></li>
+				<li class="link"><a href="xiang.dhtml"><img src="images/m4.jpg" border="0" /></a></li>
+				<li class="link"><a href="tao.dhtml"><img src="images/m5.jpg" border="0" /></a></li>
+    </ul>
+			<!-- 普通导航菜单 End -->
+   </div>
+
+	</div>
+	<div class="clear"></div>
+	<!-- Header End -->
+	<div class="shop_hd_breadcrumb">
+		<strong>当前位置：</strong>
+		<span>
+			<a href="">首页</a>&nbsp;›&nbsp;
+			<a href="">我的商城</a>&nbsp;›&nbsp;
+			<a href="">已买到商品</a>
+		</span>
+	</div>
+	<div class="clear"></div>
+	<!-- 面包屑 End -->
+
+	<!-- Header End -->	
+
+	<!-- 我的个人中心 -->
+	<div class="shop_member_bd clearfix">
+		<!-- 左边导航 -->
+		<div class="shop_member_bd_left clearfix">
+			
+			<div class="shop_member_bd_left_pic">
+				<a href="javascript:void(0);"><img src="images/avatar.png" /></a>
+			</div>
+			<div class="clear"></div>
+
+			<dl>
+				<dt>我的交易</dt>
+				<dd><span><a href="">已购买商品</a></span></dd>
+				<dd><span><a href="">我的收藏</a></span></dd>
+				<dd><span><a href="">评价管理</a></span></dd>
+			</dl>
+
+			<dl>
+				<dt>我的账户</dt>
+				<dd><span><a href="">个人资料</a></span></dd>
+				<dd><span><a href="">密码修改</a></span></dd>
+				<dd><span><a href="">收货地址</a></span></dd>
+			</dl>
+
+		</div>
+		<!-- 左边导航 End -->
+		
+		<!-- 右边购物列表 -->
+		<div class="shop_member_bd_right clearfix">
+			
+			<div class="shop_meber_bd_good_lists clearfix">
+				<div class="title"><h3>订单列表</h3></div>
+				<table>
+					<thead class="tab_title">
+					   <tr>
+						<th style="width:180px;"><span>商品信息</span></th>
+						<th style="width:75px;"><span>单价</span></th>
+						<th style="width:50px;"><span>数量</span></th>
+						<th style="width:80px;"><span>订单总价</span></th>
+						<th style="width:160px;"><span>状态与操作</span></th>
+					  </tr>
+ 					</thead>
+					<tbody>
+
+						<tr><td colspan="5">
+							<table class="good">
+								<thead >
+									<tr>
+									  <th colspan="7">
+										<span><strong>订单号码：</strong>2015053290551</span>									</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="dingdan_pic"><img src="images/5.jpg" /></td>
+										<td class="dingdan_title"><span><a href="">湘绣定制</a></span><br />尺寸:画心100-50cm </td>
+										<td class="dingdan_danjia">￥<strong>9999.00</strong></td>
+										<td class="dingdan_shuliang">1</td>
+										<td class="dingdan_zongjia">￥<strong>9999.00</strong><br />(免运费)</td>
+										<td class="digndan_caozuo">等待付款</td>
+									    <td class="digndan_caozuo"><a href="javascript:showDiv()">评价</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</td></tr>
+
+						<tr><td colspan="5">
+							<table class="good">
+								<thead >
+									<tr>
+									  <th colspan="7">
+										<span><strong>订单号码：</strong>2015052905512</span>									</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="dingdan_pic"><img src="images/5.jpg" /></td>
+										<td class="dingdan_title"><span><a href="">湘绣定制</a></span><br />尺寸:画心100-50cm </td>
+										<td class="dingdan_danjia">￥<strong>9999.00</strong></td>
+										<td class="dingdan_shuliang">1</td>
+										<td class="dingdan_zongjia">￥<strong>9999.00</strong><br />(免运费)</td>
+										<td class="digndan_caozuo">已经付款</td>
+									    <td class="digndan_caozuo"><a href="javascript:showDiv()">评价</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</td></tr>
+
+						<tr><td colspan="5">
+							<table class="good">
+								<thead >
+									<tr>
+									  <th colspan="7">
+										<span><strong>订单号码：</strong>2015052905513</span>									</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="dingdan_pic"><img src="images/5.jpg" /></td>
+										<td class="dingdan_title"><span><a href="">湘绣定制</a></span><br />尺寸:画心100-50cm </td>
+										<td class="dingdan_danjia">￥<strong>9999.00</strong></td>
+										<td class="dingdan_shuliang">1</td>
+										<td class="dingdan_zongjia">￥<strong>9999.00</strong><br />(免运费)</td>
+										<td class="digndan_caozuo">已经发货</td>
+									    <td class="digndan_caozuo"><a href="javascript:showDiv()">评价</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</td></tr>
+
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- 右边购物列表 End -->
+
+	</div>
+	<!-- 我的个人中心 End -->
+
+<!-- Footer -->
+<div class="clear"></div>
+<div class="foot">
+	<div class="faq">
+                <dl>
+                    <dt>帮助中心</dt>
+                    <dd><a href=""><span>积分兑换说明</span></a></dd>
+                    <dd><a href=""><span>积分明细</span></a></dd>
+                    <dd><a href=""><span>查看已购买商</span></a></dd>
+                    <dd><a href=""><span>我要买</span></a></dd>
+                    <dd><a href=""><span>忘记密码</span></a></dd>
+                </dl>
+                
+                <dl>
+                    <dt>店主之家</dt>
+                    <dd><a href=""><span>如何申请开店</span></a></dd>
+                    <dd><a href=""><span>商城商品推荐</span></a></dd>
+                    <dd><a href=""><span>如何发货</span></a></dd>
+                    <dd><a href=""><span>查看已售商品</span></a></dd>
+                    <dd><a href=""><span>如何管理店铺</span></a></dd>
+                </dl>
+                
+                <dl>
+                    <dt>支付方式</dt>
+                    <dd><a href=""><span>公司转账</span></a></dd>
+                    <dd><a href=""><span>邮局汇款</span></a></dd>
+                    <dd><a href=""><span>分期付款</span></a></dd>
+                    <dd><a href=""><span>在线支付</span></a></dd>
+                    <dd><a href=""><span>如何注册支付</span></a></dd>
+                </dl>
+                
+                <dl>
+                    <dt>售后服务</dt>
+                    <dd><a href=""><span>退款申请</span></a></dd>
+                    <dd><a href=""><span>返修/退换货</span></a></dd>
+                    <dd><a href=""><span>退换货流程</span></a></dd>
+                    <dd><a href=""><span>退换货政策</span></a></dd>
+                    <dd><a href=""><span>联系卖家</span></a></dd>
+                </dl>
+                
+                <dl>
+                    <dt>客服中心</dt>
+                    <dd><a href=""><span>修改收货地址</span></a></dd>
+                    <dd><a href=""><span>商品发布</span></a></dd>
+                    <dd><a href=""><span>会员修改个人</span></a></dd>
+                    <dd><a href=""><span>会员修改密码</span></a></dd>
+                </dl>
+                
+                <dl>
+                    <dt>关于我们</dt>
+                    <dd><a href=""><span>合作及洽谈</span></a></dd>
+                    <dd><a href=""><span>招聘英才</span></a></dd>
+                    <dd><a href=""><span>联系我们</span></a></dd>
+                    <dd><a href=""><span>关于Shop</span></a></dd>
+                </dl>
+                
+                
+      </div>
+	  <div class="clear"></div>
+       <div class="foot_link">
+                <p>
+                    <a href="">首页</a>|
+                    <a href="">招聘英才</a>|
+                    <a href="">广告合作</a>|
+                    <a href="">关于我们</a>|
+                    <a href="">关于我们</a>
+               </p>
+        </div>
+       <div class="foot_copy"><p>Copyright 2015 itcast Inc.,All rights reserved.</p><p style="margin:10px 0;"> <img src="images/shi.png"  /></p></div>
+</div>
+	<!-- Footer End -->
+</body>
+</html>

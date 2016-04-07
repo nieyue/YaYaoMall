@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="loginName">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			
+			<message>※账号不能为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">4</param>
+			<param name="maxLength">16</param>
+			<message>※账号长度应该在${minLength} ~ ${maxLength}之间</message>
+		</field-validator>
+	</field>
+	<field name="loginPwd">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>※密码不能为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">6</param>
+			<param name="maxLength">16</param>
+			<message>※密码长度应该在${minLength} ~ ${maxLength}之间</message>
+		</field-validator>
+	</field>
+	<field name="reLoginPwd">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>※重复密码不能为空</message>
+		</field-validator>
+		<!-- 判断重复密码 -->
+		<field-validator type="fieldexpression">
+        <!--     表达式要写在   <![CDATA[]]>   内 -->
+            <param name="expression"><![CDATA[reLoginPwd==loginPwd]]></param>
+            <message>※两次密码不一致</message>
+       </field-validator>
+	</field>
+	<field name="email">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>※邮箱不能为空</message>
+		</field-validator>
+		<field-validator type="email">
+			<message>※邮箱不正确</message>
+		</field-validator>
+	</field>
+		<field name="validate">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>※验证码不能为空</message>
+		</field-validator>
+		
+	</field>
+	<!-- 校验电话格式，使用regex正则表达示校验，regexExpression参数指定正则表达式
+    <field name="phone">
+        <field-validator type="regex">
+	 -->
+            <!-- 注意！2.3.15前的版本使用 expression 参数
+            <param name="regexExpression"><![CDATA[\d{11}]]></param>
+            <message>电话号码格式不正确</message>
+        </field-validator>
+    </field>
+             -->
+      <!--  <field name="registed_date">  
+        <field-validator type="date">  
+             <param name="min">1970-01-01</param>  
+             <param name="max">2019-01-01</param>  
+             <message>注册日期不合法</message>  
+        </field-validator>  
+    </field>    -->      
+     
+</validators> 

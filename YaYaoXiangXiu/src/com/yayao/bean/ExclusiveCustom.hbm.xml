@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yayao.bean.ExclusiveCustom" table="exclusiveCustom_tb" catalog="YaYaoXiangXiu_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="customCategory" type="java.lang.String">
+            <column name="CustomCategory" length="10" />
+        </property>
+        <property name="customName" type="java.lang.String">
+            <column name="CustomName" length="12" />
+        </property>
+        <property name="customDate" type="java.lang.String">
+            <column name="CustomDate" length="20" />
+        </property>
+        <property name="customPhone" type="java.lang.String">
+            <column name="CustomPhone" length="15" />
+        </property>
+        <property name="customPicture" type="java.lang.String">
+            <column name="CustomPicture" length="100" />
+        </property>
+        <property name="customDetails" type="java.lang.String">
+            <column name="CustomDetails" length="65535" />
+        </property>
+        <property name="customOrderNumber" type="java.lang.String">
+            <column name="CustomOrderNumber" length="16" />
+        </property>
+  
+     
+        
+        
+        <!--映射ExclusiveCustom到Member的多对一单向关联-->
+        <many-to-one name="member"
+        			 column="MemberID"
+        			 class="com.yayao.bean.Member"
+        			 lazy="false"
+        			 /> 
+       <!--映射ExclusiveCustom到Comment的一对多关联-->       			           
+		 <set name="comments"
+		 	  cascade="all"
+			  inverse="true"
+			  lazy="true"  >
+			<key column="ExclusiveCustomID" />
+			 <one-to-many class="com.yayao.bean.Comment" />
+		</set> 
+        
+    </class>
+</hibernate-mapping>

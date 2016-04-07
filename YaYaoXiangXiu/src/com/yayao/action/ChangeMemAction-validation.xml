@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="loginPwd">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>※密码不能为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">6</param>
+			<param name="maxLength">16</param>
+			<message>※密码长度应该在${minLength} ~ ${maxLength}之间</message>
+		</field-validator>
+	</field>
+	<field name="newLoginPwd">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>※新密码不能为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">6</param>
+			<param name="maxLength">16</param>
+			<message>※新密码长度应该在${minLength} ~ ${maxLength}之间</message>
+		</field-validator>
+	</field>
+	<field name="reNewLoginPwd">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>※重复新密码不能为空</message>
+		</field-validator>
+		<!-- 判断重复密码 -->
+		<field-validator type="fieldexpression">
+        <!--     表达式要写在   <![CDATA[]]>   内 -->
+            <param name="expression"><![CDATA[reNewLoginPwd==newLoginPwd]]></param>
+            <message>※两次密码不一致</message>
+       </field-validator>
+	</field>
+	      
+</validators> 

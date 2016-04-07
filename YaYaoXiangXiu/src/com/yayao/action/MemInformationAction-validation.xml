@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="email">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>※邮箱不能为空</message>
+		</field-validator>
+		<field-validator type="email">
+			<message>※邮箱不正确</message>
+		</field-validator>
+	</field>
+	<!-- <field name="memberName">
+		<field-validator type="stringlength">
+			<param name="minLength">2</param>
+			<param name="maxLength">16</param>
+			<message>※姓名长度应该在${minLength} ~ ${maxLength}之间</message>
+		</field-validator>
+	</field> -->
+	
+</validators> 

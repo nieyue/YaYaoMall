@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yayao.bean.Member" table="member_tb" catalog="YaYaoXiangXiu_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="loginName" type="java.lang.String">
+            <column name="LoginName" length="12" />
+        </property>
+        <property name="loginPwd" type="java.lang.String">
+            <column name="LoginPwd" length="45" />
+        </property>
+        <property name="memberName" type="java.lang.String">
+            <column name="MemberName" length="20" />
+        </property>
+        <property name="sex" type="java.lang.String">
+            <column name="Sex" length="4" />
+        </property>
+        <property name="regDate" type="java.lang.String">
+            <column name="RegDate" length="19" />
+        </property>
+        <property name="lastDate" type="java.lang.String">
+            <column name="LastDate" length="19" />
+        </property>
+        <property name="loginTimes" type="java.lang.Integer">
+            <column name="LoginTimes" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="EMail" length="30" />
+        </property>
+        
+        <property name="isLogin" type="java.lang.Integer">
+            <column name="IsLogin" length="8" />
+        </property>
+        
+        
+        <!--映射Member到Memberlevel的多对一单向关联-->
+        <many-to-one name="memberlevel"
+        			 column="MemberlevelID"
+        			 class="com.yayao.bean.Memberlevel"
+        			 lazy="false"
+        			 not-null="true"/> 
+        			
+		<!--映射Member到Orders的一对多关联--> 
+		<!-- 
+		-->        			           
+		 <set name="orders"
+			cascade="all"
+			 inverse="true"
+			 lazy="true"  >
+			<key column="MemberID" />
+			 <one-to-many class="com.yayao.bean.Orders" />
+		</set>  
+		<!--映射Member到ExclusiveCustom的一对多关联--> 
+		<!-- 
+		-->        			           
+		 <set name="exclusiveCustoms"
+			cascade="all"
+			 inverse="true"
+			 lazy="true"  >
+			<key column="MemberID" />
+			 <one-to-many class="com.yayao.bean.ExclusiveCustom" />
+		</set>  
+			  
+        			 
+		<!--映射Member到Consignee的一对多关联--> 
+		  <list name="consignees"
+		  	table="consignee_tb"
+			cascade="all"
+			 inverse="true"
+			 lazy="true"  >
+			<key column="MemberID" />
+			<list-index column="consigneeIndex"></list-index>
+			 <one-to-many class="com.yayao.bean.Consignee" />
+		</list>   
+		<!--映射Member到Comment的一对多关联 inverse="true"代表关联方交给comment_tb控制--> 
+		  <list name="comments"
+		  	table="comment_tb"
+			cascade="all"
+			 inverse="true"
+			 lazy="true"  >
+			<key column="MemberID" />
+			<list-index column="memberCommentIndex"></list-index>
+			 <one-to-many class="com.yayao.bean.Comment" />
+		</list>        			           
+			  
+    </class>
+</hibernate-mapping>

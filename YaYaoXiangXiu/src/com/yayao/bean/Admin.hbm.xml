@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yayao.bean.Admin" table="admin_tb" catalog="YaYaoXiangXiu_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="adminType" type="java.lang.Integer">
+            <column name="AdminType" />
+        </property>
+        <property name="adminName" type="java.lang.String">
+            <column name="AdminName" length="12" />
+        </property>
+        <property name="loginName" type="java.lang.String">
+            <column name="LoginName" length="12" />
+        </property>
+        <property name="loginPwd" type="java.lang.String">
+            <column name="LoginPwd" length="45" />
+        </property>
+        <!--映射Admin到Comment的一对多关联--> 
+		  <list name="comments"
+		  	table="comment_tb"
+			cascade="all"
+			 inverse="true"
+			 lazy="true"  >
+			<key column="AdminID" />
+			<list-index column="adminCommentIndex" ></list-index>
+			 <one-to-many class="com.yayao.bean.Comment" />
+		</list>  
+    </class>
+</hibernate-mapping>

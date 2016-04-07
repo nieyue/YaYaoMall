@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yayao.bean.Comment" table="comment_tb" catalog="YaYaoXiangXiu_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="title" type="java.lang.String">
+            <column name="Title" length="60" />
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="Content" length="65535" />
+        </property>
+        <property name="commentDate" type="java.lang.String">
+            <column name="CommentDate" length="19" />
+        </property>
+        <property name="answerContent" type="java.lang.String">
+            <column name="AnswerContent" length="65535" />
+        </property>
+        <property name="answerDate" type="java.lang.String">
+            <column name="AnswerDate" length="19" />
+        </property> 
+        <!--映射Comment到Member的多对一单向关联-->
+        <many-to-one name="member"
+        			 column="MemberID"
+        			 class="com.yayao.bean.Member"
+        			 lazy="false"/>  
+        			 
+        <!--映射Comment到Admin的多对一单向关联-->
+        <many-to-one name="admin"
+        			 column="AdminID"
+        			 class="com.yayao.bean.Admin"
+        			 lazy="false"/>      
+        			 
+        <!--映射Comment到Merchandise的多对一关联-->
+        <many-to-one name="merchandise"
+        			 column="MerchandiseID"
+        			 class="com.yayao.bean.Merchandise"
+        			 lazy="false"/>  
+        <!--映射Comment到ExclusiveCustom的多对一关联-->
+        <many-to-one name="exclusiveCustom"
+        			 column="ExclusiveCustomID"
+        			 class="com.yayao.bean.ExclusiveCustom"
+        			 lazy="false"/>  
+        			    			        
+    </class>
+</hibernate-mapping>
