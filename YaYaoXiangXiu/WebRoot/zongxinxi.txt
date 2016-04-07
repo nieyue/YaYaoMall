@@ -1,1 +1,0 @@
-mysql 中 comment_tb中foreign key options 设置为cascade
