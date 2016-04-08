@@ -11,13 +11,13 @@
 
     <script type="text/javascript">
     if(localStorage.getItem("loginstate")==1){
-			location.replace("person.html");
+			location.replace("person");
 		}
     </script>
   </head>
   <body>
   <div class="person-common-header">
-  	<div><a class="pull-left" href="person.html">&lt;返回</a></div>
+  	<div><a class="pull-left" href="person">&lt;返回</a></div>
   	<div class="text-center person-common-header-center">账户登录</div>
   </div>
   <div class="person-login-body">
@@ -45,8 +45,8 @@
 </form>
   </div>
     <div class="person-login-footer">
-    	<div class="text-muted pull-left">没有账户？<a type="button" class="btn btn-sm btn-info" href="person_register.html">立即注册</a></div>
-    	<div class=" pull-right"><a class="text-muted" href="person_retrieveAccount.html">忘记密码？</a></div>
+    	<div class="text-muted pull-left">没有账户？<a type="button" class="btn btn-sm btn-info" href="person_register">立即注册</a></div>
+    	<div class=" pull-right"><a class="text-muted" href="person_retrieveAccount">忘记密码？</a></div>
     </div>
     
   </body>
@@ -76,7 +76,7 @@
       						localStorage.setItem("userName",userData.userPerson.userName);
       						localStorage.setItem("userpassword",userData.userPerson.userPassword);
       						myUtils.myPrevToast("登录成功",function(){
-      			      			location.replace("person.html");
+      			      			location.replace("person");
       			      			});
       					}
       					

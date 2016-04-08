@@ -47,8 +47,9 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testChkLoginName() {
-		 boolean status = userService.chkLoginName("聂跃");
-		 Assert.assertEquals(true, status);;
+		 boolean status = userService.chkLoginName("151113365");
+		 //boolean status = userService.chkLoginName("278076304@qq.com");
+		// Assert.assertEquals(true, status);;
 		 System.out.println(status);
 	}
 

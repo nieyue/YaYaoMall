@@ -11,8 +11,80 @@ var myUtils = {
 		signature:/^[^\s]{1,15}$/,//1-15位,不包含空格.
 		email:/^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$/, //邮箱
 		phone:/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/, //手机
-		identity:/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/ //15位和18位身份证号码
+		identity:/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/, //15位和18位身份证号码
+		password:/^[0-9_a-zA-Z]{6,20}$/ //数字、字母、下划线，6-20长度
 	},
+	/**
+	 * 表单验证
+	 * 
+	 */
+	registerFormValid:function(userName,password,rePassword,form){
+		if(userName!=null){
+		//账号
+      	$(userName.userNameValue).on("blur",function(){
+      		var userNameEmail=$(userName.userNameValue).val().trim();
+      		if(!userName.verification.test(userNameEmail)){
+      			$(userName.userNameError).text(userName.userNameErrorValue);
+      			if(!$(form).is(".errorForm1")){
+      				$(form).addClass("errorForm1");
+      			}
+      			return ;
+      		}
+      		$.get("user/chkUserName",
+      			{userName:userNameEmail},
+      			function(data){
+      				if(data!=null&&data!=''){
+      				$(userName.userNameError).text(data);
+      				if(!$(form).hasClass("errorForm1")){
+          				$(form).addClass("errorForm1");
+          			}
+      				}else{
+      					if($(form).hasClass("errorForm1")){
+              				$(form).removeClass("errorForm1");
+              			}
+      			$(userName.userNameError).text("");
+      		}
+      				
+      	});
+      	});
+		}
+      	//密码
+		if(password!=null){
+      	$(password.userNameValue).on("blur",function(){
+      		var userPasswordEmail=$(password.userNameValue).val().trim();
+      		if(!myUtils.userVerification.password.test(userPasswordEmail)){
+      			$(password.userNameError).text(password.userNameErrorValue);
+      			if(!$(form).hasClass("errorForm2")){
+      				$(form).addClass("errorForm2");
+      			}
+      		}else{
+      			if($(form).hasClass("errorForm2")){
+      				$(form).removeClass("errorForm2");
+      			}
+      			$(password.userNameError).text("");
+      		}
+      	});
+		}
+      	//重复密码
+		if(rePassword!=null){
+      	$(rePassword.userNameValue).on("blur",function(){
+      		var reUserPasswordEmail=$(rePassword.userNameValue).val().trim();
+      		var userPasswordEmail=$(password.userNameValue).val().trim();
+      		if(reUserPasswordEmail===userPasswordEmail){
+      			if($(form).hasClass("errorForm3")){
+      				$(form).removeClass("errorForm3");
+      			}
+      			$(rePassword.userNameError).text("");
+      		}else{
+      			if(!$(form).hasClass("errorForm3")){
+      				$(form).addClass("errorForm3");
+      			}
+      			$(rePassword.userNameError).text(rePassword.userNameErrorValue);
+      		}
+      	});
+		}
+	},
+	
 	/**
 	 * 修改一行的组件
 	 * clickDiv:点击的对象

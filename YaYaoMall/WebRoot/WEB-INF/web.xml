@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
 <context-param>
 <param-name>webAppRootKey</param-name>
 <param-value>YaYaoMall</param-value>
@@ -22,7 +22,15 @@
             org.springframework.web.util.Log4jConfigListener  
         </listener-class>
   </listener>
-	
+	<!-- jsp过滤 -->
+	 <filter>
+	<filter-name>JSPFilter</filter-name>
+	<filter-class>com.yayao.filter.JspFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	<filter-name>JSPFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping> 
 	<!-- 监听Spring -->
 	 <listener>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

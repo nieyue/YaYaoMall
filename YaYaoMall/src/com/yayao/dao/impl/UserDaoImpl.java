@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,11 @@ public class UserDaoImpl implements UserDao {
 		boolean status = true;// true代表数据库已经存在
 		User user = null;
 		Criteria c = getSession().createCriteria(User.class);
-		c.add(Restrictions.eq("userName", userName));
+		Disjunction dis=Restrictions.disjunction();//逻辑或or
+		dis.add(Restrictions.eq("userName", userName));
+		dis.add(Restrictions.eq("userEmail", userName));
+		dis.add(Restrictions.eq("userPhone", userName));
+		c.add(dis);
 		user = (User) c.uniqueResult();
 		if (user == null) {
 			status = false;

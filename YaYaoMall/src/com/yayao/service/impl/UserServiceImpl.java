@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.yayao.bean.User;
+import com.yayao.bean.UserLevel;
 import com.yayao.dao.UserDao;
+import com.yayao.dao.UserLevelDao;
 import com.yayao.service.UserService;
 import com.yayao.util.DateUtil;
 /**
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("userDao")
 	private UserDao userDao;
+	@Autowired
+	@Qualifier("userLevelDao")
+	private UserLevelDao userLevelDao;
 	
 	/** 账户登录 */
 	@Override
@@ -52,14 +57,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addUser(User user) {
 		user.setRegDate(new Date());
-		//UserLevel ul=userDao.loadUserLevel(1);
-		//if(ul!=null){
-		//user.setUserLevel(ul);
-		user.setIntegral(new Integer(1));
+		UserLevel ul=userLevelDao.loadUserLevel(1);
+		if(ul!=null){
+		user.setUserLevel(ul);
+		user.setIntegral(new Integer(0));
 		user.setLastLoginTime(new Date());
 		user.setIsLogin(new Integer(1));
 		userDao.addUser(user);
-		//}
+		}
 	}
 	/** 修改注册账户 */
 	@Override

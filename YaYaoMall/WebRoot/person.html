@@ -13,7 +13,7 @@
   </head>
   <body>
   <div class="person-header">
-        <a class="shoppingCircle-body-list-star person-header-body" id="userHref" href="person_login.html">
+        <a class="shoppingCircle-body-list-star person-header-body" id="userHref" href="person_login">
           <img id='userIMG' alt="icon" src="resources/img/preLoding.jpg">
           <div>
           <h2 id="userNiceName">请先登录，更多惊喜！</h2>
@@ -71,11 +71,11 @@
 
     <!-- 底部导航-->
       <div class="list-inline fixed-footer">
-    	<a class="btn" href="index.html"><i class="glyphicon glyphicon-home"></i><div>购物</div></a>
-    	<a class="btn" href="classification.html"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
-    	<a class="btn" href="shoppingCircle.html"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
-    	<a class="btn" href="cat.html"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
-    	<a class="btn active-a" href="person.html"><i class="glyphicon glyphicon-user"></i><div class="active-a">我</div></a>
+    	<a class="btn" href="index"><i class="glyphicon glyphicon-home"></i><div>购物</div></a>
+    	<a class="btn" href="classification"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
+    	<a class="btn" href="shoppingCircle"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
+    	<a class="btn" href="cat"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
+    	<a class="btn active-a" href="person"><i class="glyphicon glyphicon-user"></i><div class="active-a">我</div></a>
     </div>
     <!-- end底部导航-->
     
@@ -92,7 +92,7 @@
        <script type="text/javascript">
       		$(function(){
       			if(localStorage.getItem("loginstate")==1){
-      				document.querySelector("#userHref").href='user_info.html';
+      				document.querySelector("#userHref").href='user_info';
       				document.querySelector("#userNiceName").innerHTML=userData.userPerson.userNiceName||localStorage.getItem("userName");
       				document.querySelector("#userIMG").src=userData.userPerson.userIMG;
       				document.querySelector("#userAccess").innerHTML='';

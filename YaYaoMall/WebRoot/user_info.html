@@ -112,7 +112,7 @@
       			localStorage.removeItem("userName");
       			localStorage.removeItem("userPassword");
       			myUtils.myPrevToast("退出成功",function(){
-      			location.replace("person.html");
+      			location.replace("person");
       			});
       			});
       			
@@ -148,24 +148,24 @@
   		  			myUtils.fileUpload("#fileUserInfoIMG","#userInfoIMG");
   		  		});
   		  		//修改昵称
-  		  		myUtils.updateOne('#updateUserInfoNiceName',"修改昵称",'#userInfoNiceName','#userInfoNiceNameModal',"※1-10位，不能有空格");
+  		  		myUtils.updateOne('#updateUserInfoNiceName',"修改昵称",'#userInfoNiceName','#userInfoNiceNameModal',"1-10位，不能有空格");
   		  		//修改个性签名
-  		  		myUtils.updateOne('#updateUserSignature',"修改个性签名",'#userSignature','#userSignatureModal',"※1-15位，不能有空格");
+  		  		myUtils.updateOne('#updateUserSignature',"修改个性签名",'#userSignature','#userSignatureModal',"1-15位，不能有空格");
   		  		//邮箱
   		  		if(!userData.userPerson.userEmail){
-  		  		myUtils.updateOne('#updateUserEmail',"添加邮箱",'#userEmail','#userEmailModal',"※请输入正确的邮箱");
+  		  		myUtils.updateOne('#updateUserEmail',"添加邮箱",'#userEmail','#userEmailModal',"请输入正确的邮箱");
   		  		}
    		  		//手机
    		  		if(!userData.userPerson.userPhone){
-  		  		myUtils.updateOne('#updateUserPhone',"添加手机",'#userPhone','#userPhoneModal',"※请输入正确的手机");
+  		  		myUtils.updateOne('#updateUserPhone',"添加手机",'#userPhone','#userPhoneModal',"请输入正确的手机");
    		  		}
    		  		//身份认证
    		  		if(!userData.userPerson.userIdentity){
-  		  		myUtils.updateOne('#updateUserIdentity',"身份认证",'#userIdentity','#userIdentityModal',"※请输入正确的身份证");
+  		  		myUtils.updateOne('#updateUserIdentity',"身份认证",'#userIdentity','#userIdentityModal',"请输入正确的身份证");
    		  		}
    		  		//收货地址	
    		  		$("#updateUserReceiptAddress").click(function(){
-   		  			location.href='receiptAddress.html';
+   		  			location.href='receiptAddress';
    		  		});
   		  		//ahover
   		  		 myUtils.ahover();
