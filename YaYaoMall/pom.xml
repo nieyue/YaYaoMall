@@ -32,6 +32,11 @@
 	</properties>
 
 	<dependencies><!-- 这个元素描述了所有与当前项目相关的依赖 -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0-m02</version>
+		</dependency>
 		<!-- 读取字节码包 -->
 		 <dependency>
 			<groupId>org.javassist</groupId>
@@ -43,9 +48,8 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-			<scope>test</scope>
 		</dependency>
-
+		
 		<!-- servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

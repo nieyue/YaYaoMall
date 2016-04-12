@@ -18,69 +18,104 @@ var myUtils = {
 	 * 表单验证
 	 * 
 	 */
-	registerFormValid:function(userName,password,rePassword,form){
-		if(userName!=null){
+	registerFormValid:function(userName,password,rePassword,validBtn,validCode){
+		
 		//账号
-      	$(userName.userNameValue).on("blur",function(){
-      		var userNameEmail=$(userName.userNameValue).val().trim();
-      		if(!userName.verification.test(userNameEmail)){
-      			$(userName.userNameError).text(userName.userNameErrorValue);
-      			if(!$(form).is(".errorForm1")){
-      				$(form).addClass("errorForm1");
-      			}
+		if(userName!=null){
+      	$(userName.userNameValue).on("change",function(){
+      		var  userNameInfo=$(userName.userNameValue).val().trim();
+			if(!userName.verification.test(userNameInfo)){
+      			$(userName.userNameError).text("邮箱格式不正确！");
       			return ;
       		}
       		$.get("user/chkUserName",
-      			{userName:userNameEmail},
+      			{userName:userNameInfo},
       			function(data){
-      				if(data!=null&&data!=''){
-      				$(userName.userNameError).text(data);
-      				if(!$(form).hasClass("errorForm1")){
-          				$(form).addClass("errorForm1");
-          			}
+      				if(data=='200'){
+      					$(userName.userNameError).text("");
       				}else{
-      					if($(form).hasClass("errorForm1")){
-              				$(form).removeClass("errorForm1");
-              			}
-      			$(userName.userNameError).text("");
+      			$(userName.userNameError).text(data);
       		}
       				
-      	});
+      	}
+      			);
       	});
 		}
       	//密码
 		if(password!=null){
-      	$(password.userNameValue).on("blur",function(){
-      		var userPasswordEmail=$(password.userNameValue).val().trim();
-      		if(!myUtils.userVerification.password.test(userPasswordEmail)){
+      	$(password.userNameValue).on("change",function(){
+      		var userPasswordInfo=$(password.userNameValue).val().trim();
+      		if(!myUtils.userVerification.password.test(userPasswordInfo)){
       			$(password.userNameError).text(password.userNameErrorValue);
-      			if(!$(form).hasClass("errorForm2")){
-      				$(form).addClass("errorForm2");
-      			}
       		}else{
-      			if($(form).hasClass("errorForm2")){
-      				$(form).removeClass("errorForm2");
-      			}
       			$(password.userNameError).text("");
       		}
       	});
 		}
       	//重复密码
 		if(rePassword!=null){
-      	$(rePassword.userNameValue).on("blur",function(){
-      		var reUserPasswordEmail=$(rePassword.userNameValue).val().trim();
-      		var userPasswordEmail=$(password.userNameValue).val().trim();
-      		if(reUserPasswordEmail===userPasswordEmail){
-      			if($(form).hasClass("errorForm3")){
-      				$(form).removeClass("errorForm3");
-      			}
+      	$(rePassword.userNameValue).on("change",function(){
+      		var reUserPasswordInfo=$(rePassword.userNameValue).val().trim();
+      		var userPasswordInfo=$(password.userNameValue).val().trim();
+      		if(reUserPasswordInfo===userPasswordInfo){
       			$(rePassword.userNameError).text("");
       		}else{
-      			if(!$(form).hasClass("errorForm3")){
-      				$(form).addClass("errorForm3");
-      			}
       			$(rePassword.userNameError).text(rePassword.userNameErrorValue);
       		}
+      	});
+		}
+		//请求服务器发送给邮箱验证码
+      	$(validBtn).click(function(){
+      		var  userNameInfo=$(userName.userNameValue).val().trim();
+			if(!userName.verification.test(userNameInfo)){
+      			$(validCode.userNameError).text("邮箱格式不正确！");
+      			return ;
+      		}
+      		$.get("user/validCode",
+      				{
+      				userEmail:userNameInfo,
+      				validCode:parseInt(Math.random()*9000+1000)
+      				},
+      				function(data){
+      		if(data=="200"){
+      		var timer=60;
+      		var setinterval=setInterval(function(){
+      		if(timer==0){
+      			clearInterval(setinterval);
+      			timer=60;
+      			$(validBtn).text("获取验证码").removeAttr("disabled");
+      		}else{
+      			timer--;
+      			$(validBtn).attr("disabled",true);	
+      			$(validBtn).text(timer+"s重新发送")
+      			
+      		}
+      		},1000);
+      		}
+      		});
+      	});
+		//验证码
+		if(validCode!=null){
+      	$(validCode.userNameValue).on("change",function(){
+      		var  userNameInfo=$(userName.userNameValue).val().trim();
+			if(!userName.verification.test(userNameInfo)){
+      			$(validCode.userNameError).text("邮箱格式不正确！");
+      			return ;
+      		}
+			if($(validCode.userNameValue).val()==null||$(validCode.userNameValue).val().trim()==""||$(validCode.userNameValue).val()==undefined){
+				return ;
+			}
+      		$.get("user/chkValidCode",{
+      			validCode:$(validCode.userNameValue).val().trim()
+      		},
+      			function(data){
+      				if(data=='200'){
+      				$(validCode.userNameError).text("");
+      				}else{
+      					$(validCode.userNameError).text(data);
+      		}
+      				
+      	});
       	});
 		}
 	},
@@ -445,7 +480,6 @@ var myTouchEvents = {
 var userData = {
 	// 用户数据初始化
 	userInit : {
-		userName : 'nieyue',
 		userPassword : hex_sha1('123456'),
 		userIMG : 'resources/img/preLoding.jpg',
 		userNiceName : '添加昵称',
@@ -457,7 +491,6 @@ var userData = {
 	},
 	// 用户数据
 	userPerson : {
-		userName : 'nieyue',
 		userNiceName : '聂跃',
 		userPassword : hex_sha1('123456'),
 		userIMG : 'http://img.mukewang.com/user/54859e4f00019f2a01000100-40-40.jpg',

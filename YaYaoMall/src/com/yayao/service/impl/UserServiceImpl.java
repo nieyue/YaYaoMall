@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
 	 * 找回账户
 	 */
 	@Override
-	public User RetrieveAccount(String userName, String userEmail) {
-		User u = userDao.RetrieveAccount(userName, userEmail);
+	public User RetrieveAccount(String userName) {
+		User u = userDao.RetrieveAccount(userName);
 		return u;
 	}
 	/** 新增注册账户 */

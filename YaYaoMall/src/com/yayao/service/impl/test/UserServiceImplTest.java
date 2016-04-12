@@ -65,7 +65,7 @@ public class UserServiceImplTest {
 		User user =new User();
 		//user.setUserLevel(userlevel);
 		user.setIntegral(new Integer(1));
-		user.setUserName("聂跃");
+		//user.setUserName("聂跃");
 		user.setUserPassword("123456");
 		System.out.println("dsf");
 		userService.addUser(user);

@@ -12,6 +12,41 @@
 	<!-- 注解探测器 -->
 	<context:component-scan base-package="com.yayao" />
 
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
+        <property name="messageConverters"> 
+            <list>  
+              <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
+                    <property name="supportedMediaTypes"> 
+                        <list> 
+                            <value>text/html; charset=utf-8</value> 
+                        </list> 
+                    </property> 
+                </bean> 
+    		<bean id="mappingJackson2HttpMessageConverter"
+					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>text/json;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+				</property>
+			</bean>
+            </list>  
+        </property> 
+    </bean>
+     <mvc:annotation-driven />
+	<mvc:resources location="/resources/css/,/WEB-INF/resources/css/"
+		mapping="/resources/css/**" />
+	<mvc:resources location="/resources/img/,/WEB-INF/resources/img/"
+		mapping="/resources/img/**" />
+	<mvc:resources location="/resources/js/,/WEB-INF/resources/js/"
+		mapping="/resources/js/**" />
+	<mvc:resources location="/resources/fonts/,/WEB-INF/resources/fonts/"
+		mapping="/resources/fonts/**" />
+	<mvc:resources location="/" mapping="/**" /> 
+	<!-- <mvc:resources location="/,classpath:/META-INF/publicResources/" mapping="/resources/**"/> -->
+    
 	<!-- annotation默认的方法映射适配器 -->
 	<!-- <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" 
 		/> <bean id="handlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" 
@@ -63,30 +98,8 @@
 	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> 
 		<property name="messageConverters"> <list> <ref bean="mappingJackson2HttpMessageConverter" 
 		/> </list> </property> </bean> -->
-	<bean id="mappingJackson2HttpMessageConverter"
-		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>text/html;charset=UTF-8</value>
-				<value>text/json;charset=UTF-8</value>
-				<value>application/json;charset=UTF-8</value>
-			</list>
-		</property>
-	</bean>
+
 	
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
-        <property name="messageConverters"> 
-            <list>  
-                <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
-                    <property name="supportedMediaTypes"> 
-                        <list> 
-                            <value>text/html; charset=utf-8</value> 
-                        </list> 
-                    </property> 
-                </bean>
-            </list>  
-        </property> 
-    </bean>
 	<!-- 拦截器配置 -->
 	<!-- <mvc:interceptors > 配置Shiro拦截器，实现注册用户的注入 <mvc:interceptor > <mvc:mapping 
 		path = "/**" /> <bean class = "com.storezhang.video.shiro.ShiroInterceptor" 
@@ -95,16 +108,5 @@
 		/> </mvc:interceptor > <bean class = "com.yayao.interceptor.TokenHandlerInterceptor" 
 		/> </mvc:interceptors > -->
 		
-	<mvc:annotation-driven />
-	<mvc:resources location="/resources/css/,/WEB-INF/resources/css/"
-		mapping="/resources/css/**" />
-	<mvc:resources location="/resources/img/,/WEB-INF/resources/img/"
-		mapping="/resources/img/**" />
-	<mvc:resources location="/resources/js/,/WEB-INF/resources/js/"
-		mapping="/resources/js/**" />
-	<mvc:resources location="/resources/fonts/,/WEB-INF/resources/fonts/"
-		mapping="/resources/fonts/**" />
-	<mvc:resources location="/" mapping="/**" /> 
-	<!-- <mvc:resources location="/,classpath:/META-INF/publicResources/" mapping="/resources/**"/> -->
-		
+			
 </beans>

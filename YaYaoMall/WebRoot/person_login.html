@@ -73,7 +73,7 @@
       				success:function(data){
       					if(data!=null){
       						localStorage.setItem("loginstate",1);
-      						localStorage.setItem("userName",userData.userPerson.userName);
+      						localStorage.setItem("userName",userData.userPerson.userEmail||userData.userPerson.userPhone);
       						localStorage.setItem("userpassword",userData.userPerson.userPassword);
       						myUtils.myPrevToast("登录成功",function(){
       			      			location.replace("person");

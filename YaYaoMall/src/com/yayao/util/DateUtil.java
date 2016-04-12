@@ -155,6 +155,6 @@ public class DateUtil {
         //String nieyue = (String) session.getAttribute("nieyue");
        // System.out.println(session); 
         System.out.println(getSeparatedTime());
-        System.out.println(getFirstToTime(new Date(), 25).toLocaleString());
+        System.out.println(getFirstToTime(new Date(), 1).toLocaleString());
     }  
 }

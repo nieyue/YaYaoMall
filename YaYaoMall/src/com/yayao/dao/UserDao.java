@@ -15,7 +15,7 @@ public interface UserDao {
 	/** 检测登录帐号是否有效 */	
 	public boolean chkLoginName(String userName) ;	
 	/** 找回账户 */	
-	public User RetrieveAccount(String userName,String userEmail) ;	
+	public User RetrieveAccount(String userName) ;	
 	/** 新增注册账户 */	
 	public void addUser(User user) ;
 	/** 修改注册账户信息 */	

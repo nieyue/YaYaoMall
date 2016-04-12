@@ -44,7 +44,6 @@ public class UserDaoImpl implements UserDao {
 		User user = null;
 		Criteria c = getSession().createCriteria(User.class);
 		Disjunction dis=Restrictions.disjunction();//逻辑或or
-		dis.add(Restrictions.eq("userName", userName));
 		dis.add(Restrictions.eq("userEmail", userName));
 		dis.add(Restrictions.eq("userPhone", userName));
 		c.add(dis);
@@ -60,7 +59,10 @@ public class UserDaoImpl implements UserDao {
 	public User userLogin(String userName, String userPassword) {
 		User user = null;
 		Criteria c = getSession().createCriteria(User.class);
-		c.add(Restrictions.eq("userName", userName));
+		Disjunction dis=Restrictions.disjunction();//逻辑或or
+		dis.add(Restrictions.eq("userEmail", userName));
+		dis.add(Restrictions.eq("userPhone", userName));
+		c.add(dis);
 		c.add(Restrictions.eq("userPassword", userPassword));
 		user = (User) c.uniqueResult();
 		return user;
@@ -113,11 +115,13 @@ public class UserDaoImpl implements UserDao {
 	/**
 	 * 找回账户
 	 */
-	public User RetrieveAccount(String userName, String userEmail) {
+	public User RetrieveAccount(String userName) {
 		User user = null;
 		Criteria c = getSession().createCriteria(User.class);
-		c.add(Restrictions.eq("userName", userName));
-		c.add(Restrictions.eq("userEmail", userEmail));
+		Disjunction dis=Restrictions.disjunction();//逻辑或or
+		dis.add(Restrictions.eq("userEmail", userName));
+		dis.add(Restrictions.eq("userPhone", userName));
+		c.add(dis);
 		user = (User) c.uniqueResult();
 		return user;
 	}

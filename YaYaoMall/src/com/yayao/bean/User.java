@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 
 
@@ -26,6 +28,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name="user_tb",catalog="YaYaoMall_db")
+@JsonIgnoreProperties({"cardPackages","userLevel"})
 public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -37,9 +40,9 @@ public class User implements java.io.Serializable {
 	//@GenericGenerator(name="userid",strategy="assigned")
 	private Integer userid;
 	/**
-	 * 账户名
+	 * 邮箱
 	 */
-	private String userName;
+	private String userEmail;
 	/**
 	 * 登录昵称
 	 */
@@ -52,10 +55,6 @@ public class User implements java.io.Serializable {
 	 * 个性签名
 	 */
 	private String userSignature;
-	/**
-	 * 邮箱
-	 */
-	private String userEmail;
 	/**
 	 * 手机号
 	 */
@@ -93,6 +92,11 @@ public class User implements java.io.Serializable {
 	 */
 	private Date lastLoginTime;
 	/**
+	 * message
+	 */
+	@Transient
+	private String userMsg;
+	/**
 	 * 收货地址
 	 */
 	@Transient
@@ -122,35 +126,43 @@ public class User implements java.io.Serializable {
 	
 	public User() {
 	}
-	
-	public User(Integer userid, String userName, String userNiceName,
-			String userPassword, String userSignature, String userEmail,
-			String userPhone, String userIdentity, Set<CardPackage> cardPackages,
-			Integer integral, Integer isLogin, Date regDate,
-			Date lastLoginTime,UserLevel userLevel, Set<UserReceiptAddress> userReceiptAddress,
-			Set<Friends> friends, Set<Orders> orders,
-			Set<MerCollections> merCollections, Set<Comments> comments) {
+
+	public User(Integer userid, String userEmail, String userNiceName,
+			String userPassword, String userSignature, String userPhone,
+			String userIdentity, Set<CardPackage> cardPackages,
+			Integer integral, Integer isLogin, UserLevel userLevel,
+			Date regDate, Date lastLoginTime, String userMsg,
+			Set<UserReceiptAddress> userReceiptAddress, Set<Friends> friends,
+			Set<Orders> orders, Set<MerCollections> merCollections,
+			Set<Comments> comments) {
 		super();
 		this.userid = userid;
-		this.userName = userName;
+		this.userEmail = userEmail;
 		this.userNiceName = userNiceName;
 		this.userPassword = userPassword;
 		this.userSignature = userSignature;
-		this.userEmail = userEmail;
 		this.userPhone = userPhone;
 		this.userIdentity = userIdentity;
 		this.cardPackages = cardPackages;
 		this.integral = integral;
 		this.isLogin = isLogin;
+		this.userLevel = userLevel;
 		this.regDate = regDate;
 		this.lastLoginTime = lastLoginTime;
-		this.userLevel=userLevel;
+		this.userMsg = userMsg;
 		this.userReceiptAddress = userReceiptAddress;
 		this.friends = friends;
 		this.orders = orders;
 		this.merCollections = merCollections;
 		this.comments = comments;
 	}
+
+
+
+
+
+
+
 
 	public Integer getUserid() {
 		return userid;
@@ -160,13 +172,6 @@ public class User implements java.io.Serializable {
 		this.userid = userid;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 
 	public String getUserNiceName() {
 		return userNiceName;
@@ -303,5 +308,18 @@ public class User implements java.io.Serializable {
 	public void setUserLevel(UserLevel userLevel) {
 		this.userLevel = userLevel;
 	}
+
+
+	public String getUserMsg() {
+		return userMsg;
+	}
+
+
+	public void setUserMsg(String userMsg) {
+		this.userMsg = userMsg;
+	}
+
+	
+
 	
 }
