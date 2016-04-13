@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * 账户等级
  * @author yy
@@ -20,6 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="userlevel_tb",catalog="YaYaoMall_db")
+/*@JsonIgnoreProperties({"users"})*/
 public class UserLevel implements Serializable{
 
 	/**

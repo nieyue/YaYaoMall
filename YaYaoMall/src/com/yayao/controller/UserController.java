@@ -1,7 +1,5 @@
 package com.yayao.controller;
 
-import java.security.Provider.Service;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,21 +7,19 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.yayao.bean.User;
 import com.yayao.mail.SendMailDemo;
 import com.yayao.service.UserService;
 import com.yayao.util.DateUtil;
+import com.yayao.util.NumberUtil;
 import com.yayao.util.SHAutil;
 
 /**
@@ -84,6 +80,12 @@ public class UserController {
 	@RequestMapping(value = "/chkValidCode", method = RequestMethod.GET)
 	public @ResponseBody
 	String chkValidCode(@RequestParam("validCode")String validCode,HttpSession session) {
+		if(!NumberUtil.isNumeric(validCode)){
+			return "验证码错误";
+		}
+		if(session.getAttribute("validCodeExpire")==null){
+			return "验证码错误";
+		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date validCodeExpire = null;
 		try {
@@ -93,6 +95,7 @@ public class UserController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		if(!(new Date().after(DateUtil.getFirstToTime(validCodeExpire, 1)))){//没过期
 			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
 				return "200";
@@ -108,46 +111,45 @@ public class UserController {
 	 * @param user
 	 * @param modelMap
 	 * @return
+	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/register.json", method = RequestMethod.POST)
 	public @ResponseBody
-	User userRegister(@ModelAttribute User user,@RequestParam("validCode") String validCode, HttpSession session) {
+	User userRegister(@ModelAttribute User user,@RequestParam("validCode") String validCode, HttpSession session) throws Exception {
 		/*
 		 * if(result.hasErrors()){
 		 * //customer.setContent(result.getFieldError().getDefaultMessage());
 		 * return null; }
 		 */
+		if(!NumberUtil.isNumeric(validCode)){
+			return null;
+		}
+		if(session.getAttribute("validCodeExpire")==null){
+			return null;
+		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date validCodeExpire = null;
-		try {
+		
 			String sessionvce = session.getAttribute("validCodeExpire").toString();
 			validCodeExpire = format.parse(sessionvce);
 		if(!(new Date().after(DateUtil.getFirstToTime(validCodeExpire, 1)))){//没过期
 			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
 			String shalp = SHAutil.getSHA(user.getUserPassword());
 			user.setUserPassword(shalp);
-		String username = null;
-		if(user.getUserEmail()!=null&&!user.getUserEmail().isEmpty()){
-			username=user.getUserEmail();
-		}
-		if(user.getUserPhone()!=null&&!user.getUserPhone().isEmpty()){
-			username=user.getUserPhone();
-		}
-		boolean state = userService.chkLoginName(username);
-		if (state) {
-			return null;
-		}
+		
 		session.setAttribute("user", user);
-		userService.addUser(user);
-		return user;
+		boolean status = userService.addUser(user);
+		if(status){
+			user.setUserMsg("注册成功");
+			return user;
+		}
+		return null;
 			}
 			user.setUserMsg("验证码错误");
+			return user;
 		}
 		user.setUserMsg("验证码过期");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return user;
 	}
 }

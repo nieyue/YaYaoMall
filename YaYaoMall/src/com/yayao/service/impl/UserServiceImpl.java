@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("userLevelDao")
 	private UserLevelDao userLevelDao;
-	
 	/** 账户登录 */
 	@Override
 	public User userLogin(String userName, String userPassword) {
@@ -55,7 +54,7 @@ public class UserServiceImpl implements UserService {
 	}
 	/** 新增注册账户 */
 	@Override
-	public void addUser(User user) {
+	public boolean addUser(User user) {
 		user.setRegDate(new Date());
 		UserLevel ul=userLevelDao.loadUserLevel(1);
 		if(ul!=null){
@@ -63,8 +62,21 @@ public class UserServiceImpl implements UserService {
 		user.setIntegral(new Integer(0));
 		user.setLastLoginTime(new Date());
 		user.setIsLogin(new Integer(1));
-		userDao.addUser(user);
+		String username = null;
+		if(user.getUserEmail()!=null&&!user.getUserEmail().isEmpty()){
+			username=user.getUserEmail();
 		}
+		if(user.getUserPhone()!=null&&!user.getUserPhone().isEmpty()){
+			username=user.getUserPhone();
+		}
+		boolean state = userDao.chkLoginName(username);
+		if (!state) {
+			userDao.addUser(user);
+			return true;
+		}
+		
+		}
+		return false;
 	}
 	/** 修改注册账户 */
 	@Override

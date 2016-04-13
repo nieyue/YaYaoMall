@@ -25,7 +25,7 @@
    <div class="form-group">
       <div class="col-sm-10">
       <label for="userNameEmail" class="control-label">账号</label>
-      <label class="control-label text-danger" id="userNameEmailError"></label>
+      <label class="control-label text-danger verification-area" id="userNameEmailError"></label>
          <input type="text" class="form-control" id="userNameEmail" 
             placeholder="邮箱" name="userEmail">
       </div>
@@ -33,7 +33,7 @@
    <div class="form-group">
       <div class="col-sm-10">
       <label for="userPasswordEmail" class="control-label">密码</label>
-      <label id="userPasswordEmailError" class="control-label text-danger"></label>
+      <label id="userPasswordEmailError" class="control-label text-danger verification-area"></label>
          <input type="password" class="form-control" id="userPasswordEmail" 
             placeholder="密码" name="userPassword">
       </div>
@@ -41,12 +41,12 @@
    <div class="form-group">
       <div class="col-sm-10">
       <label for="reUserPasswordEmail" class="control-label">重复密码</label>
-      <label id="reUserPasswordEmailError" class="control-label text-danger"></label>
+      <label id="reUserPasswordEmailError" class="control-label text-danger verification-area"></label>
          <input type="password" class="form-control" id="reUserPasswordEmail" 
             placeholder="重复密码" >
       </div>
    </div>
-   <label id="userValidEmailError" class="control-label text-danger"></label>
+   <label id="userValidEmailError" class="control-label text-danger verification-area"></label>
    <div class="form-group">
    
       <div class="col-sm-6">
@@ -161,17 +161,30 @@
       		userNameValue:"#userValidEmail",
       		userNameError:"#userValidEmailError",
       	}); 
-      	//提交注册
+      
+      	/**
+      	**表单提交
+      	*/
       	$("#emailSubmit").click(function() {
+      		//判断空格
+      		for (var i = 0; i < $("#emailForm input").length; i++) {
+      			if($("#emailForm input")[i].value.trim()==""){
+      				return;
+      			}
+			}
+      		//判断错误
+      		if($(".verification-area").text().trim()!=""){
+      			return ;
+      		}
       			$.ajax({
-      				url:"user/register",
+      				url:"user/register.json",
       			  data:$("#emailForm").serialize(),
       			  type:"POST",
       			  dataType:"json",
-      			  success:function(d){
-      				 var data=d;
-      				 if(data.userEmail!=null||data.userPhone!=null){
-      				myUtils.myPrevToast("注册成功",function(){
+      			  success:function(data){
+      				  console.log(data)
+      				 if(data.userMsg=="注册成功"){
+      				myUtils.myPrevToast(data.userMsg,function(){
       				userData.userPerson.userEmail=data.userEmail;
       				userData.userPerson.userPhone=data.userPhone;
       				localStorage.setItem("loginstate",1);

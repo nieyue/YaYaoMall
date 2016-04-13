@@ -25,7 +25,7 @@ public class UserLevelDaoImpl implements UserLevelDao {
 
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
-		// return sessionFactory.openSession();
+		 //return sessionFactory.openSession();
 
 	}
 
@@ -56,7 +56,7 @@ public class UserLevelDaoImpl implements UserLevelDao {
 	 */
 	public UserLevel loadUserLevel(Integer id) {
 		UserLevel userLevel=null;
-		userLevel=  (UserLevel) getSession().load(UserLevel.class, id);
+		userLevel=  (UserLevel) getSession().get(UserLevel.class, id);
 		return userLevel;
 	}
 	/**

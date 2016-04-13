@@ -16,7 +16,7 @@ public interface UserService {
 	/** 找回账户 */	
 	public User RetrieveAccount(String userName) ;
 	/** 新增注册账户 */	
-	public void addUser(User user) ;
+	public boolean addUser(User user) ;
 	/** 修改注册账户 */	
 	public void updateUser(User user) ;
 	/** 查询注册账户  */

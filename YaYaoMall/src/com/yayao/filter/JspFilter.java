@@ -47,7 +47,7 @@ public class JspFilter implements Filter{
 	if (path.indexOf("resources")==-1&&(path.indexOf(".")>-1||path.indexOf("\\")>-1)){
 	if(path.indexOf(".ico")!=-1){
 		chain.doFilter(request, response);
-	}else if(path.indexOf(".txt")!=-1){
+	}else if(path.indexOf(".txt")!=-1||path.indexOf(".json")!=-1){
 		 servletRequest.getRequestDispatcher(path).forward(request, response);
 		 
 	}else{

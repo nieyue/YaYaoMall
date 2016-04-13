@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
-		// return sessionFactory.openSession();
+		 //return sessionFactory.openSession();
 
 	}
 

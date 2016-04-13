@@ -31,12 +31,15 @@ public class UserServiceImplTest {
 	Session session;
 	@Before
 	public void setUp() throws Exception {
-		session=sessionFactory.openSession();
-		System.out.println(session);
+		//session=sessionFactory.openSession();
+		//session=sessionFactory.getCurrentSession();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		//session=sessionFactory.getCurrentSession();
+		//System.out.println(sessionFactory.getCurrentSession().isOpen());
+		
 	}
 
 	@Test
@@ -102,7 +105,7 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testLoadUser() {
-		User u = userService.loadUser(1);
+		User u = userService.loadUser(9);
 		System.out.println(u);
 	}
 

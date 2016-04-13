@@ -27,8 +27,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 @Entity
+
 @Table(name="user_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"cardPackages","userLevel"})
+@JsonIgnoreProperties({"userPassword"})
 public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/**

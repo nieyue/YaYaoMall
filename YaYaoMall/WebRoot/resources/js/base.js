@@ -1,4 +1,10 @@
 /**
+ * 修改原型
+ */
+	String.prototype.trim=function(){
+		　　    return this.replace(/(^\s*)|(\s*$)/g,"");
+		　　 }
+/**
  * *工具包
  */
 var myUtils = {
@@ -105,6 +111,7 @@ var myUtils = {
 			if($(validCode.userNameValue).val()==null||$(validCode.userNameValue).val().trim()==""||$(validCode.userNameValue).val()==undefined){
 				return ;
 			}
+			$(validCode.userNameError).text("");
       		$.get("user/chkValidCode",{
       			validCode:$(validCode.userNameValue).val().trim()
       		},
