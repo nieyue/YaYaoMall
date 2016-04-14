@@ -3,6 +3,7 @@ package com.yayao.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -92,7 +93,6 @@ public class UserController {
 			String sessionvce = session.getAttribute("validCodeExpire").toString();
 			validCodeExpire = format.parse(sessionvce);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -137,8 +137,8 @@ public class UserController {
 			String shalp = SHAutil.getSHA(user.getUserPassword());
 			user.setUserPassword(shalp);
 		
-		session.setAttribute("user", user);
 		boolean status = userService.addUser(user);
+		session.setAttribute("user", user);
 		if(status){
 			user.setUserMsg("注册成功");
 			return user;
@@ -151,5 +151,37 @@ public class UserController {
 		user.setUserMsg("验证码过期");
 		
 		return user;
+	}
+	/**
+	 * 单个账户加载
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/loadUser.json", method = RequestMethod.GET)
+	public @ResponseBody
+	User loadUser(HttpSession session) {
+		if(session.getAttribute("user")!=null){
+			return (User) session.getAttribute("user");
+		}
+		
+		return null;
+		
+	}
+	/**
+	 * 所有账户加载
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = {"/browseUser.json","/browseUser.xml"}, method = RequestMethod.GET)
+	public @ResponseBody
+	List<User> browseUser(HttpSession session) {
+		List<User> list = userService.browseUser();
+		
+		return list;
+		
 	}
 }

@@ -11,9 +11,9 @@
 	http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 	<!-- 注解探测器 -->
 	<context:component-scan base-package="com.yayao" />
-
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
-        <property name="messageConverters"> 
+	
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
+        <property name="messageConverters">
             <list>  
               <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
                     <property name="supportedMediaTypes"> 
@@ -34,23 +34,8 @@
 			</bean>
             </list>  
         </property> 
-    </bean>
-     <mvc:annotation-driven />
-	<mvc:resources location="/resources/css/,/WEB-INF/resources/css/"
-		mapping="/resources/css/**" />
-	<mvc:resources location="/resources/img/,/WEB-INF/resources/img/"
-		mapping="/resources/img/**" />
-	<mvc:resources location="/resources/js/,/WEB-INF/resources/js/"
-		mapping="/resources/js/**" />
-	<mvc:resources location="/resources/fonts/,/WEB-INF/resources/fonts/"
-		mapping="/resources/fonts/**" />
-	<mvc:resources location="/" mapping="/**" /> 
-	<!-- <mvc:resources location="/,classpath:/META-INF/publicResources/" mapping="/resources/**"/> -->
-    
-	<!-- annotation默认的方法映射适配器 -->
-	<!-- <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" 
-		/> <bean id="handlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" 
-		/> -->
+    </bean>  -->
+ 
 		
 	<!-- <mvc:annotation-driven validator="validator"
 		conversion-service="conversion-service" />
@@ -72,19 +57,77 @@
 			</list>
 		</property>
 	</bean> -->
-
-	<!--对模型视图名称的解析，即在模型视图名称添加前后缀 -->
-	 <bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/" />
-		<property name="suffix" value=".jsp" />
+	
+	    <!--< bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+        <constructor-arg value="UTF-8" index="0">  
+        </constructor-arg>  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/plain;charset=UTF-8</value>  
+            </list>  
+        </property>  
+    </bean>    -->
+	<!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="mediaTypes">
+			<map>
+				<entry key="/*" value="text/html"/> 
+				<entry key="json" value="application/json" />
+         		<entry key="xml" value="application/xml" /> 
+         		<!-- <entry key="xls" value="application/xls" />  
+         		<entry key="pdf" value="application/pdf" /> -->  
+			</map>
+		</property>
+		<property name="defaultContentType" value="text/html"/>
+	</bean> 
+	<bean id="myModelAndView"
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="1" />
+		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+					<property name="prefix" value="/"/>
+					<property name="suffix" value=".jsp"></property>
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<!-- <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+					<property name="contentType" value="utf-8"></property>
+				</bean>
+				<bean  class="org.springframework.web.servlet.view.xml.MappingJackson2XmlView">
+				<property name="contentType" value="utf-8"></property>
+				</bean> -->
+				<!-- <bean  class="org.springframework.web.servlet.view.document.AbstractXlsView">
+				<property name="contentType" value="utf-8"></property>
+				</bean>
+				<bean  class="org.springframework.web.servlet.view.document.AbstractPdfView">
+				<property name="contentType" value="utf-8"></property>
+				</bean> -->
+ 		</list>
+		</property>
 	</bean>
+          
+	 <mvc:annotation-driven />
+	<mvc:resources location="/resources/css/,/WEB-INF/resources/css/"
+		mapping="/resources/css/**" />
+	<mvc:resources location="/resources/img/,/WEB-INF/resources/img/"
+		mapping="/resources/img/**" />
+	<mvc:resources location="/resources/js/,/WEB-INF/resources/js/"
+		mapping="/resources/js/**" />
+	<mvc:resources location="/resources/fonts/,/WEB-INF/resources/fonts/"
+		mapping="/resources/fonts/**" />
+	<mvc:resources location="/" mapping="/**" /> 
+	<!-- <mvc:resources location="/,classpath:/META-INF/publicResources/" mapping="/resources/**"/> -->
+
 	
 	<!--定义异常处理页面 -->
 	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="404" />
 		<property name="exceptionMappings">
 			<props>
 				<prop key="java.sql.SQLException">404</prop>

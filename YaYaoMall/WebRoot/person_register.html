@@ -25,7 +25,7 @@
    <div class="form-group">
       <div class="col-sm-10">
       <label for="userNameEmail" class="control-label">账号</label>
-      <label class="control-label text-danger verification-area" id="userNameEmailError"></label>
+      <label class="control-label text-danger verification-email" id="userNameEmailError"></label>
          <input type="text" class="form-control" id="userNameEmail" 
             placeholder="邮箱" name="userEmail">
       </div>
@@ -33,7 +33,7 @@
    <div class="form-group">
       <div class="col-sm-10">
       <label for="userPasswordEmail" class="control-label">密码</label>
-      <label id="userPasswordEmailError" class="control-label text-danger verification-area"></label>
+      <label id="userPasswordEmailError" class="control-label text-danger verification-email"></label>
          <input type="password" class="form-control" id="userPasswordEmail" 
             placeholder="密码" name="userPassword">
       </div>
@@ -41,12 +41,12 @@
    <div class="form-group">
       <div class="col-sm-10">
       <label for="reUserPasswordEmail" class="control-label">重复密码</label>
-      <label id="reUserPasswordEmailError" class="control-label text-danger verification-area"></label>
+      <label id="reUserPasswordEmailError" class="control-label text-danger verification-email"></label>
          <input type="password" class="form-control" id="reUserPasswordEmail" 
             placeholder="重复密码" >
       </div>
    </div>
-   <label id="userValidEmailError" class="control-label text-danger verification-area"></label>
+   <label id="userValidEmailError" class="control-label text-danger verification-email"></label>
    <div class="form-group">
    
       <div class="col-sm-6">
@@ -173,7 +173,7 @@
       			}
 			}
       		//判断错误
-      		if($(".verification-area").text().trim()!=""){
+      		if($(".verification-email").text().trim()!=""){
       			return ;
       		}
       			$.ajax({
@@ -181,6 +181,9 @@
       			  data:$("#emailForm").serialize(),
       			  type:"POST",
       			  dataType:"json",
+      			/*   beforeSend:function(){
+      				myUtils.myPrevToast("正在加载..."); 
+      			  }, */
       			  success:function(data){
       				  console.log(data)
       				 if(data.userMsg=="注册成功"){

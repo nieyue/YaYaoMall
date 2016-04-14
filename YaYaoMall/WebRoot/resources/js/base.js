@@ -37,6 +37,7 @@ var myUtils = {
       		$.get("user/chkUserName",
       			{userName:userNameInfo},
       			function(data){
+      				console.log(data)
       				if(data=='200'){
       					$(userName.userNameError).text("");
       				}else{

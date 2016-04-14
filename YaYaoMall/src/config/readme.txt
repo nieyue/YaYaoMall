@@ -30,6 +30,12 @@ Student的属性sid 和ClassRoom的属性cid
 @JoinColumn(name="cid")
 private Set<Student> stus;
 
+3.2,一对多，双向关联
+Student的属性sid 和ClassRoom的属性cid
+@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="classRoom")
+private Set<Student> stus;
+
+
 4,多对多
 Student的属性sid 和Teacher的属性tid
 @ManyToMany

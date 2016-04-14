@@ -56,20 +56,6 @@
 		     <property name="acquireRetryAttempts" value="30" />
 		
 	</bean>
-	<!-- 
-	 <bean name="openSessionInViewInterceptor" class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory"/>
-		</property>
-	</bean>
-	<bean id="urlMapping"
-		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property name="interceptors">
-			<list>
-				<ref bean="openSessionInViewInterceptor"/>
-			</list>
-		</property>
-	</bean>   -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -136,8 +122,20 @@
 			</props>
 		</property>
 		</bean>
-	
-		
+	<!-- 
+	 <bean name="openSessionInViewInterceptor" class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="openSessionInViewInterceptor"/>
+			</list>
+		</property>
+	</bean>   -->
 	
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
@@ -149,6 +147,7 @@
 	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
  -->	
  <!-- 开启AOP监听 只对当前配置文件有效 -->
+ 
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 	
         <tx:attributes>

@@ -32,8 +32,9 @@ public class Test {
 			Date d2=sim.parse(str2);
 			System.out.println(d);
 			System.out.println(!(d2.after(d)));
-		String bvb="sdf";
-		System.out.println(Integer.valueOf(str).intValue());
+		String bvb="sdfsdf/resources/sdf.dsf";
+		System.out.println(bvb.indexOf("/resources"));
+		System.out.println(bvb.substring(6));
 			
 	}
 }

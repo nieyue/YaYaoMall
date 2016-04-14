@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name="userlevel_tb",catalog="YaYaoMall_db")
-/*@JsonIgnoreProperties({"users"})*/
+@JsonIgnoreProperties({"users"})
 public class UserLevel implements Serializable{
 
 	/**
@@ -42,8 +42,8 @@ public class UserLevel implements Serializable{
 	/**
 	 * 账户
 	 */
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY)
-	@JoinColumn(name="userlevelid")
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="userLevel")
+	/*@JoinColumn(name="userlevelid")*/
 	private Set<User> users;
 	
 	

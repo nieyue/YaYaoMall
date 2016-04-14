@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 @Table(name="user_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"userPassword"})
+@JsonIgnoreProperties({"userPassword","cardPackages"})
 public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -67,8 +67,8 @@ public class User implements java.io.Serializable {
 	/**
 	 * 卡卷包
 	 */
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY)
-	@JoinColumn(name="userid")
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="user")
+	/*@JoinColumn(name="userid")*/
 	private Set<CardPackage> cardPackages;
 	/**
 	 * 积分
