@@ -16,14 +16,17 @@ public class NumberUtil {
 	 */
 	public static boolean isNumeric(String str){
 		   Pattern pattern = Pattern.compile("-?[0-9]+.?[0-9]+");
+		   if(str==null){
+			   return false;
+		   }
 		   Matcher isNum = pattern.matcher(str);
-		   if( !isNum.matches() ){
+		   if(!isNum.matches() ){
 		       return false;
 		   }
 		   return true;
 		}
 	public static void main(String[] args) {
-		String aa="05";
+		String aa=null;
 		System.out.println(NumberUtil.isNumeric(aa));
 	}
 }

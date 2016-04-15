@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -161,12 +162,14 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/loadUser.json", method = RequestMethod.GET)
 	public @ResponseBody
-	User loadUser(HttpSession session) {
+	User loadUser(HttpSession session,Integer id) {
 		if(session.getAttribute("user")!=null){
 			return (User) session.getAttribute("user");
 		}
-		
-		return null;
+		if(NumberUtil.isNumeric(String.valueOf(id))){
+			return null;
+		}
+		return userService.loadUser(id);
 		
 	}
 	/**

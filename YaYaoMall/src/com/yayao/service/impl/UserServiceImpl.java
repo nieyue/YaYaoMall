@@ -3,8 +3,14 @@ package com.yayao.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.stereotype.Service;
 
 import com.yayao.bean.User;
@@ -54,6 +60,7 @@ public class UserServiceImpl implements UserService {
 	}
 	/** 新增注册账户 */
 	@Override
+	@CachePut(cacheNames="userCache")
 	public boolean addUser(User user) {
 		user.setRegDate(new Date());
 		UserLevel ul=userLevelDao.loadUserLevel(1);
@@ -80,6 +87,7 @@ public class UserServiceImpl implements UserService {
 	}
 	/** 修改注册账户 */
 	@Override
+	@CachePut(cacheNames="userCache",key="#user")
 	public void updateUser(User user) {
 		userDao.updateUser(user);
 	}
@@ -91,6 +99,7 @@ public class UserServiceImpl implements UserService {
 	}
 	/** 浏览注册账户*/
 	@Override
+	@Cacheable(cacheNames="userCache")
 	public List<User> browseUser() {
 		//浏览所有会员
 		List<User> users=userDao.browseUser();
@@ -119,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 	/**装载注册账户 */
-	@Override
+	@Cacheable(cacheNames="userCache",key="#id")
 	public User loadUser(Integer id) {
 		User user=userDao.loadUser(id);
 		return user;

@@ -1,11 +1,12 @@
 package com.yayao.service.impl.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.User;
+import com.yayao.controller.UserController;
 import com.yayao.service.UserService;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -90,7 +92,10 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testBrowseUser() {
-		fail("Not yet implemented");
+		List<User> l = userService.browseUser();
+		System.out.println(l);
+		List<User> l2 = userService.browseUser();
+		System.out.println(l2);
 	}
 
 	@Test
@@ -105,8 +110,22 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testLoadUser() {
+		
 		User u = userService.loadUser(9);
-		System.out.println(u);
+		//u.setUserEmail("123456");
+		//userService.addUser(u);
+		
+		User u2 = userService.loadUser(9);
+		//u2.setUserEmail("1234567");
+		// userService.updateUser(u);
+		//List<User> l = userService.browseUser();
+		//List<User> l2 = userService.browseUser();
+		User u22 = userService.loadUser(9);
+		System.out.println(u.getUserEmail());
+		//System.out.println(l);
+		System.out.println(u2);
+		//System.out.println(l2);
+		System.out.println(u22);
 	}
 
 }

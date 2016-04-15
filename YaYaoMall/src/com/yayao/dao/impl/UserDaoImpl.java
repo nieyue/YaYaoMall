@@ -29,7 +29,6 @@ public class UserDaoImpl implements UserDao {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 		 //return sessionFactory.openSession();
-
 	}
 
 	/** 新增注册账户 */
@@ -96,7 +95,7 @@ public class UserDaoImpl implements UserDao {
 	/** 装载注册账户 */
 	public User loadUser(Integer id) {
 		User user=null;
-		user= (User) getSession().load(User.class, id);
+		user= (User) getSession().get(User.class, id);
 		return user;
 	}
 
