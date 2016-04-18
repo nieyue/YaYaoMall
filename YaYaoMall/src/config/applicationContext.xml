@@ -35,11 +35,6 @@
             <property name="cacheSeconds" value="60"/>  
         </bean>  
                     -->  
- 		<cache:annotation-driven cache-manager ="ehcacheCacheManager" />  
-       <bean id = "ehcacheCacheManager" class= "org.springframework.cache.ehcache.EhCacheCacheManager"  
-           p:cacheManager-ref= "ehcacheManager" />    
-  		<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
-  		 p:config-location="classpath:config/ehcache.xml" p:shared="true"/>
 <!-- cp30配置方式 -->
 	<bean id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">

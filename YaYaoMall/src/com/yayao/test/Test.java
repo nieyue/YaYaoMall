@@ -1,13 +1,36 @@
 package com.yayao.test;
 
-import java.sql.Timestamp;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.mysql.jdbc.Util;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfWriter;
 
 public class Test {
+	public static void PDFUtil() throws IOException, DocumentException{
+		Document document = new Document();
+
+		PdfWriter.getInstance(document, new FileOutputStream("Helloworld.PDF"));
+
+		document.open();
+		
+		BaseFont bfChinese = BaseFont.createFont("/config/SIMYOU.TTF",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED);
+
+		//com.lowagie.text.Font FontChinese = new com.lowagie.text.Font(bfChinese, 12, com.lowagie.text.Font.NORMAL);
+		Font FontChinese = new Font(bfChinese); 
+		System.out.println(FontChinese.getFamilyname());
+		document.add(new Paragraph("字体解决了",FontChinese));
+
+		document.close();
+  
+	}
 	int validCode=(int) (Math.random()*9000+1000);
 	public static void main(String[] args) throws ParseException {
 		new Thread(new Runnable() {
@@ -35,6 +58,12 @@ public class Test {
 		String bvb="sdfsdf/resources/sdf.dsf";
 		System.out.println(bvb.indexOf("/resources"));
 		System.out.println(bvb.substring(6));
-			
+		 com.lowagie.text.Font FontChinese = new com.lowagie.text.Font(BaseFont.FONT_TYPE_TT, 12, com.lowagie.text.Font.NORMAL ); 
+	        System.out.println(new Paragraph("聂跃",FontChinese));
+		
+			//PDFUtil();
+	        String path="/";
+	        String path2="/";
+		System.out.println(path.equals(path2));
 	}
 }

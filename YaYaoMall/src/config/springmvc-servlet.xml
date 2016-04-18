@@ -2,12 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc
 	 http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 	http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.2.xsd
 	 ">
 	<!-- 注解探测器 -->
 	<context:component-scan base-package="com.yayao" />
@@ -68,17 +70,23 @@
         </property>  
     </bean>    -->
 	<!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
-	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
+          p:defaultContentType="text/html"  
+          p:ignoreAcceptHeader="true"  
+          p:favorPathExtension="false"  
+          p:favorParameter="true"  
+          p:parameterName="content"
+            >
 		<property name="mediaTypes">
 			<map>
-				<entry key="/*" value="text/html"/> 
+				<entry key="html" value="text/html"/> 
 				<entry key="json" value="application/json" />
          		<entry key="xml" value="application/xml" /> 
-         		<!-- <entry key="xls" value="application/xls" />  
-         		<entry key="pdf" value="application/pdf" /> -->  
+         		<!-- <entry key="xls" value="application/x-xls" />   -->
+				<entry key="xls" value="application/vnd.ms-excel" /> 
+         		<entry key="pdf" value="application/pdf"  />   
 			</map>
 		</property>
-		<property name="defaultContentType" value="text/html"/>
 	</bean> 
 	<bean id="myModelAndView"
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
@@ -96,24 +104,22 @@
 		</property>
 		<property name="defaultViews">
 			<list>
-				<!-- <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 					<property name="contentType" value="utf-8"></property>
 				</bean>
 				<bean  class="org.springframework.web.servlet.view.xml.MappingJackson2XmlView">
 				<property name="contentType" value="utf-8"></property>
-				</bean> -->
-				<!-- <bean  class="org.springframework.web.servlet.view.document.AbstractXlsView">
-				<property name="contentType" value="utf-8"></property>
+				</bean> 
+				 <bean id="xlsView"  class="com.yayao.myView.XLSView">
 				</bean>
-				<bean  class="org.springframework.web.servlet.view.document.AbstractPdfView">
-				<property name="contentType" value="utf-8"></property>
-				</bean> -->
+				<bean id="pdfView" class="com.yayao.myView.PDFView">
+				</bean> 
  		</list>
 		</property>
 	</bean>
-          
 	 <mvc:annotation-driven />
-	<mvc:resources location="/resources/css/,/WEB-INF/resources/css/"
+       <mvc:default-servlet-handler/>   
+	<!-- <mvc:resources location="/resources/css/,/WEB-INF/resources/css/"
 		mapping="/resources/css/**" />
 	<mvc:resources location="/resources/img/,/WEB-INF/resources/img/"
 		mapping="/resources/img/**" />
@@ -121,7 +127,7 @@
 		mapping="/resources/js/**" />
 	<mvc:resources location="/resources/fonts/,/WEB-INF/resources/fonts/"
 		mapping="/resources/fonts/**" />
-	<mvc:resources location="/" mapping="/**" /> 
+ -->	<!-- <mvc:resources location="/" mapping="/**" />  -->
 	<!-- <mvc:resources location="/,classpath:/META-INF/publicResources/" mapping="/resources/**"/> -->
 
 	
@@ -152,5 +158,11 @@
 		path = "/**" /> <bean class = "com.yayao.interceptor.TokenHandlerInterceptor" 
 		/> </mvc:interceptor > <bean class = "com.yayao.interceptor.TokenHandlerInterceptor" 
 		/> </mvc:interceptors > -->
-		
+		<!-- 不能放在applicationContext.xml中 -->
+		 <cache:annotation-driven cache-manager ="ehcacheCacheManager" />  
+       <bean id = "ehcacheCacheManager" class= "org.springframework.cache.ehcache.EhCacheCacheManager"  
+           p:cacheManager-ref= "ehcacheManager" />    
+  		<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+  		 p:config-location="classpath:config/ehcache.xml" p:shared="true"/>
+ 
 </beans>

@@ -52,7 +52,7 @@ public class JspFilter implements Filter{
 	}else if (path.indexOf("resources")==-1&&(path.indexOf(".")>-1)){
 			if(path.indexOf(".ico")!=-1){
 					chain.doFilter(request, response);
-			}else if(path.indexOf(".txt")!=-1||path.indexOf(".json")!=-1||path.indexOf(".xml")!=-1){
+			}else if(path.indexOf(".txt")!=-1||path.indexOf(".json")!=-1||path.indexOf(".xml")!=-1||path.indexOf(".pdf")!=-1||path.indexOf(".xls")!=-1){
 					servletRequest.getRequestDispatcher(path).forward(request, response);
 		 
 			}else{
@@ -60,8 +60,10 @@ public class JspFilter implements Filter{
 				servletRequest.getRequestDispatcher("/404.html").forward(request, response);
 				//servletResponse.sendRedirect(servletRequest.getContextPath()+"/404.html");
 			}
-	}else {
-			if(new File(strBackUrl+path+".html").exists()){
+	}else {	
+			if(path.contains("404")){
+				servletRequest.getRequestDispatcher("/404.html").forward(request, response);
+			}else if(new File(strBackUrl+path+".html").exists()){
 				servletRequest.getRequestDispatcher(path+".html").forward(request, response);
 			}else if(path.equals("/")){
 				servletRequest.getRequestDispatcher("/index.html").forward(request, response);

@@ -55,10 +55,17 @@
 			<artifactId>itext</artifactId>
 			<version>2.1.7</version>
 		</dependency>
+		
 		 <dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.6</version>
+		</dependency>
+		<!-- PDF中文支持包 -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext-asian</artifactId>
+			<version>5.2.0</version>
 		</dependency>
 		
 		<!-- junit -->
@@ -82,16 +89,16 @@
              <version>1.7.2</version>
          </dependency>
          <!-- ehcache -->
-         <!-- <dependency>
+          <dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 			<version>2.10.1</version>
-		 </dependency> -->
-		 <dependency>
+		 </dependency> 
+		 <!-- <dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>4.3.1.Final</version>
-		</dependency>
+		</dependency> -->
 		<!-- log4j -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

@@ -174,53 +174,69 @@ input[type="file"] {
 	width: 100%;
 	text-align: center;
 	background-color: #E8E4E4;
+	position: relative;
+	display: block;
+	height: 40px;
 }
 
 .header-banner-left {
+	position:absolute;
 	display: inline-block;
 	line-height: 40px;
 	width: 25%;
 	color: green;
+	left:0;
 	font-weight: bold;
 	font-family: fantasy;
 }
 
 .header-banner-center {
 	display: inline-block;
-	padding-left: 2px;
-	width: 50%;
+	left:25%;
+	width: 55%;
+	line-height:40px;
+	position: absolute;
 }
 
 .header-banner-icon {
 	display: inline-block !important;
-	margin-bottom: -10px !important;
-	line-height: 30px;
-	width: 18%;
-	height: 30px;
+	line-height: 36px;
+	width: 20%;
+	height: 36px;
 	border-radius: 15px 0 0 15px;
 	font-size: 1.4rem;
 	background-color: #fff;
 	border: 0px solid #999;
 	color: #999;
+	position: absolute;
+	left: 0;
+	top:2px;
 }
 
-.header-banner-center input {
-	margin-top: 1px;
-	border: 0px solid #999;
+.header-banner-input {
+	position: absolute;
 	display: inline-block;
-	line-height: 30px;
-	height: 30px;
 	width: 80%;
+	left:20%;
+	top:0px;
+}
+.header-banner-center input {
+	border: 0px solid #999;
+	line-height: 36px;
+	height: 36px;
+	width: 100%;
 	border-radius: 0 15px 15px 0;
-	margin-left: -5px;
 }
 
 .header-banner-right {
+	 position:absolute; 
 	display: inline-block;
-	width: 18%;
+	width: 20%;
 	border-radius: 15px;
 	font-size: 2rem;
-	padding: 0;
+	height:36px;
+	top:2px;
+	right: 0;
 }
 /*
 **购物轮播图

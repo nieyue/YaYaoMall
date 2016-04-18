@@ -8,9 +8,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yayao.bean.User;
 import com.yayao.mail.SendMailDemo;
+import com.yayao.myView.PDFView;
+import com.yayao.myView.XLSView;
 import com.yayao.service.UserService;
 import com.yayao.util.DateUtil;
 import com.yayao.util.NumberUtil;
@@ -36,6 +38,10 @@ import com.yayao.util.SHAutil;
 public class UserController {
 	@Resource(name = "userService")
 	private UserService userService;
+	@Resource(name = "xlsView")
+	private XLSView xlsView;
+	@Resource(name = "pdfView")
+	private PDFView pdfView;
 	/**
 	 * 用户名检查，邮箱和手机
 	 * 
@@ -114,7 +120,7 @@ public class UserController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/register.json", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public @ResponseBody
 	User userRegister(@ModelAttribute User user,@RequestParam("validCode") String validCode, HttpSession session) throws Exception {
 		/*
@@ -160,16 +166,16 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/loadUser.json", method = RequestMethod.GET)
+	@RequestMapping(value = "/loadUser", method = RequestMethod.GET)
 	public @ResponseBody
 	User loadUser(HttpSession session,Integer id) {
 		if(session.getAttribute("user")!=null){
 			return (User) session.getAttribute("user");
 		}
 		if(NumberUtil.isNumeric(String.valueOf(id))){
-			return null;
+			return userService.loadUser(id);
 		}
-		return userService.loadUser(id);
+		return null;
 		
 	}
 	/**
@@ -179,12 +185,43 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = {"/browseUser.json","/browseUser.xml"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/browseUser"}, method = RequestMethod.GET)
 	public @ResponseBody
-	List<User> browseUser(HttpSession session) {
+	List<User> browseUser(HttpSession session,Model model) {
 		List<User> list = userService.browseUser();
-		
+		model.addAttribute("userList", list);
 		return list;
+		
+	}
+	/**
+	 * xls
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = {"/browseUserXLS"}, method = RequestMethod.GET)
+	@ResponseBody
+	public XLSView browseUserXLS(HttpSession session,Model model) {
+		List<User> list = userService.browseUser();
+		model.addAttribute("userList", list);
+		xlsView.setFileName("用户信息excel");
+		return xlsView;
+		
+	}
+	/**
+	 * pdf
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = {"/browseUserPDF"}, method = RequestMethod.GET)
+	public @ResponseBody PDFView browseUserPDF(HttpSession session,Model model) {
+		List<User> list = userService.browseUser();
+		model.addAttribute("userList", list);
+		pdfView.setFileName("用户信息PDF");
+		return pdfView;
 		
 	}
 }

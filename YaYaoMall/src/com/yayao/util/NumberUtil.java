@@ -15,7 +15,7 @@ public class NumberUtil {
 	 * @return
 	 */
 	public static boolean isNumeric(String str){
-		   Pattern pattern = Pattern.compile("-?[0-9]+.?[0-9]+");
+		   Pattern pattern = Pattern.compile("[1-9][0-9]*$");
 		   if(str==null){
 			   return false;
 		   }
@@ -26,7 +26,7 @@ public class NumberUtil {
 		   return true;
 		}
 	public static void main(String[] args) {
-		String aa=null;
+		String aa="1435435";
 		System.out.println(NumberUtil.isNumeric(aa));
 	}
 }
