@@ -193,7 +193,7 @@ input[type="file"] {
 .header-banner-center {
 	display: inline-block;
 	left:25%;
-	width: 55%;
+	width: 73%;
 	line-height:40px;
 	position: absolute;
 }
@@ -203,7 +203,6 @@ input[type="file"] {
 	line-height: 36px;
 	width: 20%;
 	height: 36px;
-	border-radius: 15px 0 0 15px;
 	font-size: 1.4rem;
 	background-color: #fff;
 	border: 0px solid #999;
@@ -225,18 +224,18 @@ input[type="file"] {
 	line-height: 36px;
 	height: 36px;
 	width: 100%;
-	border-radius: 0 15px 15px 0;
 }
 
-.header-banner-right {
+.header-banner-search {
 	 position:absolute; 
 	display: inline-block;
-	width: 20%;
-	border-radius: 15px;
 	font-size: 2rem;
-	height:36px;
-	top:2px;
+	height:22px;
+	line-height:8px;
+	top:10px;
 	right: 0;
+	border-left:1px solid #ccc;
+	color:#d3a4ff;
 }
 /*
 **购物轮播图

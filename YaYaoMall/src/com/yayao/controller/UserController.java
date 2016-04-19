@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.yayao.bean.User;
 import com.yayao.mail.SendMailDemo;
@@ -23,6 +27,7 @@ import com.yayao.myView.PDFView;
 import com.yayao.myView.XLSView;
 import com.yayao.service.UserService;
 import com.yayao.util.DateUtil;
+import com.yayao.util.FileUploadUtil;
 import com.yayao.util.NumberUtil;
 import com.yayao.util.SHAutil;
 
@@ -54,9 +59,9 @@ public class UserController {
 	String userNameValid(@RequestParam String userName) {
 		boolean state = userService.chkLoginName(userName);
 		if (state) {
-			return "用户已经存在！";
+			return "用户已经存在";
 		}
-		return "200";
+		return "用户不存在";
 	}
 	/**
 	 * 邮箱验证码发送
@@ -147,7 +152,7 @@ public class UserController {
 		boolean status = userService.addUser(user);
 		session.setAttribute("user", user);
 		if(status){
-			user.setUserMsg("注册成功");
+			user.setUserMsg("200");
 			return user;
 		}
 		return null;
@@ -159,6 +164,104 @@ public class UserController {
 		
 		return user;
 	}
+	
+	/**
+	 * 账户登录
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public @ResponseBody
+	User login(HttpSession session,String userName,String userPassword) throws Exception {
+		if(session.getAttribute("user")!=null){
+			User u = (User)session.getAttribute("user");
+			u.setUserMsg("200");
+			return u;
+		}
+		boolean status = userService.chkLoginName(userName);
+		if(status&&userPassword!=null){
+			String shaup = SHAutil.getSHA(userPassword);
+			User user = userService.userLogin(userName, shaup);
+			if(user!=null){
+				user.setUserMsg("200");
+				session.setAttribute("user", user);
+				return user;
+			}
+		}
+		
+		return null;
+		
+	}
+	/**
+	 * 账户登出
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/loginOut", method = RequestMethod.GET)
+	public void loginOut(HttpSession session) throws Exception {
+		if(session.getAttribute("user")!=null){
+			session.invalidate();
+		}
+		
+	}
+	/**
+	 * userIMG图片上传
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/userIMGUpload", method = RequestMethod.POST)
+	public void userIMGUpload(HttpServletRequest request,CommonsMultipartFile file) throws Exception {
+		User u=null;
+		HttpSession session=request.getSession();
+		if(session.getAttribute("user")!=null){
+			 u = (User)session.getAttribute("user");
+			 u.setUserIMG(FileUploadUtil.FormDataFileUpload(file, request));
+			 userService.updateUser(u);
+		}
+	}
+	/**
+	 * 账户修改属性
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 * @throws Exception 
+	 */   
+	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
+	public void updateUser(HttpSession session ,Integer userid, String userInfoOne,String changeValue) throws Exception {
+		User u=null;
+		
+		if(session.getAttribute("user")!=null){
+			 u = (User)session.getAttribute("user");
+		}else{
+			if(!NumberUtil.isNumeric(String.valueOf(userid))){
+			return ;
+			}
+			u=userService.loadUser(userid);
+		}
+		
+		if(userInfoOne.indexOf("NiceName")>-1){
+			u.setUserNiceName(changeValue);
+		}else if(userInfoOne.indexOf("Email")>-1){
+			u.setUserEmail(changeValue);
+		}else if(userInfoOne.indexOf("Phone")>-1){
+			u.setUserPhone(changeValue);
+		}else if(userInfoOne.indexOf("Identity")>-1){
+			u.setUserIdentity(changeValue);
+		}
+		userService.updateUser(u);
+		
+	}
+	
 	/**
 	 * 单个账户加载
 	 * 
@@ -173,7 +276,9 @@ public class UserController {
 			return (User) session.getAttribute("user");
 		}
 		if(NumberUtil.isNumeric(String.valueOf(id))){
-			return userService.loadUser(id);
+			User u = userService.loadUser(id);
+			session.setAttribute("user",u);
+			return u;
 		}
 		return null;
 		

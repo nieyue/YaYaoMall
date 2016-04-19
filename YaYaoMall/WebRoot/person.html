@@ -92,12 +92,15 @@
        <script type="text/javascript">
       		$(function(){
       			if(localStorage.getItem("loginstate")==1){
+      				var userid=localStorage.getItem("userid");
+          			$.get("user/loadUser.json?id="+userid,"json",function(data){
       				document.querySelector("#userHref").href='user_info';
-      				document.querySelector("#userNiceName").innerHTML=userData.userPerson.userNiceName||localStorage.getItem("userName");
-      				document.querySelector("#userIMG").src=userData.userPerson.userIMG;
+      				document.querySelector("#userNiceName").innerHTML=data.userNiceName||data.userEmail||data.userPhone;
+      				document.querySelector("#userIMG").src=data.userIMG||userData.userInit.userIMG;
       				document.querySelector("#userAccess").innerHTML='';
-      				document.querySelector("#userSignature").innerHTML=userData.userPerson.userSignature;
-      				}
+      				document.querySelector("#userSignature").innerHTML=data.userSignature||userData.userInit.userSignature;
+          			});
+          			}
       		//弹性滑动
       	      myUtils.elasticSlide("body");
 /*       	      myUtils.elasticSlide(".jiugongge"); */

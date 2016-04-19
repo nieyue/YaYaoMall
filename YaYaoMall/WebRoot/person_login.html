@@ -25,6 +25,7 @@
    <div class="form-group">
       <div class="col-sm-10">
       <label for="userName" class="control-label">账号</label>
+      <label class="control-label text-danger" id="userNameLoginError"></label>
          <input type="text" class="form-control" id="userName" 
             placeholder="邮箱/手机号">
       </div>
@@ -39,7 +40,7 @@
    
    <div class="form-group">
       <div class="col-sm-10 text-center">
-         <button type="submit" class="btn btn-default btn-primary btn-block">登录</button>
+         <button type="button" class="btn btn-default btn-primary btn-block" id="loginSubmit">登录</button>
       </div>
    </div>
 </form>
@@ -61,20 +62,28 @@
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
-      		$("#userLoginForm").submit(function(e){
-      			//var userName=$("#userName");
-      			//var userPassword=$("#userPassword");
-      			e.preventDefault();
-      			 $.ajax({
-      				url:'resources/js/base.js',
-      				type:'GET',
-      				//data:{userName:userName,userPassword:userPassword},
-      				dataType:'script',
+      		$("#userName").change(function(){
+      			if(myUtils.userVerification.email.test($("#userName").val())||myUtils.userVerification.phone.test($("#userName").val())){
+      				$("#userNameLoginError").text("");
+      				}else{
+      					$("#userNameLoginError").text("请输入正确邮箱或手机号");
+      				}
+      		});
+      			//登录
+      		$("#loginSubmit").click(function(){
+      			var userName=$("#userName").val();
+      			var userPassword=$("#userPassword").val();
+      			if(myUtils.userVerification.email.test(userName)||myUtils.userVerification.phone.test(userName)){
+      				$("#userNameLoginError").text("");
+      				$.ajax({
+      				url:'user/login',
+      				type:'POST',
+      				data:{userName:userName,userPassword:userPassword},
+      				dataType:'json',
       				success:function(data){
-      					if(data!=null){
+      					if(data.userMsg=="200"){
       						localStorage.setItem("loginstate",1);
-      						localStorage.setItem("userName",userData.userPerson.userEmail||userData.userPerson.userPhone);
-      						localStorage.setItem("userpassword",userData.userPerson.userPassword);
+      						localStorage.setItem("userid",data.userid);
       						myUtils.myPrevToast("登录成功",function(){
       			      			location.replace("person");
       			      			});
@@ -82,10 +91,14 @@
       					
       				},
       				error:function(){
-      					myUtils.myToast("登录失败");
+      					$("#userNameLoginError").text("账号或密码错误");
+      					myUtils.myPrevToast("登录失败");
       				}
-      			}); 
-      			//alert("asdfsdaf");
+      			});
+      			}else{
+      				$("#userNameLoginError").text("请输入正确邮箱或手机号");
+      			}
+      			 
       		});
       			
       		});

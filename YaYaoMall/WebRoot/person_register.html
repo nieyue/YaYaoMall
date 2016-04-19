@@ -185,20 +185,16 @@
       				myUtils.myPrevToast("正在加载..."); 
       			  }, */
       			  success:function(data){
-      				  console.log(data)
-      				 if(data.userMsg=="注册成功"){
+      				 if(data.userMsg=="200"){
       				myUtils.myPrevToast(data.userMsg,function(){
-      				userData.userPerson.userEmail=data.userEmail;
-      				userData.userPerson.userPhone=data.userPhone;
       				localStorage.setItem("loginstate",1);
-					localStorage.setItem("userName",userData.userPerson.userEmail||userData.userPerson.userPhone);
-					localStorage.setItem("userpassword",userData.userPerson.userPassword);
+					localStorage.setItem("userid",data.userid);
       				location.href="user_info";
       			});
       				}
       			},
       			error:function(){
-      				console.log("失败")
+      				myUtils.myPrevToast("注册失败");
       			}
       		});
       	});

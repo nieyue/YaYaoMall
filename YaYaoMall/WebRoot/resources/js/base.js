@@ -31,7 +31,7 @@ var myUtils = {
       	$(userName.userNameValue).on("change",function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
-      			$(userName.userNameError).text("邮箱格式不正确！");
+      			$(userName.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
       		$.get("user/chkUserName",
@@ -75,7 +75,7 @@ var myUtils = {
       	$(validBtn).click(function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
-      			$(validCode.userNameError).text("邮箱格式不正确！");
+      			$(validCode.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
       		$.get("user/validCode",
@@ -106,7 +106,7 @@ var myUtils = {
       	$(validCode.userNameValue).on("change",function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
-      			$(validCode.userNameError).text("邮箱格式不正确！");
+      			$(validCode.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
 			if($(validCode.userNameValue).val()==null||$(validCode.userNameValue).val().trim()==""||$(validCode.userNameValue).val()==undefined){
@@ -172,9 +172,16 @@ var myUtils = {
 	  				return;
 	  			}
 	  		}
-	  		$(userInfoOne).text(uiom);
-	  		$('#closeModal').click();
-	  		myUtils.myToast("修改成功");
+	  		$.post("user/updateUserInfo",{
+	  			userid:localStorage.getItem("userid"),
+	  			userInfoOne:userInfoOne,
+	  			changeValue:uiom
+	  		},
+	  		function(){
+	  			$(userInfoOne).text(uiom);
+	  			$('#closeModal').click();
+	  			myUtils.myToast("修改成功");
+	  		});	
 	  		});
 	  		});
 	},
@@ -186,7 +193,7 @@ var myUtils = {
 		  photoExt=file.value.substr(file.value.lastIndexOf(".")).toLowerCase();//获得文件后缀名
 		//判断照片格式
 		  if(photoExt!='.jpg'&&photoExt!='.png'){
-		     alert("请上传后缀名为jpg/png的照片!");
+			  myUtils.myPrevToast("请上传后缀名为jpg/png的照片!");
 		      return false;
 		  }
 		  var fileSize = 0;
@@ -201,16 +208,29 @@ var myUtils = {
 		  } 
 		  fileSize=Math.round(fileSize/1024*100/1024)/100; //单位为MB
 		  if(fileSize>=2){
-		      alert("图片大小为"+fileSize+"MB，超过最大尺寸为2MB，请重新上传!");
+			  alert("图片大小为"+fileSize+"MB，超过最大尺寸为2MB，请重新上传!");
 		      return false;
 		  }		  
 	    	if (file.files && file.files[0])  
 	    	 {
 	         var reader = new FileReader(); 
+	         var fd=new FormData();
+	         fd.append("file", file);
 	      	reader.onload = function(e){
 	      		console.log(e.target.result);
 	      		myUtils.myPrevToast("上传中···",function(){
+	      		$.ajax({
+	      			url:"user/userIMGUpload",
+	      			type:"post",
+	      			data:fd,
+	      			processData:false,// 告诉jQuery不要去处理发送的数据
+	      			contentType:false, // 告诉jQuery不要去设置Content-Type请求头
+	      			success:function(){
+	      				console.log("sdf");
+	      			}
+	      		});
 	      		$(imgelement).attr("src",e.target.result);
+	      		
 	      		});
 	    	}
 	      	reader.readAsDataURL(file.files[0]);
@@ -314,7 +334,7 @@ var myUtils = {
 	myPrevToast : function(value, fn) {
 		$("body")
 				.append(
-						"<div id='toast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
+						"<div id='toast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
 								+ value + "</div>");
 		$("#toast").fadeIn();
 		setTimeout(function() {
@@ -488,6 +508,7 @@ var myTouchEvents = {
 var userData = {
 	// 用户数据初始化
 	userInit : {
+		userid:null,
 		userPassword : hex_sha1('123456'),
 		userIMG : 'resources/img/preLoding.jpg',
 		userNiceName : '添加昵称',
@@ -499,6 +520,7 @@ var userData = {
 	},
 	// 用户数据
 	userPerson : {
+		userid:9,
 		userNiceName : '聂跃',
 		userPassword : hex_sha1('123456'),
 		userIMG : 'http://img.mukewang.com/user/54859e4f00019f2a01000100-40-40.jpg',
@@ -594,3 +616,4 @@ var userData = {
  */
 
 myTouchEvents.initTouchEvents();
+

@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
 	}
 	/** 新增注册账户 */
 	@Override
-	@CachePut(cacheNames="userCache")
 	public boolean addUser(User user) {
 		user.setRegDate(new Date());
 		UserLevel ul=userLevelDao.loadUserLevel(1);
@@ -83,7 +82,6 @@ public class UserServiceImpl implements UserService {
 	}
 	/** 修改注册账户 */
 	@Override
-	@CachePut(cacheNames="userCache",key="#user")
 	public void updateUser(User user) {
 		userDao.updateUser(user);
 	}
@@ -124,7 +122,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 	/**装载注册账户 */
-	@Cacheable(cacheNames="userCache",key="#id")
 	public User loadUser(Integer id) {
 		User user=userDao.loadUser(id);
 		return user;

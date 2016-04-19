@@ -45,6 +45,10 @@ public class User implements java.io.Serializable {
 	 */
 	private String userEmail;
 	/**
+	 * 用户图片
+	 */
+	private String userIMG;
+	/**
 	 * 登录昵称
 	 */
 	private String userNiceName;
@@ -128,7 +132,7 @@ public class User implements java.io.Serializable {
 	public User() {
 	}
 
-	public User(Integer userid, String userEmail, String userNiceName,
+	public User(Integer userid, String userEmail,String userIMG, String userNiceName,
 			String userPassword, String userSignature, String userPhone,
 			String userIdentity, Set<CardPackage> cardPackages,
 			Integer integral, Integer isLogin, UserLevel userLevel,
@@ -139,6 +143,7 @@ public class User implements java.io.Serializable {
 		super();
 		this.userid = userid;
 		this.userEmail = userEmail;
+		this.userIMG=userIMG;
 		this.userNiceName = userNiceName;
 		this.userPassword = userPassword;
 		this.userSignature = userSignature;
@@ -318,6 +323,14 @@ public class User implements java.io.Serializable {
 
 	public void setUserMsg(String userMsg) {
 		this.userMsg = userMsg;
+	}
+
+	public String getUserIMG() {
+		return userIMG;
+	}
+
+	public void setUserIMG(String userIMG) {
+		this.userIMG = userIMG;
 	}
 
 	

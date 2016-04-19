@@ -95,8 +95,8 @@
       		$(function(){
       			//登录成功的用户信息
       			if(localStorage.getItem("loginstate")==1){
-      			$.get("user/loadUser.json","json",function(d){
-      				var data=JSON.parse(d);
+      				var userid=localStorage.getItem("userid");
+      			$.get("user/loadUser.json?id="+userid,"json",function(data){
       				document.querySelector("#userInfoIMG").src=data.userIMG||userData.userInit.userIMG;
       				document.querySelector("#userInfoNiceName").innerHTML=data.userNiceName||userData.userInit.userNiceName;
       				document.querySelector("#userSignature").innerHTML=data.userSignature||userData.userInit.userSignature;
@@ -112,11 +112,11 @@
       		$("#userLoginOut").on('click',function(){
       			myUtils.myLoginOut("确定退出吗？",function(){
       			localStorage.removeItem("loginstate");
-      			localStorage.removeItem("userName");
-      			localStorage.removeItem("userPassword");
-      			
+      			localStorage.removeItem("userid");
+      			$.get("user/loginOut",function(){
       			myUtils.myPrevToast("退出成功",function(){
       			location.replace("person");
+      			});
       			});
       			});
       			
@@ -156,15 +156,15 @@
   		  		//修改个性签名
   		  		myUtils.updateOne('#updateUserSignature',"修改个性签名",'#userSignature','#userSignatureModal',"1-15位，不能有空格");
   		  		//邮箱
-  		  		if(!userData.userPerson.userEmail){
+  		  		if($("#userEmail").text()==userData.userInit.userEmail){
   		  		myUtils.updateOne('#updateUserEmail',"添加邮箱",'#userEmail','#userEmailModal',"请输入正确的邮箱");
   		  		}
    		  		//手机
-   		  		if(!userData.userPerson.userPhone){
+   		  		if($("#userPhone").text()==userData.userInit.userPhone){
   		  		myUtils.updateOne('#updateUserPhone',"添加手机",'#userPhone','#userPhoneModal',"请输入正确的手机");
    		  		}
    		  		//身份认证
-   		  		if(!userData.userPerson.userIdentity){
+   		  		if($("#userIdentity").text()==userData.userInit.userIdentity){
   		  		myUtils.updateOne('#updateUserIdentity',"身份认证",'#userIdentity','#userIdentityModal',"请输入正确的身份证");
    		  		}
    		  		//收货地址	

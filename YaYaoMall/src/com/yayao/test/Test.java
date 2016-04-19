@@ -12,6 +12,8 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
+import com.yayao.util.FileUploadUtil;
+import com.yayao.util.ReadFromFile;
 
 public class Test {
 	public static void PDFUtil() throws IOException, DocumentException{
@@ -31,13 +33,14 @@ public class Test {
 		document.close();
   
 	}
-	int validCode=(int) (Math.random()*9000+1000);
+	
 	public static void main(String[] args) throws ParseException {
-		new Thread(new Runnable() {
+		//int validCode=(int) (Math.random()*9000+1000);
+		/*new Thread(new Runnable() {
 			public void run() {
 				System.out.println("123");
 			}
-		}).start();
+		}).start();*/
 		//System.out.println(new Integer(-0));
 		//System.out.println(new Test().validCode);
 		
@@ -62,8 +65,10 @@ public class Test {
 	        System.out.println(new Paragraph("聂跃",FontChinese));
 		
 			//PDFUtil();
-	        String path="/";
-	        String path2="/";
-		System.out.println(path.equals(path2));
-	}
+	        String path="/sfasdfsd";
+	        String path2="sd";
+		System.out.println(path.indexOf(path2));
+		System.err.println(ReadFromFile.readFileByLines("D:/nieyue.txt"));
+		String base64= ReadFromFile.readFileByLines("D:/nieyue.txt");
+		}
 }
