@@ -1,5 +1,6 @@
 package com.yayao.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.yayao.bean.User;
 import com.yayao.mail.SendMailDemo;
@@ -204,7 +204,7 @@ public class UserController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/loginOut", method = RequestMethod.GET)
-	public void loginOut(HttpSession session) throws Exception {
+	public @ResponseBody void loginOut(HttpSession session) throws Exception {
 		if(session.getAttribute("user")!=null){
 			session.invalidate();
 		}
@@ -219,12 +219,17 @@ public class UserController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/userIMGUpload", method = RequestMethod.POST)
-	public void userIMGUpload(HttpServletRequest request,CommonsMultipartFile file) throws Exception {
+	public @ResponseBody void userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request)  {
 		User u=null;
 		HttpSession session=request.getSession();
 		if(session.getAttribute("user")!=null){
 			 u = (User)session.getAttribute("user");
-			 u.setUserIMG(FileUploadUtil.FormDataFileUpload(file, request));
+			 try {
+				 String userIMG = FileUploadUtil.FormDataFileUpload(file, request);
+				u.setUserIMG(userIMG);
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
 			 userService.updateUser(u);
 		}
 	}
@@ -237,20 +242,22 @@ public class UserController {
 	 * @throws Exception 
 	 */   
 	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
-	public void updateUser(HttpSession session ,Integer userid, String userInfoOne,String changeValue) throws Exception {
+	public @ResponseBody void updateUser(HttpSession session ,Integer userid, String userInfoOne,String changeValue)  {
 		User u=null;
 		
-		if(session.getAttribute("user")!=null){
-			 u = (User)session.getAttribute("user");
-		}else{
+		//if(session.getAttribute("user")!=null){
+			// u = (User)session.getAttribute("user");
+		//}else{
 			if(!NumberUtil.isNumeric(String.valueOf(userid))){
 			return ;
 			}
 			u=userService.loadUser(userid);
-		}
+		//}
 		
 		if(userInfoOne.indexOf("NiceName")>-1){
 			u.setUserNiceName(changeValue);
+		}else if(userInfoOne.indexOf("Signature")>-1){
+			u.setUserSignature(changeValue);
 		}else if(userInfoOne.indexOf("Email")>-1){
 			u.setUserEmail(changeValue);
 		}else if(userInfoOne.indexOf("Phone")>-1){
@@ -258,6 +265,7 @@ public class UserController {
 		}else if(userInfoOne.indexOf("Identity")>-1){
 			u.setUserIdentity(changeValue);
 		}
+		session.setAttribute("user",u);
 		userService.updateUser(u);
 		
 	}

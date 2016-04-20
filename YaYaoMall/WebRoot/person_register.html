@@ -176,27 +176,27 @@
       		if($(".verification-email").text().trim()!=""){
       			return ;
       		}
+      		myUtils.myPrevToast("注册中···",function(){
       			$.ajax({
       				url:"user/register.json",
       			  data:$("#emailForm").serialize(),
       			  type:"POST",
       			  dataType:"json",
-      			/*   beforeSend:function(){
-      				myUtils.myPrevToast("正在加载..."); 
-      			  }, */
       			  success:function(data){
       				 if(data.userMsg=="200"){
-      				myUtils.myPrevToast(data.userMsg,function(){
+      				myUtils.myPrevToast("注册成功",function(){
       				localStorage.setItem("loginstate",1);
 					localStorage.setItem("userid",data.userid);
       				location.href="user_info";
-      			});
+      			},"remove");
       				}
       			},
       			error:function(){
-      				myUtils.myPrevToast("注册失败");
+      				myUtils.myLoadingToast("注册失败");
       			}
       		});
+      		});
+      		
       	});
       		});	
        </script>

@@ -3,6 +3,7 @@ package com.yayao.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -70,7 +71,11 @@ public class UserDaoImpl implements UserDao {
 	/** 修改注册账户信息 */
 	public void updateUser(User user) {
 		if(user!=null){
-			getSession().merge(user);
+			FlushMode flushmode = getSession().getFlushMode();
+			System.out.println(flushmode.getDeclaringClass());
+			getSession().update(user);
+			//getSession().saveOrUpdate(user);
+			//getSession().createQuery("update User set userNiceName="+user.getUserNiceName()+" where userid="+user.getUserid()).executeUpdate();
 		}
 	}
 

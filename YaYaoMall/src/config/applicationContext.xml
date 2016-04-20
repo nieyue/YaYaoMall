@@ -17,9 +17,8 @@
   <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
  <!-- 扫描注解Bean -->
    <context:component-scan base-package="com.yayao" annotation-config="true">
-   <!--  
+    <!--  将controller排除在外，意味着这个时候不初始化controller  -->
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-     -->
     </context:component-scan>
    
     <!-- 国际化的消息资源文件
@@ -177,6 +176,8 @@
             <tx:method name="admin*" propagation="REQUIRED" read-only="true" />
             <tx:method name="load*" propagation="REQUIRED" read-only="true" />
             <tx:method name="browse*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="Retrieve*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="search*" propagation="REQUIRED" read-only="true" />
             <tx:method name="*" read-only="true" />
         </tx:attributes>
     </tx:advice>  

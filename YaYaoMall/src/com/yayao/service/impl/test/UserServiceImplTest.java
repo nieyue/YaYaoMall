@@ -78,10 +78,13 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testUpdateUser() {
-		User u = userService.loadUser(1);
+		User u = userService.loadUser(9);
+		//User u=new User();
+		//u.setUserid(9);
 		//UserLevel ul = userService.loadUserLevel(1);
 		//ul=null;
 		//u.setUserLevel(ul);
+		u.setUserIMG("1saf23.jpg");
 		userService.updateUser(u);
 	}
 

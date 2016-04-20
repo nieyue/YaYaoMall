@@ -14,8 +14,7 @@
   	<div><a class="pull-left" href="person">&lt;返回</a></div>
   	<div class="text-center person-common-header-center">用户信息</div>
   </div>
-  
-   <input type="file" id="fileUserInfoIMG" accept="image/*" style="display: none;"/>
+   <input type="file" id="fileUserInfoIMG" accept="image/*"/>
   <ul class="list-group person-userinfo">
    <li class="list-group-item person-userinfo-img" id="updateUserInfoIMG">
    头像 
@@ -85,7 +84,6 @@
       </div><!-- /.modal-content -->
 </div><!-- /.modal -->
 </div>
-
 	</body>
        <script src="resources/js/jquery2.1.js"></script>  
        <script src="resources/js/bootstrap3.2.0.js"></script>
@@ -96,6 +94,7 @@
       			//登录成功的用户信息
       			if(localStorage.getItem("loginstate")==1){
       				var userid=localStorage.getItem("userid");
+      				myUtils.myPrevToast("加载中···",function(){
       			$.get("user/loadUser.json?id="+userid,"json",function(data){
       				document.querySelector("#userInfoIMG").src=data.userIMG||userData.userInit.userIMG;
       				document.querySelector("#userInfoNiceName").innerHTML=data.userNiceName||userData.userInit.userNiceName;
@@ -104,7 +103,10 @@
       				document.querySelector("#userPhone").innerHTML=data.userPhone||userData.userInit.userPhone;
       				document.querySelector("#userIdentity").innerHTML=data.userIdentity||userData.userInit.userIdentity;
       				document.querySelector("#userReceiptAddress").innerHTML=data.userReceiptAddress||userData.userInit.userReceiptAddress;
-      						});
+      				myUtils.myPrevToast("加载中···",null,"remove");
+      				});
+      				});
+      				
       			}else{
       				location.replace("person");
       			}
@@ -114,7 +116,7 @@
       			localStorage.removeItem("loginstate");
       			localStorage.removeItem("userid");
       			$.get("user/loginOut",function(){
-      			myUtils.myPrevToast("退出成功",function(){
+      			myUtils.myLoadingToast("退出成功",function(){
       			location.replace("person");
       			});
       			});

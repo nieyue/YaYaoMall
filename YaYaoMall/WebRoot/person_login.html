@@ -75,26 +75,30 @@
       			var userPassword=$("#userPassword").val();
       			if(myUtils.userVerification.email.test(userName)||myUtils.userVerification.phone.test(userName)){
       				$("#userNameLoginError").text("");
+      			myUtils.myPrevToast("登录中···",function(){
       				$.ajax({
       				url:'user/login',
       				type:'POST',
       				data:{userName:userName,userPassword:userPassword},
       				dataType:'json',
       				success:function(data){
+      					console.log("sdfsdf")
       					if(data.userMsg=="200"){
       						localStorage.setItem("loginstate",1);
       						localStorage.setItem("userid",data.userid);
       						myUtils.myPrevToast("登录成功",function(){
       			      			location.replace("person");
-      			      			});
+      			      			},"remove");
       					}
       					
       				},
       				error:function(){
       					$("#userNameLoginError").text("账号或密码错误");
-      					myUtils.myPrevToast("登录失败");
+      					myUtils.myLoadingToast("登录失败");
       				}
       			});
+      				});
+      				
       			}else{
       				$("#userNameLoginError").text("请输入正确邮箱或手机号");
       			}

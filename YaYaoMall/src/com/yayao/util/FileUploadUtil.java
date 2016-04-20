@@ -1,31 +1,15 @@
 package com.yayao.util;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Iterator;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64InputStream;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import com.mysql.jdbc.util.Base64Decoder;
-import com.sun.mail.imap.protocol.BASE64MailboxDecoder;
-import com.sun.mail.util.BASE64DecoderStream;
-import com.sun.mail.util.BASE64EncoderStream;
 /**
  * 文件上传类
  * @author yy
@@ -89,26 +73,22 @@ public class FileUploadUtil {
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 */
-	public static String FormDataFileUpload(CommonsMultipartFile file,HttpServletRequest request){
+	public static String FormDataFileUpload(MultipartFile file,HttpServletRequest request) throws IllegalStateException, IOException{
 		String fileName = null;
 		//取得当前上传文件的文件名称  
 		if(!file.isEmpty()){
 	        //重命名上传后的文件名  
             fileName = DateUtil.timeStamp()+ file.getOriginalFilename();  
            //定义上传路径  
-           String path = request.getSession().getServletContext().getRealPath("resources/userUpload");
+           String path = request.getSession().getServletContext().getRealPath("/resources/userUpload");
            File localFile = new File(path,fileName);  
-           try {
+           
 			file.transferTo(localFile);
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
            }
-		return request.getContextPath()+"/resources/userUpload/"+fileName;
+		return "resources/userUpload/"+fileName;
 	}
 }

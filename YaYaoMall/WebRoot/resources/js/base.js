@@ -38,7 +38,7 @@ var myUtils = {
       			{userName:userNameInfo},
       			function(data){
       				console.log(data)
-      				if(data=='200'){
+      				if(data=="用户不存在"){
       					$(userName.userNameError).text("");
       				}else{
       			$(userName.userNameError).text(data);
@@ -180,7 +180,7 @@ var myUtils = {
 	  		function(){
 	  			$(userInfoOne).text(uiom);
 	  			$('#closeModal').click();
-	  			myUtils.myToast("修改成功");
+	  			myUtils.myLoadingToast("修改成功");
 	  		});	
 	  		});
 	  		});
@@ -193,7 +193,7 @@ var myUtils = {
 		  photoExt=file.value.substr(file.value.lastIndexOf(".")).toLowerCase();//获得文件后缀名
 		//判断照片格式
 		  if(photoExt!='.jpg'&&photoExt!='.png'){
-			  myUtils.myPrevToast("请上传后缀名为jpg/png的照片!");
+			  myUtils.myLoadingToast("请上传后缀名为jpg/png的照片!");
 		      return false;
 		  }
 		  var fileSize = 0;
@@ -214,27 +214,32 @@ var myUtils = {
 	    	if (file.files && file.files[0])  
 	    	 {
 	         var reader = new FileReader(); 
-	         var fd=new FormData();
-	         fd.append("file", file);
+	        var fd=new FormData();
+	         fd.append("file", file.files[0]);
 	      	reader.onload = function(e){
 	      		console.log(e.target.result);
 	      		myUtils.myPrevToast("上传中···",function(){
 	      		$.ajax({
 	      			url:"user/userIMGUpload",
-	      			type:"post",
+	      			type:"POST",
 	      			data:fd,
+	      			enctype:'multipart/form-data',
 	      			processData:false,// 告诉jQuery不要去处理发送的数据
 	      			contentType:false, // 告诉jQuery不要去设置Content-Type请求头
 	      			success:function(){
-	      				console.log("sdf");
+	      				//console.log("sdf");
+	      				myUtils.myPrevToast("上传成功",null,"remove");
+	      			},
+	      			error:function(){
+	      				myUtils.myLoadingToast("上传失败");
 	      			}
 	      		});
 	      		$(imgelement).attr("src",e.target.result);
-	      		
 	      		});
+	      		
 	    	}
 	      	reader.readAsDataURL(file.files[0]);
-		  console.log(file.files[0]);
+		  //console.log(file.files[0]);
 	      }else{
 	    	$(imgelement).attr("src",file.value);
 	      }
@@ -331,19 +336,29 @@ var myUtils = {
 	/**
 	 * 实现事件执行前的toast
 	 */
-	myPrevToast : function(value, fn) {
+	myPrevToast : function(value,fn,remove) {
+		//如果存在，remove
+		if(document.querySelector("#prevToastWarp")){
+			document.querySelector("#prevToast").value=value;
+			if(remove&&remove=="remove"){
+				setTimeout(function() {
+					$("#prevToast").fadeOut('slow');
+					$("#prevToastWarp").remove();
+					if(fn){
+						fn();
+					}
+					}, 1000);
+			}
+			return;
+		}
 		$("body")
 				.append(
-						"<div id='toast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
-								+ value + "</div>");
-		$("#toast").fadeIn();
-		setTimeout(function() {
-			$("#toast").fadeOut('slow');
-			$("#toast").remove();
-			if(fn){
-				fn();
-			}
-			}, 1000);
+						"<div id='prevToastWarp' style='position:fixed;width:100%;height:100%;top:0;left:0;'><div id='prevToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
+								+ value + "</div></div>");
+		$("#prevToast").fadeIn();
+		if(fn){
+			fn();
+		}
 	},
 	/**
 	 * 实现事件执行中的toast
@@ -351,15 +366,16 @@ var myUtils = {
 	myLoadingToast : function(value, fn) {
 		$("body")
 				.append(
-						"<div id='toast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
-						+ value + "</div>");
-		$("#toast").fadeIn();
-		$("#toast").fadeOut(function() {
-			setTimeout(function() {
-				$("#toast").remove();
+						"<div id='loadingToastWarp' style='position:fixed;width:100%;height:100%;top:0;left:0;'><div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
+						+ value + "</div></div>");
+		$("#loadingToast").fadeIn();
+		setTimeout(function() {
+			$("#loadingToast").fadeOut('slow');
+			$("#loadingToastWarp").remove();
+			if(fn){
 				fn();
+			}
 			}, 1000);
-		});
 	},
 	/**
 	 * 自定义confirm
