@@ -93,16 +93,16 @@
       		$(function(){
       			if(localStorage.getItem("loginstate")==1){
       				var userid=localStorage.getItem("userid");
-      				myUtils.myPrevToast("加载中···",function(){
+      				myUtils.myPrevToast("加载中",function(){
           			$.get("user/loadUser.json?id="+userid,"json",function(data){
-      				document.querySelector("#userHref").href='user_info';
+          			document.querySelector("#userHref").href='user_info';
       				document.querySelector("#userNiceName").innerHTML=data.userNiceName||data.userEmail||data.userPhone;
       				document.querySelector("#userIMG").src=data.userIMG||userData.userInit.userIMG;
       				document.querySelector("#userAccess").innerHTML='';
       				document.querySelector("#userSignature").innerHTML=data.userSignature||userData.userInit.userSignature;
-      				myUtils.myPrevToast("加载中···",null,"remove");
+      				myUtils.myPrevToast("加载中",null,"remove");
           			});
-      				});
+      				},"add");
           			}
       		//弹性滑动
       	      myUtils.elasticSlide("body");
@@ -115,6 +115,7 @@
       				console.log("点击确认");
       			});	 
       		 });  
+      		
       		});
        </script>
   

@@ -25,6 +25,7 @@ hr{border:0;height:1px}
 html {
 	max-width: 640px;
 	margin: 0 auto;
+	overflow-y: auto;
 }
 
 a {
@@ -196,6 +197,7 @@ input[type="file"] {
 	width: 73%;
 	line-height:40px;
 	position: absolute;
+	
 }
 
 .header-banner-icon {
@@ -217,23 +219,30 @@ input[type="file"] {
 	display: inline-block;
 	width: 80%;
 	left:20%;
-	top:0px;
-}
-.header-banner-center input {
-	border: 0px solid #999;
+	top:2px;
+	height:36px;
 	line-height: 36px;
-	height: 36px;
-	width: 100%;
+	background-color:white;
 }
+ .header-banner-center input {
+	border: 0px solid #999;
+	height: 22px;
+	width: 75%;
+	position:absolute;
+	line-height:22px;
+	top:7px;
+	left: 0;
+} 
 
 .header-banner-search {
 	 position:absolute; 
 	display: inline-block;
 	font-size: 2rem;
 	height:22px;
-	line-height:8px;
-	top:10px;
+	line-height:22px;
+	top:8px;
 	right: 0;
+	width:20%;
 	border-left:1px solid #ccc;
 	color:#d3a4ff;
 }
@@ -514,7 +523,7 @@ div.flicking_con a.on {
 	height: 100%;
 	float: left;
 	position: fixed;
-	overflow: scroll;
+	overflow: auto;
 }
 
 @media screen and (min-width:640px) {

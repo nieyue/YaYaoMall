@@ -176,7 +176,7 @@
       		if($(".verification-email").text().trim()!=""){
       			return ;
       		}
-      		myUtils.myPrevToast("注册中···",function(){
+      		myUtils.myPrevToast("注册中",function(){
       			$.ajax({
       				url:"user/register.json",
       			  data:$("#emailForm").serialize(),
@@ -195,7 +195,7 @@
       				myUtils.myLoadingToast("注册失败");
       			}
       		});
-      		});
+      		},"add");
       		
       	});
       		});	

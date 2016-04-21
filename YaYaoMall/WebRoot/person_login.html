@@ -75,7 +75,7 @@
       			var userPassword=$("#userPassword").val();
       			if(myUtils.userVerification.email.test(userName)||myUtils.userVerification.phone.test(userName)){
       				$("#userNameLoginError").text("");
-      			myUtils.myPrevToast("登录中···",function(){
+      			myUtils.myPrevToast("登录中",function(){
       				$.ajax({
       				url:'user/login',
       				type:'POST',
@@ -97,7 +97,7 @@
       					myUtils.myLoadingToast("登录失败");
       				}
       			});
-      				});
+      				},"add");
       				
       			}else{
       				$("#userNameLoginError").text("请输入正确邮箱或手机号");

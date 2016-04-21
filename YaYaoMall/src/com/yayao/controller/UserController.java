@@ -176,11 +176,6 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody
 	User login(HttpSession session,String userName,String userPassword) throws Exception {
-		if(session.getAttribute("user")!=null){
-			User u = (User)session.getAttribute("user");
-			u.setUserMsg("200");
-			return u;
-		}
 		boolean status = userService.chkLoginName(userName);
 		if(status&&userPassword!=null){
 			String shaup = SHAutil.getSHA(userPassword);
@@ -219,11 +214,8 @@ public class UserController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/userIMGUpload", method = RequestMethod.POST)
-	public @ResponseBody void userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request)  {
-		User u=null;
-		HttpSession session=request.getSession();
-		if(session.getAttribute("user")!=null){
-			 u = (User)session.getAttribute("user");
+	public @ResponseBody void userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request,@RequestParam("userid")Integer id)  {
+			User u=userService.loadUser(id);
 			 try {
 				 String userIMG = FileUploadUtil.FormDataFileUpload(file, request);
 				u.setUserIMG(userIMG);
@@ -232,7 +224,6 @@ public class UserController {
 			}
 			 userService.updateUser(u);
 		}
-	}
 	/**
 	 * 账户修改属性
 	 * 
@@ -244,15 +235,10 @@ public class UserController {
 	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
 	public @ResponseBody void updateUser(HttpSession session ,Integer userid, String userInfoOne,String changeValue)  {
 		User u=null;
-		
-		//if(session.getAttribute("user")!=null){
-			// u = (User)session.getAttribute("user");
-		//}else{
 			if(!NumberUtil.isNumeric(String.valueOf(userid))){
 			return ;
 			}
 			u=userService.loadUser(userid);
-		//}
 		
 		if(userInfoOne.indexOf("NiceName")>-1){
 			u.setUserNiceName(changeValue);
@@ -280,9 +266,6 @@ public class UserController {
 	@RequestMapping(value = "/loadUser", method = RequestMethod.GET)
 	public @ResponseBody
 	User loadUser(HttpSession session,Integer id) {
-		if(session.getAttribute("user")!=null){
-			return (User) session.getAttribute("user");
-		}
 		if(NumberUtil.isNumeric(String.valueOf(id))){
 			User u = userService.loadUser(id);
 			session.setAttribute("user",u);

@@ -67,8 +67,6 @@ public class Test {
 			//PDFUtil();
 	        String path="/sfasdfsd";
 	        String path2="sd";
-		System.out.println(path.indexOf(path2));
-		System.err.println(ReadFromFile.readFileByLines("D:/nieyue.txt"));
-		String base64= ReadFromFile.readFileByLines("D:/nieyue.txt");
+	        
 		}
 }
