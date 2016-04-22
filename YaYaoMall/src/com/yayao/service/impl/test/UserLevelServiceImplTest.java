@@ -42,8 +42,9 @@ public class UserLevelServiceImplTest {
 	@Test
 	public void testAddUserLevel() {
 		UserLevel ul=new UserLevel();
-		ul.setUserGrade(2);
-		userLevelService.addUserLevel(ul);
+		//ul.setLevelName("钻石会员");
+		//ul.setFavourable(80);
+		//userLevelService.addUserLevel(ul);
 	}
 
 	@Test

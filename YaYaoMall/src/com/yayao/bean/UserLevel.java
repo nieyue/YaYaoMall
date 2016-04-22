@@ -35,9 +35,14 @@ public class UserLevel implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer userlevelid;
 	/**
-	 * 账户等级级别
+	 * 账户等级名称
 	 */
-	private Integer userGrade;
+	private String levelName;
+	/**
+	 * 账户利率
+	 */
+	private Integer favourable;
+	
 	/**
 	 * 账户
 	 */
@@ -49,14 +54,18 @@ public class UserLevel implements Serializable{
 	public UserLevel() {
 		super();
 	}
+	
+	
 
-
-	public UserLevel(Integer userlevelid, Integer userGrade,Set<User> users) {
+	public UserLevel(Integer userlevelid, String levelName, Integer favourable,
+			Set<User> users) {
 		super();
 		this.userlevelid = userlevelid;
-		this.userGrade = userGrade;
-		this.users=users;
+		this.levelName = levelName;
+		this.favourable = favourable;
+		this.users = users;
 	}
+
 
 
 	public Integer getUserlevelid() {
@@ -69,13 +78,23 @@ public class UserLevel implements Serializable{
 	}
 
 
-	public Integer getUserGrade() {
-		return userGrade;
+	public String getLevelName() {
+		return levelName;
 	}
 
 
-	public void setUserGrade(Integer userGrade) {
-		this.userGrade = userGrade;
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
+	}
+
+
+	public Integer getFavourable() {
+		return favourable;
+	}
+
+
+	public void setFavourable(Integer favourable) {
+		this.favourable = favourable;
 	}
 
 
@@ -87,6 +106,7 @@ public class UserLevel implements Serializable{
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-	
+
+
 	
 }

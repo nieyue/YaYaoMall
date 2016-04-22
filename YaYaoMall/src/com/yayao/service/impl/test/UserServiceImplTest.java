@@ -17,7 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.User;
+import com.yayao.bean.UserLevel;
 import com.yayao.controller.UserController;
+import com.yayao.service.UserLevelService;
 import com.yayao.service.UserService;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +29,9 @@ public class UserServiceImplTest {
 	@Autowired
 	@Qualifier("userService")
 	UserService userService;
+	@Autowired
+	@Qualifier("userLevelService")
+	UserLevelService userLevelService;
 	@Autowired
 	@Qualifier("sessionFactory")
 	SessionFactory sessionFactory;
@@ -65,12 +70,12 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testAddUser() {
-		//UserLevel userlevel=new UserLevel();
-		//userlevel.setUserGrade(1);
+		UserLevel userlevel=userLevelService.loadUserLevel(1);
 		User user =new User();
-		//user.setUserLevel(userlevel);
+		user.setUserLevel(userlevel);
 		user.setIntegral(new Integer(1));
-		//user.setUserName("聂跃");
+		String [] imgs={"http://www.baidu.com","http://www.yayao8.com"};
+		user.setUserEmail("278076304@dd.dd");
 		user.setUserPassword("123456");
 		System.out.println("dsf");
 		userService.addUser(user);

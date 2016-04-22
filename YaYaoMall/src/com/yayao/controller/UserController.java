@@ -69,16 +69,26 @@ public class UserController {
 	 * @param user
 	 * @param session
 	 * @return
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "/validCode", method = RequestMethod.GET)
 	public @ResponseBody
-	String validCode(@RequestParam("userEmail") final String userEmail,@RequestParam("validCode") final String validCode,HttpSession session) {
-		new Thread(new Runnable() {
-			public void run() {
-				SendMailDemo smd=new SendMailDemo();
-				smd.sendMail(userEmail,Integer.valueOf(validCode));
-			}
-		}).start();
+	String validCode(@RequestParam("userEmail") final String userEmail,@RequestParam("validCode") final String validCode,HttpSession session) throws ParseException {
+		String sessionvce = session.getAttribute("validCodeExpire").toString();
+		if(sessionvce!=null){
+			if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 1)))){//没超过一分钟
+			return "一分钟请求一次";
+		}
+			
+		}		
+		
+		try {
+			SendMailDemo.sendSafeMail(userEmail,Integer.valueOf(validCode));
+		} catch (NumberFormatException e) {
+			return null;
+		} catch (InterruptedException e) {
+			return null;
+		}
 		session.setAttribute("validCode",Integer.valueOf(validCode));
 		session.setAttribute("validCodeExpire",DateUtil.getCurrentTime());
 		return "200";
@@ -89,26 +99,20 @@ public class UserController {
 	 * @param user
 	 * @param session
 	 * @return
+	 * @throws ParseException 
+	 * @throws NumberFormatException 
 	 */
 	@RequestMapping(value = "/chkValidCode", method = RequestMethod.GET)
 	public @ResponseBody
-	String chkValidCode(@RequestParam("validCode")String validCode,HttpSession session) {
+	String chkValidCode(@RequestParam("validCode")String validCode,HttpSession session) throws NumberFormatException, ParseException {
 		if(!NumberUtil.isNumeric(validCode)){
 			return "验证码错误";
 		}
 		if(session.getAttribute("validCodeExpire")==null){
 			return "验证码错误";
 		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date validCodeExpire = null;
-		try {
-			String sessionvce = session.getAttribute("validCodeExpire").toString();
-			validCodeExpire = format.parse(sessionvce);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		if(!(new Date().after(DateUtil.getFirstToTime(validCodeExpire, 1)))){//没过期
+		String sessionvce = session.getAttribute("validCodeExpire").toString();
+		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
 			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
 				return "200";
 			
@@ -139,12 +143,9 @@ public class UserController {
 		if(session.getAttribute("validCodeExpire")==null){
 			return null;
 		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date validCodeExpire = null;
 		
-			String sessionvce = session.getAttribute("validCodeExpire").toString();
-			validCodeExpire = format.parse(sessionvce);
-		if(!(new Date().after(DateUtil.getFirstToTime(validCodeExpire, 1)))){//没过期
+		String sessionvce = session.getAttribute("validCodeExpire").toString();
+		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
 			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
 			String shalp = SHAutil.getSHA(user.getUserPassword());
 			user.setUserPassword(shalp);

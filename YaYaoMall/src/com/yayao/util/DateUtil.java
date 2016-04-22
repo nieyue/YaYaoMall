@@ -19,7 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class DateUtil {
 	/**
-	 * 格式化时间
+	 * 格式化时间yyyy-MM-dd HH:mm:ss
 	 * @return
 	 */
 	public static String getCurrentTime(){
@@ -31,7 +31,7 @@ public class DateUtil {
 	}
 	
 	/**
-	 * 格式化时间
+	 * 格式化时间"yyyyMMddHHmmss
 	 * @return
 	 */
 	public static String getOrdersTime(){
@@ -126,10 +126,30 @@ public class DateUtil {
      * @param args
      * @throws ParseException 
      */
-    public static Date getFirstToTime(Date firstDate,long coupleDay) {  
+    public static Date getFirstToDay(Date firstDate,long coupleDay) {  
     	//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	Date lastDate = new Date(coupleDay*3600*24*1000+firstDate.getTime());//两日期之间相隔的天数 
     	return lastDate;  
+    }  
+    /**
+     * 获取从起始时间开始之后几分钟的时间
+     * @param args
+     * @throws ParseException 
+     */
+    public static Date getFirstToSecondsTime(Date firstDate,long coupleTime) {  
+    	//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date lastDate = new Date(coupleTime*60*1000+firstDate.getTime());//两日期之间相隔的天数 
+    	return lastDate;  
+    }  
+    /**
+     * 格式化时间从yyyy-MM-dd HH:mm:ss到Wed Mar 02 09:19:00 CST 2016
+     * @param args
+     * @throws ParseException 
+     */
+    public static Date parseDate(String date) throws ParseException {  
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date da = sdf.parse(date);
+    	return da;  
     }  
 	
     
@@ -155,6 +175,7 @@ public class DateUtil {
         //String nieyue = (String) session.getAttribute("nieyue");
        // System.out.println(session); 
         System.out.println(getSeparatedTime());
-        System.out.println(getFirstToTime(new Date(), 1).toLocaleString());
+        System.out.println(getFirstToDay(new Date(), 1).toLocaleString());
+        System.out.println(getFirstToSecondsTime(new Date(), 1).toLocaleString());
     }  
 }

@@ -4,7 +4,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -16,6 +19,10 @@ import com.yayao.util.FileUploadUtil;
 import com.yayao.util.ReadFromFile;
 
 public class Test {
+	private  AtomicInteger ai=new AtomicInteger(0);
+	
+	private int i=0;
+	
 	public static void PDFUtil() throws IOException, DocumentException{
 		Document document = new Document();
 
@@ -65,8 +72,16 @@ public class Test {
 	        System.out.println(new Paragraph("聂跃",FontChinese));
 		
 			//PDFUtil();
-	        String path="/sfasdfsd";
-	        String path2="sd";
+	       String [] imgs={"http://www.baidu.com","http://www.yayao8.com"};
+	       String imgstr = "";
+	       for (int i = 0; i < imgs.length; i++) {
+				imgstr+=imgs[i]+"图片分割";
+			}
+	       String[] path2=imgstr.split("图片分割");
+	       System.out.println(imgstr);
+	       System.out.println(path2[0]+path2[1]);
 	        
 		}
+
+
 }

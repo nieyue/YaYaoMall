@@ -2,7 +2,7 @@ package com.yayao.mail;
 
 public class SendMailDemo {
 	
-	public void sendMail(String emailSearch ,int emailCode){
+	public static void sendMail(String emailSearch ,int emailCode){
 		
 		// 设置邮件服务器信息
 		MailSenderInfo mailInfo = new MailSenderInfo();
@@ -24,20 +24,27 @@ public class SendMailDemo {
 		// 邮件内容
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("<strong style='font-size:38px;'>本真茶园</strong><br/><hr/>");
-		buffer.append("请在提交请求后的24小时内，通过点击下面的验证码激活并确认您的账号:<br/>");
+		buffer.append("请在提交请求后的10分钟内，通过点击下面的验证码激活并确认您的账号:<br/>");
 		//buffer.append("<a href='http://localhost:8080/YaYaoXiangXiu/retrieveAccountBack.html'>http://localhost:8080/YaYaoXiangXiu/retrieveAccountBack.html</a><br/>");
 		buffer.append("验证码：<span style='font-weight:bold;color:blue;'>"+emailCode+"</span>");
-		buffer.append("（该验证码在1小时内有效，1小时后需要重新获取验证邮件）<br/>如果该验证码无法验证，请重新获取。<br/>如果这不是您的邮件，请忽略此邮件。<br/>这是本真茶园系统邮件，请勿回复。");
+		buffer.append("（该验证码在10分钟有效，10分钟后需要重新获取验证邮件）<br/>如果该验证码无法验证，请重新获取。<br/>如果这不是您的邮件，请忽略此邮件。<br/>这是本真茶园系统邮件，请勿回复。");
 		mailInfo.setContent(buffer.toString());
 		//SimpleMailSender sml=new SimpleMailSender();
 		// sml.sendTextMail(mailInfo);
-	 SimpleMailSender.sendHtmlMail(mailInfo);
+		SimpleMailSender.sendHtmlMail(mailInfo);
 	}
-
+	public static void sendSafeMail(  final String es , final int ec ) throws InterruptedException{
+		Thread ss=new Thread(new Runnable() {
+			public void run() {
+				sendMail(es,ec);
+			}
+		});
+		ss.start();
+		//ss.join();//优点安全，缺点阻塞
+	}
 	
-	public static void main(String[] args) {
-		SendMailDemo sendMailDemo=new SendMailDemo();
-		sendMailDemo.sendMail("278076304@qq.com",(int) (Math.random()*9000+1000));
+	public static void main(String[] args) throws InterruptedException {
+		//sendMail("278076304@qq.com",(int) (Math.random()*9000+1000));
 		System.out.println("发送成功");
 	}
 	
