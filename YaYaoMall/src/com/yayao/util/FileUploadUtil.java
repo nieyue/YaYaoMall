@@ -69,14 +69,14 @@ public class FileUploadUtil {
 		return request.getContextPath()+"/resources/userUpload/"+fileName;
 	}
 	/**
-	 * FormData上传图片
+	 * FormData上传图片 单个图片上传，先删除原图片
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 */
-	public static String FormDataFileUpload(MultipartFile file,HttpServletRequest request) throws IllegalStateException, IOException{
+	public static String FormDataFileUpload(MultipartFile file,HttpServletRequest request,String oldIMGURL) throws IllegalStateException, IOException{
 		String fileName = null;
 		//取得当前上传文件的文件名称  
 		if(!file.isEmpty()){
@@ -84,6 +84,18 @@ public class FileUploadUtil {
             fileName = DateUtil.timeStamp()+ file.getOriginalFilename();  
            //定义上传路径  
            String path = request.getSession().getServletContext().getRealPath("/resources/userUpload");
+           //删除原图片
+           if(oldIMGURL!=null){
+        	String oldpath = request.getSession().getServletContext().getRealPath("/");
+           final File oldfile = new File(oldpath,oldIMGURL);  
+           new Thread(new Runnable(){
+				public void run() {
+					if(oldfile.exists()&&oldfile.isFile())
+						oldfile.delete();
+				}
+			}).start();
+           }
+           //建立新图片
            File localFile = new File(path,fileName);  
            
 			file.transferTo(localFile);

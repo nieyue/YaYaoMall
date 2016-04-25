@@ -75,6 +75,7 @@ public class UserServiceImplTest {
 		user.setUserLevel(userlevel);
 		user.setIntegral(new Integer(1));
 		String [] imgs={"http://www.baidu.com","http://www.yayao8.com"};
+		
 		user.setUserEmail("278076304@dd.dd");
 		user.setUserPassword("123456");
 		System.out.println("dsf");

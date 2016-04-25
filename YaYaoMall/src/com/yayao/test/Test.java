@@ -6,8 +6,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.hibernate.criterion.Order;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -80,7 +84,23 @@ public class Test {
 	       String[] path2=imgstr.split("图片分割");
 	       System.out.println(imgstr);
 	       System.out.println(path2[0]+path2[1]);
-	        
+	       Map<String,String>map=new HashMap<String,String>();
+	       map.put("a", "12");
+	       System.out.println(map.get("b"));
+	       String aaa = "Test";
+	    String bbb = "aaa";
+	    Test t=new Test();
+	    //t.getClass().getMethod(bbb, new Class[]{}).invoke(t, Object[]{});
+	    String orderWay="as";
+	    switch (orderWay) {
+		case "asc":
+			aaa="asc";
+			break;
+		case "desc":
+			aaa="desc";
+			break;
+		}
+	    System.out.println(aaa);
 		}
 
 

@@ -21,6 +21,36 @@ var myUtils = {
 		password:/^[0-9_a-zA-Z]{6,20}$/ //数字、字母、下划线，6-20长度
 	},
 	/**
+	 * cookie
+	 * 
+	 */
+	//写cookie
+	setCookie:function (name,value,expires)
+	{
+	var exp = new Date();
+	exp.setTime(exp.getTime() + expires*1000);
+	document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+	},
+	//读取cookie
+	getCookie:function (name)
+	{
+	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	if(arr=document.cookie.match(reg))
+	return unescape(arr[2]);
+	else
+	return null;
+	},
+	//删除cookie
+	delCookie:function(name)
+	{
+	var exp = new Date();
+	exp.setTime(exp.getTime() - 1);
+	var cval=myUtils.getCookie(name);
+	if(cval!=null)
+	document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+	},
+	
+	/**
 	 * 表单验证
 	 * 
 	 */
@@ -225,7 +255,6 @@ var myUtils = {
 	         fd.append("file", file.files[0]);
 	      	reader.onload = function(e){
 	      		//console.log(e.target.result);
-	      		debugger
 	      		myUtils.myPrevToast("上传中",function(){
 	      		$.ajax({
 	      			url:"user/userIMGUpload",

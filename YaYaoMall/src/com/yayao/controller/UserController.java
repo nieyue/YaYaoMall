@@ -74,8 +74,8 @@ public class UserController {
 	@RequestMapping(value = "/validCode", method = RequestMethod.GET)
 	public @ResponseBody
 	String validCode(@RequestParam("userEmail") final String userEmail,@RequestParam("validCode") final String validCode,HttpSession session) throws ParseException {
-		String sessionvce = session.getAttribute("validCodeExpire").toString();
-		if(sessionvce!=null){
+		if(session.getAttribute("validCodeExpire")!=null){
+			String sessionvce = session.getAttribute("validCodeExpire").toString();
 			if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 1)))){//没超过一分钟
 			return "一分钟请求一次";
 		}
@@ -217,8 +217,11 @@ public class UserController {
 	@RequestMapping(value = "/userIMGUpload", method = RequestMethod.POST)
 	public @ResponseBody void userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request,@RequestParam("userid")Integer id)  {
 			User u=userService.loadUser(id);
-			 try {
-				 String userIMG = FileUploadUtil.FormDataFileUpload(file, request);
+			//删除原图片
+			String oldIMGURL="";
+			oldIMGURL=u.getUserIMG();
+			 try{
+				String userIMG = FileUploadUtil.FormDataFileUpload(file, request,oldIMGURL);
 				u.setUserIMG(userIMG);
 			}catch (IOException e) {
 				e.printStackTrace();

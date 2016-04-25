@@ -91,16 +91,21 @@
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
+      			//myUtils.setCookie("userName","nieyue",60*60*24*365);
+      			//myUtils.delCookie("userName")
+    	    	//console.log(myUtils.getCookie("userName"))
       			if(localStorage.getItem("loginstate")==1){
       				var userid=localStorage.getItem("userid");
       				myUtils.myPrevToast("加载中",function(){
           			$.get("user/loadUser.json?id="+userid,"json",function(data){
+          				if(data){
           			document.querySelector("#userHref").href='user_info';
-      				document.querySelector("#userNiceName").innerHTML=data.userNiceName||data.userEmail||data.userPhone;
+      				document.querySelector("#userNiceName").innerHTML=data.userNiceName||data.userEmail||data.userPhone||userData.userInit.userName;
       				document.querySelector("#userIMG").src=data.userIMG||userData.userInit.userIMG;
       				document.querySelector("#userAccess").innerHTML='';
       				document.querySelector("#userSignature").innerHTML=data.userSignature||userData.userInit.userSignature;
-      				myUtils.myPrevToast("加载中",null,"remove");
+          				}
+      				myUtils.myPrevToast("登录成功",null,"remove");
           			});
       				},"add");
           			}

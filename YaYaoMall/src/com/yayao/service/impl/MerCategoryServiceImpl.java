@@ -43,8 +43,8 @@ public class MerCategoryServiceImpl implements MerCategoryService {
 		return l;
 	}
 	/** 装载指定的商品分类 */
-	public MerCategory loadMerCategory(Integer id) {
-		MerCategory ml = merCategoryDao.loadMerCategory(id);
+	public MerCategory loadMerCategory(String cateName) {
+		MerCategory ml = merCategoryDao.loadMerCategory(cateName);
 		return ml;
 	}
 	/** 检查商品分类存在否 */

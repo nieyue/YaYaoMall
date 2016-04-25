@@ -16,7 +16,7 @@ import com.yayao.dao.MerCategoryDao;
 
 
 /**
- * 账户数据访问实现类
+ * 商品分类数据访问实现类
  * @author yy
  *
  */
@@ -63,9 +63,11 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	/**
 	 * 装载指定的商品分类 
 	 */
-	public MerCategory loadMerCategory(Integer id) {
+	public MerCategory loadMerCategory(String cateName) {
 		MerCategory merCategory=null;
-		merCategory=  (MerCategory) getSession().get(MerCategory.class, id);
+		Criteria c = getSession().createCriteria(MerCategory.class);
+		c.add(Restrictions.eq("cateName", cateName));
+		merCategory=(MerCategory) c.uniqueResult();
 		return merCategory;
 	}
 	/**

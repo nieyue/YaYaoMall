@@ -19,7 +19,7 @@ public interface MerCategoryDao {
 	/** 浏览商品分类 */
 	public List<MerCategory> browseMerCategory() ;
 	/** 装载指定的商品分类 */
-	public MerCategory loadMerCategory(Integer id);
+	public MerCategory loadMerCategory(String cateName);
 	/** 检查商品分类存在否 */
 	public boolean chkMerCategory(String cateName) ;
 	

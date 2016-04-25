@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 @Table(name="user_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"userPassword","cardPackages"})
+@JsonIgnoreProperties({"userPassword","cardPackages","userComments"})
 public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -124,8 +124,8 @@ public class User implements java.io.Serializable {
 	/**
 	 * 评论
 	 */
-	@Transient
-	private Set<Comments> comments;
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="user")
+	private Set<Comments> userComments;
 	
 	
 	
@@ -139,7 +139,7 @@ public class User implements java.io.Serializable {
 			Date regDate, Date lastLoginTime, String userMsg,
 			Set<UserReceiptAddress> userReceiptAddress, Set<Friends> friends,
 			Set<Orders> orders, Set<MerCollections> merCollections,
-			Set<Comments> comments) {
+			Set<Comments> userComments) {
 		super();
 		this.userid = userid;
 		this.userEmail = userEmail;
@@ -160,7 +160,7 @@ public class User implements java.io.Serializable {
 		this.friends = friends;
 		this.orders = orders;
 		this.merCollections = merCollections;
-		this.comments = comments;
+		this.userComments = userComments;
 	}
 
 
@@ -299,12 +299,12 @@ public class User implements java.io.Serializable {
 		this.merCollections = merCollections;
 	}
 
-	public Set<Comments> getComments() {
-		return comments;
+	public Set<Comments> getUserComments() {
+		return userComments;
 	}
 
-	public void setComments(Set<Comments> comments) {
-		this.comments = comments;
+	public void setUserComments(Set<Comments> userComments) {
+		this.userComments = userComments;
 	}
 
 	public UserLevel getUserLevel() {

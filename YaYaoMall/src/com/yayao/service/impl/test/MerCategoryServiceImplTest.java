@@ -74,7 +74,8 @@ public class MerCategoryServiceImplTest {
 
 	@Test
 	public void testLoadMerCategory() {
-		fail("Not yet implemented");
+		MerCategory mercate = merCategoryService.loadMerCategory("黑茶");
+	System.out.println(mercate.getCateDesc());
 	}
 
 	@Test

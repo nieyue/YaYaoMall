@@ -1,6 +1,8 @@
 package com.yayao.bean;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,13 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="merchandise_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({""})
+@JsonIgnoreProperties({"merComments"})
 public class Merchandise implements Serializable{
 	/**
 	 * 
@@ -39,29 +41,27 @@ public class Merchandise implements Serializable{
 	/**
 	 * 商品原始价格
 	 */
-	private String merchandiseOldPrice;
+	private Double merchandiseOldPrice;
 	/**
 	 * 商品真实价格
 	 */
-	private String merchandisePrice;
+	private Double merchandisePrice;
 	/**
 	 * 商品销量
 	 */
-	private String merchandiseSold;
+	private Integer merchandiseSold;
 	/**
 	 * 商品折扣
 	 */
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="merchandiseid",unique=true)
-	private MerDiscount merDiscount;
+	private Double merDiscount;
 	/**
-	 * 商品是否包邮 1不包邮 ，0包邮
+	 * 商品邮费  0包邮 ,其他为价格
 	 */
-	private Integer merchandiseFreeDeliver;
+	private Double merchandisePostage;
 	/**
 	 * 商品编码
 	 */
-	private Integer merchandiseCode;
+	private String merchandiseCode;
 	
 	/**
 	 * 商品转态 上架，下架
@@ -71,6 +71,15 @@ public class Merchandise implements Serializable{
 	 * 商品图片集合
 	 */
 	private String merchandiseIMGS;
+	/**
+	 * 商品评论
+	 */
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
+	private Set<Comments> merComments;
+	/**
+	 * 商品更新时间
+	 */
+	private Date merchandiseUpdateTime;
 	/**
 	 * 商品类别
 	 */
@@ -85,11 +94,12 @@ public class Merchandise implements Serializable{
 
 
 	public Merchandise(Integer merchandiseid, String merchandiseName,
-			Integer merchandiseStock, String merchandiseOldPrice,
-			String merchandisePrice, String merchandiseSold,
-			MerDiscount merDiscount, Integer merchandiseFreeDeliver,
-			Integer merchandiseCode, String merchandiseStatus,
-			String merchandiseIMGS, MerCategory merCategory) {
+			Integer merchandiseStock, Double merchandiseOldPrice,
+			Double merchandisePrice, Integer merchandiseSold,
+			Double merDiscount, Double merchandisePostage,
+			String merchandiseCode, String merchandiseStatus,
+			String merchandiseIMGS, MerCategory merCategory,
+			Date merchandiseUpdateTime,Set<Comments> merComments) {
 		super();
 		this.merchandiseid = merchandiseid;
 		this.merchandiseName = merchandiseName;
@@ -98,11 +108,13 @@ public class Merchandise implements Serializable{
 		this.merchandisePrice = merchandisePrice;
 		this.merchandiseSold = merchandiseSold;
 		this.merDiscount = merDiscount;
-		this.merchandiseFreeDeliver = merchandiseFreeDeliver;
+		this.merchandisePostage = merchandisePostage;
 		this.merchandiseCode = merchandiseCode;
 		this.merchandiseStatus = merchandiseStatus;
 		this.merchandiseIMGS = merchandiseIMGS;
 		this.merCategory = merCategory;
+		this.merchandiseUpdateTime=merchandiseUpdateTime;
+		this.merComments=merComments;
 	}
 
 
@@ -136,62 +148,62 @@ public class Merchandise implements Serializable{
 	}
 
 
-	public String getMerchandiseOldPrice() {
+	public Double getMerchandiseOldPrice() {
 		return merchandiseOldPrice;
 	}
 
 
-	public void setMerchandiseOldPrice(String merchandiseOldPrice) {
+	public void setMerchandiseOldPrice(Double merchandiseOldPrice) {
 		this.merchandiseOldPrice = merchandiseOldPrice;
 	}
 
 
-	public String getMerchandisePrice() {
+	public Double getMerchandisePrice() {
 		return merchandisePrice;
 	}
 
 
-	public void setMerchandisePrice(String merchandisePrice) {
+	public void setMerchandisePrice(Double merchandisePrice) {
 		this.merchandisePrice = merchandisePrice;
 	}
 
 
-	public String getMerchandiseSold() {
+	public Integer getMerchandiseSold() {
 		return merchandiseSold;
 	}
 
 
-	public void setMerchandiseSold(String merchandiseSold) {
+	public void setMerchandiseSold(Integer merchandiseSold) {
 		this.merchandiseSold = merchandiseSold;
 	}
 
 
-	public MerDiscount getMerDiscount() {
+	public Double getMerDiscount() {
 		return merDiscount;
 	}
 
 
-	public void setMerDiscount(MerDiscount merDiscount) {
+	public void setMerDiscount(Double merDiscount) {
 		this.merDiscount = merDiscount;
 	}
 
 
-	public Integer getMerchandiseFreeDeliver() {
-		return merchandiseFreeDeliver;
+	public Double getMerchandisePostage() {
+		return merchandisePostage;
 	}
 
 
-	public void setMerchandiseFreeDeliver(Integer merchandiseFreeDeliver) {
-		this.merchandiseFreeDeliver = merchandiseFreeDeliver;
+	public void setMerchandisePostage(Double merchandisePostage) {
+		this.merchandisePostage = merchandisePostage;
 	}
 
 
-	public Integer getMerchandiseCode() {
+	public String getMerchandiseCode() {
 		return merchandiseCode;
 	}
 
 
-	public void setMerchandiseCode(Integer merchandiseCode) {
+	public void setMerchandiseCode(String merchandiseCode) {
 		this.merchandiseCode = merchandiseCode;
 	}
 
@@ -224,6 +236,24 @@ public class Merchandise implements Serializable{
 	public void setMerCategory(MerCategory merCategory) {
 		this.merCategory = merCategory;
 	}
-	
-	
+
+
+	public Date getMerchandiseUpdateTime() {
+		return merchandiseUpdateTime;
+	}
+
+
+	public void setMerchandiseUpdateTime(Date merchandiseUpdateTime) {
+		this.merchandiseUpdateTime = merchandiseUpdateTime;
+	}
+
+
+	public Set<Comments> getMerComments() {
+		return merComments;
+	}
+
+
+	public void setMerComments(Set<Comments> merComments) {
+		this.merComments = merComments;
+	}
 }
