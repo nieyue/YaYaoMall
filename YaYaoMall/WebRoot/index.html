@@ -112,7 +112,7 @@
     <!-- end购物热门推荐虚线-->
     <!-- 购物热门推荐商品-->
     <div class="rmtjsp" id="remtjsp">
-        <a class=" list-card well" href="merchandise_details">
+        <!-- <a class=" list-card well" href="merchandise_details">
           <div class="itemimg">
           <img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1">
           <span class="goods-sold">销量54</span>
@@ -123,10 +123,9 @@
           <span class="goods-relprice">¥2980.00</span>
           <span class="goods-price">¥3980.00</span>
           </div>
-        </a>
+        </a> -->
 
     </div>
-    
     <!-- end购物热门推荐商品-->
     <!-- 底部导航-->
     <div class="list-inline fixed-footer">
@@ -148,7 +147,7 @@
        <script src="resources/js/jquery.event.drag-1.5.min.js"></script> 
        <script src="resources/js/jquery.touchSlider.js"></script> 
        <script src="resources/js/bootstrap3.2.0.js"></script>
-       <script src="resources/js/sha1.js"></script>
+       <script src="resources/js/base64.js"></script>
        <script src="resources/js/base.js"></script>
         <script type="text/javascript">
    //显示所有html
@@ -165,23 +164,14 @@
 	   }
    });
    $(function(){
-	   function merchandiseList(){
-	   for ( var merchandise in userData.merchandiseData) {
-			var mer=userData.merchandiseData[merchandise];
-		   $("#remtjsp").append(
-		"<a class='list-card well' href='"+mer.itemurl+"'>"+
-		"<div class='itemimg'><img src='"+mer.imgs[0]+"'>"+
-		"<span class='goods-sold'>销量"+mer.itemsold+"</span>"+
-        "<span class='goods-discount'>"+mer.itemdiscount+"折</span></div>"+
-        "<div  class='iteminfo'>"+
-        "<h3 class='goods-title'>"+mer.itemname+"</h3>"+
-        "<span class='goods-relprice'>¥"+mer.itemprice+"</span>"+
-        "<span class='goods-price'>¥"+mer.itemolderprice+"</span>"+
-        "</div></a>");
-		 //console.log(userData.merchandiseData[merchandise].itemprice)
-	}
-   }
-	   merchandiseList();
+	   //商品初始化加载
+	   userData.initIndexMer();
+	   //监听滚动到底部加载商品
+	   $(window).scroll(function(){
+		   if(myUtils.isScrollBottom("body")){
+			   userData.initIndexMer();
+		   }
+	   });
 	   
 	   //轮播图
 	   $(".main_visual").hover(function(){

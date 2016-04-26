@@ -47,7 +47,7 @@ public class SHAutil {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String s = SHAutil.getSHA("123456789");
+		String s = SHAutil.getSHA("123456");
 		System.out.println(s);
 		byte[] b="123456".getBytes();
 		byte[] sb = SHAutil.encryptSHA(b);

@@ -99,7 +99,7 @@ public class MerchandiseServiceImplTest {
 		List<Merchandise> list = merchandiseService.browseMer(2,3,null, "merchandiseSold","des");
 	for (int i = 0; i < list.size(); i++) {
 		
-		System.out.println(list.get(i));
+		System.out.println((list.get(0).getMerchandiseUpdateTime()).before(list.get(1).getMerchandiseUpdateTime()));
 	}
 	
 	}

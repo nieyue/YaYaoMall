@@ -14,16 +14,17 @@
   <body>
    <!-- 商品图片 -->
   <div class="merchandise-img">
- 	 <img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1"/>
-  	 <span class="goods-sold" style="font-size:22px;">销量54</span>
+ 	 <img src="resources/img/preLoding.jpg"/>
+  	 <span class="goods-sold" style="font-size:22px;">销量0</span>
+  	 <span class="goods-stock" style="font-size:22px;">库存0</span>
   </div>
   <!-- end商品图片 -->
    <!-- 商品详情 -->
    <div class="merchandise-details">
-  	<div class="merchandise-title">【送茶刀】【包邮】 施兆鹏八十大寿礼茶 湖南安化黑茶 金花茯砖 收藏茶 盒装1936g</div>
+  	<div class="merchandise-title"></div>
   	<div class="merchandise-price">
-  		<span class="merchandise-relprice">¥2980.00</span>
-         <span class="merchandise-price">¥3980.00</span>
+  		<span class="merchandise-relprice">¥0.00</span>
+         <span class="merchandise-price">¥0.00</span>
   	</div>
   </div> 
   <div class="separate-space"></div>
@@ -98,12 +99,19 @@
   </body>
        <script src="resources/js/jquery2.1.js"></script>  
        <script src="resources/js/bootstrap3.2.0.js"></script>
-       <script src="resources/js/sha1.js"></script>
+       <script src="resources/js/base64.js"></script>
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
-      			//初始化购物数量
-      			myUtils.merchandiseNumber(".merchandise-num",".merchandise-add",".merchandise-minus");
+      			
+      			//参数验证
+      			if(!myUtils.userVerification.catNum.test(myUtils.GetQueryString("merid"))){
+      				location.replace('index');
+      			}
+      			 if(localStorage.getItem("browseMerchandise")!=null){
+      				userData.merchandise_details(JSON.parse(decode64(localStorage.getItem("browseMerchandise"))));
+      		   }
+      			 
       		});
        </script>
   

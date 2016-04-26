@@ -101,7 +101,7 @@ public class Test {
 			break;
 		}
 	    System.out.println(aaa);
+	    System.out.println(12%2);
 		}
-
 
 }

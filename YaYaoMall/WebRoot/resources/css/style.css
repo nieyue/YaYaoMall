@@ -311,13 +311,13 @@ input[type="file"] {
 }
 
 .main_image li .img_4 {
-	background: url('/YaYaoMall/resources/img/images/img_main_4.jpg') center
+	background: url('http://www.yayao8.com/resources/img/carousel/carousel1.jpg') center
 		top no-repeat;
 	background-size: 100% 230px;
 }
 
 .main_image li .img_5 {
-	background: url('/YaYaoMall/resources/img/images/img_main_5.jpg') center
+	background: url('http://www.yayao8.com/resources/img/carousel/carousel2.jpg') center
 		top no-repeat;
 	background-size: 100% 230px;
 }
@@ -457,6 +457,17 @@ div.flicking_con a.on {
 	position:absolute;
 	font-size:12px;
 	left:0;
+	bottom:0;
+	opacity:0.7;
+	padding:2px;
+}
+.goods-stock{
+	color: white;
+	background-color:#000;
+	border-radius:2px;
+	position:absolute;
+	font-size:12px;
+	right:0;
 	bottom:0;
 	opacity:0.7;
 	padding:2px;

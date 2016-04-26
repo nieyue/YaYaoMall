@@ -58,7 +58,7 @@
     <!-- your app's js -->
        <script src="resources/js/jquery2.1.js"></script>  
        <script src="resources/js/bootstrap3.2.0.js"></script>
-       <script src="resources/js/sha1.js"></script>
+       <script src="resources/js/base64.js"></script>
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
@@ -82,10 +82,10 @@
       				data:{userName:userName,userPassword:userPassword},
       				dataType:'json',
       				success:function(data){
-      					console.log("sdfsdf")
       					if(data.userMsg=="200"){
-      						localStorage.setItem("loginstate",1);
-      						localStorage.setItem("userid",data.userid);
+      					myUtils.setCookie("loginstate","1",60*60*24*365);
+      					myUtils.setCookie("userid",data.userid,60*60*24*365);
+      					sessionStorage.setItem("user",encode64(JSON.stringify(data)));
       						myUtils.myPrevToast("登录成功",function(){
       			      			location.replace("person");
       			      			},"remove");

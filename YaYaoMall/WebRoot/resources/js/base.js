@@ -21,6 +21,30 @@ var myUtils = {
 		password:/^[0-9_a-zA-Z]{6,20}$/ //数字、字母、下划线，6-20长度
 	},
 	/**
+	 * 时间戳转yyyy-MM-dd hh:mm:ss
+	 * 
+	 */
+	timeStampToDate:function(timeStamp){
+		var date = new Date(timeStamp);
+		Y = date.getFullYear() + '-';
+		M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		D = date.getDate() + ' ';
+		h = date.getHours() + ':';
+		m = date.getMinutes() + ':';
+		s = date.getSeconds(); 
+	return Y+M+D+h+m+s; 
+	},
+	/**
+	 * 获取当前url的参数
+	 * 
+	 */
+	GetQueryString: function (name)
+	{
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	},
+	/**
 	 * cookie
 	 * 
 	 */
@@ -251,7 +275,7 @@ var myUtils = {
 	    	 {
 	         var reader = new FileReader(); 
 	        var fd=new FormData();
-	         fd.append("userid",localStorage.getItem("userid"));
+	         fd.append("userid",myUtils.getCookie("userid"));
 	         fd.append("file", file.files[0]);
 	      	reader.onload = function(e){
 	      		//console.log(e.target.result);
@@ -393,7 +417,7 @@ var myUtils = {
 		}
 		$("body")
 				.append(
-						"<div id='prevToastWarp' style='display:none;position:fixed;width:100%;height:100%;top:0;left:0;'><div id='prevToast' style='color:#fff;background-color:#000;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'><canvas id='loading'  height='30px' width='30px' style='display:inline-block;margin-bottom:-10px;' >您的浏览器不支持html5</canvas>"
+						"<div id='prevToastWarp' style='display:none;position:fixed;width:100%;height:100%;top:0;left:0;'><div id='prevToast' style='color:#fff;background-color:#000;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'><canvas id='prevloading'  height='30px' width='30px' style='display:inline-block;margin-bottom:-10px;' >您的浏览器不支持html5</canvas>"
 						+"<span id='prevToastValue'>"+ value +"</span>&nbsp;&nbsp; </div></div>");
 		if(fn){
 			fn();
@@ -405,16 +429,51 @@ var myUtils = {
 	myLoadingToast : function(value, fn) {
 		$("body")
 				.append(
-						"<div id='loadingToastWarp' style='position:fixed;width:100%;height:100%;top:0;left:0;'><div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
-						+ value + "</div></div>");
+						"<div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
+						+ value + "</div>");
 		$("#loadingToast").fadeIn();
 		setTimeout(function() {
 			$("#loadingToast").fadeOut('slow');
-			$("#loadingToastWarp").remove();
+			$("#loadingToast").remove();
 			if(fn){
 				fn();
 			}
 			}, 1000);
+	},
+	/**
+	 *底部加载toast
+	 */
+	myFootLoadingToast : function(bottom, fn,motion) {
+		if(bottom==null||bottom==''||bottom==undefined){
+			bottom=0;
+		}
+		//如果存在，remove
+		if(document.querySelector("#footToast")){
+			if(motion=="add"){
+				$("#footToast").css("bottom",bottom);
+				$("#footToast").fadeIn();
+				$("#footToast").attr("display","block");
+			}else if(motion=="remove"){
+				setTimeout(function() {
+					$("#footToast").fadeOut('slow');
+					$("#footToast").attr("display","none");
+					}, 1000);
+			}
+			if(fn){
+				fn();
+			}
+			return;
+		}
+		
+		
+		$("body")
+				.append(
+						"<div id='footToast' style='display:none;color:#fff;background-color:#ccc;text-align:center;line-height:30px;border:0px solid black;min-height:30px;width:100%;bottom:"+bottom+";left:0;position:fixed;'><canvas id='bottomloading'  height='30px' width='30px' style='display:inline-block;margin-bottom:-10px;' >您的浏览器不支持html5</canvas><span id='footToastValue'>正在努力加载中...</span></div>");
+		
+			if(fn){
+				fn();
+			}
+			
 	},
 	/**
 	 * loading小图片
@@ -543,12 +602,12 @@ var myUtils = {
 	/**
 	 * 商品数量选定组件
 	 */
-	merchandiseNumber:function (mun,add,minus){
+	merchandiseNumber:function (mun,add,minus,stock){
 		
 	//商品选购数量
 		$(mun).on('change',function(){
 			var munthis=$(this);
-			if(myUtils.userVerification.catNum.test(munthis.val())&&(munthis.val()<=userData.merchandiseData[0].itemstock)){
+			if(myUtils.userVerification.catNum.test(munthis.val())&&(munthis.val()<=stock)){
 				return;
 			}else{
 				munthis.val(1);
@@ -558,7 +617,7 @@ var myUtils = {
 		$(add).on('click',function(){
 			var addthis=$(this);
 			var numthis=addthis.prev();
-			if(myUtils.userVerification.catNum.test(numthis.val())&&(numthis.val()<userData.merchandiseData[0].itemstock)){
+			if(myUtils.userVerification.catNum.test(numthis.val())&&(numthis.val()<stock)){
 				numthis.val(parseInt(numthis.val())+1);
 				return;
 			}else{
@@ -569,7 +628,7 @@ var myUtils = {
 		$(minus).on('click',function(){
 			var minusthis=$(this);
 			var numthis=minusthis.next();
-			if(myUtils.userVerification.catNum.test(numthis.val())&&(numthis.val()<=userData.merchandiseData[0].itemstock)){
+			if(myUtils.userVerification.catNum.test(numthis.val())&&(numthis.val()<=stock)){
 				if(numthis.val()==1){
 					return;
 				}
@@ -627,7 +686,7 @@ var userData = {
 	// 用户数据初始化
 	userInit : {
 		userid:null,
-		userPassword : hex_sha1('123456'),
+		userPassword : '123456',
 		userIMG : 'resources/img/preLoding.jpg',
 		userNiceName : '添加昵称',
 		userSignature : '把你爱好留在这里！',
@@ -637,94 +696,83 @@ var userData = {
 		userReceiptAddress : '添加收货地址'
 	},
 	// 用户数据
-	userPerson : {
-		userid:9,
-		userNiceName : '聂跃',
-		userPassword : hex_sha1('123456'),
-		userIMG : 'http://img.mukewang.com/user/54859e4f00019f2a01000100-40-40.jpg',
-		userSignature : '我是一直笑笑笑!',
-		userEmail : '278076545@qq.com',
-		userPhone : '15488654845',
-		userIdentity : '430504194705050468',
-		userReceiptAddress : '湖南长沙岳麓区晟通城'
+	person : function(data){
+		document.querySelector("#userHref").href='user_info';
+		document.querySelector("#userNiceName").innerHTML=data.userNiceName||data.userEmail||data.userPhone||userData.userInit.userName;
+		document.querySelector("#userIMG").src=data.userIMG||userData.userInit.userIMG;
+		document.querySelector("#userAccess").innerHTML='';
+		document.querySelector("#userSignature").innerHTML=data.userSignature||userData.userInit.userSignature;
+	},
+	user_info:function(data){
+		document.querySelector("#userInfoIMG").src=data.userIMG||userData.userInit.userIMG;
+		document.querySelector("#userNiceName").innerHTML=data.userNiceName||userData.userInit.userNiceName;
+		document.querySelector("#userSignature").innerHTML=data.userSignature||userData.userInit.userSignature;
+		document.querySelector("#userEmail").innerHTML=data.userEmail||userData.userInit.userEmail;
+		document.querySelector("#userPhone").innerHTML=data.userPhone||userData.userInit.userPhone;
+		document.querySelector("#userIdentity").innerHTML=data.userIdentity||userData.userInit.userIdentity;
+		document.querySelector("#userReceiptAddress").innerHTML=data.userReceiptAddress||userData.userInit.userReceiptAddress;
 	},
 	// 商品数据
-	merchandiseData : [
-			{
-				itemid : 1,
-				itemurl : 'http://weidian.com/item.html?itemID=1739996534&pc=1',
-				itemname : '【包邮】 湘丰茶叶湖南安化黑茶金花茯砖茶茯砖颗粒罐装95g',
-				itemstock : 20,// 库存
-				itemolderprice : '69.00',// 原始价格
-				itemprice : '52.00',// 价格
-				itemsold : 10,// 销量
-				itemdiscount : 5.5,// 折扣
-				itemcode : 'sdfsdf111',// 商品编号
-				itemcates : {// 商品分类
-					cateid : 1,
-					catename : '黑茶',
-				},
-				imgs : [
-						'http://wd.geilicdn.com/vshop333816149-1458877311461-2160561.jpg?w=1080&h=0',
-						'http://wd.geilicdn.com/vshop333816149-1458877311929-4423713.jpg?w=1080&h=0' ]
-
-			},
-			{
-				itemid : 2,
-				itemurl : 'http://weidian.com/item.html?itemID=1740002761&p=2',
-				itemname : '【包邮】 湘丰红茶 锡兰红茶 斯里兰卡高山茶 100g',
-				itemstock : 30,// 库存
-				itemolderprice : '99.00',// 原始价格
-				itemprice : '52.00',// 价格
-				itemsold : 15,// 销量
-				itemdiscount : 5.6,// 折扣
-				itemcode : 'sdafj56',// 商品编号
-				itemcates : {// 商品分类
-					cateid : 2,
-					catename : '红茶',
-				},
-				imgs : [
-						'http://wd.geilicdn.com/vshop333816149-1455854586461-7295261.jpg?w=1080&h=0',
-						'http://wd.geilicdn.com/vshop333816149-1455854586924-6141394.jpg?w=1080&h=0' ]
-
-			},
-			{
-				itemid : 3,
-				itemurl : 'http://weidian.com/item.html?itemID=1740002173&pc=1',
-				itemname : '【包邮】 湖南湘丰茶叶2015年新茶红茶红颜罐装60g',
-				itemstock : 50,// 库存
-				itemolderprice : '79.00',// 原始价格
-				itemprice : '52.00',// 价格
-				itemsold : 52,// 销量
-				itemdiscount : 7.5,// 折扣
-				itemcode : 'sdsf',// 商品编号
-				itemcates : {// 商品分类
-					cateid : 3,
-					catename : '红茶',
-				},
-				imgs : [
-						'http://wd.geilicdn.com/vshop333816149-1458809124374-7162726.jpg?w=1080&h=0',
-						'http://wd.geilicdn.com/vshop333816149-1458809124543-1175562.jpg?w=1080&h=0' ]
-
-			},
-			{
-				itemid : 4,
-				itemurl : 'http://weidian.com/item.html?itemID=1750072037&pc=1',
-				itemname : '【头采】 “惠茶” 2016头采春茶 清香型绿茶 100克',
-				itemstock : 340,// 库存
-				itemolderprice : '69.00',// 原始价格
-				itemprice : '0.01',// 价格
-				itemsold : 134,// 销量
-				itemdiscount : 3.5,// 折扣
-				itemcode : 'sdafdfsj56',// 商品编号
-				itemcates : {// 商品分类
-					cateid : 3,
-					catename : '绿茶',
-				},
-				imgs : [
-						'http://wd.geilicdn.com/vshop333816149-1458727545439-7139065.jpg?w=1080&h=0',
-						'http://wd.geilicdn.com/vshop333816149-1458727545563-1679299.jpg?w=1080&h=0' ]
-			} ],
+	merchandiseIndex:function(elementid,mers){
+		for ( var merid in mers) {
+			var mer=mers[merid];
+		   $(elementid).append(
+		"<a class='list-card well' href='merchandise_details?merid="+mer.merchandiseid+"'>"+
+		"<div class='itemimg'><img src='"+mer.merchandiseIMGS+"'>"+
+		"<span class='goods-sold'>销量"+mer.merchandiseSold+"</span>"+
+        "<span class='goods-discount'>"+parseFloat(mer.merDiscount).toFixed(1)+"折</span></div>"+
+        "<div  class='iteminfo'>"+
+        "<h3 class='goods-title'>"+mer.merchandiseName+"</h3>"+
+        "<span class='goods-relprice'>¥"+parseFloat(mer.merchandisePrice).toFixed(2)+"</span>"+
+        "<span class='goods-price'>¥"+parseFloat(mer.merchandiseOldPrice).toFixed(2)+"</span>"+
+        "</div></a>");
+		}
+	},
+	//商品数据初始化加载
+	 initIndexMer:function(){
+		   myUtils.myFootLoadingToast("55px",function(){
+				var currentcount=1;
+				if(localStorage.getItem("browseMerchandise")!=null){
+					currentcount=JSON.parse(decode64(localStorage.getItem("browseMerchandise"))).length;
+				}
+		   $.get("merchandise/browseMerchandise.json?currentCount="+currentcount,"json",function(data){
+				console.log(data);
+					   
+			if(data==''||data==null){
+				myUtils.myFootLoadingToast("55px",null,"remove");
+				myUtils.myLoadingToast("没有更多了");
+				return;
+			}
+			   var newData=data; 
+			   if(localStorage.getItem("browseMerchandise")!=null){
+			  var olddata=JSON.parse(decode64(localStorage.getItem("browseMerchandise")));
+		 	   newData=olddata.concat(data);
+			   }
+			  localStorage.setItem("browseMerchandise",encode64(JSON.stringify(newData)));
+				console.log(newData)
+			   userData.merchandiseIndex("#remtjsp",data);//只加载最新
+				myUtils.myFootLoadingToast("55px",null,"remove");
+		   });
+		   
+		},"add");
+	   },
+	//商品详情页
+	merchandise_details:function(mers){
+		for ( var merid in mers) {
+			var mer=mers[merid];
+			if(mer.merchandiseid==myUtils.GetQueryString("merid")){
+			  $(".merchandise-img img").attr("src",mer.merchandiseIMGS);
+			  $(".merchandise-img .goods-sold").text("销量"+mer.merchandiseSold);
+			  $(".merchandise-img .goods-stock").text("库存"+mer.merchandiseStock);
+			  $(".merchandise-details .merchandise-title").text(mer.merchandiseName);
+			  $(".merchandise-price .merchandise-relprice").text("¥"+parseFloat(mer.merchandisePrice).toFixed(2));
+			  $(".merchandise-price .merchandise-price").text("¥"+parseFloat(mer.merchandiseOldPrice).toFixed(2));
+			   //初始化购物数量
+		  myUtils.merchandiseNumber(".merchandise-num",".merchandise-add",".merchandise-minus",mer.merchandiseStock);
+			  	}
+			}
+		
+	}
 
 };
 
@@ -736,4 +784,6 @@ var userData = {
 myTouchEvents.initTouchEvents();
 myUtils.myPrevToast("加载中");
 //loading
-myUtils.loading(document.getElementById('loading'),{radius:8,circleLineWidth:2});
+myUtils.loading(document.querySelector('#prevloading'),{radius:8,circleLineWidth:2});
+myUtils.myFootLoadingToast("55px");
+myUtils.loading(document.querySelector('#bottomloading'),{radius:8,circleLineWidth:2});

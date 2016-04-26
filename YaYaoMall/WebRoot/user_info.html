@@ -87,23 +87,27 @@
 	</body>
        <script src="resources/js/jquery2.1.js"></script>  
        <script src="resources/js/bootstrap3.2.0.js"></script>
-       <script src="resources/js/sha1.js"></script>
+       <script src="resources/js/base64.js"></script>
        <script src="resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
       			//登录成功的用户信息
-      			if(localStorage.getItem("loginstate")==1){
-      				var userid=localStorage.getItem("userid");
-      				myUtils.myPrevToast("加载中",function(){
+      			if(myUtils.getCookie("loginstate")==1){
+      				var userid=myUtils.getCookie("userid");
+      			myUtils.myPrevToast("加载中",function(){
+      			//如果缓存，直接取
+  					if(sessionStorage.getItem("user")!=null){
+      					var data=JSON.parse(decode64(sessionStorage.getItem("user")));
+      					userData.user_info(data);
+          				myUtils.myPrevToast("加载完成",null,"remove");
+          				return;
+      				}
       			$.get("user/loadUser.json?id="+userid,"json",function(data){
-      				document.querySelector("#userInfoIMG").src=data.userIMG||userData.userInit.userIMG;
-      				document.querySelector("#userNiceName").innerHTML=data.userNiceName||userData.userInit.userNiceName;
-      				document.querySelector("#userSignature").innerHTML=data.userSignature||userData.userInit.userSignature;
-      				document.querySelector("#userEmail").innerHTML=data.userEmail||userData.userInit.userEmail;
-      				document.querySelector("#userPhone").innerHTML=data.userPhone||userData.userInit.userPhone;
-      				document.querySelector("#userIdentity").innerHTML=data.userIdentity||userData.userInit.userIdentity;
-      				document.querySelector("#userReceiptAddress").innerHTML=data.userReceiptAddress||userData.userInit.userReceiptAddress;
+      				if(data){
+      				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+              		userData.user_info(data);
       				myUtils.myPrevToast("加载完成",null,"remove");
+      				}
       				});
       				},"add");
       				
@@ -113,8 +117,8 @@
       		//登录退出
       		$("#userLoginOut").on('click',function(){
       			myUtils.myLoginOut("确定退出吗？",function(){
-      			localStorage.removeItem("loginstate");
-      			localStorage.removeItem("userid");
+      			myUtils.delCookie("loginstate");
+      			myUtils.delCookie("userid");
       			$.get("user/loginOut",function(){
       			myUtils.myLoadingToast("退出成功",function(){
       			location.replace("person");
