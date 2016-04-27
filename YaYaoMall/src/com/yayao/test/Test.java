@@ -2,6 +2,7 @@ package com.yayao.test;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.server.UID;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hibernate.criterion.Order;
@@ -102,6 +104,8 @@ public class Test {
 		}
 	    System.out.println(aaa);
 	    System.out.println(12%2);
+	    System.out.println(UUID.randomUUID());
+	    System.out.println();
 		}
 
 }

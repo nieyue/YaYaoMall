@@ -88,7 +88,7 @@ var myUtils = {
       			$(userName.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
-      		$.get("user/chkUserName",
+      		$.get("/user/chkUserName",
       			{userName:userNameInfo},
       			function(data){
       				console.log(data)
@@ -132,7 +132,7 @@ var myUtils = {
       			$(validCode.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
-      		$.get("user/validCode",
+      		$.get("/user/validCode",
       				{
       				userEmail:userNameInfo,
       				validCode:parseInt(Math.random()*9000+1000)
@@ -167,7 +167,7 @@ var myUtils = {
 				return ;
 			}
 			$(validCode.userNameError).text("");
-      		$.get("user/chkValidCode",{
+      		$.get("/user/chkValidCode",{
       			validCode:$(validCode.userNameValue).val().trim()
       		},
       			function(data){
@@ -232,7 +232,7 @@ var myUtils = {
 	  				return;
 	  			}
 	  		}
-	  		$.post("user/updateUserInfo",{
+	  		$.post("/user/updateUserInfo",{
 	  			userid:localStorage.getItem("userid"),
 	  			userInfoOne:userInfoOne,
 	  			changeValue:uiom
@@ -281,7 +281,7 @@ var myUtils = {
 	      		//console.log(e.target.result);
 	      		myUtils.myPrevToast("上传中",function(){
 	      		$.ajax({
-	      			url:"user/userIMGUpload",
+	      			url:"/user/userIMGUpload",
 	      			type:"POST",
 	      			data:fd,
 	      			enctype:'multipart/form-data',
@@ -290,12 +290,12 @@ var myUtils = {
 	      			success:function(){
 	      				//console.log("sdf");
 	      				myUtils.myPrevToast("上传成功",null,"remove");
+	      				$(imgelement).attr("src",e.target.result);
 	      			},
 	      			error:function(){
-	      				myUtils.myLoadingToast("上传失败");
+	      				myUtils.myPrevToast("上传失败",null,"remove");
 	      			}
 	      		});
-	      		$(imgelement).attr("src",e.target.result);
 	      		},"add");
 	      		
 	    	}
@@ -730,31 +730,52 @@ var userData = {
 	},
 	//商品数据初始化加载
 	 initIndexMer:function(){
+		 var merindexloadfinlish=0;//加载完成
+		 
 		   myUtils.myFootLoadingToast("55px",function(){
 				var currentcount=1;
 				if(localStorage.getItem("browseMerchandise")!=null){
 					currentcount=JSON.parse(decode64(localStorage.getItem("browseMerchandise"))).length;
+				}else {
+					sessionStorage.setItem("merindexloadfinlish",0);//browseMerchandise==null,没完成
 				}
-		   $.get("merchandise/browseMerchandise.json?currentCount="+currentcount,"json",function(data){
-				console.log(data);
-					   
-			if(data==''||data==null){
+				
+				if(sessionStorage.getItem("merindexloadfinlish")==1){
+					myUtils.myFootLoadingToast("55px",null,"remove");
+					return;
+				} 
+				
+	 $.ajax({  
+			type : "get",  
+			url : "/merchandise/browseMerchandise.json",  
+			data : "currentCount=" + currentcount,  
+			async : false,//取消异步 
+			dataType:"json",
+			success : function(data){  
+			   if(data==''||data==null){
+				   console.log("ds")
 				myUtils.myFootLoadingToast("55px",null,"remove");
 				myUtils.myLoadingToast("没有更多了");
+				merindexloadfinlish=1;
+				sessionStorage.setItem("merindexloadfinlish", merindexloadfinlish);
 				return;
 			}
-			   var newData=data; 
+			   var newData=data;//所有数据 
 			   if(localStorage.getItem("browseMerchandise")!=null){
 			  var olddata=JSON.parse(decode64(localStorage.getItem("browseMerchandise")));
 		 	   newData=olddata.concat(data);
+			   }else{
+				  document.querySelector("#remtjsp").innerHTML='';//第一次加载
 			   }
 			  localStorage.setItem("browseMerchandise",encode64(JSON.stringify(newData)));
 				console.log(newData)
 			   userData.merchandiseIndex("#remtjsp",data);//只加载最新
 				myUtils.myFootLoadingToast("55px",null,"remove");
-		   });
+				    }
+				    });
 		   
 		},"add");
+		   
 	   },
 	//商品详情页
 	merchandise_details:function(mers){
@@ -780,10 +801,13 @@ var userData = {
  * 初始化
  * 
  */
-
+//触摸事件
 myTouchEvents.initTouchEvents();
+//阻塞Loading
 myUtils.myPrevToast("加载中");
-//loading
+//阻塞loading圆圈
 myUtils.loading(document.querySelector('#prevloading'),{radius:8,circleLineWidth:2});
+//底部加载loading
 myUtils.myFootLoadingToast("55px");
+//底部加载圆圈
 myUtils.loading(document.querySelector('#bottomloading'),{radius:8,circleLineWidth:2});

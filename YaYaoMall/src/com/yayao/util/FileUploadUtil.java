@@ -101,6 +101,6 @@ public class FileUploadUtil {
 			file.transferTo(localFile);
 		
            }
-		return "resources/userUpload/"+fileName;
+		return "/resources/userUpload/"+fileName;
 	}
 }

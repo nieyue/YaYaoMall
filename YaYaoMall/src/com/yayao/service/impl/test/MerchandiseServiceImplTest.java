@@ -21,6 +21,7 @@ import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseService;
+import com.yayao.util.IMGIndivisibleUtil;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:config/applicationContext.xml"})
@@ -73,7 +74,26 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testUpdateMer() {
-		fail("Not yet implemented");
+		Merchandise mer = merchandiseService.loadMer(1);
+		StringBuffer imgsbuffer = new StringBuffer();
+		String imgs="";
+		
+		for (int i =1; i <= 15; i++) {
+			
+			imgsbuffer.append("/resources/sellerUpload/1/黑茶/富甲富颗粒/富甲富颗粒1_0"+i+".jpgNY@");
+			
+		}
+		imgs=imgsbuffer.toString();
+		System.out.println(imgs);
+		for (int i = 0; i < IMGIndivisibleUtil.stringToArray(imgs).length; i++) {
+		//IMGIndivisibleUtil.stringToArray(imgs);
+		//System.out.println(imgs.split("NY@")[i]);
+		System.out.println(IMGIndivisibleUtil.stringToArray(imgs)[i]);
+			
+		}
+		mer.setMerchandiseIMGS(imgs);
+		merchandiseService.updateMer(mer);
+		System.out.println(mer.getMerchandiseIMGS());
 	}
 
 	@Test
@@ -96,7 +116,7 @@ public class MerchandiseServiceImplTest {
 	public void testBrowseMerIntIntInt() {
 		MerCategory cate = merCategoryService.loadMerCategory("黑茶");
 		System.out.println(cate);
-		List<Merchandise> list = merchandiseService.browseMer(2,3,null, "merchandiseSold","des");
+		List<Merchandise> list = merchandiseService.browseMer(10,1,null, "merchandiseSold","des");
 	for (int i = 0; i < list.size(); i++) {
 		
 		System.out.println((list.get(0).getMerchandiseUpdateTime()).before(list.get(1).getMerchandiseUpdateTime()));

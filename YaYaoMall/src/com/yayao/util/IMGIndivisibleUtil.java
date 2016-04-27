@@ -15,7 +15,7 @@ public class IMGIndivisibleUtil {
 	public static String arrayToString(String[] imgs){
 		String img="";
 	    for (int i = 0; i < imgs.length; i++) {
-				img+=imgs[i]+"图片分割";
+				img+=imgs[i]+"NY@";
 			}
 		return img;
 	}
@@ -26,7 +26,7 @@ public class IMGIndivisibleUtil {
 	 */
 	public static String[] stringToArray(String img){
 		String[] imgs;
-		imgs=img.split("图片分割");
+		imgs=img.split("NY@");
 		return imgs;
 	}
 	/**

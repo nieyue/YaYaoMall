@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Columns;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
@@ -70,6 +73,7 @@ public class Merchandise implements Serializable{
 	/**
 	 * 商品图片集合
 	 */
+	@Column(length=21845)
 	private String merchandiseIMGS;
 	/**
 	 * 商品评论
@@ -80,6 +84,12 @@ public class Merchandise implements Serializable{
 	 * 商品更新时间
 	 */
 	private Date merchandiseUpdateTime;
+	/**
+	 * 卖家
+	 */
+	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@JoinColumn(name="mersellerid")
+	private MerSeller merSeller;
 	/**
 	 * 商品类别
 	 */

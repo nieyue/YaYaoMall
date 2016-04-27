@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>购物</title>
+	<meta name="keywords" content="本真,茶艺,茶叶,绿茶,红茶,黑茶,花茶,黄茶,青茶">
+	<meta name="description" content="欢迎关注本真茶园，优购好茶、品读茶艺，专注于茶的奥秘，也许您的精彩如同茶道需要用心去品味，本真茶园邀请您来喝茶，分享茶的感悟。 好茶才能品茗悟道，懂茶没那么难，我们愿与您分享茶艺的精彩。">
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <!-- 开屏 -->
+   <div  class="zhezhao" id="zhezhao" style="height:100%;width:100%;position: fixed;left: 0;top: 0;z-index:99999;display: none;">
+  <img alt="icon" style="height:100%;width:100%;" src="resources/img/kaiping/百两茶_01.jpg">
+  </div>
+    <script type="text/javascript">
+    var indexShopping={
+    kaiping:document.getElementsByTagName('html'),
+    zhezhao:document.querySelector('#zhezhao')
+    };
+    if(sessionStorage.getItem("iskaiping")!=1){
+  sessionStorage.setItem("iskaiping",1 );
+    indexShopping.kaiping[0].style.display="none";
+    indexShopping.zhezhao.style.display="block";
+    	//console.log("0");
+    }else{
+    	//console.log("sdf")
+    	
+    }
+  //延迟关闭开屏
+    setTimeout(function() {
+    	indexShopping.zhezhao.style.display="none";
+            },500); 
+  </script>
+     <!-- 购物header -->
+<div  class="header-banner">
+    <div class="header-banner-left" onclick="doSomething()">本真茶园</div>
+     <div class="header-banner-center">
+     <div class="glyphicon glyphicon-search header-banner-icon"></div>
+     <div class="header-banner-input">
+     <input id="searchAll" type="text" placeholder="黑茶">
+     </div>
+  	<div class=" header-banner-search">
+  	搜索
+  	</div>
+     </div>
+</div>
+<!-- end购物header-->
+  <!-- 购物轮播-->
+	<div class="main_visual">
+	<div class="flicking_con">
+		<a href="#">1</a>
+		<a href="#">2</a>
+		<a href="#">3</a>
+		<a href="#">4</a>
+		<a href="#">5</a>
+	</div>
+	<div class="main_image">
+		<ul>
+			<li><span class="img_1"></span></li>
+			<li><span class="img_2"></span></li>
+			<li><span class="img_3"></span></li>
+			<li><span class="img_4"></span></li>
+			<li><span class="img_5"></span></li>
+		</ul>
+		<a href="javascript:;" id="btn_prev"></a>
+		<a href="javascript:;" id="btn_next"></a>
+	</div>
+</div>
+
+    <!-- end购物轮播-->
+    <!-- 购物九宫格-->
+    <div class="home3">
+  <div>
+  <i class="glyphicon glyphicon-user" style="background-color:maroon;"></i>
+        <br/>新人礼包
+</div>
+  <div >
+<i class="glyphicon glyphicon-glass" style="background-color:orange;" ></i>
+         <br/> 物美价廉
+</div>
+  <div >
+<i class="glyphicon glyphicon-tree-deciduous" style="background-color:purple;"></i>
+          <br/>免费专区
+</div>
+</div>
+
+<div class="home3">
+  <div >
+<i class="glyphicon glyphicon-fire"></i>
+          <br/>TOP热卖
+</div>
+  <div >
+<i class="glyphicon glyphicon-tree-conifer" style="background-color: green;"></i>
+           <br/>茶艺文化
+</div>
+  <div >
+<i class="glyphicon glyphicon-envelope" style="background-color:navy; "></i>
+          <br/>包邮专区
+</div>
+  
+</div>
+    <!-- end购物九宫格-->
+    <!-- 购物热门推荐虚线-->
+    <div class=" rmtjxx">
+    <div ><hr/></div>
+    <div class="rmtjxx-c">热门推荐</div>
+    <div ><hr/></div>
+    </div>
+    <!-- end购物热门推荐虚线-->
+    <!-- 购物热门推荐商品-->
+    <div class="rmtjsp" id="remtjsp">
+        <!-- <a class=" list-card well" href="merchandise_details">
+          <div class="itemimg">
+          <img src="http://wd.geilicdn.com/vshop333816149-1457337325594-5905666.jpg?w=400&h=400&cp=1">
+          <span class="goods-sold">销量54</span>
+          <span class="goods-discount">6.6折</span>
+          </div>
+          <div  class="iteminfo">
+          <h3 class="goods-title">【包邮】【送茶刀】湖南安化黑茶 金花茯砖茶 施兆鹏八十大寿寿礼茶 收藏茶1936g</h3>
+          <span class="goods-relprice">¥2980.00</span>
+          <span class="goods-price">¥3980.00</span>
+          </div>
+        </a> -->
+
+    </div>
+    <!-- end购物热门推荐商品-->
+    <!-- 底部导航-->
+    <div class="list-inline fixed-footer">
+    	<a class="btn active-a" href="index"><i class="glyphicon glyphicon-home"></i><div class="active-a">购物</div></a>
+    	<a class="btn" href="classification"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
+    	<a class="btn" href="shoppingCircle"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
+    	<a class="btn" href="cat"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
+    	<a class="btn" href="person"><i class="glyphicon glyphicon-user"></i><div>我</div></a>
+    </div>
+    <!-- end底部导航-->
+    
+  </body>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- <script src="cordova.js"></script> -->
+
+    <!-- your app's js -->
+       <script src="resources/js/jquery2.1.js"></script> 
+       <script src="resources/js/jquery.event.drag-1.5.min.js"></script> 
+       <script src="resources/js/jquery.touchSlider.js"></script> 
+       <script src="resources/js/bootstrap3.2.0.js"></script>
+       <script src="resources/js/base64.js"></script>
+       <script src="resources/js/base.js"></script>
+        <script type="text/javascript">
+   //显示所有html
+   indexShopping.kaiping[0].style.display='block'; 
+  
+  /*  $(".myCarousel").carousel('cycle'); */
+
+   //监听窗口大小，隐藏底部导航
+   $(window).on("resize",function(){
+   if($(window).height()<380){
+	   $(".fixed-footer").hide();   
+	   }else{
+		   $(".fixed-footer").show();
+	   }
+   });
+   $(function(){
+	   //商品初始化加载
+	   if(localStorage.getItem("browseMerchandise")!=null){
+	   		userData.merchandiseIndex("#remtjsp",JSON.parse(decode64(localStorage.getItem("browseMerchandise"))));
+		}
+	   userData.initIndexMer();
+	   
+	   //监听滚动到底部加载商品
+	   $(window).scroll(function(){
+		   if(myUtils.isScrollBottom("body")){
+			   userData.initIndexMer();
+		   }
+	   });
+	   
+	   //轮播图
+	   $(".main_visual").hover(function(){
+			$("#btn_prev,#btn_next").fadeIn()
+		},function(){
+			$("#btn_prev,#btn_next").fadeOut()
+		});
+		
+		$dragBln = false;
+		
+		$(".main_image").touchSlider({
+			flexible : true,
+			speed : 200,
+			btn_prev : $("#btn_prev"),
+			btn_next : $("#btn_next"),
+			paging : $(".flicking_con a"),
+			counter : function (e){
+				$(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on");
+			}
+		});
+		
+		$(".main_image").bind("mousedown", function() {
+			$dragBln = false;
+		});
+		
+		$(".main_image").bind("dragstart", function() {
+			$dragBln = true;
+		});
+		
+		$(".main_image a").click(function(){
+			if($dragBln) {
+				return false;
+			}
+		});
+		
+		timer = setInterval(function(){
+			$("#btn_next").click();
+		}, 5000);
+		
+		$(".main_visual").hover(function(){
+			clearInterval(timer);
+		},function(){
+			timer = setInterval(function(){
+				$("#btn_next").click();
+			},5000);
+		});
+		
+		$(".main_image").bind("touchstart",function(){
+			clearInterval(timer);
+		}).bind("touchend", function(){
+			timer = setInterval(function(){
+				$("#btn_next").click();
+			}, 5000);
+		});
+		
+   //ahover
+   myUtils.ahover();
+ 	//回到顶部
+   myUtils.goBackTop();
+   });
+   
+  </script>
+  
+</html>

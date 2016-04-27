@@ -1,11 +1,9 @@
 package com.yayao.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
@@ -14,14 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
-import com.yayao.bean.User;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseService;
-import com.yayao.util.FileUploadUtil;
 import com.yayao.util.NumberUtil;
 
 /**
@@ -45,7 +40,7 @@ public class MerchandiseController {
 	 */
 	@RequestMapping(value = "/browseMerchandise", method = RequestMethod.GET)
 	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("currentCount")String currentCount,HttpSession session)  {
-		int pageSize=2;
+		int pageSize=10;
 		int pageNo=1;
 		MerCategory cate=null;
 		int count=0;

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>注册</title>
+	<meta name="keywords" content="本真,茶艺,茶叶,绿茶,红茶,黑茶,花茶,黄茶,青茶">
+	<meta name="description" content="欢迎关注本真茶园，优购好茶、品读茶艺，专注于茶的奥秘，也许您的精彩如同茶道需要用心去品味，本真茶园邀请您来喝茶，分享茶的感悟。 好茶才能品茗悟道，懂茶没那么难，我们愿与您分享茶艺的精彩。">
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+
+    
+  </head>
+  <body>
+  <div class="person-common-header">
+  	<div><a class="pull-left" href="person_login">&lt;返回</a></div>
+  	<div class="text-center person-common-header-center">账户注册</div>
+  </div>
+  <div class="person-register-body-toggle">
+  	<span class="emailspan">邮箱注册</span>
+  	<span class="phonespan">手机注册</span>
+  </div>
+  <div class="person-register-body">
+ <form class="form-horizontal" role="form" id="emailForm">
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userNameEmail" class="control-label">账号</label>
+      <label class="control-label text-danger verification-email" id="userNameEmailError"></label>
+         <input type="text" class="form-control" id="userNameEmail" 
+            placeholder="邮箱" name="userEmail">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userPasswordEmail" class="control-label">密码</label>
+      <label id="userPasswordEmailError" class="control-label text-danger verification-email"></label>
+         <input type="password" class="form-control" id="userPasswordEmail" 
+            placeholder="密码" name="userPassword">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="reUserPasswordEmail" class="control-label">重复密码</label>
+      <label id="reUserPasswordEmailError" class="control-label text-danger verification-email"></label>
+         <input type="password" class="form-control" id="reUserPasswordEmail" 
+            placeholder="重复密码" >
+      </div>
+   </div>
+   <label id="userValidEmailError" class="control-label text-danger verification-email"></label>
+   <div class="form-group">
+   
+      <div class="col-sm-6">
+         <input type="text" style="width:60%;" class="form-control pull-left" id="userValidEmail" 
+            placeholder="验证码" name="validCode">
+      </div>
+         <button type="button" class="btn btn-default pull-left" id="userValidEmailBtn">获取验证码</button>
+   </div>
+   
+   <div class="form-group">
+      <div class="col-sm-10 text-center">
+         <button type="button" class="btn btn-default btn-block btn-primary" id="emailSubmit">注册</button>
+      </div>
+   </div>
+</form>
+
+<form class="form-horizontal" role="form" style="display:none;" id="phoneForm">
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userNamePhone" class="control-label">账号</label>
+         <input type="text" class="form-control" id="userNamePhone" 
+            placeholder="手机号">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userPasswordPhone" class="control-label">密码</label>
+         <input type="password" class="form-control" id="userPasswordPhone" 
+            placeholder="密码">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="reUserPasswordPhone" class="control-label">重复密码</label>
+         <input type="password" class="form-control" id="reUserPasswordPhone" 
+            placeholder="重复密码">
+      </div>
+      </div>
+   <div class="form-group">
+      <div class="col-sm-6">
+         <input type="text" style="width:60%;" class="form-control pull-left" id="userValidPhone" 
+            placeholder="验证码">
+      </div>
+         <button type="button" class="btn btn-default pull-left" id="userValidPhoneBtn">获取验证码</button>
+   </div>
+   
+   <div class="form-group">
+      <div class="col-sm-10 text-center">
+         <button type="button" class="btn btn-default btn-block btn-primary" id="phoneSubmit">注册</button>
+      </div>
+   </div>
+</form>
+  </div>
+    
+  </body>
+  
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- <script src="cordova.js"></script> -->
+
+    <!-- your app's js -->
+       <script src="resources/js/jquery2.1.js"></script>  
+       <script src="resources/js/bootstrap3.2.0.js"></script>
+       <script src="resources/js/base64.js"></script>
+       <script src="resources/js/base.js"></script>
+       <script type="text/javascript">
+      		$(function(){
+      			if(myUtils.getCookie("loginstate")==1){
+          			location.replace("person");
+          			}
+      		$(".emailspan").on("click",function(){
+      			$("#phoneForm").css("display","none");
+      			$("#emailForm").css("display","block");
+      			$(".phonespan").css({"background-color":"#fff","color":"#ccc"});
+      			$(this).css({"background-color":"#ccc","color":"white"});
+      		});
+      		$(".phonespan").on("click",function(){
+      			$("#emailForm").css("display","none");
+      			$("#phoneForm").css("display","block");
+      			$(".emailspan").css({"background-color":"#fff","color":"#ccc"});
+      			$(this).css({"background-color":"#ccc","color":"white"});
+      		});
+      	//ahover
+      	   myUtils.ahover();
+      	/**
+      	**注册校验
+      	*/
+      		
+      	myUtils.registerFormValid(
+      		//账号
+      		{
+      		userNameValue:"#userNameEmail",
+      		verification:myUtils.userVerification.email,
+      		userNameError:"#userNameEmailError",
+      		userNameErrorValue:"请输入正确的邮箱"
+      	},
+      //密码
+      	{
+      		userNameValue:"#userPasswordEmail",
+      		userNameError:"#userPasswordEmailError",
+      		userNameErrorValue:"数字、字母、下划线，6-20长度"
+      	},
+      //重复密码
+      	{
+      		userNameValue:"#reUserPasswordEmail",
+      		userNameError:"#reUserPasswordEmailError",
+      		userNameErrorValue:"两次密码必须相同"
+      	},
+      	//验证码btn
+      	"#userValidEmailBtn",
+      	//验证码
+      	{
+      		userNameValue:"#userValidEmail",
+      		userNameError:"#userValidEmailError",
+      	}); 
+      
+      	/**
+      	**表单提交
+      	*/
+      	$("#emailSubmit").click(function() {
+      		//判断空格
+      		for (var i = 0; i < $("#emailForm input").length; i++) {
+      			if($("#emailForm input")[i].value.trim()==""){
+      				return;
+      			}
+			}
+      		//判断错误
+      		if($(".verification-email").text().trim()!=""){
+      			return ;
+      		}
+      		myUtils.myPrevToast("注册中",function(){
+      			$.ajax({
+      				url:"user/register.json",
+      			  data:$("#emailForm").serialize(),
+      			  type:"POST",
+      			  dataType:"json",
+      			  success:function(data){
+      				 if(data.userMsg=="200"){
+      				myUtils.myPrevToast("注册成功",function(){
+      				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+      				myUtils.setCookie("loginstate","1",60*60*24*365);
+      				myUtils.setCookie("userid",data.userid,60*60*24*365);
+      				location.href="user_info";
+      			},"remove");
+      				}
+      			},
+      			error:function(){
+      				myUtils.myLoadingToast("注册失败");
+      			}
+      		});
+      		},"add");
+      		
+      	});
+      		});	
+       </script>
+</html>

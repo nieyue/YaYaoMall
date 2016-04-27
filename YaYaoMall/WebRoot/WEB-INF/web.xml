@@ -40,7 +40,7 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping> 
 	<!-- jsp过滤 -->
-	 <filter>
+	  <filter>
 	<filter-name>JSPFilter</filter-name>
 	<filter-class>com.yayao.filter.JspFilter</filter-class>
 	</filter>

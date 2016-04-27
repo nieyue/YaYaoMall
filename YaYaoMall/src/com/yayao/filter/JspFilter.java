@@ -65,10 +65,13 @@ public class JspFilter implements Filter{
 				servletRequest.getRequestDispatcher("/404.html").forward(request, response);
 			}else if(new File(strBackUrl+path+".html").exists()){
 				servletRequest.getRequestDispatcher(path+".html").forward(request, response);
-			}else if(path.equals("/")){
-				servletRequest.getRequestDispatcher("/index.html").forward(request, response);
+			}else if(path.equals("/")){//没有pc端
+				servletResponse.sendRedirect(servletRequest.getContextPath()+"/mall/mobile/index");
+				//servletRequest.getRequestDispatcher("/mall/mobile/index.html").forward(request, response);
 			}else if(path.equals("/Admin/")||path.equals("/Admin")){
 				servletRequest.getRequestDispatcher("/Admin/index.html").forward(request, response);
+			}else if(path.equals("/Seller/")||path.equals("/Seller")){
+				servletRequest.getRequestDispatcher("/Seller/index.html").forward(request, response);
 			}else{
 				chain.doFilter(request, response);
 			}
