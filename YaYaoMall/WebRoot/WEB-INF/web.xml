@@ -4,12 +4,11 @@
 <param-name>webAppRootKey</param-name>
 <param-value>YaYaoMall</param-value>
 </context-param>
-	<welcome-file-list>
-		<welcome-file>index</welcome-file>
-	</welcome-file-list> 
+<welcome-file-list>
+    <welcome-file>/mall/mobile/index</welcome-file>
+</welcome-file-list>
 	<display-name>YaYaoMall</display-name>
-	 <context-param>
-    
+<context-param>
     <param-name>log4jConfigLocation</param-name>
     <param-value>classpath:config/log4j.properties</param-value>
   </context-param>
@@ -22,6 +21,19 @@
             org.springframework.web.util.Log4jConfigListener  
         </listener-class>
   </listener>
+  <servlet-mapping>
+  	<servlet-name>jsp</servlet-name>
+  	<url-pattern>*.html;*.js;*.css;*.jpg;*.png;*.eot;*.svg;*.ttf;*.woff;*.woff2</url-pattern>
+  </servlet-mapping>
+  <!-- jsp过滤 -->
+	  <filter>
+	<filter-name>JSPFilter</filter-name>
+	<filter-class>com.yayao.filter.JspFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	<filter-name>JSPFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping> 
   <!-- 设置 延迟加载-->
 	  <filter>
     <filter-name>openSessionInViewFilter</filter-name>
@@ -39,15 +51,7 @@
     <filter-name>openSessionInViewFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping> 
-	<!-- jsp过滤 -->
-	  <filter>
-	<filter-name>JSPFilter</filter-name>
-	<filter-class>com.yayao.filter.JspFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	<filter-name>JSPFilter</filter-name>
-	<url-pattern>/*</url-pattern>
-	</filter-mapping> 
+	
 	<!-- 监听Spring -->
 	 <listener>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -87,34 +91,34 @@
 	</filter-mapping>
 	<error-page>
     <exception-type>java.lang.Throwable</exception-type>
-    <location>/404</location>
+    <location>/mall/mobile/404</location>
   </error-page>
   <error-page>
      <exception-type>java.lang.Exception</exception-type>
-     <location>/404</location>
+     <location>/mall/mobile/404</location>
  </error-page>  
   <error-page>
     <error-code>405</error-code>
-    <location>/404</location>
+    <location>/mall/mobile/404</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
-    <location>/404</location>
+    <location>/mall/mobile/404</location>
   </error-page>
   <error-page>
     <error-code>403</error-code>
-    <location>/404</location>
+    <location>/mall/mobile/404</location>
   </error-page>
    <error-page>
     <error-code>404</error-code>
-    <location>/404</location>
+    <location>/mall/mobile/404</location>
   </error-page> 
   <error-page>
     <error-code>406</error-code>
-    <location>/404</location>
+    <location>/mall/mobile/404</location>
   </error-page>
   <error-page>
     <error-code>400</error-code>
-    <location>/404</location>
-  </error-page>
+    <location>/mall/mobile/404</location>
+  </error-page> 
 </web-app>

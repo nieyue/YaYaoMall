@@ -215,18 +215,20 @@ public class UserController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/userIMGUpload", method = RequestMethod.POST)
-	public @ResponseBody void userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request,@RequestParam("userid")Integer id)  {
+	public @ResponseBody String userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request,@RequestParam("userid")Integer id)  {
 			User u=userService.loadUser(id);
 			//删除原图片
 			String oldIMGURL="";
 			oldIMGURL=u.getUserIMG();
+			String userIMG = "";
 			 try{
-				String userIMG = FileUploadUtil.FormDataFileUpload(file, request,oldIMGURL);
+				 userIMG = FileUploadUtil.FormDataFileUpload(file, request,oldIMGURL);
 				u.setUserIMG(userIMG);
 			}catch (IOException e) {
 				e.printStackTrace();
 			}
 			 userService.updateUser(u);
+			 return userIMG;
 		}
 	/**
 	 * 账户修改属性

@@ -105,7 +105,10 @@ public class Test {
 	    System.out.println(aaa);
 	    System.out.println(12%2);
 	    System.out.println(UUID.randomUUID());
-	    System.out.println();
+	    String path="/mall/mobile/index";
+	    path.substring(path.indexOf("/"));
+	    System.out.println(path.substring(path.indexOf("/")+1));
+	    System.out.println(System.getProperty("user.dir"));
 		}
 
 }

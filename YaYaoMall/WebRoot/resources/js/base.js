@@ -4,10 +4,14 @@
 	String.prototype.trim=function(){
 		　　    return this.replace(/(^\s*)|(\s*$)/g,"");
 		　　 }
+	
 /**
  * *工具包
  */
 var myUtils = {
+	slice:function(obj){
+		return Array.prototype.slice.call(obj);
+	},	
 	/**
 	 * 验证规则
 	 */	
@@ -287,12 +291,17 @@ var myUtils = {
 	      			enctype:'multipart/form-data',
 	      			processData:false,// 告诉jQuery不要去处理发送的数据
 	      			contentType:false, // 告诉jQuery不要去设置Content-Type请求头
-	      			success:function(){
-	      				//console.log("sdf");
+	      			success:function(userIMG){//获取最新图片更新
+	      				console.log(userIMG);
+	      				var data=JSON.parse(decode64(sessionStorage.getItem("user")));
+	      				data.userIMG=userIMG;
+	      				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+	              		userData.user_info(data);
 	      				myUtils.myPrevToast("上传成功",null,"remove");
 	      				$(imgelement).attr("src",e.target.result);
 	      			},
-	      			error:function(){
+	      			error:function(data){
+	      				console.log(data);
 	      				myUtils.myPrevToast("上传失败",null,"remove");
 	      			}
 	      		});
@@ -687,7 +696,7 @@ var userData = {
 	userInit : {
 		userid:null,
 		userPassword : '123456',
-		userIMG : 'resources/img/preLoding.jpg',
+		userIMG : '/resources/img/preLoding.jpg',
 		userNiceName : '添加昵称',
 		userSignature : '把你爱好留在这里！',
 		userEmail : '邮箱认证后可以用它登陆',
@@ -697,7 +706,7 @@ var userData = {
 	},
 	// 用户数据
 	person : function(data){
-		document.querySelector("#userHref").href='user_info';
+		document.querySelector("#userHref").href='/mall/mobile/user_info';
 		document.querySelector("#userNiceName").innerHTML=data.userNiceName||data.userEmail||data.userPhone||userData.userInit.userName;
 		document.querySelector("#userIMG").src=data.userIMG||userData.userInit.userIMG;
 		document.querySelector("#userAccess").innerHTML='';
@@ -716,9 +725,10 @@ var userData = {
 	merchandiseIndex:function(elementid,mers){
 		for ( var merid in mers) {
 			var mer=mers[merid];
+			console.log(mer.merchandiseImg[0].imgaddress)
 		   $(elementid).append(
-		"<a class='list-card well' href='merchandise_details?merid="+mer.merchandiseid+"'>"+
-		"<div class='itemimg'><img src='"+mer.merchandiseIMGS+"'>"+
+		"<a class='list-card well' href='/mall/mobile/merchandise_details?merid="+mer.merchandiseid+"'>"+
+		"<div class='itemimg'><img src='"+mer.merchandiseImg[0].imgaddress+"'>"+
 		"<span class='goods-sold'>销量"+mer.merchandiseSold+"</span>"+
         "<span class='goods-discount'>"+parseFloat(mer.merDiscount).toFixed(1)+"折</span></div>"+
         "<div  class='iteminfo'>"+
@@ -781,8 +791,9 @@ var userData = {
 	merchandise_details:function(mers){
 		for ( var merid in mers) {
 			var mer=mers[merid];
+			console.log(mer.merchandiseImg[0].imgaddress)
 			if(mer.merchandiseid==myUtils.GetQueryString("merid")){
-			  $(".merchandise-img img").attr("src",mer.merchandiseIMGS);
+			  $(".merchandise-img img").attr("src",encodeURIComponent(mer.merchandiseImg[0].imgaddress));
 			  $(".merchandise-img .goods-sold").text("销量"+mer.merchandiseSold);
 			  $(".merchandise-img .goods-stock").text("库存"+mer.merchandiseStock);
 			  $(".merchandise-details .merchandise-title").text(mer.merchandiseName);
@@ -793,6 +804,20 @@ var userData = {
 			  	}
 			}
 		
+	},
+	//商品类别
+	merCategory:function(data){
+		//myUtils.slice(merchandises)
+		for (var i = 0; i < data.length; i++) {
+			console.log(data[0].merchandises[1].merchandiseImg[0].imgAddress);
+			
+      		$("#classification-left")
+          	.append("<a class='btn' href='#'>"
+                    +"<img src=''/>"
+      	  			+"<div class='classification-left-title'>"+data[i].cateName+"</div>"
+     			 	+"</a>");
+          	
+			}
 	}
 
 };

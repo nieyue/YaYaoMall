@@ -6,18 +6,18 @@
     <title>登录</title>
 	<meta name="keywords" content="本真,茶艺,茶叶,绿茶,红茶,黑茶,花茶,黄茶,青茶">
 	<meta name="description" content="欢迎关注本真茶园，优购好茶、品读茶艺，专注于茶的奥秘，也许您的精彩如同茶道需要用心去品味，本真茶园邀请您来喝茶，分享茶的感悟。 好茶才能品茗悟道，懂茶没那么难，我们愿与您分享茶艺的精彩。">
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="resources/css/style.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/style.css" rel="stylesheet">
 
     <script type="text/javascript">
     if(localStorage.getItem("loginstate")==1){
-			location.replace("person");
+			location.replace("/mall/mobile/person");
 		}
     </script>
   </head>
   <body>
   <div class="person-common-header">
-  	<div><a class="pull-left" href="person">&lt;返回</a></div>
+  	<div><a class="pull-left" href="/mall/mobile/person">&lt;返回</a></div>
   	<div class="text-center person-common-header-center">账户登录</div>
   </div>
   <div class="person-login-body">
@@ -46,8 +46,8 @@
 </form>
   </div>
     <div class="person-login-footer">
-    	<div class="text-muted pull-left">没有账户？<a type="button" class="btn btn-sm btn-info" href="person_register">立即注册</a></div>
-    	<div class=" pull-right"><a class="text-muted" href="person_retrieveAccount">忘记密码？</a></div>
+    	<div class="text-muted pull-left">没有账户？<a type="button" class="btn btn-sm btn-info" href="/mall/mobile/person_register">立即注册</a></div>
+    	<div class=" pull-right"><a class="text-muted" href="/mall/mobile/person_retrieveAccount">忘记密码？</a></div>
     </div>
     
   </body>
@@ -56,10 +56,10 @@
     <!-- <script src="cordova.js"></script> -->
 
     <!-- your app's js -->
-       <script src="resources/js/jquery2.1.js"></script>  
-       <script src="resources/js/bootstrap3.2.0.js"></script>
-       <script src="resources/js/base64.js"></script>
-       <script src="resources/js/base.js"></script>
+       <script src="/resources/js/jquery2.1.js"></script>  
+       <script src="/resources/js/bootstrap3.2.0.js"></script>
+       <script src="/resources/js/base64.js"></script>
+       <script src="/resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
       		$("#userName").change(function(){
@@ -87,7 +87,7 @@
       					myUtils.setCookie("userid",data.userid,60*60*24*365);
       					sessionStorage.setItem("user",encode64(JSON.stringify(data)));
       						myUtils.myPrevToast("登录成功",function(){
-      			      			location.replace("person");
+      			      			location.replace("/mall/mobile/person");
       			      			},"remove");
       					}
       					

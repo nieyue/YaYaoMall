@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 卖家类
@@ -21,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name="merseller_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"merchandises"})
 public class MerSeller implements Serializable {
 	/**
 	 * 
@@ -37,7 +37,14 @@ public class MerSeller implements Serializable {
 	 * 商品
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merSeller")
+	@JsonManagedReference
 	private Set<Merchandise> merchandises;
+	/**
+	 * 商品分类
+	 */
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merSeller")
+	@JsonManagedReference
+	private Set<MerCategory> merCategory;
 	/**
 	 * 邮箱
 	 */
@@ -75,7 +82,7 @@ public class MerSeller implements Serializable {
 	public MerSeller(Integer mersellerid, Set<Merchandise> merchandises,
 			String sellerEmail, String sellerPhone, String sellerPassword,
 			String sellerNiceName, String sellerIMGS, String sellerSignature,
-			Integer sellerNumber) {
+			Integer sellerNumber,Set<MerCategory> merCategory) {
 		super();
 		this.mersellerid = mersellerid;
 		this.merchandises = merchandises;
@@ -86,6 +93,7 @@ public class MerSeller implements Serializable {
 		this.sellerIMGS = sellerIMGS;
 		this.sellerSignature = sellerSignature;
 		this.sellerNumber = sellerNumber;
+		this.merCategory=merCategory;
 	}
 	public Integer getMersellerid() {
 		return mersellerid;
@@ -141,7 +149,11 @@ public class MerSeller implements Serializable {
 	public void setSellerNumber(Integer sellerNumber) {
 		this.sellerNumber = sellerNumber;
 	}
-	
-	
+	public Set<MerCategory> getMerCategory() {
+		return merCategory;
+	}
+	public void setMerCategory(Set<MerCategory> merCategory) {
+		this.merCategory = merCategory;
+	}
 	
 }

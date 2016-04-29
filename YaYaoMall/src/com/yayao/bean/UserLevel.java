@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 账户等级
@@ -21,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name="userlevel_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"users"})
 public class UserLevel implements Serializable{
 
 	/**
@@ -48,6 +48,7 @@ public class UserLevel implements Serializable{
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="userLevel")
 	/*@JoinColumn(name="userlevelid")*/
+	@JsonManagedReference
 	private Set<User> users;
 	
 	

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,16 +28,32 @@ import com.yayao.util.NumberUtil;
  * 
  */
 @Scope("prototype")
-@Controller("merchandise")
-@RequestMapping(value = "/merchandise")
-public class MerchandiseController {
+@Controller("merCategory")
+@RequestMapping(value = "/merCategory")
+public class MerCategoryController {
 	@Resource(name = "merCategoryService")
 	private MerCategoryService merCategoryService;
 	@Resource(name = "merchandiseService")
 	private MerchandiseService merchandiseService;
-	
 	/**
-	 * 分段获取所有商品
+	 * 浏览 分类
+	 * @return
+	 */
+	@RequestMapping(value = "/browseMerCategory/{cateName}", method = RequestMethod.GET)
+	public @ResponseBody List<MerCategory> browseMerCategory(@PathVariable("cateName")String cateName)  {
+		List<MerCategory> list = new ArrayList<MerCategory>();
+		if(cateName.equals("all")){
+			list=merCategoryService.browseMerCategory();
+		}else{
+			boolean status = merCategoryService.chkMerCategory(cateName);
+			if(status){
+				list.add(merCategoryService.loadMerCategory(cateName));
+			}
+		}
+		return list;
+	}
+	/**
+	 * 分页浏览 分类
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerchandise", method = RequestMethod.GET)

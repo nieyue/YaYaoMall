@@ -9,10 +9,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 商品分类
@@ -21,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name="mercategory_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"merchandises"})
 public class MerCategory implements Serializable{
 
 	/**
@@ -47,8 +50,15 @@ public class MerCategory implements Serializable{
 	 * 商品
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merCategory")
+	@JsonManagedReference
 	private Set<Merchandise> merchandises;
-	
+	/**
+	 * 卖家
+	 */
+	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@JoinColumn(name="mersellerid")
+	@JsonBackReference
+	private MerSeller merSeller;
 	
 	public MerCategory() {
 		super();
@@ -56,12 +66,13 @@ public class MerCategory implements Serializable{
 
 
 	public MerCategory(Integer mercategoryid, String cateName, String cateDesc,
-			Set<Merchandise> merchandises) {
+			Set<Merchandise> merchandises,MerSeller merSeller) {
 		super();
 		this.mercategoryid = mercategoryid;
 		this.cateName = cateName;
 		this.cateDesc = cateDesc;
 		this.merchandises = merchandises;
+		this.merSeller=merSeller;
 	}
 
 
@@ -102,6 +113,16 @@ public class MerCategory implements Serializable{
 
 	public void setMerchandises(Set<Merchandise> merchandises) {
 		this.merchandises = merchandises;
+	}
+
+
+	public MerSeller getMerSeller() {
+		return merSeller;
+	}
+
+
+	public void setMerSeller(MerSeller merSeller) {
+		this.merSeller = merSeller;
 	}
 	
 	

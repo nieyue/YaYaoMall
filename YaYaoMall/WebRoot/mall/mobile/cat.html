@@ -6,8 +6,8 @@
     <title>购物车</title>
 	<meta name="keywords" content="本真,茶艺,茶叶,绿茶,红茶,黑茶,花茶,黄茶,青茶">
 	<meta name="description" content="欢迎关注本真茶园，优购好茶、品读茶艺，专注于茶的奥秘，也许您的精彩如同茶道需要用心去品味，本真茶园邀请您来喝茶，分享茶的感悟。 好茶才能品茗悟道，懂茶没那么难，我们愿与您分享茶艺的精彩。">
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="resources/css/style.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/style.css" rel="stylesheet">
 
     
   </head>
@@ -24,7 +24,7 @@
    <div class="cat-no-font">
     购物车还是空的，去挑几件吧
    </div>
-   <a class="btn btn-info cat-no-btn"  href="index" >去选宝贝</a>
+   <a class="btn btn-info cat-no-btn"  href="/mall/mobile/index" >去选宝贝</a>
   </div>
   <!-- end购物车无商品 -->
   </div>
@@ -97,16 +97,16 @@
     <!-- <script src="cordova.js"></script> -->
 
     <!-- your app's js -->
-       <script src="resources/js/jquery2.1.js"></script>  
-       <script src="resources/js/bootstrap3.2.0.js"></script>
-       <script src="resources/js/base64.js"></script>
-       <script src="resources/js/base.js"></script>
+       <script src="/resources/js/jquery2.1.js"></script>  
+       <script src="/resources/js/bootstrap3.2.0.js"></script>
+       <script src="/resources/js/base64.js"></script>
+       <script src="/resources/js/base.js"></script>
        <script type="text/javascript">
       		$(function(){
       			$(".cat-body").css("display","none");
       			//$(".cat-merchandise").css("display","none");
       			$(".cat-footer-buy").click(function(){
-      				location.href="pay_buy";
+      				location.href="/mall/mobile/pay_buy";
       			});
       		//初始化购物数量
       		myUtils.merchandiseNumber(".merchandise-num",".merchandise-add",".merchandise-minus");

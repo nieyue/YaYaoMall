@@ -16,7 +16,7 @@
 	<!--  将service排除在外，意味着这个时候不初始化service    -->  
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>  
 	</context:component-scan>
-    	
+    <mvc:annotation-driven  />
 	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
         <property name="messageConverters">
             <list>  
@@ -76,8 +76,8 @@
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
           p:defaultContentType="text/html"  
           p:ignoreAcceptHeader="true"  
-          p:favorPathExtension="false"  
-          p:favorParameter="true"  
+          p:favorPathExtension="true"  
+          p:favorParameter="false"  
           p:parameterName="content"
             >
 		<property name="mediaTypes">
@@ -98,10 +98,10 @@
 			<list>
 				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 					<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-					<property name="prefix" value="/"/>
-					<!-- <property name="suffix" value=".jsp"></property> -->
-				    <property name="contentType" value="text/html"></property>
-				</bean>
+					<property name="prefix" value="/Seller/"/>
+					 <property name="suffix" value=".jsp"></property>
+				     <property name="contentType" value="text/html"></property>
+ 				</bean>
 			</list>
 		</property>
 		<property name="defaultViews">
@@ -119,8 +119,9 @@
  		</list>
 		</property>
 	</bean>
-	 <mvc:annotation-driven />
-       <mvc:default-servlet-handler/>   
+	 
+    <mvc:default-servlet-handler/> 
+    
 	<!-- <mvc:resources location="/resources/css/,/WEB-INF/resources/css/"
 		mapping="/resources/css/**" />
 	<mvc:resources location="/resources/img/,/WEB-INF/resources/img/"
@@ -128,8 +129,14 @@
 	<mvc:resources location="/resources/js/,/WEB-INF/resources/js/"
 		mapping="/resources/js/**" />
 	<mvc:resources location="/resources/fonts/,/WEB-INF/resources/fonts/"
-		mapping="/resources/fonts/**" />
- -->	<!-- <mvc:resources location="/" mapping="/**" />  -->
+		mapping="/resources/fonts/**" /> 
+	<mvc:resources location="/resources/userUpload/,/WEB-INF/resources/userUpload/"
+		mapping="/resources/userUpload/**" /> 
+	<mvc:resources location="/resources/sellerUpload/,/WEB-INF/resources/sellerUpload/"
+		mapping="/resources/sellerUpload/**" /> 
+	<mvc:resources location="/resources/adminUpload/,/WEB-INF/resources/adminUpload/"
+		mapping="/resources/adminUpload/**" />  -->
+ 	<!-- <mvc:resources location="/" mapping="/**" />  -->
 	<!-- <mvc:resources location="/,classpath:/META-INF/publicResources/" mapping="/resources/**"/> -->
 	<!-- 文件上传 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
@@ -139,19 +146,19 @@
  -->   </bean>  
    
 	<!--定义异常处理页面 -->
-	<bean id="exceptionResolver"
+<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="defaultErrorView" value="404" />
 		<property name="exceptionMappings">
 			<props>
-				<prop key="org.springframework.web.HttpSessionRequiredException">404</prop>
-				<prop key="java.sql.SQLException">404</prop>
-				<prop key="java.io.IOException">404</prop>
-				<prop key="java.lang.Exception">404</prop>
-				<prop key="java.lang.RuntimeException">404</prop>
+				<prop key="org.springframework.web.HttpSessionRequiredException">mall/mobile/404</prop>
+				<prop key="java.sql.SQLException">mall/mobile/404</prop>
+				<prop key="java.io.IOException">mall/mobile/404</prop>
+				<prop key="java.lang.Exception">mall/mobile/404</prop>
+				<prop key="java.lang.RuntimeException">mall/mobile/404</prop>
 			</props>
 		</property>
-	</bean>
+		<property name="defaultErrorView" value="mall/mobile/404" />
+	</bean> 
 
 	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> 
 		<property name="messageConverters"> <list> <ref bean="mappingJackson2HttpMessageConverter" 

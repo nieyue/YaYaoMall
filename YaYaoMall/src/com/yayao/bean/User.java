@@ -15,7 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 
@@ -29,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 @Table(name="user_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"userPassword","cardPackages","userComments"})
+@JsonIgnoreProperties({"userPassword"})
 public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -72,7 +74,7 @@ public class User implements java.io.Serializable {
 	 * 卡卷包
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="user")
-	/*@JoinColumn(name="userid")*/
+	@JsonManagedReference
 	private Set<CardPackage> cardPackages;
 	/**
 	 * 积分
@@ -87,6 +89,7 @@ public class User implements java.io.Serializable {
 	 */
 	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="userlevelid")
+	@JsonBackReference
 	private UserLevel userLevel;
 	/**
 	 * 注册日期
@@ -125,6 +128,7 @@ public class User implements java.io.Serializable {
 	 * 评论
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="user")
+	@JsonManagedReference
 	private Set<Comments> userComments;
 	
 	
@@ -332,8 +336,6 @@ public class User implements java.io.Serializable {
 	public void setUserIMG(String userIMG) {
 		this.userIMG = userIMG;
 	}
-
-	
 
 	
 }

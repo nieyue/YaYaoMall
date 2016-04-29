@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -39,12 +40,23 @@ public class JspFilter implements Filter{
         servletResponse.setHeader("Access-Control-Max-Age", "3600");
         servletResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with");
         //chain.doFilter(request, response);
-        // 获得用户请求的http://localhost:8080/YaYaoMall/main/list.jsp
-        //String rpath = servletRequest.getRequestURI(); // /YaYaoMall/main/list.jsp 
-        String path=servletRequest.getServletPath();// /main/list.jsp 
-        //String cpath = servletRequest.getContextPath();// /YaYaoMall 
-        String strBackUrl=servletRequest.getRealPath("/");// F:\Tomcat 6.0\webapps\YaYaoMall\test 
-	if(path.indexOf("resources")>-1){
+        // 获得用户请求的http://localhost:8080/YaYaoMall/mall/mobile/index
+        // 获得用户请求的http://localhost:8080/mall/mobile/indexp
+        String rpath = servletRequest.getRequestURI(); 						// /YaYaoMall/mall/mobile/index /mall/mobile/index 
+        String path=servletRequest.getServletPath();						// /mall/mobile/index           /mall/mobile/index
+        String cpath = servletRequest.getContextPath(); 					// /YaYaoMall  					空 
+        String strBackUrl=servletRequest.getRealPath("/");					// D:\nieyue\tomcat\apache-tomcat-7.0.57-windows-x64\apache-tomcat-7.0.57\webapps\YaYaoMall\ 
+        String strServletUrl=servletRequest.getServletContext().getRealPath("");// D:\nieyue\tomcat\apache-tomcat-7.0.57-windows-x64\apache-tomcat-7.0.57\webapps\YaYaoMall 
+        String urlpath=servletRequest.getPathInfo();						// null    						null
+        String urlpath1=servletRequest.getLocalAddr();						// 127.0.0.1					127.0.0.1
+        String urlpath2=servletRequest.getPathTranslated();					//  null 						null
+        String urlpath3=servletRequest.getRemoteAddr();						//  127.0.0.1   				127.0.0.1
+        StringBuffer urlpath4=servletRequest.getRequestURL();				//http://localhost:8080/YaYaoMall/mall/mobile/index  http://localhost:8080/mall/mobile/index
+        String urlpath5=servletRequest.getProtocol();						// HTTP/1.1 					HTTP/1.1
+        String urlpath6=servletRequest.getQueryString();					//  null  						null
+        ServletContext urlpath7=servletRequest.getServletContext();			//org.apache.catalina.core.ApplicationContextFacade@2d849d56  org.apache.catalina.core.ApplicationContextFacade@3ddd82fa
+        String urlpath8=servletRequest.getServletContext().getContextPath();///YaYaoMall   					空
+        /*if(path.indexOf("resources")>-1){
 		if(!path.startsWith("/resources")){
 			path=path.substring(path.indexOf("/resources"));
 		}
@@ -59,14 +71,14 @@ public class JspFilter implements Filter{
 				//对请求过滤
 				servletRequest.getRequestDispatcher("/404.html").forward(request, response);
 				//servletResponse.sendRedirect(servletRequest.getContextPath()+"/404.html");
-			}
-	}else {	
-			if(path.contains("404")){
-				servletRequest.getRequestDispatcher("/404.html").forward(request, response);
-			}else if(new File(strBackUrl+path+".html").exists()){
-				servletRequest.getRequestDispatcher(path+".html").forward(request, response);
-			}else if(path.equals("/")){//没有pc端
-				servletResponse.sendRedirect(servletRequest.getContextPath()+"/mall/mobile/index");
+			}DefaultServletHttpRequestHandler
+	}else {	*/
+        if(rpath.startsWith("/resources")&&new File(strServletUrl+rpath).exists()){
+			servletRequest.getRequestDispatcher(rpath).forward(request, response);
+		}else if(new File(strServletUrl+rpath+".html").exists()){
+				servletRequest.getRequestDispatcher(rpath+".html").forward(request,response);
+		}else if(path.equals("/")){//没有pc端
+				servletResponse.sendRedirect(cpath+"/mall/mobile/index");
 				//servletRequest.getRequestDispatcher("/mall/mobile/index.html").forward(request, response);
 			}else if(path.equals("/Admin/")||path.equals("/Admin")){
 				servletRequest.getRequestDispatcher("/Admin/index.html").forward(request, response);
@@ -75,7 +87,7 @@ public class JspFilter implements Filter{
 			}else{
 				chain.doFilter(request, response);
 			}
-	}
+	//}
 		
 }
 

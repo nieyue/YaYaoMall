@@ -291,33 +291,33 @@ input[type="file"] {
 
 .main_image li .img_1 {
 	background:
-		url('http://www.yayao8.com/resources/img/carousel/carousel1.jpg')
+		url('/resources/img/images/img_main_1.jpg')
 		center top no-repeat;
 	background-size: 100% 230px;
 }
 
 .main_image li .img_2 {
 	background:
-		url('http://www.yayao8.com/resources/img/carousel/carousel2.jpg')
+		url('/resources/img/images/img_main_2.jpg')
 		center top no-repeat;
 	background-size: 100% 230px;
 }
 
 .main_image li .img_3 {
 	background:
-		url('http://www.yayao8.com/resources/img/carousel/carousel3.jpg')
+		url('/resources/img/images/img_main_3.jpg')
 		center top no-repeat;
 	background-size: 100% 230px;
 }
 
 .main_image li .img_4 {
-	background: url('http://www.yayao8.com/resources/img/carousel/carousel1.jpg') center
+	background: url('/resources/img/images/img_main_4.jpg') center
 		top no-repeat;
 	background-size: 100% 230px;
 }
 
 .main_image li .img_5 {
-	background: url('http://www.yayao8.com/resources/img/carousel/carousel2.jpg') center
+	background: url('/resources/img/images/img_main_5.jpg') center
 		top no-repeat;
 	background-size: 100% 230px;
 }
@@ -338,7 +338,7 @@ div.flicking_con a {
 	height: 21px;
 	margin: 0;
 	padding: 0;
-	background: url('/YaYaoMall/resources/img/images/btn_main_img.png') 0 0
+	background: url('/resources/img/images/btn_main_img.png') 0 0
 		no-repeat;
 	display: block;
 	text-indent: -1000px
@@ -360,27 +360,27 @@ div.flicking_con a.on {
 }
 
 #btn_prev {
-	background: url('/YaYaoMall/resources/img/images/hover_left.png')
+	background: url('/resources/img/images/hover_left.png')
 		no-repeat left top;
 	left: 10px;
 }
 
 #btn_next {
-	background: url('/YaYaoMall/resources/img/images/hover_right.png')
+	background: url('/resources/img/images/hover_right.png')
 		no-repeat right top;
 	right: 10px;
 }
 
 @media screen and (max-width:420px) {
 	#btn_prev {
-		background: url('/YaYaoMall/resources/img/images/hover_left.png')
+		background: url('/resources/img/images/hover_left.png')
 			no-repeat left top;
 		left: 10px;
 		background-size: 10%;
 		top: 60%;
 	}
 	#btn_next {
-		background: url('/YaYaoMall/resources/img/images/hover_right.png')
+		background: url('/resources/img/images/hover_right.png')
 			no-repeat right top;
 		right: 10px;
 		background-size: 10%;

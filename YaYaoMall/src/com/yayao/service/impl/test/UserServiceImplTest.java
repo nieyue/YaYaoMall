@@ -120,16 +120,16 @@ public class UserServiceImplTest {
 	@Test
 	public void testLoadUser() {
 		
-		User u = userService.loadUser(9);
+		User u = userService.loadUser(1);
 		//u.setUserEmail("123456");
 		//userService.addUser(u);
 		
-		User u2 = userService.loadUser(9);
+		User u2 = userService.loadUser(1);
 		//u2.setUserEmail("1234567");
 		// userService.updateUser(u);
 		//List<User> l = userService.browseUser();
 		//List<User> l2 = userService.browseUser();
-		User u22 = userService.loadUser(9);
+		User u22 = userService.loadUser(1);
 		System.out.println(u.getUserEmail());
 		//System.out.println(l);
 		System.out.println(u2);

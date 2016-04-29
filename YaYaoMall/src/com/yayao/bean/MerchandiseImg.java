@@ -13,64 +13,54 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
- * 商品评论类
+ * 商品图片类
  * @author yy
  *
  */
 @Entity
-@Table(name="comments_tb",catalog="YaYaoMall_db")
-public class Comments implements Serializable{
+@Table(name="merchandiseimg_tb",catalog="YaYaoMall_db")
+public class MerchandiseImg implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 评论id
+	 * 商品图片id
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer commentsid;
+	private Integer merchandiseimgid;
 	/**
-	 * 评论账户
-	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
-	@JoinColumn(name="userid")
-	@JsonBackReference
-	private User user;
-	/**
-	 * 评论商品
+	 * 商品id
 	 */
 	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="merchandiseid")
 	@JsonBackReference
 	private Merchandise merchandise;
+	/**
+	 * 商品图片地址
+	 */
+	private String imgAddress;
 	
-	
-	
-	public Comments() {
+	public MerchandiseImg() {
 		super();
 	}
-	public Comments(Integer commentsid, User user, Merchandise merchandise) {
+	public MerchandiseImg(Integer merchandiseimgid, Merchandise merchandise,
+			String imgAddress) {
 		super();
-		this.commentsid = commentsid;
-		this.user = user;
+		this.merchandiseimgid = merchandiseimgid;
 		this.merchandise = merchandise;
+		this.imgAddress = imgAddress;
 	}
-	public Integer getCommentsid() {
-		return commentsid;
+	public Integer getMerchandiseimgid() {
+		return merchandiseimgid;
 	}
-	public void setCommentsid(Integer commentsid) {
-		this.commentsid = commentsid;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setMerchandiseimgid(Integer merchandiseimgid) {
+		this.merchandiseimgid = merchandiseimgid;
 	}
 	public Merchandise getMerchandise() {
 		return merchandise;
@@ -78,7 +68,11 @@ public class Comments implements Serializable{
 	public void setMerchandise(Merchandise merchandise) {
 		this.merchandise = merchandise;
 	}
-	
-	
+	public String getImgAddress() {
+		return imgAddress;
+	}
+	public void setImgAddress(String imgAddress) {
+		this.imgAddress = imgAddress;
+	}
 	
 }

@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * 卡卷包
  * @author yy
@@ -46,6 +48,7 @@ public class CardPackage implements java.io.Serializable{
 	 */
 	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="userid")
+	@JsonBackReference
 	private User user;
 	
 	

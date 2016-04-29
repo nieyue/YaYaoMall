@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +20,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
+import com.yayao.bean.MerchandiseImg;
 import com.yayao.service.MerCategoryService;
+import com.yayao.service.MerchandiseImgService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.util.IMGIndivisibleUtil;
 @SuppressWarnings("deprecation")
@@ -30,6 +33,9 @@ public class MerchandiseServiceImplTest {
 	@Autowired
 	@Qualifier("merchandiseService")
 	MerchandiseService merchandiseService;
+	@Autowired
+	@Qualifier("merchandiseImgService")
+	MerchandiseImgService merchandiseImgService;
 	@Autowired
 	@Qualifier("merCategoryService")
 	MerCategoryService merCategoryService;
@@ -53,7 +59,8 @@ public class MerchandiseServiceImplTest {
 		MerCategory mercate = merCategoryService.loadMerCategory("花茶");
 		mer.setMerCategory(mercate);
 		mer.setMerchandiseCode("sr155");
-		mer.setMerchandiseIMGS("http://wd.geilicdn.com/vshop333816149-1457603308132-5927369.jpg?w=1080&h=0");
+		
+		//mer.setMerchandiseImg("http://wd.geilicdn.com/vshop333816149-1457603308132-5927369.jpg?w=1080&h=0");
 		mer.setMerchandiseName("清香型 绿茶茶叶 2016年雨前早春 包邮罐装200克");
 		mer.setMerchandiseOldPrice(168.00);
 		mer.setMerchandisePrice(80.00);
@@ -75,25 +82,11 @@ public class MerchandiseServiceImplTest {
 	@Test
 	public void testUpdateMer() {
 		Merchandise mer = merchandiseService.loadMer(1);
-		StringBuffer imgsbuffer = new StringBuffer();
-		String imgs="";
 		
-		for (int i =1; i <= 15; i++) {
-			
-			imgsbuffer.append("/resources/sellerUpload/1/黑茶/富甲富颗粒/富甲富颗粒1_0"+i+".jpgNY@");
-			
-		}
-		imgs=imgsbuffer.toString();
-		System.out.println(imgs);
-		for (int i = 0; i < IMGIndivisibleUtil.stringToArray(imgs).length; i++) {
-		//IMGIndivisibleUtil.stringToArray(imgs);
-		//System.out.println(imgs.split("NY@")[i]);
-		System.out.println(IMGIndivisibleUtil.stringToArray(imgs)[i]);
-			
-		}
-		mer.setMerchandiseIMGS(imgs);
+	
+		//mer.setMerchandiseIMGS(imgs);
 		merchandiseService.updateMer(mer);
-		System.out.println(mer.getMerchandiseIMGS());
+		//System.out.println(mer.getMerchandiseIMGS());
 	}
 
 	@Test

@@ -2,6 +2,7 @@ package com.yayao.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,10 +19,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Columns;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name="merchandise_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"merComments"})
+@JsonIgnoreProperties({"merchandiseimgs","merComments"})
 public class Merchandise implements Serializable{
 	/**
 	 * 
@@ -71,14 +74,16 @@ public class Merchandise implements Serializable{
 	 */
 	private String merchandiseStatus;
 	/**
-	 * 商品图片集合
+	 * 商品图片
 	 */
-	@Column(length=21845)
-	private String merchandiseIMGS;
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
+	@JsonManagedReference
+	private List<MerchandiseImg> merchandiseImgs;
 	/**
 	 * 商品评论
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
+	@JsonManagedReference
 	private Set<Comments> merComments;
 	/**
 	 * 商品更新时间
@@ -89,12 +94,14 @@ public class Merchandise implements Serializable{
 	 */
 	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="mersellerid")
+	@JsonBackReference
 	private MerSeller merSeller;
 	/**
 	 * 商品类别
 	 */
 	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="mercategoryid")
+	@JsonBackReference
 	private MerCategory merCategory;
 	
 	
@@ -108,7 +115,7 @@ public class Merchandise implements Serializable{
 			Double merchandisePrice, Integer merchandiseSold,
 			Double merDiscount, Double merchandisePostage,
 			String merchandiseCode, String merchandiseStatus,
-			String merchandiseIMGS, MerCategory merCategory,
+			List<MerchandiseImg> merchandiseImgs, MerCategory merCategory,
 			Date merchandiseUpdateTime,Set<Comments> merComments) {
 		super();
 		this.merchandiseid = merchandiseid;
@@ -121,7 +128,7 @@ public class Merchandise implements Serializable{
 		this.merchandisePostage = merchandisePostage;
 		this.merchandiseCode = merchandiseCode;
 		this.merchandiseStatus = merchandiseStatus;
-		this.merchandiseIMGS = merchandiseIMGS;
+		this.merchandiseImgs = merchandiseImgs;
 		this.merCategory = merCategory;
 		this.merchandiseUpdateTime=merchandiseUpdateTime;
 		this.merComments=merComments;
@@ -228,13 +235,13 @@ public class Merchandise implements Serializable{
 	}
 
 
-	public String getMerchandiseIMGS() {
-		return merchandiseIMGS;
+	public List<MerchandiseImg> getMerchandiseImg() {
+		return merchandiseImgs;
 	}
 
 
-	public void setMerchandiseIMGS(String merchandiseIMGS) {
-		this.merchandiseIMGS = merchandiseIMGS;
+	public void setMerchandiseImg(List<MerchandiseImg> merchandiseImgs) {
+		this.merchandiseImgs = merchandiseImgs;
 	}
 
 
