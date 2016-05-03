@@ -1,0 +1,56 @@
+/**
+**rest a
+*/
+a{
+ color:#999;
+ cursor: pointer;
+}
+a:hover{
+	text-decoration: none;
+}
+/**
+**重写
+*/
+.btn{
+	width:106px !important;
+	border-radius:3px !important;
+}
+/**
+**header 自适应
+*/
+@media screen and (min-width:766px){
+		#example-navbar-collapse{
+			float: right;
+		}
+}
+/**
+**左边布局
+*/
+.left-bar{
+	width:30%;
+	float:left;
+	max-width:200px;
+	font-size:1.5rem !important;
+	min-width: 50px;
+	text-align: center;
+}
+
+/**
+**右边边布局
+*/
+.right-bar{
+	width:70%;
+	float:left ;
+	min-width: 200px;
+	font-size-adjust: inherit;
+}
+/**
+**主体
+*/
+.main-body{
+	max-width:1200px;
+	margin:0 auto;
+}
+
+
+

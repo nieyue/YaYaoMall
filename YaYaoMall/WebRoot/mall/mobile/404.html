@@ -18,14 +18,21 @@
     <span class="btn btn-sm btn-default btn-danger">4</span>
     </div>
     <div id="div404-btn">
-    <a class="btn btn-sm btn-default btn-danger" href="/mall/mobile/index">返回购物</a>
+    <a class="btn btn-sm btn-default btn-danger" id="goIndex" href="#">返回购物</a>
     </div>
     </div>
     
   </body>
-  
+  <script src="/resources/js/jquery2.1.js"></script>
+  <script src="/resources/js/base.js"></script>
   <script type="text/javascript">
-   
+  if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
+   $("#goIndex").attr("href",'/mall/mobile/index?sellerid='+myUtils.GetQueryString("sellerid"));
+  }else{
+   $("#goIndex").click(function(){
+	   history.back();
+   });
+  }
   </script>
   
 </html>

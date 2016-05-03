@@ -21,11 +21,11 @@
             org.springframework.web.util.Log4jConfigListener  
         </listener-class>
   </listener>
-  <servlet-mapping>
-  	<servlet-name>jsp</servlet-name>
+   <servlet-mapping>
+  	<servlet-name>default</servlet-name>
   	<url-pattern>*.html;*.js;*.css;*.jpg;*.png;*.eot;*.svg;*.ttf;*.woff;*.woff2</url-pattern>
   </servlet-mapping>
-  <!-- jsp过滤 -->
+   <!-- jsp过滤 -->
 	  <filter>
 	<filter-name>JSPFilter</filter-name>
 	<filter-class>com.yayao.filter.JspFilter</filter-class>

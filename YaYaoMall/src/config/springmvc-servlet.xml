@@ -72,38 +72,31 @@
             </list>  
         </property>  
     </bean>    -->
-	<!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
-	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
-          p:defaultContentType="text/html"  
-          p:ignoreAcceptHeader="true"  
-          p:favorPathExtension="true"  
-          p:favorParameter="false"  
-          p:parameterName="content"
-            >
-		<property name="mediaTypes">
-			<map>
-				<entry key="json" value="application/json" />
-         		<entry key="xml" value="application/xml" /> 
-         		<!-- <entry key="xls" value="application/x-xls" />   -->
-				<entry key="xls" value="application/vnd.ms-excel" /> 
-         		<entry key="pdf" value="application/pdf"  />   
-			</map>
-		</property>
-	</bean> 
+    
 	<bean id="myModelAndView"
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="order" value="1" />
-		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
-		<property name="viewResolvers">
+		<!-- <property name="order" value="0" /> -->
+		 <property name="viewResolvers">
 			<list>
+			<!-- <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
+                    <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>  
+                    <property name="viewNames" value=".ftl"/>  
+                    <property name="contentType" value="text/html; charset=utf-8"/>  
+                    <property name="cache" value="true" />  
+                    <property name="prefix" value="/" />  
+                    <property name="suffix" value=".html" />  
+                    <property name="order" value="5"/>  
+                </bean>  -->
 				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 					<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-					<property name="prefix" value="/Seller/"/>
-					 <property name="suffix" value=".jsp"></property>
-				     <property name="contentType" value="text/html"></property>
- 				</bean>
+					<property name="prefix" value="/"/>
+					<property name="suffix" value=".jsp"/>
+				     <property name="contentType" value="text/html;charset=UTF-8"/> 
+        			<property name="order" value="10"/>
+         		</bean>
 			</list>
-		</property>
+		</property> 
+		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
 		<property name="defaultViews">
 			<list>
 				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
@@ -119,7 +112,27 @@
  		</list>
 		</property>
 	</bean>
-	 
+	 <!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
+          p:defaultContentType="text/html"  
+          p:ignoreAcceptHeader="true"  
+          p:favorPathExtension="true"  
+          p:favorParameter="false"  
+          p:parameterName="content"
+            >
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+         		<entry key="xml" value="application/xml" /> 
+         		<!-- <entry key="xls" value="application/x-xls" />   -->
+				<entry key="xls" value="application/vnd.ms-excel" /> 
+         		<entry key="pdf" value="application/pdf"  />   
+			</map>
+		</property>
+	</bean>
+	
+	
     <mvc:default-servlet-handler/> 
     
 	<!-- <mvc:resources location="/resources/css/,/WEB-INF/resources/css/"

@@ -61,6 +61,18 @@ select{
 	height:34px;
 }
 /**
+*全屏遮罩
+*/
+.full-screen{
+	height:100%;
+	width:100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index:99999;
+	display: block;
+},
+/**
 **404
 */
   #div404 #img404{
@@ -75,6 +87,7 @@ select{
 } 
 @media screen and (min-width:640px){
 	 #div404 #img404{
+	position: fixed;
 	left:50%;
 	margin-left:-320px;
 	z-index:99;

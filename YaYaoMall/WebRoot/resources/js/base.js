@@ -11,7 +11,7 @@
 var myUtils = {
 	slice:function(obj){
 		return Array.prototype.slice.call(obj);
-	},	
+	},
 	/**
 	 * 验证规则
 	 */	
@@ -23,6 +23,17 @@ var myUtils = {
 		phone:/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/, //手机
 		identity:/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/, //15位和18位身份证号码
 		password:/^[0-9_a-zA-Z]{6,20}$/ //数字、字母、下划线，6-20长度
+	},
+	/**
+	 * 如果没选择店铺就404
+	 * 
+	 */
+	sellerNotExistence:function(){
+		if(myUtils.GetQueryString("sellerid")==null||myUtils.GetQueryString("sellerid")==''){
+			if(location.href.indexOf("404")==-1){
+				location.replace("/mall/mobile/404");
+			}
+		};
 	},
 	/**
 	 * 时间戳转yyyy-MM-dd hh:mm:ss
@@ -727,7 +738,7 @@ var userData = {
 			var mer=mers[merid];
 			console.log(mer.merchandiseImg[0].imgaddress)
 		   $(elementid).append(
-		"<a class='list-card well' href='/mall/mobile/merchandise_details?merid="+mer.merchandiseid+"'>"+
+		"<a class='list-card well' href='/mall/mobile/merchandise_details?sellerid="+myUtils.GetQueryString("sellerid")+"&merid="+mer.merchandiseid+"'>"+
 		"<div class='itemimg'><img src='"+mer.merchandiseImg[0].imgaddress+"'>"+
 		"<span class='goods-sold'>销量"+mer.merchandiseSold+"</span>"+
         "<span class='goods-discount'>"+parseFloat(mer.merDiscount).toFixed(1)+"折</span></div>"+
@@ -819,6 +830,7 @@ var userData = {
           	
 			}
 	}
+	//$().children("a:first-child").css("background-color","red");
 
 };
 
@@ -836,3 +848,11 @@ myUtils.loading(document.querySelector('#prevloading'),{radius:8,circleLineWidth
 myUtils.myFootLoadingToast("55px");
 //底部加载圆圈
 myUtils.loading(document.querySelector('#bottomloading'),{radius:8,circleLineWidth:2});
+//如果不存在sellerid，则404
+myUtils.sellerNotExistence();
+//底部footer a设置sellerid
+$(".fixed-footer a").each(function(){
+if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
+	$(this).attr("href",$(this).attr("href")+"?sellerid="+myUtils.GetQueryString("sellerid"));
+}
+});

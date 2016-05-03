@@ -80,10 +80,10 @@ public class JspFilter implements Filter{
 		}else if(path.equals("/")){//没有pc端
 				servletResponse.sendRedirect(cpath+"/mall/mobile/index");
 				//servletRequest.getRequestDispatcher("/mall/mobile/index.html").forward(request, response);
-			}else if(path.equals("/Admin/")||path.equals("/Admin")){
-				servletRequest.getRequestDispatcher("/Admin/index.html").forward(request, response);
-			}else if(path.equals("/Seller/")||path.equals("/Seller")){
-				servletRequest.getRequestDispatcher("/Seller/index.html").forward(request, response);
+			}else if(path.equals("/admin/")||path.equals("/admin")){
+				servletRequest.getRequestDispatcher("/admin/index.html").forward(request, response);
+			}else if(path.equals("/seller/")||path.equals("/seller")){
+				servletRequest.getRequestDispatcher("/seller/index.html").forward(request, response);
 			}else{
 				chain.doFilter(request, response);
 			}
