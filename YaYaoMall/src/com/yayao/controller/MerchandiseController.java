@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import com.yayao.bean.Merchandise;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.util.NumberUtil;
+import com.yayao.util.StatusCode;
 /**
  * 账户控制类
  * 
@@ -65,14 +67,31 @@ public class MerchandiseController {
 		return null;
 	}
 	/**
+	 * 商品修改
+	 * @return
+	 */
+	@RequestMapping(value = "/updateMerchandise", method = RequestMethod.POST)
+	public @ResponseBody String updateMerchandise(@RequestBody Merchandise merchandise)  {
+		merchandiseService.updateMer(merchandise);
+		return StatusCode.SUCESS;
+	}
+	/**
 	 * 商品增加
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerchandise", method = RequestMethod.POST)
-	public @ResponseBody List<Merchandise> addMerchandise(@RequestParam("file") MultipartFile file,HttpServletRequest request,@RequestParam("userid")Integer id)  {
-		List<Merchandise> list = new ArrayList<Merchandise>();
-		
-		return list;
+	public @ResponseBody String addMerchandise(@RequestBody Merchandise merchandise)  {
+		merchandiseService.addMer(merchandise);
+		return StatusCode.SUCESS;
+	}
+	/**
+	 * 商品删除
+	 * @return
+	 */
+	@RequestMapping(value = "/delMerchandise", method = RequestMethod.POST)
+	public @ResponseBody String delMerchandise(@RequestBody Merchandise merchandise)  {
+		merchandiseService.delMer(merchandise.getMerchandiseid());;
+		return StatusCode.SUCESS;
 	}
 	
 }

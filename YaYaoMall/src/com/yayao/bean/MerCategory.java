@@ -1,6 +1,7 @@
 package com.yayao.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -42,9 +42,9 @@ public class MerCategory implements Serializable{
 	 */
 	private String cateName;
 	/**
-	 * 商品分类描述
+	 * 商品分类更新日期
 	 */
-	private String cateDesc;
+	private Date cateDate;
 	
 	/**
 	 * 商品
@@ -65,12 +65,12 @@ public class MerCategory implements Serializable{
 	}
 
 
-	public MerCategory(Integer mercategoryid, String cateName, String cateDesc,
+	public MerCategory(Integer mercategoryid, String cateName, Date cateDate,
 			Set<Merchandise> merchandises,MerSeller merSeller) {
 		super();
 		this.mercategoryid = mercategoryid;
 		this.cateName = cateName;
-		this.cateDesc = cateDesc;
+		this.cateDate = cateDate;
 		this.merchandises = merchandises;
 		this.merSeller=merSeller;
 	}
@@ -96,16 +96,6 @@ public class MerCategory implements Serializable{
 	}
 
 
-	public String getCateDesc() {
-		return cateDesc;
-	}
-
-
-	public void setCateDesc(String cateDesc) {
-		this.cateDesc = cateDesc;
-	}
-
-
 	public Set<Merchandise> getMerchandises() {
 		return merchandises;
 	}
@@ -123,6 +113,16 @@ public class MerCategory implements Serializable{
 
 	public void setMerSeller(MerSeller merSeller) {
 		this.merSeller = merSeller;
+	}
+
+
+	public Date getCateDate() {
+		return cateDate;
+	}
+
+
+	public void setCateDate(Date cateDate) {
+		this.cateDate = cateDate;
 	}
 	
 	

@@ -1,87 +1,52 @@
 <!-- 商品管理 -->
 <div class="btn-group btn-group-lg" id="merBtnGroup">
-  <button type="button" class="btn btn-default" id="aaa">上架时间</button>
-  <button type="button" class="btn btn-default">销量</button>
-  <button type="button" class="btn btn-default">库存</button>
-  <button type="button" class="btn btn-default">已卖完</button>
-  <button type="button" class="btn btn-default">已下架</button>
+  <button type="button" class="btn btn-default btn-primary" id="aaa">上架时间</button>
+  <button type="button" class="btn btn-default btn-primary">销量</button>
+  <button type="button" class="btn btn-default btn-primary">库存</button>
+  <button type="button" class="btn btn-default btn-primary">已卖完</button>
+  <button type="button" class="btn btn-default btn-primary">已下架</button>
  </div>
+ <button type="button" class="btn btn-danger btn-lg" >+添加商品</button>
 <hr/>
-<table class="table text-center" id="merchandiseList">
+	<div class="checkbox-inline">
+   <label><input type="checkbox" value="">全选</label>
+	</div>
+	&nbsp;&nbsp;当前已选中0件商品
+	<button type="button" class="btn btn-default btn-sm " >批量删除</button>
+	<button type="button" class="btn btn-default btn-sm " >批量下架</button>
+<div style="overflow-x:auto;">
+<table class="table text-center table-mobile" id="merchandiseList">
+ 
  <thead>
       <tr>
-         <th class="text-center">分类名称</th>
-         <th class="text-center">创建时间</th>
-         <th class="text-right">操</th>
-         <th class="text-left">作</th>
+         <th class="text-center">商品描述</th>
+         <th class="text-center">价格</th>
+         <th class="text-center">销量</th>
+         <th class="text-center">库存</th>
+         <th class="text-center">分类</th>
+         <th class="text-center">更新时间</th>
+         <th class="text-center">操作</th>
       </tr>
    </thead>
    <tbody>
       <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
+         <td class="merdesctd">
+         	<input type="checkbox" >
+         	<img alt=""  src="https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/aa64034f78f0f736a4a890f80955b319eac413f0.jpg">
+         	<div>作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作作</div>
+         </td>
+         <td class="merpricetd">89.00</td>
+         <td class="mersoldtd">11</td>
+         <td class="merstocktd">9999</td>
+         <td class="mercatetd">黑茶</td>
+         <td class="merdatetd">05-03</td>
+         <td class="meroperationtd">
+		 	<a class="myblock">编辑</a>
+		 	<a class="myblock">下架</a>
+		 	<a class="myblock">删除</a>
+		 </td>
       </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
-      <tr>
-         <td>黑茶</td>
-         <td>2016-02-19</td>
-         <td><a>删除</a></td>
-         <td><a>查看</a></td>
-      </tr>
+     
    </tbody>
 </table>
+</div>

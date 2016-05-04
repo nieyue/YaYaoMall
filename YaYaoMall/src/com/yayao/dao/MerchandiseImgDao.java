@@ -2,7 +2,6 @@ package com.yayao.dao;
 
 import java.util.List;
 
-import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
 

@@ -46,7 +46,6 @@
 	
 	<!-- 左边导航 -->
 	<div class="left-bar" >
-     <div class="" style="display:inline-block;width: 100%;">
 			<div class="panel-group" id="accordion" role="tablist"
 				aria-multiselectable="true">
 				<div class="panel panel-default">
@@ -65,7 +64,7 @@
 							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
 								data-parent="#accordion" href="#collapse2"
 								aria-expanded="false" aria-controls="collapse2">
-								店铺管理</a>
+								店铺管理<span class="caret" ></span></a>
 						</h4>
 					</div>
 					<div id="collapse2" class="panel-collapse collapse"
@@ -84,7 +83,7 @@
 							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
 								data-parent="#accordion" href="#collapse3"
 								aria-expanded="false" aria-controls="collapse3">
-								商品管理</a>
+								商品管理<span class="caret" ></span></a>
 						</h4>
 					</div>
 					<div id="collapse3" class="panel-collapse collapse"
@@ -102,7 +101,7 @@
 							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
 								data-parent="#accordion" href="#collapse4"
 								aria-expanded="false" aria-controls="collapse4">
-								订单管理</a>
+								订单管理<span class="caret" ></span></a>
 						</h4>
 					</div>
 					<div id="collapse4" class="panel-collapse collapse"
@@ -117,7 +116,7 @@
 							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
 								data-parent="#accordion" href="#collapse5"
 								aria-expanded="false" aria-controls="collapse5">
-								其他</a>
+								其他<span class="caret" ></span></a>
 						</h4>
 					</div>
 					<div id="collapse5" class="panel-collapse collapse"
@@ -126,7 +125,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
      </div>
 	<!-- end左边导航 -->
@@ -163,20 +161,26 @@
         	$("#merCategory").click(function(){
         		$(".right-bar").html("");
         		$(".right-bar").load('/seller/templates/mer_category.html');
+        		if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
+        			$.get("/merCategory/browseMerCategory?sellerid="+myUtils.GetQueryString("sellerid")+"&cateName=all",function(data){
+        				for (var i = 0; i < data.length; i++) {
+        					console.log(data[i].cateName)
+        				$("#merCategoryList tbody").append("<tr><td>"+data[i].cateName+"</td><td>"+data[i].cateDate+"</td><td><a>删除</a></td><td><a>查看</a></td></tr>");
+						}
+        			});
+        		}
         	});
         	//点击商品管理
         	$("#merchandise").click(function(){
         		$(".right-bar").html("");
-        		$(".right-bar").load('/seller/templates/merchandise.html',function(){
-        			$("#aaa").click(function(){
+        		$(".right-bar").load('/seller/templates/merchandise.html');
+        	});
+        	//点击商品查询
+        	$(document).on('click','#aaa',function(){
                 		console.log("d");
                 		//$("#merchandiseBtnGroup button").css("background-color","#e4e4e4");
                 		//$(this).css("background-color","red");
                 	});
-        		});
-        	//点击商品查询
-        	
-        	});
        		
         	
        });

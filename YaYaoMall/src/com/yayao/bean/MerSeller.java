@@ -1,6 +1,7 @@
 package com.yayao.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,13 +23,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 @Entity
 @Table(name="merseller_tb",catalog="YaYaoMall_db")
+@JsonIgnoreProperties(value="sellerPassword")
 public class MerSeller implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 商品分类id
+	 * 店铺id
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -45,7 +47,7 @@ public class MerSeller implements Serializable {
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merSeller")
 	@JsonManagedReference
 	private Set<MerCategory> merCategory;
-	/**
+	/** 
 	 * 邮箱
 	 */
 	private String sellerEmail;
@@ -73,6 +75,18 @@ public class MerSeller implements Serializable {
 	 * 店铺收藏数
 	 */
 	private Integer sellerNumber;
+	/**
+	 * 是否企业认证商户默认为0，未认证
+	 */
+	private Integer isAuthentication;
+	/**
+	 * 注册时间
+	 */
+	private Date registerDate;
+	/**
+	 * 认证时间
+	 */
+	private Date authenticationDate;
 	
 	
 	
@@ -82,7 +96,8 @@ public class MerSeller implements Serializable {
 	public MerSeller(Integer mersellerid, Set<Merchandise> merchandises,
 			String sellerEmail, String sellerPhone, String sellerPassword,
 			String sellerNiceName, String sellerIMGS, String sellerSignature,
-			Integer sellerNumber,Set<MerCategory> merCategory) {
+			Integer sellerNumber,Set<MerCategory> merCategory, Integer isAuthentication,
+			Date registerDate,Date authenticationDate) {
 		super();
 		this.mersellerid = mersellerid;
 		this.merchandises = merchandises;
@@ -94,6 +109,9 @@ public class MerSeller implements Serializable {
 		this.sellerSignature = sellerSignature;
 		this.sellerNumber = sellerNumber;
 		this.merCategory=merCategory;
+		this.setIsAuthentication(isAuthentication);
+		this.registerDate=registerDate;
+		this.authenticationDate=authenticationDate;
 	}
 	public Integer getMersellerid() {
 		return mersellerid;
@@ -154,6 +172,24 @@ public class MerSeller implements Serializable {
 	}
 	public void setMerCategory(Set<MerCategory> merCategory) {
 		this.merCategory = merCategory;
+	}
+	public Integer getIsAuthentication() {
+		return isAuthentication;
+	}
+	public void setIsAuthentication(Integer isAuthentication) {
+		this.isAuthentication = isAuthentication;
+	}
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+	public Date getAuthenticationDate() {
+		return authenticationDate;
+	}
+	public void setAuthenticationDate(Date authenticationDate) {
+		this.authenticationDate = authenticationDate;
 	}
 	
 }

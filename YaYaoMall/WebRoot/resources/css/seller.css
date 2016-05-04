@@ -15,6 +15,28 @@ a:hover{
 	width:106px !important;
 	border-radius:3px !important;
 }
+table th{
+	min-width:44px;
+}
+
+/**
+**body
+*/
+body{
+	background-color:#f3f3fa;
+}
+/**
+**inline-block
+*/
+.myinlineblock{
+	display: inline-block;
+}
+/**
+**block
+*/
+.myblock{
+	display:block;
+}
 /**
 **header 自适应
 */
@@ -27,30 +49,99 @@ a:hover{
 **左边布局
 */
 .left-bar{
-	width:30%;
-	float:left;
+	position:absolute;
+	width:25%;
+	top:5%;
+	margin-top:5%;
+	left:2%;
 	max-width:200px;
 	font-size:1.5rem !important;
 	min-width: 50px;
 	text-align: center;
+	display:inline-block;
 }
 
 /**
 **右边边布局
 */
 .right-bar{
+	position:absolute;
+	display:inline-block;
+	left:30%;
 	width:70%;
-	float:left ;
+	top:5%;
+	margin-top:5%;
 	min-width: 200px;
 	font-size-adjust: inherit;
+	border-left:2px #ccc dotted;
+	height: 1000px;
+	background-color:f3f3fa; 
 }
 /**
 **主体
 */
 .main-body{
+	position:relative;
+	margin-top:0;
 	max-width:1200px;
 	margin:0 auto;
+	border:1px dotted #ccc;
+	border-radius:3px;
+	box-shadow:0 0 5px #ccc;
 }
 
 
+/**
+**商品管理 merchandise 
+*/
+.merdesctd{
+	min-width:160px;
+	position: relative;
+}
+.merdesctd input{
+	position: absolute;
+	left:0;
+	top:50%;
+	margin-top:-6px;
+}
+.merdesctd img{
+	position: absolute;
+	left:15px;
+	top:0;
+	width:80px;
+	height:80px;
+	display:inline-block;
+}
 
+.merdesctd div{
+	display:inline;
+	position: absolute;
+	left:93px;
+	top:10px;
+	overflow: hidden;
+	height:60px;
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+.merpricetd,.mersoldtd,.merstocktd,.mercatetd,.merdatetd{
+	line-height:66px !important;
+	}
+@media screen and (max-width:760px){
+
+	.merdesctd div{
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	height:28px;
+	top:26px;
+	line-height:14px;
+	}
+	.merdesctd input{
+	top:30%;
+	}
+}

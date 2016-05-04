@@ -61,34 +61,37 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	}
 
 	/**
-	 * 装载指定的商品分类 
+	 * 装载指定商户的商品分类 
 	 */
-	public MerCategory loadMerCategory(String cateName) {
+	public MerCategory loadMerCategory(Integer sellerid,String cateName) {
 		MerCategory merCategory=null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
+		c.add(Restrictions.eq("mersellerid", sellerid));
 		c.add(Restrictions.eq("cateName", cateName));
 		merCategory=(MerCategory) c.uniqueResult();
 		return merCategory;
 	}
 	/**
-	 * 浏览商品分类 
+	 * 浏览商户商品分类 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MerCategory> browseMerCategory() {
+	public List<MerCategory> browseMerCategory(Integer sellerid) {
 		List<MerCategory> list = null;
 		Criteria userLevel = getSession().createCriteria(MerCategory.class);
+		userLevel.add(Restrictions.eq("mersellerid", sellerid));
 		userLevel.addOrder(Order.asc("mercategoryid"));
 		list = userLevel.list();
 		return list;
 	}
 	/**
-	 * 检查商品分类存在否
+	 * 检查商户商品分类存在否
 	 */
-	public boolean chkMerCategory(String cateName) {
+	public boolean chkMerCategory(Integer sellerid,String cateName) {
 		boolean status = true;//true代表数据库已经存在
 		MerCategory cate = null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
+		c.add(Restrictions.eq("mersellerid", sellerid));
 		c.add(Restrictions.eq("cateName", cateName));
 		 cate = (MerCategory) c.uniqueResult();
 		if(cate==null){

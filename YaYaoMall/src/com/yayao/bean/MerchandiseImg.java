@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 商品图片类
@@ -45,16 +44,21 @@ public class MerchandiseImg implements Serializable{
 	 * 商品图片地址
 	 */
 	private String imgAddress;
+	/**
+	 * 商品缩略图片地址
+	 */
+	private String thumbImgAddress;
 	
 	public MerchandiseImg() {
 		super();
 	}
 	public MerchandiseImg(Integer merchandiseimgid, Merchandise merchandise,
-			String imgAddress) {
+			String imgAddress, String thumbImgAddress) {
 		super();
 		this.merchandiseimgid = merchandiseimgid;
 		this.merchandise = merchandise;
 		this.imgAddress = imgAddress;
+		this.thumbImgAddress=thumbImgAddress;
 	}
 	public Integer getMerchandiseimgid() {
 		return merchandiseimgid;
@@ -73,6 +77,12 @@ public class MerchandiseImg implements Serializable{
 	}
 	public void setImgAddress(String imgAddress) {
 		this.imgAddress = imgAddress;
+	}
+	public String getThumbImgAddress() {
+		return thumbImgAddress;
+	}
+	public void setThumbImgAddress(String thumbImgAddress) {
+		this.thumbImgAddress = thumbImgAddress;
 	}
 	
 }

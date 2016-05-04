@@ -1,5 +1,6 @@
 package com.yayao.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,12 @@ public class MerCategoryServiceImpl implements MerCategoryService {
 	
 	/** 新增商品分类 */	
 	public void addMerCategory(MerCategory merCategory) {
+		merCategory.setCateDate(new Date());
 		merCategoryDao.addMerCategory(merCategory);
 	}
 	/** 更新商品分类 */
 	public void updateMerCategory(MerCategory merCategory) {
+		merCategory.setCateDate(new Date());
 		merCategoryDao.updateMerCategory(merCategory);
 	}
 	
@@ -38,18 +41,18 @@ public class MerCategoryServiceImpl implements MerCategoryService {
 
 	}
 	/** 浏览商品分类 */
-	public List<MerCategory> browseMerCategory() {
-		List<MerCategory> l = merCategoryDao.browseMerCategory();
+	public List<MerCategory> browseMerCategory(Integer sellerid) {
+		List<MerCategory> l = merCategoryDao.browseMerCategory(sellerid);
 		return l;
 	}
 	/** 装载指定的商品分类 */
-	public MerCategory loadMerCategory(String cateName) {
-		MerCategory ml = merCategoryDao.loadMerCategory(cateName);
+	public MerCategory loadMerCategory(Integer sellerid,String cateName) {
+		MerCategory ml = merCategoryDao.loadMerCategory(sellerid,cateName);
 		return ml;
 	}
 	/** 检查商品分类存在否 */
-	public boolean chkMerCategory(String cateName){
-		boolean status = merCategoryDao.chkMerCategory(cateName);
+	public boolean chkMerCategory(Integer sellerid,String cateName){
+		boolean status = merCategoryDao.chkMerCategory(sellerid,cateName);
 		return status;
 	}
 }

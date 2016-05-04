@@ -30,6 +30,7 @@ import com.yayao.util.DateUtil;
 import com.yayao.util.FileUploadUtil;
 import com.yayao.util.NumberUtil;
 import com.yayao.util.SHAutil;
+import com.yayao.util.StatusCode;
 
 /**
  * 账户控制类
@@ -59,9 +60,9 @@ public class UserController {
 	String userNameValid(@RequestParam String userName) {
 		boolean state = userService.chkLoginName(userName);
 		if (state) {
-			return "用户已经存在";
+			return StatusCode.USER_EXIST;
 		}
-		return "用户不存在";
+		return StatusCode.USER_NOT_EXIST;
 	}
 	/**
 	 * 邮箱验证码发送
@@ -77,7 +78,7 @@ public class UserController {
 		if(session.getAttribute("validCodeExpire")!=null){
 			String sessionvce = session.getAttribute("validCodeExpire").toString();
 			if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 1)))){//没超过一分钟
-			return "一分钟请求一次";
+			return StatusCode.ONE_ASK_ONE;
 		}
 			
 		}		
@@ -91,7 +92,7 @@ public class UserController {
 		}
 		session.setAttribute("validCode",Integer.valueOf(validCode));
 		session.setAttribute("validCodeExpire",DateUtil.getCurrentTime());
-		return "200";
+		return StatusCode.SUCESS;
 	}
 	/**
 	 * 邮箱验证码验证
@@ -106,21 +107,21 @@ public class UserController {
 	public @ResponseBody
 	String chkValidCode(@RequestParam("validCode")String validCode,HttpSession session) throws NumberFormatException, ParseException {
 		if(!NumberUtil.isNumeric(validCode)){
-			return "验证码错误";
+			return StatusCode.VERIFICATION_CODE_ERROR;
 		}
 		if(session.getAttribute("validCodeExpire")==null){
-			return "验证码错误";
+			return StatusCode.VERIFICATION_CODE_ERROR;
 		}
 		String sessionvce = session.getAttribute("validCodeExpire").toString();
 		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
 			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
-				return "200";
+				return StatusCode.SUCESS;
 			
 		}
-			return "验证码错误";
+			return StatusCode.VERIFICATION_CODE_ERROR;
 			
 		}
-		return "验证码过期";
+		return StatusCode.VERIFICATION_CODE_EXPIRED;
 	}
 	/**
 	 * 用户注册
@@ -153,15 +154,15 @@ public class UserController {
 		boolean status = userService.addUser(user);
 		session.setAttribute("user", user);
 		if(status){
-			user.setUserMsg("200");
+			user.setUserMsg(StatusCode.SUCESS);
 			return user;
 		}
 		return null;
 			}
-			user.setUserMsg("验证码错误");
+			user.setUserMsg(StatusCode.VERIFICATION_CODE_ERROR);
 			return user;
 		}
-		user.setUserMsg("验证码过期");
+		user.setUserMsg(StatusCode.VERIFICATION_CODE_EXPIRED);
 		
 		return user;
 	}
@@ -182,7 +183,7 @@ public class UserController {
 			String shaup = SHAutil.getSHA(userPassword);
 			User user = userService.userLogin(userName, shaup);
 			if(user!=null){
-				user.setUserMsg("200");
+				user.setUserMsg(StatusCode.SUCESS);
 				session.setAttribute("user", user);
 				return user;
 			}

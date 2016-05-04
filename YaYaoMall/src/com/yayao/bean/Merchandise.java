@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,8 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Columns;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -116,7 +113,8 @@ public class Merchandise implements Serializable{
 			Double merDiscount, Double merchandisePostage,
 			String merchandiseCode, String merchandiseStatus,
 			List<MerchandiseImg> merchandiseImgs, MerCategory merCategory,
-			Date merchandiseUpdateTime,Set<Comments> merComments) {
+			Date merchandiseUpdateTime,Set<Comments> merComments,
+			MerSeller merSeller) {
 		super();
 		this.merchandiseid = merchandiseid;
 		this.merchandiseName = merchandiseName;
@@ -132,6 +130,7 @@ public class Merchandise implements Serializable{
 		this.merCategory = merCategory;
 		this.merchandiseUpdateTime=merchandiseUpdateTime;
 		this.merComments=merComments;
+		this.merSeller=merSeller;
 	}
 
 
@@ -273,4 +272,26 @@ public class Merchandise implements Serializable{
 	public void setMerComments(Set<Comments> merComments) {
 		this.merComments = merComments;
 	}
+
+
+	public List<MerchandiseImg> getMerchandiseImgs() {
+		return merchandiseImgs;
+	}
+
+
+	public void setMerchandiseImgs(List<MerchandiseImg> merchandiseImgs) {
+		this.merchandiseImgs = merchandiseImgs;
+	}
+
+
+	public MerSeller getMerSeller() {
+		return merSeller;
+	}
+
+
+	public void setMerSeller(MerSeller merSeller) {
+		this.merSeller = merSeller;
+	}
+	
+	
 }

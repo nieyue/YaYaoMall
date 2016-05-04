@@ -81,7 +81,6 @@
 	</property>
 		<property name="hibernateProperties">
 			<props>
-		
 		<!-- Hibernate4需要通过getCurrentSession()获取session -->
 		<!--  
 		<prop key="hibernate.current_session_context_class" >org.springframework.orm.hibernate4.SpringSessionContext</prop>

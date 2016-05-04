@@ -51,7 +51,7 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	 * 更新商品 
 	 */
 	public void updateMer(Merchandise mer) {
-		getSession().merge(mer);
+		getSession().update(mer);
 	}
 
 	/**

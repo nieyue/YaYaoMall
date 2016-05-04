@@ -19,6 +19,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.yayao.bean.MerCategory;
 import com.yayao.bean.UserLevel;
 import com.yayao.service.MerCategoryService;
+import com.yayao.service.MerSellerService;
 import com.yayao.service.UserLevelService;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,6 +29,9 @@ public class MerCategoryServiceImplTest {
 	@Autowired
 	@Qualifier("merCategoryService")
 	MerCategoryService merCategoryService;
+	@Autowired
+	@Qualifier("merSellerService")
+	MerSellerService merSellerService;
 	@Autowired
 	@Qualifier("sessionFactory")
 	SessionFactory sessionFactory;
@@ -52,7 +56,12 @@ public class MerCategoryServiceImplTest {
 
 	@Test
 	public void testUpdateMerCategory() {
-		fail("Not yet implemented");
+		List<MerCategory> mc = merCategoryService.browseMerCategory(1);
+		for (int i = 0; i < mc.size(); i++) {
+			MerCategory merCategory = mc.get(i);
+			merCategory.setMerSeller(merSellerService.loadMerSeller(1));
+			merCategoryService.updateMerCategory(merCategory);
+		}
 	}
 
 	@Test
@@ -62,20 +71,20 @@ public class MerCategoryServiceImplTest {
 
 	@Test
 	public void testBrowseMerCategory() {
-		List<MerCategory> list = merCategoryService.browseMerCategory();
+		List<MerCategory> list = merCategoryService.browseMerCategory(1);
 		for (int i = 0; i < list.size(); i++) {
 			
 			System.out.println(list.get(i));
 			System.out.println(list.get(i).getMercategoryid());
 			System.out.println(list.get(i).getCateName());
-			System.out.println(list.get(i).getCateDesc());
+			System.out.println(list.get(i).getCateDate());
 		}
 	}
 
 	@Test
 	public void testLoadMerCategory() {
-		MerCategory mercate = merCategoryService.loadMerCategory("黑茶");
-	System.out.println(mercate.getCateDesc());
+		MerCategory mercate = merCategoryService.loadMerCategory(1,"黑茶");
+	System.out.println(mercate.getCateDate());
 	}
 
 	@Test

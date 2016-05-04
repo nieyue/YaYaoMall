@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
-import com.yayao.dao.MerCategoryDao;
 import com.yayao.dao.MerchandiseImgDao;
-import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseImgService;
 
 
