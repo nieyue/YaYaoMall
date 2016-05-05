@@ -36,12 +36,12 @@ public class UserServiceImplTest {
 	@Qualifier("sessionFactory")
 	SessionFactory sessionFactory;
 	Session session;
+	
 	@Before
 	public void setUp() throws Exception {
 		//session=sessionFactory.openSession();
 		//session=sessionFactory.getCurrentSession();
 	}
-
 	@After
 	public void tearDown() throws Exception {
 		//session=sessionFactory.getCurrentSession();

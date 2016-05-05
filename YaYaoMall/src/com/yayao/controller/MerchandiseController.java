@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
@@ -29,7 +27,7 @@ import com.yayao.util.StatusCode;
  * 
  */
 @Scope("prototype")
-@Controller("merchandise")
+@Controller("merchandiseController")
 @RequestMapping(value = "/merchandise")
 public class MerchandiseController {
 	@Resource(name = "merCategoryService")
@@ -41,7 +39,7 @@ public class MerchandiseController {
 	 * 分段获取所有商品
 	 * @return
 	 */
-	@RequestMapping(value = "/browseMerchandise", method = RequestMethod.GET)
+	@RequestMapping(value = "/browseMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("currentCount")String currentCount,HttpSession session)  {
 		int pageSize=10;
 		int pageNo=1;
@@ -70,7 +68,7 @@ public class MerchandiseController {
 	 * 商品修改
 	 * @return
 	 */
-	@RequestMapping(value = "/updateMerchandise", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String updateMerchandise(@RequestBody Merchandise merchandise)  {
 		merchandiseService.updateMer(merchandise);
 		return StatusCode.SUCESS;
@@ -79,7 +77,7 @@ public class MerchandiseController {
 	 * 商品增加
 	 * @return
 	 */
-	@RequestMapping(value = "/addMerchandise", method = RequestMethod.POST)
+	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String addMerchandise(@RequestBody Merchandise merchandise)  {
 		merchandiseService.addMer(merchandise);
 		return StatusCode.SUCESS;
@@ -88,7 +86,7 @@ public class MerchandiseController {
 	 * 商品删除
 	 * @return
 	 */
-	@RequestMapping(value = "/delMerchandise", method = RequestMethod.POST)
+	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String delMerchandise(@RequestBody Merchandise merchandise)  {
 		merchandiseService.delMer(merchandise.getMerchandiseid());;
 		return StatusCode.SUCESS;

@@ -140,26 +140,30 @@
       		userNameValue:"#userNameEmail",
       		verification:myUtils.userVerification.email,
       		userNameError:"#userNameEmailError",
-      		userNameErrorValue:"请输入正确的邮箱"
+      		userNameErrorValue:"请输入正确的邮箱",
+      		userNameURL:"/user/chkUserName"
       	},
       //密码
       	{
-      		userNameValue:"#userPasswordEmail",
-      		userNameError:"#userPasswordEmailError",
-      		userNameErrorValue:"数字、字母、下划线，6-20长度"
+      		userPasswordValue:"#userPasswordEmail",
+      		userPasswordError:"#userPasswordEmailError",
+      		userPasswordErrorValue:"数字、字母、下划线，6-20长度"
       	},
       //重复密码
       	{
-      		userNameValue:"#reUserPasswordEmail",
-      		userNameError:"#reUserPasswordEmailError",
-      		userNameErrorValue:"两次密码必须相同"
+      		userRePasswordValue:"#reUserPasswordEmail",
+      		userRePasswordError:"#reUserPasswordEmailError",
+      		userRePasswordErrorValue:"两次密码必须相同"
       	},
       	//验证码btn
       	"#userValidEmailBtn",
       	//验证码
-      	{
-      		userNameValue:"#userValidEmail",
-      		userNameError:"#userValidEmailError",
+      	{	
+      		userValidCodeSendURL:"/user/userEmailValidCode",
+      		userValidCodeValue:"#userValidEmail",
+      		userValidCodeError:"#userValidEmailError",
+      		userValidCodeCheckedURL:"/user/chkUserEmailValidCode"
+      		
       	}); 
       
       	/**
@@ -178,7 +182,7 @@
       		}
       		myUtils.myPrevToast("注册中",function(){
       			$.ajax({
-      				url:"/user/register.json",
+      				url:"/user/userEmailRegister.json",
       			  data:$("#emailForm").serialize(),
       			  type:"POST",
       			  dataType:"json",

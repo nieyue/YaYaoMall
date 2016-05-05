@@ -36,6 +36,6 @@ public class StatusCode {
 	/**
 	 * Session不存在或过期
 	 */
-	public static String SESSION_EXPIRED="session过期";
+	public static String SESSION_EXPIRED="会话过期";
 	
 }

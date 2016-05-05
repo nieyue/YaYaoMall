@@ -2,13 +2,11 @@ package com.yayao.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
@@ -39,7 +37,7 @@ import com.yayao.util.StatusCode;
  * 
  */
 @Scope("prototype")
-@Controller("user")
+@Controller("userController")
 @RequestMapping(value = "/user")
 public class UserController {
 	@Resource(name = "userService")
@@ -55,7 +53,7 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/chkUserName", method = RequestMethod.GET)
+	@RequestMapping(value = "/chkUserName", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
 	String userNameValid(@RequestParam String userName) {
 		boolean state = userService.chkLoginName(userName);
@@ -72,11 +70,11 @@ public class UserController {
 	 * @return
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value = "/validCode", method = RequestMethod.GET)
+	@RequestMapping(value = "/userEmailValidCode", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	String validCode(@RequestParam("userEmail") final String userEmail,@RequestParam("validCode") final String validCode,HttpSession session) throws ParseException {
-		if(session.getAttribute("validCodeExpire")!=null){
-			String sessionvce = session.getAttribute("validCodeExpire").toString();
+	String validCode(@RequestParam("userEmail") final String userEmail,@RequestParam("userEmailValidCode") final String userEmailValidCode,HttpSession session) throws ParseException {
+		if(session.getAttribute("userEmailValidCodeExpire")!=null){
+			String sessionvce = session.getAttribute("userEmailValidCodeExpire").toString();
 			if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 1)))){//没超过一分钟
 			return StatusCode.ONE_ASK_ONE;
 		}
@@ -84,14 +82,14 @@ public class UserController {
 		}		
 		
 		try {
-			SendMailDemo.sendSafeMail(userEmail,Integer.valueOf(validCode));
+			SendMailDemo.sendSafeMail(userEmail,Integer.valueOf(userEmailValidCode));
 		} catch (NumberFormatException e) {
 			return null;
 		} catch (InterruptedException e) {
 			return null;
 		}
-		session.setAttribute("validCode",Integer.valueOf(validCode));
-		session.setAttribute("validCodeExpire",DateUtil.getCurrentTime());
+		session.setAttribute("userEmailValidCode",Integer.valueOf(userEmailValidCode));
+		session.setAttribute("userEmailValidCodeExpire",DateUtil.getCurrentTime());
 		return StatusCode.SUCESS;
 	}
 	/**
@@ -103,18 +101,18 @@ public class UserController {
 	 * @throws ParseException 
 	 * @throws NumberFormatException 
 	 */
-	@RequestMapping(value = "/chkValidCode", method = RequestMethod.GET)
+	@RequestMapping(value = "/chkUserEmailValidCode", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	String chkValidCode(@RequestParam("validCode")String validCode,HttpSession session) throws NumberFormatException, ParseException {
-		if(!NumberUtil.isNumeric(validCode)){
+	String chkValidCode(@RequestParam("userEmailValidCode")String userEmailValidCode,HttpSession session) throws NumberFormatException, ParseException {
+		if(!NumberUtil.isNumeric(userEmailValidCode)){
 			return StatusCode.VERIFICATION_CODE_ERROR;
 		}
-		if(session.getAttribute("validCodeExpire")==null){
+		if(session.getAttribute("userEmailValidCodeExpire")==null){
 			return StatusCode.VERIFICATION_CODE_ERROR;
 		}
-		String sessionvce = session.getAttribute("validCodeExpire").toString();
+		String sessionvce = session.getAttribute("userEmailValidCodeExpire").toString();
 		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
-			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
+			if(Integer.valueOf(session.getAttribute("userEmailValidCode").toString()).equals(Integer.valueOf(userEmailValidCode))){
 				return StatusCode.SUCESS;
 			
 		}
@@ -130,24 +128,24 @@ public class UserController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/userEmailRegister", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	User userRegister(@ModelAttribute User user,@RequestParam("validCode") String validCode, HttpSession session) throws Exception {
+	User userRegister(@ModelAttribute User user,@RequestParam("userEmailValidCode") String userEmailValidCode, HttpSession session) throws Exception {
 		/*
 		 * if(result.hasErrors()){
 		 * //customer.setContent(result.getFieldError().getDefaultMessage());
 		 * return null; }
 		 */
-		if(!NumberUtil.isNumeric(validCode)){
+		if(!NumberUtil.isNumeric(userEmailValidCode)){
 			return null;
 		}
-		if(session.getAttribute("validCodeExpire")==null){
+		if(session.getAttribute("userEmailValidCodeExpire")==null){
 			return null;
 		}
 		
-		String sessionvce = session.getAttribute("validCodeExpire").toString();
+		String sessionvce = session.getAttribute("userEmailValidCodeExpire").toString();
 		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
-			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
+			if(Integer.valueOf(session.getAttribute("userEmailValidCode").toString()).equals(Integer.valueOf(userEmailValidCode))){
 			String shalp = SHAutil.getSHA(user.getUserPassword());
 			user.setUserPassword(shalp);
 		
@@ -175,7 +173,7 @@ public class UserController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
 	User login(HttpSession session,String userName,String userPassword) throws Exception {
 		boolean status = userService.chkLoginName(userName);
@@ -200,7 +198,7 @@ public class UserController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/loginOut", method = RequestMethod.GET)
+	@RequestMapping(value = "/loginOut", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody void loginOut(HttpSession session) throws Exception {
 		if(session.getAttribute("user")!=null){
 			session.invalidate();
@@ -215,7 +213,7 @@ public class UserController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/userIMGUpload", method = RequestMethod.POST)
+	@RequestMapping(value = "/userIMGUpload", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request,@RequestParam("userid")Integer id)  {
 			User u=userService.loadUser(id);
 			//删除原图片
@@ -239,7 +237,7 @@ public class UserController {
 	 * @return
 	 * @throws Exception 
 	 */   
-	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateUserInfo", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody void updateUser(HttpSession session ,Integer userid, String userInfoOne,String changeValue)  {
 		User u=null;
 			if(!NumberUtil.isNumeric(String.valueOf(userid))){
@@ -270,7 +268,7 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/loadUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/loadUser", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
 	User loadUser(HttpSession session,Integer id) {
 		if(NumberUtil.isNumeric(String.valueOf(id))){
@@ -288,11 +286,11 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = {"/browseUser"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/browseUser"}, method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	List<User> browseUser(HttpSession session,Model model) {
+	List<User> browseUser(HttpSession session) {
 		List<User> list = userService.browseUser();
-		model.addAttribute("userList", list);
+		session.setAttribute("userList", list);
 		return list;
 		
 	}
@@ -303,7 +301,7 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = {"/browseUserXLS"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/browseUserXLS"}, method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public XLSView browseUserXLS(HttpSession session,Model model) {
 		List<User> list = userService.browseUser();
@@ -319,7 +317,7 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = {"/browseUserPDF"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/browseUserPDF"}, method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody PDFView browseUserPDF(HttpSession session,Model model) {
 		List<User> list = userService.browseUser();
 		model.addAttribute("userList", list);

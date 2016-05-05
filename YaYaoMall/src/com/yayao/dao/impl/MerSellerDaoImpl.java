@@ -82,7 +82,7 @@ public class MerSellerDaoImpl implements MerSellerDao {
 	public List<MerSeller> browseMerSeller() {
 		List<MerSeller> list = null;
 		Criteria c = getSession().createCriteria(MerSeller.class);
-		c.addOrder(Order.asc("id"));
+		c.addOrder(Order.asc("mersellerid"));
 		list = c.list();
 		return list;
 	}

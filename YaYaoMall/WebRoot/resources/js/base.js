@@ -103,7 +103,7 @@ var myUtils = {
       			$(userName.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
-      		$.get("/user/chkUserName",
+      		$.get(userName.userNameURL,
       			{userName:userNameInfo},
       			function(data){
       				console.log(data)
@@ -119,24 +119,24 @@ var myUtils = {
 		}
       	//密码
 		if(password!=null){
-      	$(password.userNameValue).on("change",function(){
-      		var userPasswordInfo=$(password.userNameValue).val().trim();
+      	$(password.userPasswordValue).on("change",function(){
+      		var userPasswordInfo=$(password.userPasswordValue).val().trim();
       		if(!myUtils.userVerification.password.test(userPasswordInfo)){
-      			$(password.userNameError).text(password.userNameErrorValue);
+      			$(password.userPasswordError).text(password.userPasswordErrorValue);
       		}else{
-      			$(password.userNameError).text("");
+      			$(password.userPasswordError).text("");
       		}
       	});
 		}
       	//重复密码
 		if(rePassword!=null){
-      	$(rePassword.userNameValue).on("change",function(){
-      		var reUserPasswordInfo=$(rePassword.userNameValue).val().trim();
-      		var userPasswordInfo=$(password.userNameValue).val().trim();
+      	$(rePassword.userRePasswordValue).on("change",function(){
+      		var reUserPasswordInfo=$(rePassword.userRePasswordValue).val().trim();
+      		var userPasswordInfo=$(password.userPasswordValue).val().trim();
       		if(reUserPasswordInfo===userPasswordInfo){
-      			$(rePassword.userNameError).text("");
+      			$(rePassword.userRePasswordError).text("");
       		}else{
-      			$(rePassword.userNameError).text(rePassword.userNameErrorValue);
+      			$(rePassword.userRePasswordError).text(rePassword.userRePasswordErrorValue);
       		}
       	});
 		}
@@ -147,7 +147,7 @@ var myUtils = {
       			$(validCode.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
-      		$.get("/user/validCode",
+      		$.get(validCode.userValidCodeSendURL,
       				{
       				userEmail:userNameInfo,
       				validCode:parseInt(Math.random()*9000+1000)
@@ -172,24 +172,24 @@ var myUtils = {
       	});
 		//验证码
 		if(validCode!=null){
-      	$(validCode.userNameValue).on("change",function(){
+      	$(validCode.userValidCodeValue).on("change",function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
-      			$(validCode.userNameError).text(userName.userNameErrorValue);
+      			$(validCode.userValidCodeError).text(userName.userNameErrorValue);
       			return ;
       		}
-			if($(validCode.userNameValue).val()==null||$(validCode.userNameValue).val().trim()==""||$(validCode.userNameValue).val()==undefined){
+			if($(validCode.userValidCodeValue).val()==null||$(validCode.userValidCodeValue).val().trim()==""||$(validCode.userValidCodeValue).val()==undefined){
 				return ;
 			}
-			$(validCode.userNameError).text("");
-      		$.get("/user/chkValidCode",{
-      			validCode:$(validCode.userNameValue).val().trim()
+			$(validCode.userValidCodeError).text("");
+      		$.get(validCode.userValidCodeCheckedURL,{
+      			validCode:$(validCode.userValidCodeValue).val().trim()
       		},
       			function(data){
       				if(data=='200'){
-      				$(validCode.userNameError).text("");
+      				$(validCode.userValidCodeError).text("");
       				}else{
-      					$(validCode.userNameError).text(data);
+      					$(validCode.userValidCodeError).text(data);
       		}
       				
       	});
