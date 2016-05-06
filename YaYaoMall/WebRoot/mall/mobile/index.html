@@ -129,11 +129,11 @@
     <!-- end购物热门推荐商品-->
     <!-- 底部导航-->
     <div class="list-inline fixed-footer">
-    	<a class="btn active-a" href="/mall/mobile/index"><i class="glyphicon glyphicon-home"></i><div class="active-a">购物</div></a>
-    	<a class="btn" href="/mall/mobile/classification"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
-    	<a class="btn" href="/mall/mobile/shoppingCircle"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
-    	<a class="btn" href="/mall/mobile/cat"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
-    	<a class="btn" href="/mall/mobile/person"><i class="glyphicon glyphicon-user"></i><div>我</div></a>
+    	<a class="btn active-a" href="/mall/mobile/index" id="indexhref"><i class="glyphicon glyphicon-home"></i><div class="active-a">购物</div></a>
+    	<a class="btn" href="/mall/mobile/classification" id="classificationhref"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
+    	<a class="btn" href="/mall/mobile/shoppingCircle" id="shoppingCirclehref"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
+    	<a class="btn" href="/mall/mobile/cat" id="cathref"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
+    	<a class="btn" href="/mall/mobile/person" id="personhref"><i class="glyphicon glyphicon-user"></i><div>我</div></a>
     </div>
     <!-- end底部导航-->
     
@@ -149,10 +149,14 @@
        <script src="/resources/js/bootstrap3.2.0.js"></script>
        <script src="/resources/js/base64.js"></script>
        <script src="/resources/js/base.js"></script>
+         <script src="/resources/js/user.js"></script>
         <script type="text/javascript">
+        
    //显示所有html
    indexShopping.kaiping[0].style.display='block'; 
-  
+ 	//如果不存在sellerid，则404
+   userData.refereerSeller();
+
   /*  $(".myCarousel").carousel('cycle'); */
 
    //监听窗口大小，隐藏底部导航

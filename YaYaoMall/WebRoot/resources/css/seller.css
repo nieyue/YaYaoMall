@@ -12,7 +12,6 @@ a:hover{
 **重写
 */
 .btn{
-	width:106px !important;
 	border-radius:3px !important;
 }
 table th{
@@ -116,7 +115,7 @@ body{
 .merdesctd div{
 	display:inline;
 	position: absolute;
-	left:93px;
+	left:100px;
 	top:10px;
 	overflow: hidden;
 	height:60px;
@@ -127,7 +126,6 @@ body{
 	-webkit-box-orient: vertical;
 }
 .merpricetd,.mersoldtd,.merstocktd,.mercatetd,.merdatetd{
-	line-height:66px !important;
 	}
 @media screen and (max-width:760px){
 
@@ -144,4 +142,210 @@ body{
 	.merdesctd input{
 	top:30%;
 	}
+}
+/*
+**mock-img-jumbotron巨幕
+*/
+.mock-img-jumbotron{
+	margin-bottom:5%;
+	margin-top:-20px;
+ 	background: -webkit-linear-gradient(left, red , blue); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, red, blue); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, red, blue); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, rgba(58,58,84,1) , rgba(200,200,200,1)); /* 标准的语法（必须放在最后） */
+}
+.mock-img-jumbotron h3{
+	text-indent:2em;
+	color:white;
+	font-size:30px;
+}
+@media screen and (max-width:760px){
+	.mock-img-jumbotron h3{
+	color:white;
+	font-size:18px;
+}
+}
+.seller-formdiv form{
+	padding:15px;
+	border:1px dashed white;
+	background-color:white;
+}
+/*
+**服务
+*/
+.service-div1{
+	border:1px #502CA2 dashed;
+	box-shadow: 0 5px 15px #502CA2;
+	border-radius:300px;
+	padding:5rem;
+	color:#502CA2;
+	font-size:10rem;
+	transition: width 2s, height 2s, transform 2s;
+	transform:rotate3d(0,0,0,0deg);
+	
+}
+.service-div1:hover{
+	transform:rotate3d(0,180,0,720deg);
+	color:#A729E4;
+	border:1px #A729E4 dashed;
+	box-shadow: 0 5px 15px #A729E4;
+}
+.service-div2{
+	border:1px #1BA01B dashed;
+	box-shadow: 0 0 15px #1BA01B;
+	border-radius:300px;
+	padding:5rem;
+	color:#1BA01B;
+	font-size:10rem;
+	transition: width 2s, height 2s, transform 2s;
+	transform:rotate3d(0,0,0,0deg);
+}
+.service-div2:hover{
+	transform:rotate3d(0,0,180,720deg);
+	color:#BAD052;
+	border:1px #BAD052 dashed;
+	box-shadow: 0 5px 15px #BAD052;
+}
+.service-div3{
+	border:1px #EF0D06 dashed;
+	box-shadow: 0 5px 15px #EF0D06;
+	border-radius:300px;
+	padding:5rem;
+	color:#EF0D06;
+	font-size:10rem;
+	transition: width 2s, height 2s, transform 2s;
+	transform:rotate3d(0,0,0,0deg);
+	
+}
+.service-div3:hover{
+	transform:rotate3d(180,0,0,720deg) ;
+	color:#E016AE;
+	border:1px #E016AE dashed;
+	box-shadow: 0 5px 15px #E016AE;
+}
+/*
+**营销图片
+*/
+.marketing-img{
+	margin:5% 0;
+	background:url("http://wd.geilicdn.com/vshop333816149-1461911700.jpg?w=640&h=330&cp=1") no-repeat;
+	background-size:100% 300px;
+	height:300px;
+}
+/*
+**店长笔记
+*/
+.seller-notes-title{
+	text-indent:2rem;
+	color:#999;
+	font-weight:bolder;
+	font-size: 2rem; 
+}
+.seller-notes-title span{
+	color:#ff3300;
+	font-size: 2.5rem; 
+}
+.seller-notes-content{
+	border-top: 1px dotted #ccc;
+	height:300px;
+	padding:5%;
+}
+.seller-notes-content-warp{
+	height:200px;
+	border-right: 1px solid #ccc;
+	position: relative;
+}
+@media screen and (max-width:760px){
+	.seller-notes-content{
+	height:700px;
+	padding:5%;
+}
+	.seller-notes-content-warp{
+	height:200px;
+	border-right: 0px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	position: relative;
+}
+}
+.seller-notes-content-warp:last-child{
+	border-right: 0px solid #ccc;
+}
+.seller-notes-content-img{
+	position: absolute;
+	left:15px;
+	top:5px;
+}
+.seller-notes-content-img img{
+	width:60px;
+	height:60px;
+	
+}
+.seller-notes-content-name{
+	position: absolute;
+	left:80px;
+	top:15px;
+	font-size:2rem;
+	color:#ccc;
+}
+.seller-notes-content-article{
+	position: absolute;
+	left:15px;
+	top:75px;
+	font-size:2rem;
+	color:#999;
+}
+/*
+**底部foot
+*/
+.seller-foot{
+	position:relative;
+	height:180px;
+	margin-bottom:0;
+	background: -webkit-linear-gradient(left, red , blue); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, red, blue); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, red, blue); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, rgba(58,58,84,1) , rgba(200,200,200,1)); /* 标准的语法（必须放在最后） */
+	color:#fff;
+	font-size:2rem;
+}
+.seller-foot-copyright{
+	position: absolute;
+	bottom:10px;
+	left:20px;
+}
+.seller-foot-contact{
+	left:20px;
+	top:20px;
+	position: absolute;
+	
+}
+/**
+**注册
+*/
+.seller-register-title div{
+	border: 1px solid #fff;
+	height:50px;
+	line-height: 50px;
+	font-size:18px;
+	text-align:center;
+	color:#fff;
+	background-color: #ccc;
+}
+.seller-register-title div:first-child{
+	color:#fff;
+	background-color:#EF0D06;
+}
+.seller-register-div{
+	margin:5% auto;
+	padding:5px;
+}
+.seller-register-div form{
+	padding:5%;
+	background-color:white;
+}
+#sellerImg img{
+	width:80px;
+	height: 80px;
+	border-radius:80px;
+	margin-left:15%;
 }

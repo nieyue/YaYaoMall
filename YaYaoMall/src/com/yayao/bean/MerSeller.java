@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -87,6 +88,11 @@ public class MerSeller implements Serializable {
 	 * 认证时间
 	 */
 	private Date authenticationDate;
+	/**
+	 * message
+	 */
+	@Transient
+	private String sellerMsg;
 	
 	
 	
@@ -97,7 +103,7 @@ public class MerSeller implements Serializable {
 			String sellerEmail, String sellerPhone, String sellerPassword,
 			String sellerNiceName, String sellerIMGS, String sellerSignature,
 			Integer sellerNumber,Set<MerCategory> merCategory, Integer isAuthentication,
-			Date registerDate,Date authenticationDate) {
+			Date registerDate,Date authenticationDate,String sellerMsg) {
 		super();
 		this.mersellerid = mersellerid;
 		this.merchandises = merchandises;
@@ -112,6 +118,7 @@ public class MerSeller implements Serializable {
 		this.setIsAuthentication(isAuthentication);
 		this.registerDate=registerDate;
 		this.authenticationDate=authenticationDate;
+		this.sellerMsg=sellerMsg;
 	}
 	public Integer getMersellerid() {
 		return mersellerid;
@@ -190,6 +197,12 @@ public class MerSeller implements Serializable {
 	}
 	public void setAuthenticationDate(Date authenticationDate) {
 		this.authenticationDate = authenticationDate;
+	}
+	public String getSellerMsg() {
+		return sellerMsg;
+	}
+	public void setSellerMsg(String sellerMsg) {
+		this.sellerMsg = sellerMsg;
 	}
 	
 }

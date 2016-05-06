@@ -1,20 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-		<title>账户登录</title>
+		<title>本真商户</title>
 	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no" name="viewport" />	
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-	<meta name="Keywords" content="系统，管理"/>
+	<meta name="Keywords" content="系统，管理，本真，商户，综合，门户"/>
 	 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
      <link href="/resources/css/seller.css" rel="stylesheet">
 	
     
 </head>
    <body>
-	
+	<!-- 顶部 -->
+	<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+  <div class="container">
+   <div class="navbar-header">
+   <button type="button" class="navbar-toggle" data-toggle="collapse" 
+         data-target="#example-navbar-collapse">
+         <span class="sr-only">切换导航</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+   </button>
+      <a class="navbar-brand" href="#">本真茶园</a>
+    </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/seller/seller_register">注册</a></li>
+        <li><a href="#">登录</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	<!-- end顶部 -->
+	<!-- 巨幕 -->
+	<div class="jumbotron mock-img-jumbotron">
+  		<h3>手机——电脑——平板，适用的店铺管理</h3>
+  		<div class="container seller-formdiv">
+  			
+			<form class="col-sm-offset-6">
+			<div class="form-group text-center">
+			<label id="sellerErrorValue" class="text-danger hidden"></label>
+			</div>
+				<div class="form-group">
+					 <input
+						type="tel" class="form-control" id="sellerPhone"
+						placeholder="手机">
+				</div>
+				<div class="form-group">
+					 <input
+						type="password" class="form-control" id="sellerPassword"
+						placeholder="密码">
+				</div>
+				<div class="checkbox">
+					<label> 
+					<input type="checkbox" id="autoLogin">自动登录
+					</label>
+				</div>
+				<div class="form-group">
+				<button type="button" class="btn btn-block btn-danger">登录</button>
+				</div>				
+				<div class="form-group">
+				<a href="/seller/seller_register">立即注册，免费开店></a>
+				<a class="pull-right">忘记密码？找回密码</a>
+				</div>				
+			</form>
+		</div>
+	</div>
+	<!-- end巨幕 -->
+	<!-- 服务 -->
+<div class="container summary" style="width:auto;">
+<div id="summary-container" class="row">
+        <div class="col-md-offset-1 col-md-3 text-center">
+            <div class="glyphicon glyphicon-user service-div1"></div>
+            <h2 style="color:#ff3300;">个人卖家<br/>
+            <small>免费开店,方便实用</small>
+            </h2>
+        </div>
+        <div class="col-md-3 text-center">
+            <div class="glyphicon glyphicon-comment service-div2" ></div>
+           
+            <h2 style="color:#f0c239;">公众号<br/>
+            <small>打造属于自己的生态链</small>
+            </h2>
+            </div>
+        <div class="col-md-3 text-center">
+            <div class="glyphicon glyphicon-flag service-div3" ></div>
+           
+            <h2 style="color:#0c8918;">企业店铺<br/>
+            <small>多种渠道，一站式整合服务</small>
+            </h2>
+            </div>
+       </div>
+       </div>
+<!-- 服务end -->
+<!-- 营销图片 -->
+		<div class="container-fuild marketing-img">
+		</div>
+<!-- end营销图片 -->
+<!-- 店长笔记推广 -->
+	<div class="container-fuild">
+		<div class="seller-notes-title"><span>|</span>店长笔记:分享好文</div>
+		<div class="seller-notes-content">
+			<div class="col-sm-4 seller-notes-content-warp" >
+				<div class="seller-notes-content-img"><img src="http://s.koudai.com/official/images/pc/head_img/xiaoyu.png"/></div>
+				<div class="seller-notes-content-name">90后小清晰店主：小鱼</div>
+				<div class="seller-notes-content-article">我从小就喜欢做手工，现在卖的都是自己做的手工配饰，希望未来能做属于自己的品牌。</div>
+			</div>
+			<div class="col-sm-4 seller-notes-content-warp">
+				<div class="seller-notes-content-img"><img src="http://s.koudai.com/official/images/pc/head_img/luoluo.png"/></div>
+				<div class="seller-notes-content-name">全职妈妈：落落</div>
+				<div class="seller-notes-content-article">开店后时间更加自由，陪伴儿子的时间很多，同时让我觉得自己并没有因为怀孕生子而和社会脱节。</div>
+			</div>
+			<div class="col-sm-4 seller-notes-content-warp">
+				<div class="seller-notes-content-img"><img src="http://s.koudai.com/official/images/pc/head_img/yudaniu.png"/></div>
+				<div class="seller-notes-content-name">微店助农：傻大妞</div>
+				<div class="seller-notes-content-article">村里的苹果到季节了，在微店100小时就售出8000份，32000斤，感受到微店的威力，感谢微店！</div>
+			</div>
+		</div>
+	</div>
+<!-- end店长笔记推广 -->
+<!-- foot -->
+  <div class="container-fuild seller-foot">
+ 	<div class="seller-foot-contact">
+ 		<div>联系我们</div>
+ 		<div>公司地址：湖南省长沙市岳麓区阳光城1107室</div>
+ 	</div>
+  <div class="seller-foot-copyright"><p>Copyright 2016 itcast Inc,All rights reserved.</p></div>
+  </div>
+<!-- endfoot -->
        <script src="/resources/js/jquery2.1.js"></script>  
        <script src="/resources/js/bootstrap3.2.0.js"></script>
-       <script src="/resources/js/base.js"></script> 
+      <!--  <script src="/resources/js/base.js"></script> --> 
        
     
    </body>

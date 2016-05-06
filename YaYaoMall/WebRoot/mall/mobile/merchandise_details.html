@@ -101,12 +101,13 @@
        <script src="/resources/js/bootstrap3.2.0.js"></script>
        <script src="/resources/js/base64.js"></script>
        <script src="/resources/js/base.js"></script>
+         <script src="/resources/js/user.js"></script>
        <script type="text/javascript">
       		$(function(){
       			
       			//参数验证
       			if(!myUtils.userVerification.catNum.test(myUtils.GetQueryString("merid"))){
-      				location.replace('/mall/mobile/index');
+      				location.replace("/mall/mobile/index?sellerid="+sessionStorage.getItem("sellerid"));
       			}
       			 if(localStorage.getItem("browseMerchandise")!=null){
       				userData.merchandise_details(JSON.parse(decode64(localStorage.getItem("browseMerchandise"))));

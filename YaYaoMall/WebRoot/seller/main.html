@@ -12,7 +12,7 @@
 </head>
    <body>
 	<!-- 导航 -->
-	<nav class="navbar navbar-inverse" role="navigation">
+	<nav class="navbar navbar-default navbar-static-top navbar-inverse">
    <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" 
          data-target="#example-navbar-collapse">
@@ -162,10 +162,10 @@
         		$(".right-bar").html("");
         		$(".right-bar").load('/seller/templates/mer_category.html');
         		if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
-        			$.get("/merCategory/browseMerCategory?sellerid="+myUtils.GetQueryString("sellerid")+"&cateName=all",function(data){
+        			$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.GetQueryString("sellerid")+"&cateName=all",function(data){
+        					console.log(data)
         				for (var i = 0; i < data.length; i++) {
-        					console.log(data[i].cateName)
-        				$("#merCategoryList tbody").append("<tr><td>"+data[i].cateName+"</td><td>"+data[i].cateDate+"</td><td><a>删除</a></td><td><a>查看</a></td></tr>");
+        				$("#merCategoryList tbody").append("<tr data-mercateid="+data[i].mercategoryid+"><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a>删除</a></td><td><a>查看</a></td></tr>");
 						}
         			});
         		}
@@ -176,11 +176,11 @@
         		$(".right-bar").load('/seller/templates/merchandise.html');
         	});
         	//点击商品查询
-        	$(document).on('click','#aaa',function(){
-                		console.log("d");
+        	//$(document).on('click','#aaa',function(){
+                		//console.log("d");
                 		//$("#merchandiseBtnGroup button").css("background-color","#e4e4e4");
                 		//$(this).css("background-color","red");
-                	});
+                	//});
        		
         	
        });

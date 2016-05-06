@@ -65,11 +65,11 @@
 
     <!-- 底部导航-->
       <div class="list-inline fixed-footer">
-    	<a class="btn" href="index"><i class="glyphicon glyphicon-home"></i><div>购物</div></a>
-    	<a class="btn" href="classification"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
-    	<a class="btn" href="shoppingCircle"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
-    	<a class="btn" href="cat"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
-    	<a class="btn active-a" href="person"><i class="glyphicon glyphicon-user"></i><div class="active-a">我</div></a>
+    	<a class="btn" href="/mall/mobile/index" id="indexhref"><i class="glyphicon glyphicon-home"></i><div>购物</div></a>
+    	<a class="btn" href="/mall/mobile/classification" id="classificationhref"><i class="glyphicon glyphicon-th"></i><div>分类</div></a>
+    	<a class="btn" href="/mall/mobile/shoppingCircle" id="shoppingCirclehref"><i class="glyphicon glyphicon-comment"></i><div>购物圈</div></a>
+    	<a class="btn" href="/mall/mobile/cat" id="cathref"><i class="glyphicon glyphicon-shopping-cart"></i><div>购物车</div></a>
+    	<a class="btn active-a" href="person" id="personhref"><i class="glyphicon glyphicon-user"></i><div class="active-a">我</div></a>
     </div>
     <!-- end底部导航-->
     
@@ -83,21 +83,23 @@
        <script src="/resources/js/bootstrap3.2.0.js"></script>
        <script src="/resources/js/base64.js"></script>
        <script src="/resources/js/base.js"></script>
+         <script src="/resources/js/user.js"></script>
        <script type="text/javascript">
       		$(function(){
+      		//如果不存在sellerid，则404
+      		   userData.refereerSeller();
       			//console.log(JSON.parse(decode64(localStorage.getItem("user"))));
       			if(myUtils.getCookie("loginstate")==1){
-      				var userid=myUtils.getCookie("userid");
       				myUtils.myPrevToast("加载中",function(){
       					//如果缓存，直接取
       					if(sessionStorage.getItem("user")!=null){
           					var data=JSON.parse(decode64(sessionStorage.getItem("user")));
           					userData.person(data);
-              				myUtils.myPrevToast("登录成功",null,"remove");
+              				myUtils.myPrevToast("加载中...",null,"remove");
               				return;
           				}
       					
-          			$.get("/user/loadUser.json?id="+userid,"json",function(data){
+          			$.get("/user/loadUser.json?id="+myUtils.getCookie("userid"),"json",function(data){
           				if(data){
           			sessionStorage.setItem("user",encode64(JSON.stringify(data)));
           			userData.person(data);

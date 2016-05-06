@@ -11,7 +11,7 @@
   </head>
   <body>
    <div class="person-common-header">
-  	<div><a class="pull-left" href="/mall/mobile/person">&lt;返回</a></div>
+  	<div><a class="pull-left" id="backhref" href="/mall/mobile/persion">&lt;返回</a></div>
   	<div class="text-center person-common-header-center">用户信息</div>
   </div>
    <input type="file" id="fileUserInfoIMG" accept="image/*"/>
@@ -89,17 +89,20 @@
        <script src="/resources/js/bootstrap3.2.0.js"></script>
        <script src="/resources/js/base64.js"></script>
        <script src="/resources/js/base.js"></script>
+         <script src="/resources/js/user.js"></script>
        <script type="text/javascript">
       		$(function(){
+      			//修改回退
+      			 $("#backhref").attr("href","/mall/mobile/person?sellerid="+myUtils.GetQueryString("sellerid"));
       			//登录成功的用户信息
       			if(myUtils.getCookie("loginstate")==1){
       				var userid=myUtils.getCookie("userid");
-      			myUtils.myPrevToast("加载中",function(){
+      			myUtils.myPrevToast("加载中...",function(){
       			//如果缓存，直接取
   					if(sessionStorage.getItem("user")!=null){
       					var data=JSON.parse(decode64(sessionStorage.getItem("user")));
       					userData.user_info(data);
-          				myUtils.myPrevToast("加载完成",null,"remove");
+          				myUtils.myPrevToast("加载中...",null,"remove");
           				return;
       				}
       			$.get("/user/loadUser.json?id="+userid,"json",function(data){
@@ -112,7 +115,7 @@
       				},"add");
       				
       			}else{
-      				location.replace("/mall/mobile/person");
+      				location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
       			}
       		//登录退出
       		$("#userLoginOut").on('click',function(){
@@ -121,7 +124,7 @@
       			myUtils.delCookie("userid");
       			$.get("/user/loginOut",function(){
       			myUtils.myLoadingToast("退出成功",function(){
-      			location.replace("/mall/mobile/person");
+      			location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
       			});
       			});
       			});

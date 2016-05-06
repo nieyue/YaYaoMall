@@ -13,7 +13,7 @@
   </head>
   <body>
   <div class="person-common-header">
-  	<div><a class="pull-left" href="/mall/mobile/person_login">&lt;返回</a></div>
+  	<div><a class="pull-left" href="javascript:history.go(-1);">&lt;返回</a></div>
   	<div class="text-center person-common-header-center">账户注册</div>
   </div>
   <div class="person-register-body-toggle">
@@ -111,10 +111,11 @@
        <script src="/resources/js/bootstrap3.2.0.js"></script>
        <script src="/resources/js/base64.js"></script>
        <script src="/resources/js/base.js"></script>
+         <script src="/resources/js/user.js"></script>
        <script type="text/javascript">
       		$(function(){
       			if(myUtils.getCookie("loginstate")==1){
-          			location.replace("/mall/mobile/person");
+          			location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
           			}
       		$(".emailspan").on("click",function(){
       			$("#phoneForm").css("display","none");

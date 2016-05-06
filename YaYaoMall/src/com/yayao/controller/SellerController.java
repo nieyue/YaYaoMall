@@ -18,6 +18,7 @@ import com.yayao.bean.MerCategory;
 import com.yayao.bean.MerSeller;
 import com.yayao.bean.User;
 import com.yayao.service.MerCategoryService;
+import com.yayao.service.MerSellerService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.util.DateUtil;
 import com.yayao.util.NumberUtil;
@@ -37,6 +38,8 @@ public class SellerController {
 	private MerCategoryService merCategoryService;
 	@Resource(name = "merchandiseService")
 	private MerchandiseService merchandiseService;
+	@Resource(name = "merSellerService")
+	private MerSellerService merSellerService;
 	/**
 	 * 商户注册
 	 * @param user
@@ -44,43 +47,42 @@ public class SellerController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/register", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/sellerEmailRegister", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	User merSellerRegister(@ModelAttribute MerSeller merSeller,@RequestParam("validCode") String validCode, HttpSession session) throws Exception {
+	MerSeller merSellerRegister(@ModelAttribute MerSeller merSeller,@RequestParam("sellerEmailValidCode") String sellerEmailValidCode, HttpSession session) throws Exception {
 		/*
 		 * if(result.hasErrors()){
 		 * //customer.setContent(result.getFieldError().getDefaultMessage());
 		 * return null; }
 		 */
-		/*if(!NumberUtil.isNumeric(validCode)){
+		if(!NumberUtil.isNumeric(sellerEmailValidCode)){
 			return null;
 		}
-		if(session.getAttribute("validCodeExpire")==null){
+		if(session.getAttribute("sellerEmailValidCodeExpire")==null){
 			return null;
 		}
 		
-		String sessionvce = session.getAttribute("validCodeExpire").toString();
+		String sessionvce = session.getAttribute("sellerEmailValidCodeExpire").toString();
 		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
-			if(Integer.valueOf(session.getAttribute("validCode").toString()).equals(Integer.valueOf(validCode))){
-			String shalp = SHAutil.getSHA(user.getUserPassword());
-			user.setUserPassword(shalp);
+			if(Integer.valueOf(session.getAttribute("sellerEmailValidCode").toString()).equals(Integer.valueOf(sellerEmailValidCode))){
+			String shalp = SHAutil.getSHA(merSeller.getSellerPassword());
+			merSeller.setSellerPassword(shalp);
 		
-		boolean status = userService.addUser(user);
-		session.setAttribute("user", user);
+		boolean status = merSellerService.addMerSeller(merSeller);
+		session.setAttribute("merSeller", merSeller);
 		if(status){
-			user.setUserMsg(StatusCode.SUCESS);
-			return user;
+			merSeller.setSellerMsg(StatusCode.SUCESS);
+			return merSeller;
 		}
 		return null;
 			}
-			user.setUserMsg(StatusCode.VERIFICATION_CODE_ERROR);
-			return user;
+			merSeller.setSellerMsg(StatusCode.VERIFICATION_CODE_ERROR);
+			return merSeller;
 		}
-		user.setUserMsg(StatusCode.VERIFICATION_CODE_EXPIRED);
+		merSeller.setSellerMsg(StatusCode.VERIFICATION_CODE_EXPIRED);
 		
-		return user;
-		*/
-		return null;
+		return merSeller;
+		
 	}
 	
 	
