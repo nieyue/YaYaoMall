@@ -14,9 +14,6 @@ a:hover{
 .btn{
 	border-radius:3px !important;
 }
-table th{
-	min-width:44px;
-}
 
 /**
 **body
@@ -93,6 +90,12 @@ body{
 /**
 **商品管理 merchandise 
 */
+#merchandiseList tbody tr{
+	height: 100px;
+}
+.table thead tr th{
+	min-width: 90px;
+}
 .merdesctd{
 	min-width:160px;
 	position: relative;
@@ -106,7 +109,7 @@ body{
 .merdesctd img{
 	position: absolute;
 	left:15px;
-	top:0;
+	top:10px;
 	width:80px;
 	height:80px;
 	display:inline-block;
@@ -126,6 +129,7 @@ body{
 	-webkit-box-orient: vertical;
 }
 .merpricetd,.mersoldtd,.merstocktd,.mercatetd,.merdatetd{
+		line-height: 80px !important;
 	}
 @media screen and (max-width:760px){
 
@@ -138,9 +142,6 @@ body{
 	height:28px;
 	top:26px;
 	line-height:14px;
-	}
-	.merdesctd input{
-	top:30%;
 	}
 }
 /*
@@ -169,6 +170,7 @@ body{
 	padding:15px;
 	border:1px dashed white;
 	background-color:white;
+	width:300px;
 }
 /*
 **服务
@@ -348,4 +350,34 @@ body{
 	height: 80px;
 	border-radius:80px;
 	margin-left:15%;
+}
+/**
+**后台首页
+*/
+.seller-notes-body{
+	border-top: 1px dotted #ccc;
+	height:300px;
+	padding:1%;
+}
+.seller-notes-body-warp{
+	border-bottom: 1px dotted #ccc;
+}
+.seller-notes-body-article{
+	display:inline-block;
+	margin-top:2px;	
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	width:98%;
+	color:#999;
+}
+.seller-notes-body-time{
+	display:inline-block;
+	width:135px;
+	color:#999;
+}
+@media screen and (max-width:760px){
+   .seller-notes-line{
+	width:40%;
+}
 }

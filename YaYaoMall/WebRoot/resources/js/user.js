@@ -82,7 +82,7 @@ var userData = {
 	 $.ajax({  
 			type : "get",  
 			url : "/merchandise/browseMerchandise.json",  
-			data : "currentCount=" + currentcount,  
+			data : {sellerid:myUtils.GetQueryString("sellerid"),currentCount:currentcount,pageSize:10,cateName:"all"},  
 			async : false,//取消异步 
 			dataType:"json",
 			success : function(data){  

@@ -234,16 +234,6 @@ public class Merchandise implements Serializable{
 	}
 
 
-	public List<MerchandiseImg> getMerchandiseImg() {
-		return merchandiseImgs;
-	}
-
-
-	public void setMerchandiseImg(List<MerchandiseImg> merchandiseImgs) {
-		this.merchandiseImgs = merchandiseImgs;
-	}
-
-
 	public MerCategory getMerCategory() {
 		return merCategory;
 	}

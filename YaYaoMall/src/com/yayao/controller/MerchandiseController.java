@@ -21,7 +21,7 @@ import com.yayao.service.MerchandiseService;
 import com.yayao.util.NumberUtil;
 import com.yayao.util.StatusCode;
 /**
- * 账户控制类
+ * 商品控制类
  * 
  * @author yy
  * 
@@ -40,12 +40,16 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("currentCount")String currentCount,HttpSession session)  {
-		int pageSize=10;
-		int pageNo=1;
+	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("sellerid") Integer sellerid,@RequestParam("currentCount")String currentCount,@RequestParam("pageSize") Integer pageSize,@RequestParam("cateName")String cateName,HttpSession session)  {
+		int pageNo=1;//初始化
 		MerCategory cate=null;
 		int count=0;
-		List<Merchandise> list = new ArrayList<Merchandise>() ;
+		List<Merchandise> list = new ArrayList<Merchandise>();
+		if(cateName.equals("all")){
+			cate=null;
+		}else{
+			cate = merCategoryService.loadMerCategory(sellerid, cateName);
+		}
 		count=merchandiseService.countRecord(cate);
 		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)<=count){
 			if(Integer.valueOf(currentCount)%pageSize!=0){//前台页面有问题，需重新获取
@@ -69,27 +73,36 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String updateMerchandise(@RequestBody Merchandise merchandise)  {
+	public @ResponseBody String updateMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+		if(session.getAttribute("merSeller")==null){
+			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+		}
 		merchandiseService.updateMer(merchandise);
-		return StatusCode.SUCESS;
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
 	 * 商品增加
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String addMerchandise(@RequestBody Merchandise merchandise)  {
+	public @ResponseBody String addMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+		if(session.getAttribute("merSeller")==null){
+			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+		}
 		merchandiseService.addMer(merchandise);
-		return StatusCode.SUCESS;
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
 	 * 商品删除
 	 * @return
 	 */
 	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String delMerchandise(@RequestBody Merchandise merchandise)  {
+	public @ResponseBody String delMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+		if(session.getAttribute("merSeller")==null){
+			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+		}
 		merchandiseService.delMer(merchandise.getMerchandiseid());;
-		return StatusCode.SUCESS;
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	
 }

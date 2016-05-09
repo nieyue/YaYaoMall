@@ -2,8 +2,8 @@
  * 修改原型
  */
 	String.prototype.trim=function(){
-		　　    return this.replace(/(^\s*)|(\s*$)/g,"");
-		　　 }
+		    return this.replace(/(^\s*)|(\s*$)/g,"");
+		}
 	
 /**
  * *工具包
@@ -16,13 +16,13 @@ var myUtils = {
 	 * 验证规则
 	 */	
 	userVerification:{
-		catNum:/^\+?[1-9][0-9]*$/,//非零正整数
-		nicename: /^[^\s]{1,10}$/,//1-10位,不包含空格。
-		signature:/^[^\s]{1,15}$/,//1-15位,不包含空格.
-		email:/^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$/, //邮箱
-		phone:/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/, //手机
-		identity:/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/, //15位和18位身份证号码
-		password:/^[0-9_a-zA-Z]{6,20}$/ //数字、字母、下划线，6-20长度
+		catNum:/^\+?[1-9][0-9]*$/,// 非零正整数
+		nicename: /^[^\s]{1,10}$/,// 1-10位,不包含空格。
+		signature:/^[^\s]{1,15}$/,// 1-15位,不包含空格.
+		email:/^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$/, // 邮箱
+		phone:/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/, // 手机
+		identity:/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/, // 15位和18位身份证号码
+		password:/^[0-9_a-zA-Z]{6,20}$/ // 数字、字母、下划线，6-20长度
 	},
 	/**
 	 * 如果没选择店铺就404
@@ -63,14 +63,14 @@ var myUtils = {
 	 * cookie
 	 * 
 	 */
-	//写cookie
+	// 写cookie
 	setCookie:function (name,value,expires)
 	{
 	var exp = new Date();
 	exp.setTime(exp.getTime() + expires*1000);
 	document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
 	},
-	//读取cookie
+	// 读取cookie
 	getCookie:function (name)
 	{
 	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
@@ -79,7 +79,7 @@ var myUtils = {
 	else
 	return null;
 	},
-	//删除cookie
+	// 删除cookie
 	delCookie:function(name)
 	{
 	var exp = new Date();
@@ -95,7 +95,7 @@ var myUtils = {
 	 */
 	registerFormValid:function(userName,password,rePassword,validBtn,validCode){
 		
-		//账号
+		// 账号
 		if(userName!=null){
       	$(userName.userNameValue).on("change",function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
@@ -117,7 +117,7 @@ var myUtils = {
       			);
       	});
 		}
-      	//密码
+      	// 密码
 		if(password!=null){
       	$(password.userPasswordValue).on("change",function(){
       		var userPasswordInfo=$(password.userPasswordValue).val().trim();
@@ -128,7 +128,7 @@ var myUtils = {
       		}
       	});
 		}
-      	//重复密码
+      	// 重复密码
 		if(rePassword!=null){
       	$(rePassword.userRePasswordValue).on("change",function(){
       		var reUserPasswordInfo=$(rePassword.userRePasswordValue).val().trim();
@@ -140,7 +140,7 @@ var myUtils = {
       		}
       	});
 		}
-		//请求服务器发送给邮箱验证码
+		// 请求服务器发送给邮箱验证码
       	$(validBtn).click(function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
@@ -170,7 +170,7 @@ var myUtils = {
       		}
       		});
       	});
-		//验证码
+		// 验证码
 		if(validCode!=null){
       	$(validCode.userValidCodeValue).on("change",function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
@@ -198,16 +198,12 @@ var myUtils = {
 	},
 	
 	/**
-	 * 修改一行的组件
-	 * clickDiv:点击的对象
-	 * modalTitle:模型的标题
-	 * userInfoOne:数据库实际的值
-	 * userInfoOneModal:修改的值
-	 * errorMessage:错误信息
+	 * 修改一行的组件 clickDiv:点击的对象 modalTitle:模型的标题 userInfoOne:数据库实际的值
+	 * userInfoOneModal:修改的值 errorMessage:错误信息
 	 */
 	updateOne:function(clickDiv,modalTitle,userInfoOne,userInfoOneModal,errorMessage){
 		$(clickDiv).click(function(){
-				//判断是否能够点击
+				// 判断是否能够点击
 			if($(userInfoOne).text()!=userData.userInit[userInfoOne.slice(1)]){
 				if(userInfoOne.indexOf("Email")>-1||userInfoOne.indexOf("Phone")>-1||userInfoOne.indexOf("Identity")>-1){
   		  		return;
@@ -263,10 +259,10 @@ var myUtils = {
 	/**
 	 * 文件上传组件
 	 */
-	fileUpload:function(file,imgelement){
+	fileUpload:function(file,ajaxfn){
 			var file=document.querySelector(file);
-		  photoExt=file.value.substr(file.value.lastIndexOf(".")).toLowerCase();//获得文件后缀名
-		//判断照片格式
+		  photoExt=file.value.substr(file.value.lastIndexOf(".")).toLowerCase();// 获得文件后缀名
+		// 判断照片格式
 		  if(photoExt!='.jpg'&&photoExt!='.png'){
 			  myUtils.myLoadingToast("请上传后缀名为jpg/png的照片!");
 		      return false;
@@ -281,7 +277,7 @@ var myUtils = {
 		  }else {  
 		       fileSize = file.files[0].size;     
 		  } 
-		  fileSize=Math.round(fileSize/1024*100/1024)/100; //单位为MB
+		  fileSize=Math.round(fileSize/1024*100/1024)/100; // 单位为MB
 		  if(fileSize>=2){
 			  alert("图片大小为"+fileSize+"MB，超过最大尺寸为2MB，请重新上传!");
 		      return false;
@@ -289,45 +285,27 @@ var myUtils = {
 	    	if (file.files && file.files[0])  
 	    	 {
 	         var reader = new FileReader(); 
-	        var fd=new FormData();
-	         fd.append("userid",myUtils.getCookie("userid"));
-	         fd.append("file", file.files[0]);
 	      	reader.onload = function(e){
-	      		//console.log(e.target.result);
-	      		myUtils.myPrevToast("上传中",function(){
-	      		$.ajax({
-	      			url:"/user/userIMGUpload",
-	      			type:"POST",
-	      			data:fd,
-	      			enctype:'multipart/form-data',
-	      			processData:false,// 告诉jQuery不要去处理发送的数据
-	      			contentType:false, // 告诉jQuery不要去设置Content-Type请求头
-	      			success:function(userIMG){//获取最新图片更新
-	      				console.log(userIMG);
-	      				var data=JSON.parse(decode64(sessionStorage.getItem("user")));
-	      				data.userIMG=userIMG;
-	      				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
-	              		userData.user_info(data);
-	      				myUtils.myPrevToast("上传成功",null,"remove");
-	      				$(imgelement).attr("src",e.target.result);
-	      			},
-	      			error:function(data){
-	      				console.log(data);
-	      				myUtils.myPrevToast("上传失败",null,"remove");
-	      			}
-	      		});
-	      		},"add");
-	      		
+	      		// console.log(e.target.result);
+	      		if(ajaxfn==null){
+	      		myUtils.myLoadingToast("上传失败",null);
+		   //console.log(file.files[0]);
+	      		return;
+	      		}
+	      		ajaxfn(e);
 	    	}
 	      	reader.readAsDataURL(file.files[0]);
-		  //console.log(file.files[0]);
 	      }else{
-	    	$(imgelement).attr("src",file.value);
+	      	myUtils.myPrevToast("浏览器不支持",null,"add");
+	      	setTimeout(function(){
+	      	myUtils.myPrevToast("浏览器不支持",null,"remove");
+	      	},1000);
+	    	//$(imgelement).attr("src",file.value);
 	      }
 			},
 	/**
-	* 自动a标签滑过透明
-	*/
+	 * 自动a标签滑过透明
+	 */
 	ahover : function() {
 		for (var int = 0; int < document.getElementsByTagName('a').length; int++) {
 			// var divthis=document.getElementsByTagName('div')[int];
@@ -351,8 +329,8 @@ var myUtils = {
 		var startY,moveY;
 			$(attrValue).on(myTouchEvents.touchstart,function(event){
 				event.stopPropagation();
-				//event.preventDefault();
-				//  console.log(event.originalEvent.touches[0].pageX);
+				// event.preventDefault();
+				// console.log(event.originalEvent.touches[0].pageX);
 	           // console.log(event.originalEvent.targetTouches);
 	           // console.log(event.originalEvent.changedTouches);
 				startY=event.originalEvent.targetTouches[0].pageY;
@@ -365,14 +343,14 @@ var myUtils = {
 			event.preventDefault();
 			if(moveY-startY<100&&moveY-startY>0){
 				if(myUtils.isScrollTop()){
-					//console.log(myUtils.isScrollTop());
+					// console.log(myUtils.isScrollTop());
 					$(attrValue).css("margin-top",(moveY-startY));
 				}else {
 					$(attrValue).unbind(myTouchEvents.touchmove);
 				}
 			}
 			else if(moveY-startY<0&&moveY-startY>-100){
-				//window.event.preventDefault();
+				// window.event.preventDefault();
 				if(myUtils.isScrollBottom(attrValue)){
 				$(attrValue).css("margin-top",(moveY-startY));
 				}else{
@@ -382,10 +360,10 @@ var myUtils = {
 		});
 			}
 		$(attrValue).on(myTouchEvents.touchend,function(event){
-			//event.preventDefault();
+			// event.preventDefault();
 			event.stopPropagation();
 			$(attrValue).css("margin-top",0);
-			//$(this).unbind(myTouchEvents.touchmove);
+			// $(this).unbind(myTouchEvents.touchmove);
 		});
 	},
 	/**
@@ -404,21 +382,22 @@ var myUtils = {
 	 */
 	isScrollBottom:function(element){
 		var isscrollbottom=false;
-	      	　　var scrollTop = $(window).scrollTop();
-	      	　　var scrollHeight = $(document).height();
-	      	   var elementHeight = $(element).height();
-	      	　　var windowHeight = $(window).height();
-	      	　　if((scrollTop + windowHeight == scrollHeight)||(elementHeight<=windowHeight)){
+	      	var scrollTop = $(window).scrollTop();
+	      	var scrollHeight = $(document).height();
+	      	var elementHeight = $(element).height();
+	      	var windowHeight = $(window).height();
+	      	if((scrollTop + windowHeight == scrollHeight)||(elementHeight<=windowHeight)){
 	      		isscrollbottom=true;
-	      		//console.log((scrollTop + windowHeight == scrollHeight)||(elementHeight<=windowHeight))
-	      	　　}
+	      		// console.log((scrollTop + windowHeight ==
+				// scrollHeight)||(elementHeight<=windowHeight))
+	      	}
 	      	return isscrollbottom;
 },
 	/**
 	 * 实现慢事件执行的toast
 	 */
 	myPrevToast : function(value,fn,motion) {
-		//如果存在，remove
+		// 如果存在，remove
 		if(document.querySelector("#prevToastWarp")){
 			document.querySelector("#prevToastValue").innerText=value;
 			if(motion=="add"){
@@ -444,7 +423,7 @@ var myUtils = {
 		}
 	},
 	/**
-	 *事件快速完成的toast
+	 * 事件快速完成的toast
 	 */
 	myLoadingToast : function(value, fn) {
 		$("body")
@@ -461,13 +440,13 @@ var myUtils = {
 			}, 1000);
 	},
 	/**
-	 *底部加载toast
+	 * 底部加载toast
 	 */
 	myFootLoadingToast : function(bottom, fn,motion) {
 		if(bottom==null||bottom==''||bottom==undefined){
 			bottom=0;
 		}
-		//如果存在，remove
+		// 如果存在，remove
 		if(document.querySelector("#footToast")){
 			if(motion=="add"){
 				$("#footToast").css("bottom",bottom);
@@ -534,7 +513,7 @@ var myUtils = {
 	          ctx.arc(center.x,center.y,radius,0,Math.PI*2);
 	          ctx.closePath();
 	          ctx.stroke();
-	          //在圆圈上面画小圆
+	          // 在圆圈上面画小圆
 	          ctx.beginPath();
 	          ctx.strokeStyle = me.moveArcColor;
 	          ctx.arc(center.x,center.y,radius,rotatorAngle,rotatorAngle+Math.PI*.45);
@@ -624,7 +603,7 @@ var myUtils = {
 	 */
 	merchandiseNumber:function (mun,add,minus,stock){
 		
-	//商品选购数量
+	// 商品选购数量
 		$(mun).on('change',function(){
 			var munthis=$(this);
 			if(myUtils.userVerification.catNum.test(munthis.val())&&(munthis.val()<=stock)){
@@ -633,7 +612,7 @@ var myUtils = {
 				munthis.val(1);
 			}
 		});
-			//商品增加数量
+			// 商品增加数量
 		$(add).on('click',function(){
 			var addthis=$(this);
 			var numthis=addthis.prev();
@@ -644,7 +623,7 @@ var myUtils = {
 				numthis.val(1);
 			}
 		});
-			//商品减少数量
+			// 商品减少数量
 		$(minus).on('click',function(){
 			var minusthis=$(this);
 			var numthis=minusthis.next();
@@ -703,21 +682,21 @@ var myTouchEvents = {
  * 初始化
  * 
  */
-//触摸事件
+// 触摸事件
 myTouchEvents.initTouchEvents();
-//阻塞Loading
+// 阻塞Loading
 myUtils.myPrevToast("加载中");
-//阻塞loading圆圈
+// 阻塞loading圆圈
 myUtils.loading(document.querySelector('#prevloading'),{radius:8,circleLineWidth:2});
-//底部加载loading
+// 底部加载loading
 myUtils.myFootLoadingToast("55px");
-//底部加载圆圈
+// 底部加载圆圈
 myUtils.loading(document.querySelector('#bottomloading'),{radius:8,circleLineWidth:2});
 
-//底部footer a设置sellerid
-/*$(".fixed-footer a").each(function(){
-if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
-	$(this).attr("href",$(this).attr("href")+"?sellerid="+myUtils.GetQueryString("sellerid"));
-}
-});
+// 底部footer a设置sellerid
+/*
+ * $(".fixed-footer a").each(function(){
+ * if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
+ * $(this).attr("href",$(this).attr("href")+"?sellerid="+myUtils.GetQueryString("sellerid")); }
+ * });
  */

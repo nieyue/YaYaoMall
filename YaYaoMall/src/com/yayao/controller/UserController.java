@@ -58,9 +58,9 @@ public class UserController {
 	String userNameValid(@RequestParam String userName) {
 		boolean state = userService.chkLoginName(userName);
 		if (state) {
-			return StatusCode.USER_EXIST;
+			return StatusCode.GetValueByKey(StatusCode.USER_EXIST);
 		}
-		return StatusCode.USER_NOT_EXIST;
+		return StatusCode.GetValueByKey(StatusCode.USER_NOT_EXIST);
 	}
 	/**
 	 * 邮箱验证码发送
@@ -76,7 +76,7 @@ public class UserController {
 		if(session.getAttribute("userEmailValidCodeExpire")!=null){
 			String sessionvce = session.getAttribute("userEmailValidCodeExpire").toString();
 			if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 1)))){//没超过一分钟
-			return StatusCode.ONE_ASK_ONE;
+			return StatusCode.GetValueByKey(StatusCode.ONE_ASK_ONE);
 		}
 			
 		}		
@@ -90,7 +90,7 @@ public class UserController {
 		}
 		session.setAttribute("userEmailValidCode",Integer.valueOf(userEmailValidCode));
 		session.setAttribute("userEmailValidCodeExpire",DateUtil.getCurrentTime());
-		return StatusCode.SUCESS;
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
 	 * 邮箱验证码验证
@@ -105,21 +105,21 @@ public class UserController {
 	public @ResponseBody
 	String chkValidCode(@RequestParam("userEmailValidCode")String userEmailValidCode,HttpSession session) throws NumberFormatException, ParseException {
 		if(!NumberUtil.isNumeric(userEmailValidCode)){
-			return StatusCode.VERIFICATION_CODE_ERROR;
+			return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR);
 		}
 		if(session.getAttribute("userEmailValidCodeExpire")==null){
-			return StatusCode.VERIFICATION_CODE_ERROR;
+			return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR);
 		}
 		String sessionvce = session.getAttribute("userEmailValidCodeExpire").toString();
 		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
 			if(Integer.valueOf(session.getAttribute("userEmailValidCode").toString()).equals(Integer.valueOf(userEmailValidCode))){
-				return StatusCode.SUCESS;
+				return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 			
 		}
-			return StatusCode.VERIFICATION_CODE_ERROR;
+			return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR);
 			
 		}
-		return StatusCode.VERIFICATION_CODE_EXPIRED;
+		return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_EXPIRED);
 	}
 	/**
 	 * 用户注册
@@ -152,15 +152,18 @@ public class UserController {
 		boolean status = userService.addUser(user);
 		session.setAttribute("user", user);
 		if(status){
-			user.setUserMsg(StatusCode.SUCESS);
+			//成功则清除validcode
+			session.removeAttribute("userEmailValidCodeExpire");
+			session.removeAttribute("userEmailValidCode");
+			user.setUserMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 			return user;
 		}
 		return null;
 			}
-			user.setUserMsg(StatusCode.VERIFICATION_CODE_ERROR);
+			user.setUserMsg(StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR));
 			return user;
 		}
-		user.setUserMsg(StatusCode.VERIFICATION_CODE_EXPIRED);
+		user.setUserMsg(StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_EXPIRED));
 		
 		return user;
 	}
@@ -181,7 +184,7 @@ public class UserController {
 			String shaup = SHAutil.getSHA(userPassword);
 			User user = userService.userLogin(userName, shaup);
 			if(user!=null){
-				user.setUserMsg(StatusCode.SUCESS);
+				user.setUserMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 				session.setAttribute("user", user);
 				return user;
 			}

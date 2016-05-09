@@ -120,10 +120,10 @@
       		//登录退出
       		$("#userLoginOut").on('click',function(){
       			myUtils.myLoginOut("确定退出吗？",function(){
-      			myUtils.delCookie("loginstate");
-      			myUtils.delCookie("userid");
       			$.get("/user/loginOut",function(){
       			myUtils.myLoadingToast("退出成功",function(){
+      			myUtils.delCookie("loginstate");
+      			myUtils.delCookie("userid");
       			location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
       			});
       			});
@@ -158,7 +158,34 @@
   		  		});
   		  		//上传图像
   		  		$("#fileUserInfoIMG").change(function(){
-  		  			myUtils.fileUpload("#fileUserInfoIMG","#userInfoIMG");
+  		  			myUtils.fileUpload("#fileUserInfoIMG",function(event){
+                myUtils.myPrevToast("上传中",function(){
+            var fd=new FormData();
+            fd.append("userid",myUtils.getCookie("userid"));
+            fd.append("file", file.files[0]);
+            $.ajax({
+              url:"/user/userIMGUpload",
+              type:"POST",
+              data:fd,
+              enctype:'multipart/form-data',
+              processData:false,// 告诉jQuery不要去处理发送的数据
+              contentType:false, // 告诉jQuery不要去设置Content-Type请求头
+              success:function(userIMG){// 获取最新图片更新
+                console.log(userIMG);
+                var data=JSON.parse(decode64(sessionStorage.getItem("user")));
+                data.userIMG=userIMG;
+                sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+                    userData.user_info(data);
+                myUtils.myPrevToast("上传成功",null,"remove");
+                $("#userInfoIMG").attr("src",event.target.result);
+              },
+              error:function(data){
+                console.log(data);
+                myUtils.myPrevToast("上传失败",null,"remove");
+              }
+            });
+            },"add");
+              });
   		  		});
   		  		//修改昵称
   		  		myUtils.updateOne('#updateUserInfoNiceName',"修改昵称",'#userNiceName','#userInfoNiceNameModal',"1-10位，不能有空格");

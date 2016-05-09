@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yayao.bean.MerCategory;
 import com.yayao.service.MerCategoryService;
+import com.yayao.service.MerSellerService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.util.StatusCode;
 /**
@@ -32,6 +33,8 @@ public class MerCategoryController {
 	private MerCategoryService merCategoryService;
 	@Resource(name = "merchandiseService")
 	private MerchandiseService merchandiseService;
+	@Resource(name = "merSellerService")
+	private MerSellerService merSellerService;
 	/**
 	 * 浏览商家 分类（含单个查询（用cateName））
 	 * @return
@@ -55,24 +58,31 @@ public class MerCategoryController {
 	 */
 	@RequestMapping(value = "/delMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String delMerCategory(@RequestParam("cateName")String cateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
-			if(session.getAttribute("seller")==null){
-				return StatusCode.SESSION_EXPIRED;
+			if(session.getAttribute("merSeller")==null){
+				return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 			}
 		MerCategory mercate = merCategoryService.loadMerCategory(sellerid, cateName);
 			merCategoryService.delMerCategory(mercate.getMercategoryid());
-			return StatusCode.SUCESS;
+			return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
 	 * 商户商品分类增加
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String addMerCategory(@RequestBody MerCategory merCategory,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
-		if(session.getAttribute("seller")==null){
-			return StatusCode.SESSION_EXPIRED;
+	public @ResponseBody String addMerCategory(@RequestParam("cateName") String cateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
+		if(session.getAttribute("merSeller")==null){
+			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
+		boolean status = merCategoryService.chkMerCategory(sellerid, cateName);
+		if(status){
+			return StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST);
+		}
+		MerCategory merCategory=new MerCategory();
+		merCategory.setCateName(cateName);
+		merCategory.setMerSeller(merSellerService.loadMerSeller(sellerid));
 		merCategoryService.addMerCategory(merCategory);
-		return StatusCode.SUCESS;
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
 	 * 商户商品分类更新
@@ -80,11 +90,11 @@ public class MerCategoryController {
 	 */
 	@RequestMapping(value = "/updateMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String updateMerCategory(@RequestBody MerCategory merCategory,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
-		if(session.getAttribute("seller")==null){
-			return StatusCode.SESSION_EXPIRED;
+		if(session.getAttribute("merSeller")==null){
+			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
 		merCategoryService.updateMerCategory(merCategory);
-		return StatusCode.SUCESS;
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	
 }

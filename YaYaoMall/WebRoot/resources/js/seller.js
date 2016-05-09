@@ -1,0 +1,21 @@
+/**
+**商家数据
+*/
+var sellerData={
+		/**
+		 **登录退出
+		 */
+		sellerLoginOut:function(btn){
+			$(btn).click(function(){
+	    		 myUtils.myLoginOut("确定退出吗？",function(){
+	       			$.get("/seller/sellerLoginOut",function(){
+	       			myUtils.myLoadingToast("退出成功",function(){
+	       			myUtils.delCookie("sellerloginstate");
+	       			myUtils.delCookie("sellerid");
+	       			location.replace("/seller/index");
+	       			});
+	       			});
+	    	 });
+	    	 });
+		}
+};

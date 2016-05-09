@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 	<meta name="Keywords" content="系统，管理"/>
 	 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+	 <link href="/resources/css/buttons.css" rel="stylesheet">
      <link href="/resources/css/seller.css" rel="stylesheet">
 	
     
@@ -26,8 +27,8 @@
    <div class="collapse navbar-collapse" id="example-navbar-collapse">
       <ul class="nav navbar-nav">
          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-               本真茶园<b class="caret"></b>
+            <a href="#" id="sellerInfo" class="dropdown-toggle" data-toggle="dropdown">
+               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
                <li><a href="#">订单消息</a></li>
@@ -36,7 +37,7 @@
                <li><a href="#">个人资料</a></li>
             </ul>
          </li>
-         <li><a href="#">退出</a></li>
+         <li><a href="#" id="sellerLoginOut">退出</a></li>
       </ul>
    </div>
 </nav>
@@ -46,19 +47,20 @@
 	
 	<!-- 左边导航 -->
 	<div class="left-bar" >
-			<div class="panel-group" id="accordion" role="tablist"
+			<div class="panel-group " id="accordion" role="tablist"
 				aria-multiselectable="true">
-				<div class="panel panel-default">
+				
+				<div class="panel panel-primary" >
 					<div class="panel-heading" role="tab" id="heading1">
 						<h4 class="panel-title">
 							<a class="left-bar-title" role="button" data-toggle="collapse" data-parent="#accordion"
 								href="#collapse1" aria-expanded="true"
-								aria-controls="collapse1">首页</a>
+								aria-controls="collapse1" id="notice">首页</a>
 						</h4>
 					</div>
 					
 				</div>
-				<div class="panel panel-default">
+				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="heading2">
 						<h4 class="panel-title">
 							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
@@ -77,10 +79,11 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading" role="tab" id="heading3">
+				<div class="panel panel-primary" >
+					<div class="panel-heading " role="tab" id="heading3">
 						<h4 class="panel-title">
-							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
+							<a class="collapsed left-bar-title
+							" role="button" data-toggle="collapse"
 								data-parent="#accordion" href="#collapse3"
 								aria-expanded="false" aria-controls="collapse3">
 								商品管理<span class="caret" ></span></a>
@@ -95,7 +98,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default">
+				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="heading4">
 						<h4 class="panel-title">
 							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
@@ -110,8 +113,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading" role="tab" id="heading5">
+				<div class="panel panel-primary">
+					<div class="panel-heading " role="tab" id="heading5">
 						<h4 class="panel-title">
 							<a class="collapsed left-bar-title" role="button" data-toggle="collapse"
 								data-parent="#accordion" href="#collapse5"
@@ -128,6 +131,7 @@
 		</div>
      </div>
 	<!-- end左边导航 -->
+
 	<!-- 右边内容 -->
 	<div  class="container-fluid right-bar"  >
 	 	
@@ -135,45 +139,148 @@
 	<!-- end右边内容 -->
 	</div>
 	<!-- end主体 -->
+	
+	<!-- 按钮触发模态框 -->
+<button class="hide" data-toggle="modal" 
+   data-target="#myModal" id="mySellerModal">
+</button>
+	<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true" id="closeModal">
+                  &times;
+            </button>
+            <h4 class="modal-title" id="mySellerModalLabel">
+            </h4>
+         </div>
+         <div class="modal-body" id="mySellerModalBody">
+         </div>
+         <div class="modal-footer">
+         	<div id="errorSellerInfo" class="text-justify text-danger"></div>
+            <button type="button" class="button button-3d button-caution" id="sellerSubmit">
+               提交
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
        <script src="/resources/js/jquery2.1.js"></script>  
        <script src="/resources/js/bootstrap3.2.0.js"></script>
+        <script src="/resources/js/buttons.js"></script>
+       <script src="/resources/js/base64.js"></script> 
        <script src="/resources/js/base.js"></script> 
+       <script src="/resources/js/seller.js"></script> 
        <script type="text/javascript">
        $(function(){
+    	 //如果不存在sellerid，则404
+  		  myUtils.sellerNotExistence();
+    	 if(myUtils.getCookie("sellerid")==null){
+    		 location.replace("/seller/index");
+    	 }
+    	 //sellerInfo商家信息
+    	 console.log(JSON.parse(decode64(sessionStorage.getItem("seller"))))
+    	 if(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName!=null){
+    	$("#sellerInfo").html(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName+"<b class='caret'></b>")
+    	 }
+    	 //sellerLoginOut登录退出
+    	 sellerData.sellerLoginOut("#sellerLoginOut");
     	   //左标题
     	   $(".left-bar-title").css("text-decoration","none");
     	   $(".left-bar-title").click(function(){
-    		   $(".left-bar-title").css("color","black");
+    		   $(".left-bar-title").css("color","white");
     		  $(this).css("color","red");
     	   });
     	   //左标题内容划过变色
         	 $(".list-group a").hover(function(){
         	$(this).css("color","red");
         	},function(){
-        		$(this).css("color","black");
+        		$(this).css("color","#000");
         	});
         	//左标题内容点击背景变色
         	$(".list-group a").click(function(){
         	$(".list-group a").css("background-color","white");
         		$(this).css("background-color","#ccc");
         	});
-        	//点击商品分类
+        	//点击首页
+        	$(".right-bar").load('/seller/templates/notice.html');
+        	$("#notice").click(function(){
+        		$(".right-bar").html("");
+        		$(".right-bar").load('/seller/templates/notice.html');
+        	});
+        	//点击商品分类展现
         	$("#merCategory").click(function(){
         		$(".right-bar").html("");
         		$(".right-bar").load('/seller/templates/mer_category.html');
         		if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
         			$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.GetQueryString("sellerid")+"&cateName=all",function(data){
-        					console.log(data)
+        				if(data==null||data==''||data==undefined){
+        					$("#merCategoryList").after("<div class='text-center'>你还没有添加分类哦，赶紧添加吧</div>");
+        					return;
+        				}
+        				console.log(data)
         				for (var i = 0; i < data.length; i++) {
-        				$("#merCategoryList tbody").append("<tr data-mercateid="+data[i].mercategoryid+"><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a>删除</a></td><td><a>查看</a></td></tr>");
+        				$("#merCategoryList tbody").append("<tr data-mercateid="+data[i].mercategoryid+"><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a class='button button-3d button-action button-tiny'>查看</a></td><td><a class='button button-3d button-caution button-tiny'>删除</a></td></tr>");
 						}
         			});
         		}
+        	});
+        	//点击添加商品分类
+        	$(document).on("click","#addMerCategory",function(){
+        		$("#mySellerModalLabel").text("添加商品类别");
+        		$("#mySellerModalBody").html("<input type='text'class='form-control' placeholder='类别' id='merCategoryValue' />");
+        		$("#errorSellerInfo").text("");
+        		$("#mySellerModal").click();
+        		$("#sellerSubmit").unbind("click");
+        		$("#sellerSubmit").on("click",function(){
+        			var mcv=$("#merCategoryValue").val().trim();
+        			if(!myUtils.userVerification.nicename.test(mcv)){
+        				$("#errorSellerInfo").text("1-10位，不能有空格");
+        				return;
+        			}
+        			$.get("/merCategory/addMerCategory.json?sellerid="+myUtils.GetQueryString("sellerid")+"&cateName="+mcv,function(data){
+        				if(data){
+        					$("#closeModal").click();
+        					console.log(data)
+        					$("#merCategoryList tbody").append("<tr data-mercateid="+data.mercategoryid+"><td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny'>查看</a></td><td><a class='button button-3d button-caution button-tiny'>删除</a></td></tr>");
+        				}
+        			});
+        		});
         	});
         	//点击商品管理
         	$("#merchandise").click(function(){
         		$(".right-bar").html("");
         		$(".right-bar").load('/seller/templates/merchandise.html');
+        		if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
+        			$.get("/merchandise/browseMerchandise.json?sellerid="+myUtils.GetQueryString("sellerid")+"&currentCount=1&pageSize=10&cateName='all'",function(data){
+        				if(data==null||data==''||data==undefined){
+        					$("#merchandiseList").after("<div class='text-center'>你还没有添加分类哦，赶紧添加吧</div>");
+        					return;
+        				}
+        				console.log(data)
+        				for (var i = 0; i < data.length; i++) {
+        					data[i].merchandiseImgs[0].imgAddress="https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/aa64034f78f0f736a4a890f80955b319eac413f0.jpg";
+        				$("#merchandiseList tbody").append(
+        						"<tr data-mercateid="+data[i].mercategoryid+"><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a class='button button-3d button-action button-tiny'>查看</a></td><td><a class='button button-3d button-caution button-tiny'>删除</a></td></tr>"+
+        					"<tr data-merid="+data[i].merchandiseid+"><td class='merdesctd'><input type='checkbox' >"+
+         					"<img   src='"+data[i].merchandiseImgs[0].imgAddress+"'>"+
+         					"<div>"+data[i].merchandiseName+"</div></td>"+
+         					"<td class='merpricetd'>"+data[i].merchandisePrice+"</td>"+
+         					"<td class='mersoldtd'>"+data[i].merchandiseSold+"</td>"+
+         					"<td class='merstocktd'>"+data[i].merchandiseStock+"</td>"+
+         					"<td class='mercatetd'>"+data[i].merCategory.cateName+"</td>"+
+        				    "<td class='merdatetd'>"+data[i].merchandiseUpdateTime+"</td>"+
+         					"<td class='meroperationtd'>"+
+		 					"<a class='button button-3d button-primary button-tiny myblock'>编辑</a>"+
+		 					"<a class='button button-3d button-inverse button-tiny myblock'>下架</a>"+
+		 					"<a class='button button-3d button-caution button-tiny myblock'>删除</a>"+
+		 					"</td>"+
+      						"</tr>");
+						}
+        			});
+        		}
         	});
         	//点击商品查询
         	//$(document).on('click','#aaa',function(){

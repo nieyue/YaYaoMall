@@ -6,6 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 	<meta name="Keywords" content="系统，管理，本真，商户，综合，门户"/>
 	 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="/resources/css/buttons.css" rel="stylesheet"> 
+
      <link href="/resources/css/seller.css" rel="stylesheet">
 	
     
@@ -37,10 +39,10 @@
 	<div class="jumbotron mock-img-jumbotron">
   		<h3>手机——电脑——平板，适用的店铺管理</h3>
   		<div class="container seller-formdiv">
-  			
-			<form class="col-sm-offset-6">
+  			<!-- sellerLogin -->
+			<form class="col-sm-offset-6" id="sellerLoginForm">
 			<div class="form-group text-center">
-			<label id="sellerErrorValue" class="text-danger hidden"></label>
+			<label id="sellerErrorValue" class="text-danger"></label>
 			</div>
 				<div class="form-group">
 					 <input
@@ -54,17 +56,36 @@
 				</div>
 				<div class="checkbox">
 					<label> 
-					<input type="checkbox" id="autoLogin">自动登录
+					<input type="checkbox" id="autoLogin" checked="checked">自动登录
 					</label>
 				</div>
 				<div class="form-group">
-				<button type="button" class="btn btn-block btn-danger">登录</button>
+				<button type="button" class="button button-3d button-primary button-block btn-block  button-rounded" id="sellerSubmit">登录</button>
 				</div>				
 				<div class="form-group">
 				<a href="/seller/seller_register">立即注册，免费开店></a>
 				<a class="pull-right">忘记密码？找回密码</a>
 				</div>				
 			</form>
+  			<!-- end sellerLogin -->
+  			<!-- sellerLogining -->
+  			<form class="col-sm-offset-6 col-sm-6" style="display:none;" id="sellerLogining"> 
+			<div class="form-group text-center">
+			<label id="sellerErrorValue" class="text-danger hidden"></label>
+			</div>
+				<div class="form-group text-center img-circle">
+					 <img id="sellerImgSrc" class="img-circle" style="width:100px;height:100px;" src="/resources/img/preLoding.jpg"/>
+				</div>
+				<div class="form-group">
+				<div class="text-center alert alert-success">这个商家很懒，还没名字~……~</div>
+				</div>
+				
+				<div class="form-group">
+				<button type="button"  class="button button-small button-raised button-caution" id="sellerAutoLogin">进入后台</button>
+				<button type="button" class="button button-small button-raised button-royal pull-right" id="sellerAutoLoginOut">退出登录</button>
+				</div>				
+			</form>
+  			<!-- end sellerLogining -->
 		</div>
 	</div>
 	<!-- end巨幕 -->
@@ -131,8 +152,62 @@
 <!-- endfoot -->
        <script src="/resources/js/jquery2.1.js"></script>  
        <script src="/resources/js/bootstrap3.2.0.js"></script>
-      <!--  <script src="/resources/js/base.js"></script> --> 
-       
+      <script src="/resources/js/base64.js"></script>
+      <script src="/resources/js/base.js"></script>
+      <script src="/resources/js/seller.js"></script>
+       <script>
+       $(function(){
+       	//自动登录
+       	if(myUtils.userVerification.catNum.test(myUtils.getCookie("sellerid"))&&myUtils.getCookie("sellerloginstate")==1){
+       		$("#example-navbar-collapse ul").css("display","none");
+       		$("#sellerLoginForm").css("display","none");
+       		$("#sellerLogining").css("display","block");
+       		$("#sellerAutoLogin").click(function(){
+       		console.log("sdfsd")
+       			
+       			location.replace("/seller/main?sellerid="+myUtils.getCookie("sellerid"));
+       		});
+       		sellerData.sellerLoginOut("#sellerAutoLoginOut");
+       	}
+       	//点击登录
+       	$("#sellerSubmit").click(function(){
+       		var sellerPhone=$("#sellerPhone").val().trim();
+  			var sellerPassword=$("#sellerPassword").val().trim();
+  			if(myUtils.userVerification.phone.test(sellerPhone)&&myUtils.userVerification.password.test(sellerPassword)){
+  				$("#sellerErrorValue").text("");
+  				myUtils.myPrevToast("登录中",function(){
+      				$.ajax({
+      				url:'/seller/sellerLogin',
+      				type:'POST',
+      				data:{sellerName:sellerPhone,sellerPassword:sellerPassword},
+      				dataType:'json',
+      				success:function(data){
+      					if(data.sellerMsg=="200"){
+      						if($("#autoLogin").prop("checked")==true){
+      					myUtils.setCookie("sellerloginstate","1",60*60*24*365);
+      						}
+      					myUtils.setCookie("sellerid",data.mersellerid,60*60*24*365);
+      					sessionStorage.setItem("seller",encode64(JSON.stringify(data)));
+      						myUtils.myPrevToast("登录成功",function(){
+      			      			location.replace("/seller/main?sellerid="+myUtils.getCookie("sellerid"));
+      			      			},"remove");
+      					}
+      					
+      				},
+      				error:function(data){
+      					$("#sellerErrorValue").text("账号或密码错误");
+      					myUtils.myLoadingToast("登录失败");
+      				}
+      			});
+      				},"add");
+      				
+      			}else{
+      				$("#sellerErrorValue").text("请输入正确手机号或密码");
+      			}
+       		
+       	});
+       });
+       </script>
     
    </body>
 </html>
