@@ -102,7 +102,7 @@ public class SellerController {
 	}
 	
 	/**
-	 * 商户登录
+	 * 商户手动登录
 	 * 
 	 * @param merSeller
 	 * @param session
@@ -118,6 +118,7 @@ public class SellerController {
 			MerSeller seller = merSellerService.merSellerLogin(sellerName, shaup);
 			if(seller!=null){
 				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+				seller.setSellerToken(SHAutil.getSHA(sellerName));//设置token
 				session.setAttribute("merSeller", seller);
 				return seller;
 			}
@@ -125,6 +126,42 @@ public class SellerController {
 		
 		return null;
 		
+	}
+	/**
+	 * 商户自动登录
+	 * 
+	 * @param merSeller
+	 * @param session
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/sellerAutoLogin", method = {RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody
+	MerSeller sellerAutoLogin(HttpSession session,String sellerid,String sellerloginstate,String sellerToken) throws Exception {
+		MerSeller seller=new MerSeller();
+		//如果会话存在
+		if(session.getAttribute("merSeller")!=null){
+			seller=(MerSeller) session.getAttribute("merSeller");
+			seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+			return seller;
+		}
+		//如何会话不存在，新会话
+		if(NumberUtil.isNumeric(sellerid)&&sellerToken!=null){
+			//没有设置自动登录
+			if(sellerloginstate.equals("0")){
+				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
+				return seller;
+			}
+			//设置自动登录
+			if(sellerloginstate.equals("1")){
+			seller = merSellerService.loadMerSeller(Integer.valueOf(sellerid));
+			if(SHAutil.getSHA(seller.getSellerEmail()).equals(sellerToken)||SHAutil.getSHA(seller.getSellerPhone()).equals(sellerToken)){
+				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+				session.setAttribute("merSeller", seller);
+			}
+			}
+		}
+		return seller;
 	}
 	/**
 	 * 商户登出

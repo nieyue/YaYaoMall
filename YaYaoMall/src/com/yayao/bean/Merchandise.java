@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -74,13 +75,13 @@ public class Merchandise implements Serializable{
 	 * 商品图片
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<MerchandiseImg> merchandiseImgs;
 	/**
 	 * 商品评论
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<Comments> merComments;
 	/**
 	 * 商品更新时间
@@ -89,18 +90,22 @@ public class Merchandise implements Serializable{
 	/**
 	 * 卖家
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="mersellerid")
-	@JsonBackReference
+	@JsonManagedReference
 	private MerSeller merSeller;
 	/**
 	 * 商品类别
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="mercategoryid")
-	@JsonBackReference
+	@JsonManagedReference
 	private MerCategory merCategory;
-	
+	/**
+	 * 商品消息
+	 */
+	@Transient
+	private String merchandiseMsg;
 	
 	public Merchandise() {
 		super();
@@ -114,7 +119,7 @@ public class Merchandise implements Serializable{
 			String merchandiseCode, String merchandiseStatus,
 			List<MerchandiseImg> merchandiseImgs, MerCategory merCategory,
 			Date merchandiseUpdateTime,Set<Comments> merComments,
-			MerSeller merSeller) {
+			MerSeller merSeller,String merchandiseMsg) {
 		super();
 		this.merchandiseid = merchandiseid;
 		this.merchandiseName = merchandiseName;
@@ -131,6 +136,7 @@ public class Merchandise implements Serializable{
 		this.merchandiseUpdateTime=merchandiseUpdateTime;
 		this.merComments=merComments;
 		this.merSeller=merSeller;
+		this.merchandiseMsg=merchandiseMsg;
 	}
 
 
@@ -281,6 +287,16 @@ public class Merchandise implements Serializable{
 
 	public void setMerSeller(MerSeller merSeller) {
 		this.merSeller = merSeller;
+	}
+
+
+	public String getMerchandiseMsg() {
+		return merchandiseMsg;
+	}
+
+
+	public void setMerchandiseMsg(String merchandiseMsg) {
+		this.merchandiseMsg = merchandiseMsg;
 	}
 	
 	

@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 商品图片类
@@ -36,9 +36,9 @@ public class MerchandiseImg implements Serializable{
 	/**
 	 * 商品id
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="merchandiseid")
-	@JsonBackReference
+	@JsonManagedReference
 	private Merchandise merchandise;
 	/**
 	 * 商品图片地址

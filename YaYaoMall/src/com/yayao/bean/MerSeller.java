@@ -14,8 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 卖家类
@@ -40,13 +40,13 @@ public class MerSeller implements Serializable {
 	 * 商品
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merSeller")
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<Merchandise> merchandises;
 	/**
 	 * 商品分类
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merSeller")
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<MerCategory> merCategory;
 	/** 
 	 * 邮箱
@@ -89,10 +89,15 @@ public class MerSeller implements Serializable {
 	 */
 	private Date authenticationDate;
 	/**
-	 * message
+	 * sellermessage
 	 */
 	@Transient
 	private String sellerMsg;
+	/**
+	 * selle TOKEN
+	 */
+	@Transient
+	private String sellerToken;
 	
 	
 	
@@ -103,7 +108,7 @@ public class MerSeller implements Serializable {
 			String sellerEmail, String sellerPhone, String sellerPassword,
 			String sellerNiceName, String sellerIMGS, String sellerSignature,
 			Integer sellerNumber,Set<MerCategory> merCategory, Integer isAuthentication,
-			Date registerDate,Date authenticationDate,String sellerMsg) {
+			Date registerDate,Date authenticationDate,String sellerMsg,String sellerToken) {
 		super();
 		this.mersellerid = mersellerid;
 		this.merchandises = merchandises;
@@ -119,6 +124,7 @@ public class MerSeller implements Serializable {
 		this.registerDate=registerDate;
 		this.authenticationDate=authenticationDate;
 		this.sellerMsg=sellerMsg;
+		this.sellerToken=sellerToken;
 	}
 	public Integer getMersellerid() {
 		return mersellerid;
@@ -203,6 +209,12 @@ public class MerSeller implements Serializable {
 	}
 	public void setSellerMsg(String sellerMsg) {
 		this.sellerMsg = sellerMsg;
+	}
+	public String getSellerToken() {
+		return sellerToken;
+	}
+	public void setSellerToken(String sellerToken) {
+		this.sellerToken = sellerToken;
 	}
 	
 }

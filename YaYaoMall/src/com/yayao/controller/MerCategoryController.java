@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,8 +60,8 @@ public class MerCategoryController {
 			if(session.getAttribute("merSeller")==null){
 				return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 			}
-		MerCategory mercate = merCategoryService.loadMerCategory(sellerid, cateName);
-			merCategoryService.delMerCategory(mercate.getMercategoryid());
+			MerCategory merCate = merCategoryService.loadMerCategory(sellerid, cateName);
+			merCategoryService.delMerCategory(merCate.getMercategoryid());
 			return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
@@ -70,31 +69,43 @@ public class MerCategoryController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String addMerCategory(@RequestParam("cateName") String cateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
+	public @ResponseBody MerCategory addMerCategory(@RequestParam("cateName") String cateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
+		MerCategory merCategory=new MerCategory();
 		if(session.getAttribute("merSeller")==null){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+			merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
+			return merCategory;
 		}
 		boolean status = merCategoryService.chkMerCategory(sellerid, cateName);
 		if(status){
-			return StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST);
+			merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
+			return merCategory;
 		}
-		MerCategory merCategory=new MerCategory();
 		merCategory.setCateName(cateName);
 		merCategory.setMerSeller(merSellerService.loadMerSeller(sellerid));
 		merCategoryService.addMerCategory(merCategory);
-		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
+		merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		return merCategory;
 	}
 	/**
 	 * 商户商品分类更新
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String updateMerCategory(@RequestBody MerCategory merCategory,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
+	public @ResponseBody MerCategory updateMerCategory(@RequestParam("oldCateName") String oldCateName,@RequestParam("newCateName") String newCateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
+		MerCategory oldMerCategory=merCategoryService.loadMerCategory(sellerid, oldCateName);
 		if(session.getAttribute("merSeller")==null){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+			oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
+			return oldMerCategory;
 		}
-		merCategoryService.updateMerCategory(merCategory);
-		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
+		boolean status = merCategoryService.chkMerCategory(sellerid, newCateName);
+		if(status){
+			oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
+			return oldMerCategory;
+		}
+		oldMerCategory.setCateName(newCateName);
+		oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		merCategoryService.updateMerCategory(oldMerCategory);
+		return oldMerCategory;
 	}
 	
 }

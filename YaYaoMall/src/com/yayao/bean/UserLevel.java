@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -47,7 +48,7 @@ public class UserLevel implements Serializable{
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="userLevel")
 	/*@JoinColumn(name="userlevelid")*/
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<User> users;
 	
 	

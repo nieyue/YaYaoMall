@@ -74,7 +74,7 @@ public class User implements java.io.Serializable {
 	 * 卡卷包
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="user")
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<CardPackage> cardPackages;
 	/**
 	 * 积分
@@ -87,9 +87,9 @@ public class User implements java.io.Serializable {
 	/**
 	 * 账户等级
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="userlevelid")
-	@JsonBackReference
+	@JsonManagedReference
 	private UserLevel userLevel;
 	/**
 	 * 注册日期
@@ -100,10 +100,15 @@ public class User implements java.io.Serializable {
 	 */
 	private Date lastLoginTime;
 	/**
-	 * message
+	 * usermessage
 	 */
 	@Transient
 	private String userMsg;
+	/**
+	 * user token
+	 */
+	@Transient
+	private String userToken;
 	/**
 	 * 收货地址
 	 */
@@ -128,7 +133,7 @@ public class User implements java.io.Serializable {
 	 * 评论
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="user")
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<Comments> userComments;
 	
 	
@@ -143,7 +148,7 @@ public class User implements java.io.Serializable {
 			Date regDate, Date lastLoginTime, String userMsg,
 			Set<UserReceiptAddress> userReceiptAddress, Set<Friends> friends,
 			Set<Orders> orders, Set<MerCollections> merCollections,
-			Set<Comments> userComments) {
+			Set<Comments> userComments,String userToken) {
 		super();
 		this.userid = userid;
 		this.userEmail = userEmail;
@@ -165,6 +170,7 @@ public class User implements java.io.Serializable {
 		this.orders = orders;
 		this.merCollections = merCollections;
 		this.userComments = userComments;
+		this.userToken=userToken;
 	}
 
 
@@ -335,6 +341,14 @@ public class User implements java.io.Serializable {
 
 	public void setUserIMG(String userIMG) {
 		this.userIMG = userIMG;
+	}
+
+	public String getUserToken() {
+		return userToken;
+	}
+
+	public void setUserToken(String userToken) {
+		this.userToken = userToken;
 	}
 
 	

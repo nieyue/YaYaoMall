@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.MerCategory;
+import com.yayao.bean.MerSeller;
 import com.yayao.bean.UserLevel;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerSellerService;
@@ -49,9 +50,10 @@ public class MerCategoryServiceImplTest {
 	@Test
 	public void testAddMerCategory() {
 		MerCategory ul=new MerCategory();
-		//ul.setCateName("青茶");
-		//ul.setCateDesc("青茶（乌龙茶）是中国六大茶类之一，属于半发酵茶，既有绿茶的清香，又有红茶的浓郁。茶叶冲泡后，叶片中间呈绿色，边缘有明显的红边，因此有“绿叶红镶边”的美称。目前主要分布在福建，台湾和广东等地，在浙江，四川，江西等地也有少量生产。根据产地以及制茶工艺的不同，乌龙茶可以分为闽北乌龙茶，闽南乌龙茶，广东乌龙茶和台湾乌龙茶。其中闽北乌龙茶的代表名茶为大红袍，铁罗汉，水金龟，白鸡冠以及闽北水仙等；闽南乌龙茶的代表为安溪铁观音，黄金桂等；广东乌龙茶的代表名茶为凤凰单丛等；台湾乌龙的代表名茶为冻顶乌龙，阿里山乌龙等。");
-		//merCategoryService.addMerCategory(ul);
+		ul.setCateName("青2茶");
+		MerSeller merSeller = merSellerService.loadMerSeller(6);
+		ul.setMerSeller(merSeller);
+		merCategoryService.addMerCategory(ul);
 	}
 
 	@Test
@@ -66,7 +68,15 @@ public class MerCategoryServiceImplTest {
 
 	@Test
 	public void testDelMerCategory() {
-		fail("Not yet implemented");
+		//MerCategory merCategory = merCategoryService.loadMerCategory(6, "红茶");
+		//merCategory.setCateName("红茶");
+		//MerSeller merSeller = merSellerService.loadMerSeller(5);
+		//MerSeller merSeller = new MerSeller();
+		//merSeller.setMersellerid(4);
+		//merCategory.setMerSeller(merSeller);
+		//merCategory.setMercategoryid(5);
+		//merCategoryService.updateMerCategory(merCategory);
+		merCategoryService.delMerCategory(36);
 	}
 
 	@Test

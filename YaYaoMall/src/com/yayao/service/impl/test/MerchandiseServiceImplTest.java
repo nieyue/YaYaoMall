@@ -20,6 +20,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.yayao.bean.MerCategory;
 import com.yayao.bean.MerSeller;
 import com.yayao.bean.Merchandise;
+import com.yayao.bean.MerchandiseImg;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerSellerService;
 import com.yayao.service.MerchandiseImgService;
@@ -58,21 +59,22 @@ public class MerchandiseServiceImplTest {
 	@Test
 	public void testAddMer() {
 		Merchandise mer=new Merchandise();
-		MerCategory mercate = merCategoryService.loadMerCategory(1,"花茶");
+		MerCategory mercate = merCategoryService.loadMerCategory(7,"黑茶");
 		mer.setMerCategory(mercate);
-		mer.setMerchandiseCode("sr155");
-		
+		mer.setMerchandiseCode("sr1d55");
+		MerSeller merSeller = new MerSeller();
+		merSeller.setMersellerid(7);
+		mer.setMerSeller(merSeller);
 		//mer.setMerchandiseImg("http://wd.geilicdn.com/vshop333816149-1457603308132-5927369.jpg?w=1080&h=0");
-		mer.setMerchandiseName("清香型 绿茶茶叶 2016年雨前早春 包邮罐装200克");
-		mer.setMerchandiseOldPrice(168.00);
-		mer.setMerchandisePrice(80.00);
-		mer.setMerchandisePostage(20.00);
-		mer.setMerchandiseSold(55);//销量
+		mer.setMerchandiseName("施兆鹏八十大寿礼茶 湖南安化黑茶 金花茯砖 收藏茶 盒装1936g");
+		mer.setMerchandiseOldPrice(2980.00);
+		mer.setMerchandisePrice(2820.00);
+		mer.setMerchandisePostage(0.00);
+		mer.setMerchandiseSold(45);//销量
 		mer.setMerchandiseStatus("上架");
-		mer.setMerchandiseStock(96);//库存
+		mer.setMerchandiseStock(965);//库存
 		mer.setMerchandiseUpdateTime(new Date());
-		mer.setMerDiscount(6.0);//折扣
-		
+		mer.setMerDiscount(Double.valueOf(2820*100/2980)/100);//折扣
 		merchandiseService.addMer(mer);
 	}
 

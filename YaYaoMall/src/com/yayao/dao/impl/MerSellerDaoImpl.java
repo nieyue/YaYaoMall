@@ -71,7 +71,7 @@ public class MerSellerDaoImpl implements MerSellerDao {
 	/** 修改注册商户信息 */
 	public void updateMerSeller(MerSeller merSeller) {
 		if(merSeller!=null){
-			getSession().merge(merSeller);
+			getSession().update(merSeller);
 			//getSession().saveOrUpdate(user);
 			//getSession().createQuery("update User set userNiceName="+user.getUserNiceName()+" where userid="+user.getUserid()).executeUpdate();
 		}

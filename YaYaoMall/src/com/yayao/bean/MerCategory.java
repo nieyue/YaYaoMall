@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -50,15 +51,20 @@ public class MerCategory implements Serializable{
 	 * 商品
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merCategory")
-	@JsonManagedReference
+	@JsonBackReference
 	private Set<Merchandise> merchandises;
 	/**
 	 * 卖家
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="mersellerid")
-	@JsonBackReference
+	@JsonManagedReference
 	private MerSeller merSeller;
+	/**
+	 * 商品类别消息
+	 */
+	@Transient
+	private String cateMsg;
 	
 	public MerCategory() {
 		super();
@@ -66,13 +72,14 @@ public class MerCategory implements Serializable{
 
 
 	public MerCategory(Integer mercategoryid, String cateName, Date cateDate,
-			Set<Merchandise> merchandises,MerSeller merSeller) {
+			Set<Merchandise> merchandises,MerSeller merSeller,String cateMsg) {
 		super();
 		this.mercategoryid = mercategoryid;
 		this.cateName = cateName;
 		this.cateDate = cateDate;
 		this.merchandises = merchandises;
 		this.merSeller=merSeller;
+		this.cateMsg=cateMsg;
 	}
 
 
@@ -123,6 +130,16 @@ public class MerCategory implements Serializable{
 
 	public void setCateDate(Date cateDate) {
 		this.cateDate = cateDate;
+	}
+
+
+	public String getCateMsg() {
+		return cateMsg;
+	}
+
+
+	public void setCateMsg(String cateMsg) {
+		this.cateMsg = cateMsg;
 	}
 	
 	

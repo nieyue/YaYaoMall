@@ -1,6 +1,7 @@
 package com.yayao.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,8 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 商品评论类
@@ -37,28 +37,34 @@ public class Comments implements Serializable{
 	/**
 	 * 评论账户
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="userid")
-	@JsonBackReference
+	@JsonManagedReference
 	private User user;
 	/**
 	 * 评论商品
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="merchandiseid")
-	@JsonBackReference
+	@JsonManagedReference
 	private Merchandise merchandise;
+	/**
+	 * 评论时间
+	 */
+	private Date commentTime;
 	
 	
 	
 	public Comments() {
 		super();
 	}
-	public Comments(Integer commentsid, User user, Merchandise merchandise) {
+	public Comments(Integer commentsid, User user, Merchandise merchandise
+			,Date commentTime) {
 		super();
 		this.commentsid = commentsid;
 		this.user = user;
 		this.merchandise = merchandise;
+		this.commentTime=commentTime;
 	}
 	public Integer getCommentsid() {
 		return commentsid;
@@ -77,6 +83,12 @@ public class Comments implements Serializable{
 	}
 	public void setMerchandise(Merchandise merchandise) {
 		this.merchandise = merchandise;
+	}
+	public Date getCommentTime() {
+		return commentTime;
+	}
+	public void setCommentTime(Date commentTime) {
+		this.commentTime = commentTime;
 	}
 	
 	

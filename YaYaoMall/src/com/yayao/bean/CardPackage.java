@@ -1,5 +1,7 @@
 package com.yayao.bean;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * 卡卷包
@@ -36,19 +38,23 @@ public class CardPackage implements java.io.Serializable{
 	 */
 	private String cpType;
 	/**
-	 * 有效时间
+	 * 开始时间
 	 */
-	private String effectiveTime;
+	private Date startTime;
+	/**
+	 * 结束时间
+	 */
+	private Date endTime;
 	/**
 	 * 抵消金额
 	 */
-	private String offsetAmount;
+	private Double offsetAmount;
 	/**
 	 *账户
 	 */
-	@ManyToOne(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="userid")
-	@JsonBackReference
+	@JsonManagedReference
 	private User user;
 	
 	
@@ -56,15 +62,18 @@ public class CardPackage implements java.io.Serializable{
 		super();
 	}
 
-	public CardPackage(Integer cardpackageid, String cpType,
-			String effectiveTime, String offsetAmount, User user) {
+	
+	public CardPackage(Integer cardpackageid, String cpType, Date startTime,
+			Date endTime, Double offsetAmount, User user) {
 		super();
 		this.cardpackageid = cardpackageid;
 		this.cpType = cpType;
-		this.effectiveTime = effectiveTime;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.offsetAmount = offsetAmount;
-		this.user=user;
+		this.user = user;
 	}
+
 
 	public Integer getCardpackageid() {
 		return cardpackageid;
@@ -82,19 +91,11 @@ public class CardPackage implements java.io.Serializable{
 		this.cpType = cpType;
 	}
 
-	public String getEffectiveTime() {
-		return effectiveTime;
-	}
-
-	public void setEffectiveTime(String effectiveTime) {
-		this.effectiveTime = effectiveTime;
-	}
-
-	public String getOffsetAmount() {
+	public Double getOffsetAmount() {
 		return offsetAmount;
 	}
 
-	public void setOffsetAmount(String offsetAmount) {
+	public void setOffsetAmount(Double offsetAmount) {
 		this.offsetAmount = offsetAmount;
 	}
 
@@ -104,6 +105,22 @@ public class CardPackage implements java.io.Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 	
 	

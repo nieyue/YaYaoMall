@@ -45,7 +45,7 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	 */
 	public void updateMerCategory(MerCategory merCategory) {
 		if(merCategory!=null){
-			getSession().merge(merCategory);
+			getSession().update(merCategory);
 		}
 	}
 

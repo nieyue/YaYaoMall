@@ -50,6 +50,16 @@ var myUtils = {
 	return Y+M+D+h+m+s; 
 	},
 	/**
+	 * 时间戳转MM-dd
+	 * 
+	 */
+	timeStampToSimpleDate:function(timeStamp){
+		var date = new Date(timeStamp);
+		M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		D = date.getDate() + ' ';
+	return M+D; 
+	},
+	/**
 	 * 获取当前url的参数
 	 * 
 	 */
@@ -96,7 +106,7 @@ var myUtils = {
 	registerFormValid:function(userName,password,rePassword,validBtn,validCode){
 		
 		// 账号
-		if(userName!=null){
+		if(typeof userName=='object'&&userName!=null){
       	$(userName.userNameValue).on("change",function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
@@ -118,7 +128,7 @@ var myUtils = {
       	});
 		}
       	// 密码
-		if(password!=null){
+		if(typeof password=='object'&&password!=null){
       	$(password.userPasswordValue).on("change",function(){
       		var userPasswordInfo=$(password.userPasswordValue).val().trim();
       		if(!myUtils.userVerification.password.test(userPasswordInfo)){
@@ -129,7 +139,7 @@ var myUtils = {
       	});
 		}
       	// 重复密码
-		if(rePassword!=null){
+		if(typeof rePassword=='object'&&rePassword!=null){
       	$(rePassword.userRePasswordValue).on("change",function(){
       		var reUserPasswordInfo=$(rePassword.userRePasswordValue).val().trim();
       		var userPasswordInfo=$(password.userPasswordValue).val().trim();
@@ -171,7 +181,7 @@ var myUtils = {
       		});
       	});
 		// 验证码
-		if(validCode!=null){
+		if(typeof validCode=='object'&&validCode!=null){
       	$(validCode.userValidCodeValue).on("change",function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
@@ -409,7 +419,7 @@ var myUtils = {
 					$("#prevToastWarp").attr("display","none");
 					}, 1000);
 			}
-			if(fn){
+			if(typeof fn=='function'){
 				fn();
 			}
 			return;
@@ -418,7 +428,7 @@ var myUtils = {
 				.append(
 						"<div id='prevToastWarp' style='display:none;position:fixed;width:100%;height:100%;top:0;left:0;'><div id='prevToast' style='color:#fff;background-color:#000;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'><canvas id='prevloading'  height='30px' width='30px' style='display:inline-block;margin-bottom:-10px;' >您的浏览器不支持html5</canvas>"
 						+"<span id='prevToastValue'>"+ value +"</span>&nbsp;&nbsp; </div></div>");
-		if(fn){
+		if(typeof fn=='function'){
 			fn();
 		}
 	},
@@ -428,13 +438,13 @@ var myUtils = {
 	myLoadingToast : function(value, fn) {
 		$("body")
 				.append(
-						"<div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
+						"<div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;min-width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
 						+ value + "</div>");
 		$("#loadingToast").fadeIn();
 		setTimeout(function() {
 			$("#loadingToast").fadeOut('slow');
 			$("#loadingToast").remove();
-			if(fn){
+			if(typeof fn=='function'){
 				fn();
 			}
 			}, 1000);
@@ -443,7 +453,7 @@ var myUtils = {
 	 * 底部加载toast
 	 */
 	myFootLoadingToast : function(bottom, fn,motion) {
-		if(bottom==null||bottom==''||bottom==undefined){
+		if(typeof bottom!='number'||isNaN(bottom)){
 			bottom=0;
 		}
 		// 如果存在，remove
@@ -458,7 +468,7 @@ var myUtils = {
 					$("#footToast").attr("display","none");
 					}, 1000);
 			}
-			if(fn){
+			if(typeof fn=='function'){
 				fn();
 			}
 			return;
@@ -469,7 +479,7 @@ var myUtils = {
 				.append(
 						"<div id='footToast' style='display:none;color:#fff;background-color:#ccc;text-align:center;line-height:30px;border:0px solid black;min-height:30px;width:100%;bottom:"+bottom+";left:0;position:fixed;'><canvas id='bottomloading'  height='30px' width='30px' style='display:inline-block;margin-bottom:-10px;' >您的浏览器不支持html5</canvas><span id='footToastValue'>正在努力加载中...</span></div>");
 		
-			if(fn){
+			if(typeof fn=='function'){
 				fn();
 			}
 			
@@ -548,7 +558,7 @@ var myUtils = {
 	$('#confirmYes').click(function(){
 		$('#confirmDiv').remove();
 		$('#confirm').remove();
-		if(fn){
+		if(typeof fn=='function'){
 			fn();
 		}
 	});
@@ -569,7 +579,7 @@ var myUtils = {
 		$('#confirmYes').click(function(){
 			$('#confirmDiv').remove();
 			$('#confirm').remove();
-			if(fn){
+			if(typeof fn=='function'){
 				fn();
 			}
 		});

@@ -67,7 +67,7 @@ public class StatusCode {
 	 */
 	public static String VERIFICATION_CODE_EXPIRED="VERIFICATION_CODE_EXPIRED";
 	/**
-	 * Session不存在或过期
+	 * 会话过期
 	 */
 	public static String SESSION_EXPIRED="SESSION_EXPIRED";
 	/**

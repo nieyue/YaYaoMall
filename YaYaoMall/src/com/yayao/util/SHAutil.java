@@ -40,10 +40,13 @@ public class SHAutil {
 	 * @throws Exception
 	 */
 	public static String getSHA(Object obj) throws Exception{
+		if(obj!=null){
 	 byte[] inputData = ((String) obj).getBytes();
 	 
 	 BigInteger sha = new BigInteger(encryptSHA(inputData));
 	return sha.toString(32);
+		}
+		return "";
 	}
 	
 	public static void main(String[] args) throws Exception {

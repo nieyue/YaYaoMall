@@ -51,7 +51,7 @@ public class MerchandiseController {
 			cate = merCategoryService.loadMerCategory(sellerid, cateName);
 		}
 		count=merchandiseService.countRecord(cate);
-		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)<=count){
+		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)>=count){
 			if(Integer.valueOf(currentCount)%pageSize!=0){//前台页面有问题，需重新获取
 				//每次pageSize个
 				list= merchandiseService.browseMer(pageSize, pageNo, cate, "merchandiseid", "asc");
@@ -73,24 +73,28 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String updateMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+	public @ResponseBody Merchandise updateMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
 		if(session.getAttribute("merSeller")==null){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
+			return merchandise;
 		}
+		merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		merchandiseService.updateMer(merchandise);
-		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
+		return merchandise;
 	}
 	/**
 	 * 商品增加
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String addMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+	public @ResponseBody Merchandise addMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
 		if(session.getAttribute("merSeller")==null){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
+			return merchandise;
 		}
 		merchandiseService.addMer(merchandise);
-		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
+		merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		return merchandise;
 	}
 	/**
 	 * 商品删除

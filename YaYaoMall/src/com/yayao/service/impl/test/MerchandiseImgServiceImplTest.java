@@ -47,7 +47,7 @@ public class MerchandiseImgServiceImplTest {
 
 	@Test
 	public void testAddMerchandiseImg() {
-		Merchandise mer = merchandiseService.loadMer(1);
+		Merchandise mer = merchandiseService.loadMer(11);
 		MerchandiseImg merchandiseImg = new MerchandiseImg();
 		merchandiseImg.setMerchandise(mer);
 		StringBuffer imgsbuffer = new StringBuffer();
@@ -55,10 +55,9 @@ public class MerchandiseImgServiceImplTest {
 		
 		for (int i =1; i <= 15; i++) {
 			
-			//imgsbuffer.append("/resources/sellerUpload/1/黑茶/富甲富颗粒/富甲富颗粒1_0"+i+".jpg");
 			//imgs=imgsbuffer.toString();
-			//merchandiseImg.setImgaddress("/resources/sellerUpload/1/黑茶/富甲富颗粒/富甲富颗粒1_0"+i+".jpg");
-			//merchandiseImgService.addMerchandiseImg(merchandiseImg);
+			merchandiseImg.setImgAddress("/resources/sellerUpload/7/黑茶/金花茯砖/金花茯砖1_0"+i+".jpg");
+			merchandiseImgService.addMerchandiseImg(merchandiseImg);
 			
 		}
 	}

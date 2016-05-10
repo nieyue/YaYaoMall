@@ -2,18 +2,13 @@ package com.yayao.test;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.rmi.server.UID;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.hibernate.criterion.Order;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -21,8 +16,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
-import com.yayao.util.FileUploadUtil;
-import com.yayao.util.ReadFromFile;
+import com.yayao.bean.User;
 
 public class Test {
 	private  AtomicInteger ai=new AtomicInteger(0);
@@ -109,6 +103,9 @@ public class Test {
 	    path.substring(path.indexOf("/"));
 	    System.out.println(path.substring(path.indexOf("/")+1));
 	    System.out.println(System.getProperty("user.dir"));
+	    User u=new User();
+	    u.setUserMsg("1");
+	    System.out.println(Double.valueOf(2820*100/2980)/100);
 		}
 
 }

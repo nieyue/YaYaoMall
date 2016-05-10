@@ -57,13 +57,13 @@ public class MerSellerServiceImplTest {
 
 	@Test
 	public void testAddMerSeller() throws Exception {
-		String sellerName="278076304@qq.com";
+		String sellerName="15555555556";
 		String sellerPassword=SHAutil.getSHA("123456");
 		boolean status = merSellerService.chkLoginName(sellerName);
 		System.out.println(status);
 		if(!status){
 			MerSeller merSeller =new MerSeller();
-			merSeller.setSellerEmail(sellerName);
+			merSeller.setSellerPhone(sellerName);
 			merSeller.setSellerPassword(sellerPassword);
 			merSellerService.addMerSeller(merSeller);
 		}
@@ -71,7 +71,9 @@ public class MerSellerServiceImplTest {
 
 	@Test
 	public void testUpdateMerSeller() {
-		fail("Not yet implemented");
+		MerSeller merSeller = merSellerService.loadMerSeller(6);
+		merSeller.setSellerPhone("15555555556");
+		merSellerService.updateMerSeller(merSeller);
 	}
 
 	@Test
@@ -86,7 +88,7 @@ public class MerSellerServiceImplTest {
 
 	@Test
 	public void testDelMerSeller() {
-		fail("Not yet implemented");
+		merSellerService.delMerSeller(6);
 	}
 
 	@Test

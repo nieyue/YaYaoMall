@@ -63,7 +63,7 @@
 				<button type="button" class="button button-3d button-primary button-block btn-block  button-rounded" id="sellerSubmit">登录</button>
 				</div>				
 				<div class="form-group">
-				<a href="/seller/seller_register">立即注册，免费开店></a>
+				<a href="/seller/seller_register">立即注册，免费开店&gt;</a>
 				<a class="pull-right">忘记密码？找回密码</a>
 				</div>				
 			</form>
@@ -77,7 +77,7 @@
 					 <img id="sellerImgSrc" class="img-circle" style="width:100px;height:100px;" src="/resources/img/preLoding.jpg"/>
 				</div>
 				<div class="form-group">
-				<div class="text-center alert alert-success">这个商家很懒，还没名字~……~</div>
+				<div class="text-center alert alert-success" id="sellerNiceName">这个商家很懒，还没名字~……~</div>
 				</div>
 				
 				<div class="form-group">
@@ -158,17 +158,25 @@
        <script>
        $(function(){
        	//自动登录
-       	if(myUtils.userVerification.catNum.test(myUtils.getCookie("sellerid"))&&myUtils.getCookie("sellerloginstate")==1){
+       		sellerData.sellerAutoLoginSession({
+       		login:function(){
        		$("#example-navbar-collapse ul").css("display","none");
        		$("#sellerLoginForm").css("display","none");
        		$("#sellerLogining").css("display","block");
+       		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName!=null){
+       		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName);
+       		}
+       		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerIMGS!=null){
+       		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerIMGS);
+       		}
        		$("#sellerAutoLogin").click(function(){
-       		console.log("sdfsd")
-       			
-       			location.replace("/seller/main?sellerid="+myUtils.getCookie("sellerid"));
+       		location.replace("/seller/main?sellerid="+myUtils.getCookie("sellerid"));
        		});
+       		//登录退出
        		sellerData.sellerLoginOut("#sellerAutoLoginOut");
-       	}
+       		}
+       	});
+       	
        	//点击登录
        	$("#sellerSubmit").click(function(){
        		var sellerPhone=$("#sellerPhone").val().trim();
@@ -185,8 +193,11 @@
       					if(data.sellerMsg=="200"){
       						if($("#autoLogin").prop("checked")==true){
       					myUtils.setCookie("sellerloginstate","1",60*60*24*365);
+      						}else{
+      					myUtils.setCookie("sellerloginstate","0",60*60*24*365);
       						}
       					myUtils.setCookie("sellerid",data.mersellerid,60*60*24*365);
+      					myUtils.setCookie("sellerToken",data.sellerToken,60*60*24*365);
       					sessionStorage.setItem("seller",encode64(JSON.stringify(data)));
       						myUtils.myPrevToast("登录成功",function(){
       			      			location.replace("/seller/main?sellerid="+myUtils.getCookie("sellerid"));
