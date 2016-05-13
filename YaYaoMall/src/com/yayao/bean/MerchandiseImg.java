@@ -1,6 +1,7 @@
 package com.yayao.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,8 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * 商品图片类
@@ -38,7 +40,7 @@ public class MerchandiseImg implements Serializable{
 	 */
 	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
 	@JoinColumn(name="merchandiseid")
-	@JsonManagedReference
+	@JsonBackReference
 	private Merchandise merchandise;
 	/**
 	 * 商品图片地址
@@ -48,17 +50,27 @@ public class MerchandiseImg implements Serializable{
 	 * 商品缩略图片地址
 	 */
 	private String thumbImgAddress;
-	
+	/**
+	 * 更新创建时间
+	 */
+	private Date updateMerImgTime;
+	/**
+	 * 图片消息
+	 */
+	@Transient
+	private String merchandiseImgMsg;
 	public MerchandiseImg() {
 		super();
 	}
 	public MerchandiseImg(Integer merchandiseimgid, Merchandise merchandise,
-			String imgAddress, String thumbImgAddress) {
+			String imgAddress, String thumbImgAddress,Date updateMerImgTime,String merchandiseImgMsg) {
 		super();
 		this.merchandiseimgid = merchandiseimgid;
 		this.merchandise = merchandise;
 		this.imgAddress = imgAddress;
 		this.thumbImgAddress=thumbImgAddress;
+		this.updateMerImgTime=updateMerImgTime;
+		this.merchandiseImgMsg=merchandiseImgMsg;
 	}
 	public Integer getMerchandiseimgid() {
 		return merchandiseimgid;
@@ -83,6 +95,18 @@ public class MerchandiseImg implements Serializable{
 	}
 	public void setThumbImgAddress(String thumbImgAddress) {
 		this.thumbImgAddress = thumbImgAddress;
+	}
+	public Date getUpdateMerImgTime() {
+		return updateMerImgTime;
+	}
+	public void setUpdateMerImgTime(Date updateMerImgTime) {
+		this.updateMerImgTime = updateMerImgTime;
+	}
+	public String getMerchandiseImgMsg() {
+		return merchandiseImgMsg;
+	}
+	public void setMerchandiseImgMsg(String merchandiseImgMsg) {
+		this.merchandiseImgMsg = merchandiseImgMsg;
 	}
 	
 }

@@ -18,6 +18,8 @@ public interface MerchandiseImgService {
 	public void updateMerchandiseImg(MerchandiseImg merchandiseImg);
 	/** 装载指定的商品图片 */	
 	public MerchandiseImg loadMerchandiseImg(Integer id) ;	
+	/** 图片地址查询商品图片 */	
+	public MerchandiseImg imgAddressLoadMerchandiseImg(String imgAddress);
 	/** 浏览商品图片 */
 	public List<MerchandiseImg> browseMerchandiseImg(Merchandise merchandise,String orderName,String orderWay) ;	
 }

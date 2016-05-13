@@ -73,14 +73,19 @@ public class MyFile implements Runnable {
 	//创建文件夹  
     public  void createDir(String path){
         File dir=new File(path);
-        if(!dir.exists())
-            dir.mkdir();
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
     }
     //创建新文件
     public  void createFile(String path,String filename) throws IOException{
         File file=new File(path+"/"+filename);
-        if(!file.exists())
-            file.createNewFile();
+        if (!file.getParentFile().exists()){
+        	file.getParentFile().mkdirs();
+        }
+        if(!file.exists()){
+        	file.createNewFile();
+        }
     }
     //删除文件     
     public  void delFile(String path,String filename){

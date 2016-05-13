@@ -89,7 +89,8 @@ public class MerchandiseImgServiceImplTest {
 
 	@Test
 	public void testLoadMerchandiseImg() {
-		fail("Not yet implemented");
+		MerchandiseImg s = merchandiseImgService.imgAddressLoadMerchandiseImg("aa");
+		System.out.println(s.getImgAddress());
 	}
 
 	@Test

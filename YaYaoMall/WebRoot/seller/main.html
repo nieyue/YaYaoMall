@@ -168,6 +168,7 @@
       </div><!-- /.modal-content -->
 </div><!-- /.modal -->
        <script src="/resources/js/jquery2.1.js"></script>  
+       <script src="/resources/js/jqueryui1.11.4.min.js"></script>
        <script src="/resources/js/bootstrap3.2.0.js"></script>
         <script src="/resources/js/buttons.js"></script>
        <script src="/resources/js/base64.js"></script> 
@@ -181,8 +182,8 @@
     		 location.replace("/seller/index");
     	 }
     	 //sellerInfo商家信息
-    	 console.log(JSON.parse(decode64(sessionStorage.getItem("seller"))))
-    	 if(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName!=null){
+    	 //onsole.log(JSON.parse(decode64(sessionStorage.getItem("seller"))))
+    	 if(sessionStorage.getItem("seller")!=null&&JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName!=null){
     	$("#sellerInfo").html(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName+"<b class='caret'></b>")
     	 }
     	 //自动登录，没session自动退出。
@@ -226,7 +227,7 @@
         				}
         				console.log(data)
         				for (var i = 0; i < data.length; i++) {
-        				$("#merCategoryList tbody").append("<tr data-merCateName='"+data[i].cateName+"'><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategory'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategory'>删除</a></td></tr>");
+        				$("#merCategoryList tbody").append("<tr data-merCateName='"+data[i].cateName+"'><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td></tr>");
 						}
         			
         			});
@@ -234,7 +235,7 @@
         		},"add");
         	});
         	//点击添加商品分类
-        	$(document).on("click","#addMerCategory",function(){
+        	$(document).on("click","#addMerCategoryBtn",function(){
         		$("#mySellerModalLabel").text("添加商品类别");
         		$("#mySellerModalBody").html("<input type='text'class='form-control' placeholder='类别' id='merCategoryValue' />");
         		$("#errorSellerInfo").text("");
@@ -254,7 +255,7 @@
         					if($("#merCategoryEmpty")!=null){//删除商品类别为空信息
         					$("#merCategoryEmpty").remove();
         					}
-        					$("#merCategoryList tbody").append("<tr data-merCateName='"+data.cateName+"'><td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategory'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategory'>删除</a></td></tr>");
+        					$("#merCategoryList tbody").append("<tr data-merCateName='"+data.cateName+"'><td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td></tr>");
         				}else if(data.cateMsg=="商品分类已经存在"){
         					$("#closeModal").click();
         					myUtils.myLoadingToast(data.cateMsg, null);
@@ -263,7 +264,7 @@
         		});
         	});
         	//删除指定分类
-			$(document).on('click','.delCategory',function(){
+			$(document).on('click','.delCategoryBtn',function(){
 				var thisDelCate=$(this);
 				console.log(thisDelCate.parent().parent("tr").attr("data-merCateName"));
 				myUtils.myConfirm("确定删除吗？",function(){
@@ -282,7 +283,7 @@
       			});
 			});
 			//修改指定分类
-			$(document).on('click','.updateCategory',function(){
+			$(document).on('click','.updateCategoryBtn',function(){
 				var thisDelCate=$(this);
 				$("#mySellerModalLabel").text("更改商品类别");
         		$("#mySellerModalBody").html("<input type='text'class='form-control' placeholder='类别' id='merCategoryValue' />");
@@ -302,7 +303,7 @@
 							$("#closeModal").click();
         					myUtils.myLoadingToast("修改成功", null);
         					thisDelCate.parent().parent("tr").attr("data-merCateName",mcv);
-        					thisDelCate.parent().parent("tr").html("<td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategory'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategory'>删除</a></td>")
+        					thisDelCate.parent().parent("tr").html("<td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td>")
       					}else if(data.cateMsg=="商品分类已经存在"){
         					$("#closeModal").click();
         					myUtils.myLoadingToast(data.cateMsg, null);
@@ -310,7 +311,7 @@
 						});
 						});
 					});
-        	//点击商品管理
+        	//点击商品管理展示
         	$("#merchandise").click(function(){
         		$(".right-bar").html("");
         		$(".right-bar").load('/seller/templates/merchandise.html');
@@ -343,15 +344,58 @@
         		myUtils.myPrevToast("加载完成",null,"remove");
     		},"add");
         	});
-        	//点击商品查询
-        	//$(document).on('click','#aaa',function(){
-                		//console.log("d");
+        	//点击商品添加
+                		$(".right-bar").html("");
+                		$(".right-bar").load('/seller/templates/addmerchandise.html');
+                		//myTouchEvents.myDraggable(".dragMerImg");
+                		 $(document).on("click",".dragMerFileBtn",function(event){
+                			 	var filebtnthis=$(this);
+								var dragMerImgWarp=filebtnthis.prev(".dragMerImgWarp");
+								filebtnthis.next(".dragMerFile").click();
+								filebtnthis.next(".dragMerFile").change(function(){
+                			    myUtils.fileUpload({
+                			    	inputfile:filebtnthis.next(".dragMerFile"),
+                			    	ajaxObj:
+                			    		{
+                	  		  				formData:[{key:"merFile",value:filebtnthis.next(".dragMerFile").get(0).files[0]},{key:"sellerid",value:myUtils.getCookie("sellerid")}],
+                	  		  				url:"/merchandiseImg/addMerchandiseImg.json",
+                	  		  				success:function(merimg){
+                	  		  				console.log(merimg)
+                	  		                myUtils.myPrevToast("上传成功",null,"remove");
+                	  		            	//设定图片显示问题
+                        			    	filebtnthis.parent(".dragMerWarp").after(filebtnthis.parent(".dragMerWarp").clone());
+                        			    	filebtnthis.css("display","none");
+                	  		              	dragMerImgWarp.children(".dragMerImg").attr("data-merchandiseimgid",merimg.merchandiseimgid);
+                	  		              	dragMerImgWarp.children(".dragMerImg").attr("src",merimg.imgAddress);
+                        		      		dragMerImgWarp.css("display","inline-block");
+                	  		  				}
+                	  		  				},
+                			    	dragFn:function(e){
+                			    	//图片排序
+                			   $("#imgwarp ").sortable({
+                			    	opacity: 0.6,
+                			    	items:".dragMerWarp:not(.dragMerWarp:last-child)",
+                			    	placeholder: "divback",
+                			    	update : function(event, ui){       //更新排序之后
+                			              console.log($(this).get(0));
+                			          }
+                			    });
+                       		 	$("#imgwarp .dragMerWarp").disableSelection();
+                       		 	
+                			    }});
+                			    });
+                			  });
+                		 
+        	$(document).on('click','#addMerchandiseBtn',function(){
+                		console.log("d");
+                		
                 		//$("#merchandiseBtnGroup button").css("background-color","#e4e4e4");
                 		//$(this).css("background-color","red");
-                	//});
+                	});
        		
         	
        });
        </script>
+     
    </body>
 </html>

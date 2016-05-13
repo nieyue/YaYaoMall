@@ -49,4 +49,9 @@ public class MerchandiseImgServiceImpl implements MerchandiseImgService {
 		List<MerchandiseImg> l = merchandiseImgDao.browseMerchandiseImg(merchandise, orderName, orderWay);
 		return l;
 	}
+	/** 图片地址查询商品图片 */	
+	public MerchandiseImg imgAddressLoadMerchandiseImg(String imgAddress){
+		MerchandiseImg ml = merchandiseImgDao.imgAddressLoadMerchandiseImg(imgAddress);
+		return ml;
+	}
 }

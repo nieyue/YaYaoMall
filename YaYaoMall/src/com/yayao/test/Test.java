@@ -16,7 +16,9 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
+import com.yayao.bean.MerchandiseImg;
 import com.yayao.bean.User;
+import com.yayao.util.MyFile;
 
 public class Test {
 	private  AtomicInteger ai=new AtomicInteger(0);
@@ -41,7 +43,7 @@ public class Test {
   
 	}
 	
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, IOException {
 		//int validCode=(int) (Math.random()*9000+1000);
 		/*new Thread(new Runnable() {
 			public void run() {
@@ -106,6 +108,12 @@ public class Test {
 	    User u=new User();
 	    u.setUserMsg("1");
 	    System.out.println(Double.valueOf(2820*100/2980)/100);
+	    System.out.println(new Date(new Date().getTime()) );
+	    System.out.println(new Date(new Date().getTime()+1000));
+	   // new MyFile().createDir("c:/temp/sellerid/黑茶");
+	    //new MyFile().createFile("c:/temp", "/sellerid/黑茶/11.txt");
+	    //new MyFile().delFile("c:/temp", "/sellerid/11.txt");
+	    //new MyFile().delDir("c:/temp/sellerid");
 		}
 
 }

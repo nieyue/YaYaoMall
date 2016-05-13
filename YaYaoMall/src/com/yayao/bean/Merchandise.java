@@ -72,10 +72,10 @@ public class Merchandise implements Serializable{
 	 */
 	private String merchandiseStatus;
 	/**
-	 * 商品图片
+	 * 商品图片 商品管理图片
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
-	@JsonBackReference
+	@JsonManagedReference
 	private List<MerchandiseImg> merchandiseImgs;
 	/**
 	 * 商品评论

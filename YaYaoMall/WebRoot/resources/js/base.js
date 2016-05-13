@@ -267,10 +267,19 @@ var myUtils = {
 	  		});
 	},
 	/**
-	 * 文件上传组件
+	 * 单文件上传组件
+	 * options:输入项
+	 * options.inputfile 文件元素
+	 * options.ajaxObj 数组对象1，formData{key,value} 2,url 3,success 4,error
+	 * options.dragFn 拖拽的对象
 	 */
-	fileUpload:function(file,ajaxfn){
-			var file=document.querySelector(file);
+	fileUpload:function(options){
+		if(!options&&typeof options!='object' ){
+			myUtils.myLoadingToast("操作失败",null);
+			return;
+		}
+		var file=options.inputfile.get(0);
+		//console.log(file.files)
 		  photoExt=file.value.substr(file.value.lastIndexOf(".")).toLowerCase();// 获得文件后缀名
 		// 判断照片格式
 		  if(photoExt!='.jpg'&&photoExt!='.png'){
@@ -288,7 +297,7 @@ var myUtils = {
 		       fileSize = file.files[0].size;     
 		  } 
 		  fileSize=Math.round(fileSize/1024*100/1024)/100; // 单位为MB
-		  if(fileSize>=2){
+		  if(fileSize>=20){
 			  alert("图片大小为"+fileSize+"MB，超过最大尺寸为2MB，请重新上传!");
 		      return false;
 		  }		  
@@ -296,13 +305,41 @@ var myUtils = {
 	    	 {
 	         var reader = new FileReader(); 
 	      	reader.onload = function(e){
-	      		// console.log(e.target.result);
-	      		if(ajaxfn==null){
+	      		if(typeof options.ajaxObj!='object'){
 	      		myUtils.myLoadingToast("上传失败",null);
-		   //console.log(file.files[0]);
 	      		return;
 	      		}
-	      		ajaxfn(e);
+	      		myUtils.myPrevToast("上传中",function(){
+	      			var fd=new FormData();
+	      			if(typeof options.ajaxObj.formData=='object'){
+	      			for (var i = 0; i < options.ajaxObj.formData.length; i++) {
+	      				fd.append(options.ajaxObj.formData[i].key,options.ajaxObj.formData[i].value);
+					}
+	      			}
+			                $.ajax({
+			                  url:options.ajaxObj.url,
+			                  type:"POST",
+			                  data:fd,
+			                  enctype:'multipart/form-data',
+			                  processData:false,// 告诉jQuery不要去处理发送的数据
+			                  contentType:false, // 告诉jQuery不要去设置Content-Type请求头
+			                  success:function(src){// 获取最新图片更新
+			                	  if(typeof options.ajaxObj.success=='function'){
+			                		  options.ajaxObj.success(src);
+			      	      		}
+			                  },
+			                  error:function(){
+			                	  if(typeof options.ajaxObj.error=='function'){
+			                		  options.ajaxObj.error();
+				      	      		}
+			                    myUtils.myPrevToast("上传失败",null,"remove");
+			                  }
+			                });
+			                },"add");
+	      				
+	      		if(typeof options.dragFn=='function'){
+	      			options.dragFn(e);
+	      		}
 	    	}
 	      	reader.readAsDataURL(file.files[0]);
 	      }else{
@@ -505,6 +542,7 @@ var myUtils = {
 	      
 	       function show(myutil){
 	        var canvas = myutil.canvas;
+	        if(!canvas)return;
 	        if(!canvas.getContext)return;
 	        if(canvas.__loading)return;
 	        canvas.__loading = myutil.loading;
@@ -674,6 +712,14 @@ var myTouchEvents = {
 		return flag;
 	},
 	/**
+	 * 过滤ie10以下版本
+	 */
+	isIE : function() {
+		if (navigator.userAgent.indexOf("MSIE")>0){
+			return true;
+		}
+	},
+	/**
 	 * 判断手机还是PC,更改touch为鼠标事件
 	 */
 	initTouchEvents : function() {
@@ -683,6 +729,57 @@ var myTouchEvents = {
 			this.touchend = "mouseup";
 
 		}
+	},
+	/**
+	 * 拖拽事件
+	 * element 多个元素
+	 */
+	myDraggable:function(element,startFn,moveFn,endFn){
+		myTouchEvents.initTouchEvents();
+		 $(element).each(function(){
+         var thiselement=this;
+         var dragging = false;
+         var iX, iY;
+         var thiszindex= $(thiselement).css("z-index");
+         $(thiselement).on(myTouchEvents.touchstart,function(e) {
+        	 e.preventDefault();
+             dragging = true;
+             $(thiselement).css("z-index","999999999");
+             e.clientX==undefined?e.clientX=e.originalEvent.targetTouches[0].pageX:e.clientX;
+             e.clientY==undefined?e.clientY=e.originalEvent.targetTouches[0].pageY:e.clientY;
+             iX = e.clientX - thiselement.offsetLeft;
+             iY = e.clientY - thiselement.offsetTop;
+             if(typeof startFn=='function'){
+            	 startFn();
+             }
+             return false;
+         });
+         $(thiselement).on(myTouchEvents.touchmove,function(e) {
+        	 e.preventDefault();
+             if (dragging) {
+             var e = e || window.event;
+             e.clientX==undefined?e.clientX=e.originalEvent.targetTouches[0].pageX:e.clientX;
+             e.clientY==undefined?e.clientY=e.originalEvent.targetTouches[0].pageY:e.clientY;
+             var oX = e.clientX - iX;
+             var oY = e.clientY - iY;
+             $(thiselement).css({"left":oX + "px", "top":oY + "px"});
+             if(typeof moveFn=='function'){
+            	 moveFn();
+             }
+             return false;
+             }
+         });
+         $(thiselement).on(myTouchEvents.touchend,function(e) {
+        	 e.preventDefault();
+             dragging = false;
+             if(typeof endFn=='function'){
+            	 endFn();
+             }
+             $(thiselement).css("z-index",thiszindex);
+             //$(thiselement).css("position",thisposition);
+         });
+
+           });
 	}
 
 };

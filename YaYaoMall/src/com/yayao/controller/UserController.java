@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
@@ -217,14 +216,14 @@ public class UserController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/userIMGUpload", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String userIMGUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request,@RequestParam("userid")Integer id)  {
+	public @ResponseBody String userIMGUpload(@RequestParam("userFile") MultipartFile file,HttpSession session,@RequestParam("userid")Integer id)  {
 			User u=userService.loadUser(id);
 			//删除原图片
 			String oldIMGURL="";
 			oldIMGURL=u.getUserIMG();
 			String userIMG = "";
 			 try{
-				 userIMG = FileUploadUtil.FormDataFileUpload(file, request,oldIMGURL);
+				 userIMG = FileUploadUtil.FormDataFileUpload(file, session,"/resources/userUpload",oldIMGURL);
 				u.setUserIMG(userIMG);
 			}catch (IOException e) {
 				e.printStackTrace();

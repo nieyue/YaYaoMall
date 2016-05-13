@@ -84,5 +84,14 @@ public class MerchandiseImgDaoImpl implements MerchandiseImgDao {
 		return list;
 	}
 
+	/** 图片地址查询商品图片 */	
+	public MerchandiseImg imgAddressLoadMerchandiseImg(String imgAddress){
+		MerchandiseImg merchandiseImg = null;
+		Criteria c = getSession().createCriteria(MerchandiseImg.class);
+		c.add(Restrictions.eq("imgAddress", imgAddress));
+		merchandiseImg=(MerchandiseImg) c.uniqueResult();
+		return merchandiseImg;
+	}
+
 
 }

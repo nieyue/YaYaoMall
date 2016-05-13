@@ -157,6 +157,9 @@
       <script src="/resources/js/seller.js"></script>
        <script>
        $(function(){
+    	   if(myTouchEvents.isIE()){
+    		  myUtils.myLoadingToast("请使用高版本浏览器",null);
+    	   };
        	//自动登录
        		sellerData.sellerAutoLoginSession({
        		login:function(){

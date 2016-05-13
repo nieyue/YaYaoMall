@@ -130,62 +130,27 @@
       			});
       			
       		});
-  			/* //获取移动的物体
-  			$("#userInfoIMG").on(myTouchEvents.touchstart,function(event){
-  				var x=0,y=0;
-      		myTouchEvents.touchstart=='touchstart'?(x=event.originalEvent.targetTouches[0].pageX) && (y=event.originalEvent.targetTouches[0].pageY):(x=event.pageX) && (y=event.pageY);
-      			thistouchmove();
-      			$("#userInfoIMG").css({"position":"fixed","left":(x-parseInt($("#userInfoIMG").css("width"))/2)+'px',"top":(y-parseInt($("#userInfoIMG").css("width"))/2)+'px',"z-index":"99999"});
-      		});
-  		  		//在整个页面移动物体
-  		  		function thistouchmove(){
-  		  			$("html").on(myTouchEvents.touchmove,function(event){
-  		  				event.preventDefault();
-  		  				var x=0,y=0;
-  		      		myTouchEvents.touchmove=='touchmove'?(x=event.originalEvent.targetTouches[0].pageX) && (y=event.originalEvent.targetTouches[0].pageY):(x=event.pageX) && (y=event.pageY);
-  		      		
-  		      		$("#userInfoIMG").css({"left":(x-parseInt($("#userInfoIMG").css("width"))/2)+'px',"top":(y-parseInt($("#userInfoIMG").css("width"))/2)+'px'});
-  		  			});
-  		  		}
-  		      		//释放物体
-  		  			$("html").on(myTouchEvents.touchend,function(event){
-  		      		$("#userInfoIMG").css({"left":parseInt($("#userInfoIMG").css("left"))+'px',"top":parseInt($("#userInfoIMG").css("top"))+'px'});
-  		  				$("html").off(myTouchEvents.touchmove);
-  		  			}); */
   		  		//修改头像
   		  		$("#updateUserInfoIMG").on('click',function(){
   		  			$("#fileUserInfoIMG").trigger('click');
   		  		});
   		  		//上传图像
   		  		$("#fileUserInfoIMG").change(function(){
-  		  			myUtils.fileUpload("#fileUserInfoIMG",function(event){
-                myUtils.myPrevToast("上传中",function(){
-            var fd=new FormData();
-            fd.append("userid",myUtils.getCookie("userid"));
-            fd.append("file", file.files[0]);
-            $.ajax({
-              url:"/user/userIMGUpload",
-              type:"POST",
-              data:fd,
-              enctype:'multipart/form-data',
-              processData:false,// 告诉jQuery不要去处理发送的数据
-              contentType:false, // 告诉jQuery不要去设置Content-Type请求头
-              success:function(userIMG){// 获取最新图片更新
-                console.log(userIMG);
-                var data=JSON.parse(decode64(sessionStorage.getItem("user")));
-                data.userIMG=userIMG;
-                sessionStorage.setItem("user",encode64(JSON.stringify(data)));
-                    userData.user_info(data);
-                myUtils.myPrevToast("上传成功",null,"remove");
-                $("#userInfoIMG").attr("src",event.target.result);
-              },
-              error:function(data){
-                console.log(data);
-                myUtils.myPrevToast("上传失败",null,"remove");
-              }
-            });
-            },"add");
-              });
+  		  			myUtils.fileUpload({
+  		  				inputfile:$("#fileUserInfoIMG"),
+  		  				ajaxObj:{
+  		  				formData:[{key:"userid",value:myUtils.getCookie("userid")},{key:"userFile",value:$("#fileUserInfoIMG").get(0).files[0]}],
+  		  				url:"/user/userIMGUpload",
+  		  				success:function(userIMG){
+  		  				var data=JSON.parse(decode64(sessionStorage.getItem("user")));
+  		                data.userIMG=userIMG;
+  		                sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+  		                userData.user_info(data);
+  		                myUtils.myPrevToast("上传成功",null,"remove");
+  		                $("#userInfoIMG").attr("src",userIMG);
+  		  				}
+  		  				}
+  		  				});
   		  		});
   		  		//修改昵称
   		  		myUtils.updateOne('#updateUserInfoNiceName',"修改昵称",'#userNiceName','#userInfoNiceNameModal',"1-10位，不能有空格");

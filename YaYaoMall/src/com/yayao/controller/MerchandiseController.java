@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,7 +74,7 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody Merchandise updateMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+	public @ResponseBody Merchandise updateMerchandise(@ModelAttribute Merchandise merchandise,HttpSession session)  {
 		if(session.getAttribute("merSeller")==null){
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandise;
@@ -87,11 +88,12 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody Merchandise addMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+	public @ResponseBody Merchandise addMerchandise(@ModelAttribute Merchandise merchandise,HttpSession session)  {
 		if(session.getAttribute("merSeller")==null){
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandise;
 		}
+		
 		merchandiseService.addMer(merchandise);
 		merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		return merchandise;
@@ -101,12 +103,13 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String delMerchandise(@RequestBody Merchandise merchandise,HttpSession session)  {
+	public @ResponseBody String delMerchandise(@ModelAttribute Merchandise merchandise,HttpSession session)  {
 		if(session.getAttribute("merSeller")==null){
 			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
 		merchandiseService.delMer(merchandise.getMerchandiseid());;
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
+	
 	
 }
