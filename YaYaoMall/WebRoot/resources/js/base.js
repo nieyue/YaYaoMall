@@ -16,6 +16,7 @@ var myUtils = {
 	 * 验证规则
 	 */	
 	userVerification:{
+		merPrice:/(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/,//商品价格正则
 		catNum:/^\+?[1-9][0-9]*$/,// 非零正整数
 		nicename: /^[^\s]{1,10}$/,// 1-10位,不包含空格。
 		signature:/^[^\s]{1,15}$/,// 1-15位,不包含空格.
@@ -370,6 +371,21 @@ var myUtils = {
 		}
 	},
 	/**
+	 * 全选/全不选
+	 */
+	changeAllChecked: function(elementid,cName) {
+		
+		$(document).on('click',elementid,function(){
+			var checkboxs = $(cName);
+			//console.log(checkboxs.length)
+			//console.log($("body").find("*").children(cName));
+			//console.log($(this).prop("checked"))
+			//for ( var i = 0; i < checkboxs.length; i++) {
+		    checkboxs.prop("checked",$(this).prop("checked"));
+		 //}  
+		});
+	},
+	/**
 	 * 弹性滑动
 	 */
 	elasticSlide:function(attrValue){
@@ -473,9 +489,10 @@ var myUtils = {
 	 * 事件快速完成的toast
 	 */
 	myLoadingToast : function(value, fn) {
+		console.log(value.length*4)
 		$("body")
 				.append(
-						"<div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;min-width:100px;margin:-15px -50px;top:50%;left:50%;position:fixed;'>"
+						"<div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;max-width:200px;padding:0 10px;margin:-5px -"+value.length*4+"px;top:50%;left:50%;position:fixed;'>"
 						+ value + "</div>");
 		$("#loadingToast").fadeIn();
 		setTimeout(function() {
