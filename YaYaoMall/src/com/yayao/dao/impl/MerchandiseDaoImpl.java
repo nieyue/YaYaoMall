@@ -36,30 +36,30 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	/**
 	 * 新增商品 
 	 */
-	public void addMer(Merchandise mer) {
-		getSession().save(mer);
+	public void addMer(Merchandise merchandise) {
+		getSession().save(merchandise);
 	}
 
 	/**
 	 * 删除指定的商品 
 	 */
-	public void delMer(Integer id) {
-		getSession().delete(loadMer(id));
+	public void delMer(Integer sellerid,Integer merchandiseid) {
+		getSession().delete(loadMer(merchandiseid));
 	}
 
 	/**
 	 * 更新商品 
 	 */
-	public void updateMer(Merchandise mer) {
-		getSession().update(mer);
+	public void updateMer(Merchandise merchandise) {
+		getSession().update(merchandise);
 	}
 
 	/**
 	 * 装载指定的商品
 	 */
-	public Merchandise loadMer(Integer id) {
+	public Merchandise loadMer(Integer merchandiseid) {
 		Merchandise mer = null;
-		mer = (Merchandise)getSession().get(Merchandise.class, id);
+		mer = (Merchandise)getSession().get(Merchandise.class, merchandiseid);
 		return mer;
 	}
 
@@ -67,10 +67,10 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	 * 浏览商品 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Merchandise> browseMer(MerCategory cate,String orderName,String orderWay) {
+	public List<Merchandise> browseMer(MerCategory merchandise,String orderName,String orderWay) {
 		Criteria c = getSession().createCriteria(Merchandise.class);
-		if(cate!=null){
-			c.add(Restrictions.eq("merCategory", cate));
+		if(merchandise!=null){
+			c.add(Restrictions.eq("merCategory", merchandise));
 		}
 		switch (orderWay) {
 		case "asc":
@@ -88,11 +88,11 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	 * 分页浏览商品 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Merchandise> browseMer(int pageSize, int pageNo, MerCategory cate,String orderName,String orderWay) {
+	public List<Merchandise> browseMer(int pageSize, int pageNo, MerCategory merchandise,String orderName,String orderWay) {
 		List<Merchandise> list = null;
 		Criteria c = getSession().createCriteria(Merchandise.class);
-		if(cate!=null){
-			c.add(Restrictions.eq("merCategory", cate));
+		if(merchandise!=null){
+			c.add(Restrictions.eq("merCategory", merchandise));
 		}
 		switch (orderWay) {
 		case "asc":
@@ -114,11 +114,11 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	** 
 	*/
 	@SuppressWarnings("unchecked")
-	public List<Merchandise> searchMerchandise(MerCategory cate,String merName) {
+	public List<Merchandise> searchMerchandise(MerCategory merchandise,String merName) {
 		List<Merchandise> list=null;
 		Criteria criteria = getSession().createCriteria(Merchandise.class);
-		if(cate!=null){
-			criteria.add(Restrictions.eq("merCategory", cate));
+		if(merchandise!=null){
+			criteria.add(Restrictions.eq("merCategory", merchandise));
 		}
 		criteria.add(Restrictions.like("merchandiseName", "%"+merName+"%"));
 		list=criteria.list();
@@ -129,11 +129,11 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	 * 统计记录条数 
 	 */
 	@SuppressWarnings("unchecked")
-	public int countRecord(MerCategory cate) {
+	public int countRecord(MerCategory merchandise) {
 		List<Merchandise> list=null;
 		Criteria criteria = getSession().createCriteria(Merchandise.class);
-		if(cate!=null){
-			criteria.add(Restrictions.eq("merCategory", cate));
+		if(merchandise!=null){
+			criteria.add(Restrictions.eq("merCategory", merchandise));
 		}
 		list=criteria.list();
 		return list.size();

@@ -57,9 +57,9 @@ public class MerCategory implements Serializable{
 	 * 卖家
 	 */
 	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
-	@JoinColumn(name="mersellerid")
+	@JoinColumn(name="sellerid")
 	@JsonManagedReference
-	private MerSeller merSeller;
+	private Seller seller;
 	/**
 	 * 商品类别消息
 	 */
@@ -72,13 +72,13 @@ public class MerCategory implements Serializable{
 
 
 	public MerCategory(Integer mercategoryid, String cateName, Date cateDate,
-			Set<Merchandise> merchandises,MerSeller merSeller,String cateMsg) {
+			Set<Merchandise> merchandises,Seller seller,String cateMsg) {
 		super();
 		this.mercategoryid = mercategoryid;
 		this.cateName = cateName;
 		this.cateDate = cateDate;
 		this.merchandises = merchandises;
-		this.merSeller=merSeller;
+		this.seller=seller;
 		this.cateMsg=cateMsg;
 	}
 
@@ -113,13 +113,13 @@ public class MerCategory implements Serializable{
 	}
 
 
-	public MerSeller getMerSeller() {
-		return merSeller;
+	public Seller getSeller() {
+		return seller;
 	}
 
 
-	public void setMerSeller(MerSeller merSeller) {
-		this.merSeller = merSeller;
+	public void setSeller(Seller seller) {
+		this.seller = seller;
 	}
 
 

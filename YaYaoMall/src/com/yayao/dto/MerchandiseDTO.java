@@ -1,29 +1,14 @@
-package com.yayao.bean;
+package com.yayao.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
+/**
+ * 商品数据传输类
+ * @author yy
+ *
+ */
+public class MerchandiseDTO implements Serializable{
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-@Entity
-@Table(name="merchandise_tb",catalog="YaYaoMall_db")
-@JsonIgnoreProperties({"merchandiseimgs","merComments"})
-public class Merchandise implements Serializable{
 	/**
 	 * 
 	 */
@@ -31,8 +16,6 @@ public class Merchandise implements Serializable{
 	/**
 	 * 商品分类id
 	 */
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer merchandiseid;
 	/**
 	 * 商品描述
@@ -74,15 +57,12 @@ public class Merchandise implements Serializable{
 	/**
 	 * 商品图片 商品管理图片
 	 */
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
-	@JsonManagedReference
-	private List<MerchandiseImg> merchandiseImgs;
+	
+	private Integer[] merchandiseImgsid;
 	/**
 	 * 商品评论
 	 */
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merchandise")
-	@JsonBackReference
-	private Set<Comments> merComments;
+	private Integer[] merCommentsid;
 	/**
 	 * 商品更新时间
 	 */
@@ -90,36 +70,28 @@ public class Merchandise implements Serializable{
 	/**
 	 * 卖家
 	 */
-	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
-	@JoinColumn(name="sellerid")
-	@JsonManagedReference
-	private Seller seller;
+	private Integer sellerid;
 	/**
 	 * 商品类别
 	 */
-	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
-	@JoinColumn(name="mercategoryid")
-	@JsonManagedReference
-	private MerCategory merCategory;
+	private Integer merCategoryid;
 	/**
 	 * 商品消息
 	 */
-	@Transient
 	private String merchandiseMsg;
 	
-	public Merchandise() {
+	
+	public MerchandiseDTO() {
 		super();
 	}
-
-
-	public Merchandise(Integer merchandiseid, String merchandiseName,
+	public MerchandiseDTO(Integer merchandiseid, String merchandiseName,
 			Integer merchandiseStock, Double merchandiseOldPrice,
 			Double merchandisePrice, Integer merchandiseSold,
 			Double merDiscount, Double merchandisePostage,
 			String merchandiseCode, String merchandiseStatus,
-			List<MerchandiseImg> merchandiseImgs, MerCategory merCategory,
-			Date merchandiseUpdateTime,Set<Comments> merComments,
-			Seller seller,String merchandiseMsg) {
+			Integer[] merchandiseImgsid, Integer[] merCommentsid,
+			Date merchandiseUpdateTime, Integer sellerid, Integer merCategoryid,
+			String merchandiseMsg) {
 		super();
 		this.merchandiseid = merchandiseid;
 		this.merchandiseName = merchandiseName;
@@ -131,172 +103,107 @@ public class Merchandise implements Serializable{
 		this.merchandisePostage = merchandisePostage;
 		this.merchandiseCode = merchandiseCode;
 		this.merchandiseStatus = merchandiseStatus;
-		this.merchandiseImgs = merchandiseImgs;
-		this.merCategory = merCategory;
-		this.merchandiseUpdateTime=merchandiseUpdateTime;
-		this.merComments=merComments;
-		this.seller=seller;
-		this.merchandiseMsg=merchandiseMsg;
+		this.merchandiseImgsid = merchandiseImgsid;
+		this.merCommentsid = merCommentsid;
+		this.merchandiseUpdateTime = merchandiseUpdateTime;
+		this.sellerid = sellerid;
+		this.merCategoryid = merCategoryid;
+		this.merchandiseMsg = merchandiseMsg;
 	}
-
-
 	public Integer getMerchandiseid() {
 		return merchandiseid;
 	}
-
-
 	public void setMerchandiseid(Integer merchandiseid) {
 		this.merchandiseid = merchandiseid;
 	}
-
-
 	public String getMerchandiseName() {
 		return merchandiseName;
 	}
-
-
 	public void setMerchandiseName(String merchandiseName) {
 		this.merchandiseName = merchandiseName;
 	}
-
-
 	public Integer getMerchandiseStock() {
 		return merchandiseStock;
 	}
-
-
 	public void setMerchandiseStock(Integer merchandiseStock) {
 		this.merchandiseStock = merchandiseStock;
 	}
-
-
 	public Double getMerchandiseOldPrice() {
 		return merchandiseOldPrice;
 	}
-
-
 	public void setMerchandiseOldPrice(Double merchandiseOldPrice) {
 		this.merchandiseOldPrice = merchandiseOldPrice;
 	}
-
-
 	public Double getMerchandisePrice() {
 		return merchandisePrice;
 	}
-
-
 	public void setMerchandisePrice(Double merchandisePrice) {
 		this.merchandisePrice = merchandisePrice;
 	}
-
-
 	public Integer getMerchandiseSold() {
 		return merchandiseSold;
 	}
-
-
 	public void setMerchandiseSold(Integer merchandiseSold) {
 		this.merchandiseSold = merchandiseSold;
 	}
-
-
 	public Double getMerDiscount() {
 		return merDiscount;
 	}
-
-
 	public void setMerDiscount(Double merDiscount) {
 		this.merDiscount = merDiscount;
 	}
-
-
 	public Double getMerchandisePostage() {
 		return merchandisePostage;
 	}
-
-
 	public void setMerchandisePostage(Double merchandisePostage) {
 		this.merchandisePostage = merchandisePostage;
 	}
-
-
 	public String getMerchandiseCode() {
 		return merchandiseCode;
 	}
-
-
 	public void setMerchandiseCode(String merchandiseCode) {
 		this.merchandiseCode = merchandiseCode;
 	}
-
-
 	public String getMerchandiseStatus() {
 		return merchandiseStatus;
 	}
-
-
 	public void setMerchandiseStatus(String merchandiseStatus) {
 		this.merchandiseStatus = merchandiseStatus;
 	}
-
-
-	public MerCategory getMerCategory() {
-		return merCategory;
+	public Integer[] getMerchandiseImgsid() {
+		return merchandiseImgsid;
 	}
-
-
-	public void setMerCategory(MerCategory merCategory) {
-		this.merCategory = merCategory;
+	public void setMerchandiseImgsid(Integer[] merchandiseImgsid) {
+		this.merchandiseImgsid = merchandiseImgsid;
 	}
-
-
+	public Integer[] getMerCommentsid() {
+		return merCommentsid;
+	}
+	public void setMerCommentsid(Integer[] merCommentsid) {
+		this.merCommentsid = merCommentsid;
+	}
 	public Date getMerchandiseUpdateTime() {
 		return merchandiseUpdateTime;
 	}
-
-
 	public void setMerchandiseUpdateTime(Date merchandiseUpdateTime) {
 		this.merchandiseUpdateTime = merchandiseUpdateTime;
 	}
-
-
-	public Set<Comments> getMerComments() {
-		return merComments;
+	public Integer getSellerid() {
+		return sellerid;
 	}
-
-
-	public void setMerComments(Set<Comments> merComments) {
-		this.merComments = merComments;
+	public void setSellerid(Integer sellerid) {
+		this.sellerid = sellerid;
 	}
-
-
-	public List<MerchandiseImg> getMerchandiseImgs() {
-		return merchandiseImgs;
+	public Integer getMerCategoryid() {
+		return merCategoryid;
 	}
-
-
-	public void setMerchandiseImgs(List<MerchandiseImg> merchandiseImgs) {
-		this.merchandiseImgs = merchandiseImgs;
+	public void setMerCategoryid(Integer merCategoryid) {
+		this.merCategoryid = merCategoryid;
 	}
-
-
-	public Seller getSeller() {
-		return seller;
-	}
-
-
-	public void setMerSeller(Seller seller) {
-		this.seller = seller;
-	}
-
-
 	public String getMerchandiseMsg() {
 		return merchandiseMsg;
 	}
-
-
 	public void setMerchandiseMsg(String merchandiseMsg) {
 		this.merchandiseMsg = merchandiseMsg;
 	}
-
 }

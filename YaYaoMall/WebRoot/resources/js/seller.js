@@ -9,13 +9,13 @@ var sellerData={
 			$(".right-bar").html("");
     		$(".right-bar").load('/seller/templates/mer_category.html');
     		myUtils.myPrevToast("加载中",function(){
-    			$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.GetQueryString("sellerid")+"&cateName=all",function(data){
+    			$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.GetQueryString("sellerid")+"&mercategoryid=0",function(data){
     				if(data==null||data==''||data==undefined){
     					$("#merCategoryList").after("<div id='merCategoryEmpty' class='text-center'>你还没有添加分类哦，赶紧添加吧</div>");
     					return;
     				}
     				for (var i = 0; i < data.length; i++) {
-    				$("#merCategoryList tbody").append("<tr data-merCateName='"+data[i].cateName+"'><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td></tr>");
+    				$("#merCategoryList tbody").append("<tr data-mercategoryid='"+data[i].mercategoryid+"'><td>"+data[i].cateName+"</td><td>"+myUtils.timeStampToDate(data[i].cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td></tr>");
 					}
     			
     			});
@@ -46,7 +46,7 @@ var sellerData={
     					if($("#merCategoryEmpty")!=null){//删除商品类别为空信息
     					$("#merCategoryEmpty").remove();
     					}
-    					$("#merCategoryList tbody").append("<tr data-merCateName='"+data.cateName+"'><td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td></tr>");
+    					$("#merCategoryList tbody").append("<tr data-mercategoryid='"+data.mercategoryid+"'><td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td></tr>");
     				}else if(data.cateMsg=="商品分类已经存在"){
     					$("#closeModal").click();
     					myUtils.myLoadingToast(data.cateMsg, null);
@@ -61,7 +61,7 @@ var sellerData={
 			var thisDelCate=$(this);
 			//console.log(thisDelCate.parent().parent("tr").attr("data-merCateName"));
 			myUtils.myConfirm("确定删除吗？",function(){
-				$.post("/merCategory/delMerCategory.json",{cateName:thisDelCate.parent().parent("tr").attr("data-merCateName"),sellerid:myUtils.getCookie("sellerid")},
+				$.post("/merCategory/delMerCategory.json",{mercategoryid:thisDelCate.parent().parent("tr").attr("data-mercategoryid"),sellerid:myUtils.getCookie("sellerid")},
 						function(data){
 					if(data=="200"){
 					myUtils.myLoadingToast("删除成功", function(){
@@ -91,13 +91,13 @@ var sellerData={
     				$("#errorSellerInfo").text("1-10位，不能有空格");
     				return;
     			}
-				$.post("/merCategory/updateMerCategory.json?sellerid="+myUtils.getCookie("sellerid")+"&oldCateName="+thisDelCate.parent().parent("tr").attr("data-merCateName")+"&newCateName="+mcv,
+				$.post("/merCategory/updateMerCategory.json?sellerid="+myUtils.getCookie("sellerid")+"&mercategoryid="+thisDelCate.parent().parent("tr").attr("data-mercategoryid")+"&newCateName="+mcv,
 					function(data){
 					console.log(data);
 					if(data.cateMsg=="200"){
 						$("#closeModal").click();
     					myUtils.myLoadingToast("修改成功", null);
-    					thisDelCate.parent().parent("tr").attr("data-merCateName",mcv);
+    					thisDelCate.parent().parent("tr").attr("data-mercategoryid",mcv);
     					thisDelCate.parent().parent("tr").html("<td>"+data.cateName+"</td><td>"+myUtils.timeStampToDate(data.cateDate)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td>")
   					}else if(data.cateMsg=="商品分类已经存在"){
     					$("#closeModal").click();

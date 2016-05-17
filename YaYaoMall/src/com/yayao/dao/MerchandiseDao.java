@@ -12,22 +12,22 @@ import com.yayao.bean.Merchandise;
  */
 public interface MerchandiseDao {
 	/** 新增商品 */	
-	public void addMer(Merchandise mer) ;	
+	public void addMer(Merchandise merchandise) ;	
 	/** 删除指定的商品 */	
-	public void delMer(Integer id) ;	
+	public void delMer(Integer sellerid,Integer merchandiseid) ;	
 	/** 更新商品 */	
-	public void updateMer(Merchandise mer);
+	public void updateMer(Merchandise merchandise);
 	/** 装载指定的商品 */	
-	public Merchandise loadMer(Integer id) ;	
+	public Merchandise loadMer(Integer merchandiseid) ;	
 	/** 浏览商品 */
-	public List<Merchandise> browseMer(MerCategory cate,String orderName,String orderWay) ;	
+	public List<Merchandise> browseMer(MerCategory merCategory,String orderName,String orderWay) ;	
 	
 	/** 分页浏览商品 */
-	public List<Merchandise> browseMer(int pageSize,int pageNo,MerCategory cate,String orderName,String orderWay) ;
+	public List<Merchandise> browseMer(int pageSize,int pageNo,MerCategory merCategory,String orderName,String orderWay) ;
 	/** 后台检索商品（按商品模糊名称） */
-	public List<Merchandise> searchMerchandise(MerCategory cate,String merName) ;	
+	public List<Merchandise> searchMerchandise(MerCategory merCategory,String merName) ;	
 	/** 统计记录条数 */
-	public int countRecord(MerCategory cate);
+	public int countRecord(MerCategory merCategory);
 	
 }
 

@@ -1,6 +1,6 @@
 package com.yayao.service.impl.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,18 +14,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import com.yayao.bean.MerSeller;
-import com.yayao.service.MerSellerService;
-import com.yayao.service.UserLevelService;
-import com.yayao.util.SHAutil;
+import com.yayao.bean.Seller;
+import com.yayao.service.SellerService;
+import com.yayao.util.MyDESutil;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:config/applicationContext.xml"})
 @TransactionConfiguration(transactionManager="txManager",defaultRollback = false)//true:始终回滚 false:数据提交
 public class MerSellerServiceImplTest {
 	@Autowired
-	@Qualifier("merSellerService")
-	MerSellerService merSellerService;
+	@Qualifier("sellerService")
+	SellerService sellerService;
 	@Autowired
 	@Qualifier("sessionFactory")
 	SessionFactory sessionFactory;
@@ -56,43 +55,43 @@ public class MerSellerServiceImplTest {
 	}
 
 	@Test
-	public void testAddMerSeller() throws Exception {
+	public void testAddSeller() throws Exception {
 		String sellerName="15555555556";
-		String sellerPassword=SHAutil.getSHA("123456");
-		boolean status = merSellerService.chkLoginName(sellerName);
+		String sellerPassword= MyDESutil.getMD5("123456");
+		boolean status = sellerService.chkLoginName(sellerName);
 		System.out.println(status);
 		if(!status){
-			MerSeller merSeller =new MerSeller();
-			merSeller.setSellerPhone(sellerName);
-			merSeller.setSellerPassword(sellerPassword);
-			merSellerService.addMerSeller(merSeller);
+			Seller seller =new Seller();
+			seller.setSellerPhone(sellerName);
+			seller.setSellerPassword(sellerPassword);
+			sellerService.addSeller(seller);
 		}
 	}
 
 	@Test
-	public void testUpdateMerSeller() {
-		MerSeller merSeller = merSellerService.loadMerSeller(6);
-		merSeller.setSellerPhone("15555555556");
-		merSellerService.updateMerSeller(merSeller);
+	public void testUpdateSeller() {
+		Seller seller = sellerService.loadSeller(6);
+		seller.setSellerPhone("15555555556");
+		sellerService.updateSeller(seller);
 	}
 
 	@Test
-	public void testSearchMerSeller() {
+	public void testSearchSeller() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testBrowseMerSeller() {
+	public void testBrowseSeller() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testDelMerSeller() {
-		merSellerService.delMerSeller(6);
+	public void testDelSeller() {
+		sellerService.delSeller(6);
 	}
 
 	@Test
-	public void testLoadMerSeller() {
+	public void testLoadSeller() {
 		fail("Not yet implemented");
 	}
 

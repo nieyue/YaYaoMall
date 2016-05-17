@@ -53,9 +53,9 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	/**
 	 * 删除指定的商品分类 
 	 */
-	public void delMerCategory(Integer id) {
-		MerCategory merCategory = (MerCategory) getSession().get(MerCategory.class, id);
-		if(merCategory!=null){
+	public void delMerCategory(Integer sellerid,Integer mercategoryid) {
+		MerCategory merCategory = (MerCategory) getSession().get(MerCategory.class, mercategoryid);
+		if(merCategory!=null&&merCategory.getSeller().getSellerid().equals(sellerid)){
 			getSession().delete(merCategory);
 		}
 	}
@@ -63,11 +63,11 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	/**
 	 * 装载指定商户的商品分类 
 	 */
-	public MerCategory loadMerCategory(Integer sellerid,String cateName) {
+	public MerCategory loadMerCategory(Integer sellerid,Integer mercategoryid) {
 		MerCategory merCategory=null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
 		c.add(Restrictions.eq("merSeller.mersellerid", sellerid));
-		c.add(Restrictions.eq("cateName", cateName));
+		c.add(Restrictions.eq("mercategoryid", mercategoryid));
 		merCategory=(MerCategory) c.uniqueResult();
 		return merCategory;
 	}

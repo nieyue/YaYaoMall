@@ -24,38 +24,38 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	private MerchandiseDao merchandiseDao;
 
 	/** 新增商品 */	
-	public void addMer(Merchandise mer) {
-		merchandiseDao.addMer(mer);
+	public void addMer(Merchandise merchandise) {
+		merchandiseDao.addMer(merchandise);
 		
 	}
 
 	/** 删除指定的商品 */
-	public void delMer(Integer id) {
-		merchandiseDao.delMer(id);
+	public void delMer(Integer sellerid,Integer merchandiseid) {
+		merchandiseDao.delMer(sellerid,merchandiseid);
 		
 	}
 
 	/** 更新商品 */	
-	public void updateMer(Merchandise mer) {
-		merchandiseDao.updateMer(mer);
+	public void updateMer(Merchandise merchandise) {
+		merchandiseDao.updateMer(merchandise);
 		
 	}
 
 	/** 装载指定的商品 */
-	public Merchandise loadMer(Integer id) {
-		Merchandise mer = merchandiseDao.loadMer(id);
+	public Merchandise loadMer(Integer merchandiseid) {
+		Merchandise mer = merchandiseDao.loadMer(merchandiseid);
 		return mer;
 	}
 
 	/** 浏览商品 */
-	public List<Merchandise> browseMer(MerCategory cate,String orderName,String orderWay) {
-		List<Merchandise> list = merchandiseDao.browseMer(cate, orderName,orderWay);
+	public List<Merchandise> browseMer(MerCategory merchandise,String orderName,String orderWay) {
+		List<Merchandise> list = merchandiseDao.browseMer(merchandise, orderName,orderWay);
 		return list;
 	}
 
 	/** 分页浏览商品 */
-	public List<Merchandise> browseMer(int pageSize, int pageNo,MerCategory cate,String orderName,String orderWay) {
-		List<Merchandise> list = merchandiseDao.browseMer(pageSize,pageNo,cate, orderName,orderWay);
+	public List<Merchandise> browseMer(int pageSize, int pageNo,MerCategory merchandise,String orderName,String orderWay) {
+		List<Merchandise> list = merchandiseDao.browseMer(pageSize,pageNo,merchandise, orderName,orderWay);
 		return list;
 	}
 

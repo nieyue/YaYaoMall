@@ -25,8 +25,8 @@ import com.yayao.myView.XLSView;
 import com.yayao.service.UserService;
 import com.yayao.util.DateUtil;
 import com.yayao.util.FileUploadUtil;
+import com.yayao.util.MyDESutil;
 import com.yayao.util.NumberUtil;
-import com.yayao.util.SHAutil;
 import com.yayao.util.StatusCode;
 
 /**
@@ -145,7 +145,7 @@ public class UserController {
 		String sessionvce = session.getAttribute("userEmailValidCodeExpire").toString();
 		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
 			if(Integer.valueOf(session.getAttribute("userEmailValidCode").toString()).equals(Integer.valueOf(userEmailValidCode))){
-			String shalp = SHAutil.getSHA(user.getUserPassword());
+			String shalp =  MyDESutil.getMD5(user.getUserPassword());
 			user.setUserPassword(shalp);
 		
 		boolean status = userService.addUser(user);
@@ -180,7 +180,7 @@ public class UserController {
 	User login(HttpSession session,String userName,String userPassword) throws Exception {
 		boolean status = userService.chkLoginName(userName);
 		if(status&&userPassword!=null){
-			String shaup = SHAutil.getSHA(userPassword);
+			String shaup =  MyDESutil.getMD5(userPassword);
 			User user = userService.userLogin(userName, shaup);
 			if(user!=null){
 				user.setUserMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));

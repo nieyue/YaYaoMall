@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="merseller_tb",catalog="YaYaoMall_db")
 @JsonIgnoreProperties(value="sellerPassword")
-public class MerSeller implements Serializable {
+public class Seller implements Serializable {
 	/**
 	 * 
 	 */
@@ -35,17 +35,17 @@ public class MerSeller implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer mersellerid;
+	private Integer sellerid;
 	/**
 	 * 商品
 	 */
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merSeller")
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="seller")
 	@JsonBackReference
 	private Set<Merchandise> merchandises;
 	/**
 	 * 商品分类
 	 */
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="merSeller")
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="seller")
 	@JsonBackReference
 	private Set<MerCategory> merCategory;
 	/** 
@@ -101,16 +101,16 @@ public class MerSeller implements Serializable {
 	
 	
 	
-	public MerSeller() {
+	public Seller() {
 		super();
 	}
-	public MerSeller(Integer mersellerid, Set<Merchandise> merchandises,
+	public Seller(Integer sellerid, Set<Merchandise> merchandises,
 			String sellerEmail, String sellerPhone, String sellerPassword,
 			String sellerNiceName, String sellerIMGS, String sellerSignature,
 			Integer sellerNumber,Set<MerCategory> merCategory, Integer isAuthentication,
 			Date registerDate,Date authenticationDate,String sellerMsg,String sellerToken) {
 		super();
-		this.mersellerid = mersellerid;
+		this.sellerid = sellerid;
 		this.merchandises = merchandises;
 		this.sellerEmail = sellerEmail;
 		this.sellerPhone = sellerPhone;
@@ -126,11 +126,11 @@ public class MerSeller implements Serializable {
 		this.sellerMsg=sellerMsg;
 		this.sellerToken=sellerToken;
 	}
-	public Integer getMersellerid() {
-		return mersellerid;
+	public Integer getSellerid() {
+		return sellerid;
 	}
-	public void setMersellerid(Integer mersellerid) {
-		this.mersellerid = mersellerid;
+	public void setSellerid(Integer sellerid) {
+		this.sellerid = sellerid;
 	}
 	public Set<Merchandise> getMerchandises() {
 		return merchandises;

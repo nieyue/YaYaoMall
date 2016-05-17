@@ -4,8 +4,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,8 +18,10 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
+import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
 import com.yayao.bean.User;
+import com.yayao.dto.MerchandiseDTO;
 import com.yayao.util.MyFile;
 
 public class Test {

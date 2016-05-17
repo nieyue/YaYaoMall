@@ -18,13 +18,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.MerCategory;
-import com.yayao.bean.MerSeller;
 import com.yayao.bean.Merchandise;
-import com.yayao.bean.MerchandiseImg;
+import com.yayao.bean.Seller;
 import com.yayao.service.MerCategoryService;
-import com.yayao.service.MerSellerService;
 import com.yayao.service.MerchandiseImgService;
 import com.yayao.service.MerchandiseService;
+import com.yayao.service.SellerService;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:config/applicationContext.xml"})
@@ -40,8 +39,8 @@ public class MerchandiseServiceImplTest {
 	@Qualifier("merCategoryService")
 	MerCategoryService merCategoryService;
 	@Autowired
-	@Qualifier("merSellerService")
-	MerSellerService merSellerService;
+	@Qualifier("sellerService")
+	SellerService sellerService;
 	@Autowired
 	@Qualifier("sessionFactory")
 	SessionFactory sessionFactory;
@@ -59,11 +58,11 @@ public class MerchandiseServiceImplTest {
 	@Test
 	public void testAddMer() {
 		Merchandise mer=new Merchandise();
-		MerCategory mercate = merCategoryService.loadMerCategory(7,"黑茶");
+		MerCategory mercate = merCategoryService.loadMerCategory(7,5);
 		mer.setMerCategory(mercate);
 		mer.setMerchandiseCode("sr1d55");
-		MerSeller merSeller = new MerSeller();
-		merSeller.setMersellerid(7);
+		Seller merSeller = new Seller();
+		merSeller.setSellerid(7);
 		mer.setMerSeller(merSeller);
 		//mer.setMerchandiseImg("http://wd.geilicdn.com/vshop333816149-1457603308132-5927369.jpg?w=1080&h=0");
 		mer.setMerchandiseName("施兆鹏八十大寿礼茶 湖南安化黑茶 金花茯砖 收藏茶 盒装1936g");
@@ -89,8 +88,8 @@ public class MerchandiseServiceImplTest {
 		System.out.println(list);
 		for (int i = 0; i < list.size(); i++) {
 			Merchandise merchandise = list.get(i);
-			MerSeller merSeller =merchandise.getMerCategory().getMerSeller();
-			merchandise.setMerSeller(merSeller);
+			Seller seller =merchandise.getMerCategory().getSeller();
+			merchandise.setMerSeller(seller);
 			merchandiseService.updateMer(merchandise);
 		}
 		//Merchandise mer = merchandiseService.loadMer(1);
@@ -108,7 +107,7 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testBrowseMerString() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,"黑茶");
+		MerCategory cate = merCategoryService.loadMerCategory(1,6);
 		System.out.println(cate);
 		List<Merchandise> list = merchandiseService.browseMer(null, "merchandiseSold","desc");
 	for (int i = 0; i < list.size(); i++) {
@@ -119,7 +118,7 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testBrowseMerIntIntInt() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,"黑茶");
+		MerCategory cate = merCategoryService.loadMerCategory(1,7);
 		System.out.println(cate);
 		List<Merchandise> list = merchandiseService.browseMer(10,1,null, "merchandiseSold","des");
 	for (int i = 0; i < list.size(); i++) {
@@ -131,7 +130,7 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testSearchMer() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,"黑茶");
+		MerCategory cate = merCategoryService.loadMerCategory(1,7);
 		System.out.println(cate);
 		List<Merchandise> list = merchandiseService.searchMerchandise(cate, "为人民服务");
 	for (int i = 0; i < list.size(); i++) {
@@ -147,7 +146,7 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testCountRecord() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,"黑茶");
+		MerCategory cate = merCategoryService.loadMerCategory(1,7);
 		int aa = merchandiseService.countRecord(cate);
 			System.out.println(aa);
 	}

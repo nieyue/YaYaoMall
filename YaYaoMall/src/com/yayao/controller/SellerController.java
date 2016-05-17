@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yayao.bean.MerSeller;
+import com.yayao.bean.Seller;
 import com.yayao.service.MerCategoryService;
-import com.yayao.service.MerSellerService;
 import com.yayao.service.MerchandiseService;
+import com.yayao.service.SellerService;
 import com.yayao.util.DateUtil;
+import com.yayao.util.MyDESutil;
 import com.yayao.util.NumberUtil;
-import com.yayao.util.SHAutil;
 import com.yayao.util.StatusCode;
 /**
  * 商家控制类
@@ -35,8 +35,8 @@ public class SellerController {
 	private MerCategoryService merCategoryService;
 	@Resource(name = "merchandiseService")
 	private MerchandiseService merchandiseService;
-	@Resource(name = "merSellerService")
-	private MerSellerService merSellerService;
+	@Resource(name = "sellerService")
+	private SellerService sellerService;
 	/**
 	 * 商户手机注册
 	 * @param merSeller
@@ -46,7 +46,7 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerPhoneRegister", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	MerSeller merSellerRegister(@ModelAttribute MerSeller merSeller,@RequestParam("sellerPhoneValidCode") String sellerPhoneValidCode, HttpSession session) throws Exception {
+	Seller merSellerRegister(@ModelAttribute Seller seller,@RequestParam("sellerPhoneValidCode") String sellerPhoneValidCode, HttpSession session) throws Exception {
 		/*
 		 * if(result.hasErrors()){
 		 * //customer.setContent(result.getFieldError().getDefaultMessage());
@@ -62,26 +62,26 @@ public class SellerController {
 		String sessionvce = session.getAttribute("sellerPhoneValidCodeExpire").toString();
 		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
 			if(Integer.valueOf(session.getAttribute("sellerPhoneValidCode").toString()).equals(Integer.valueOf(sellerPhoneValidCode))){
-			String shalp = SHAutil.getSHA(merSeller.getSellerPassword());
-			merSeller.setSellerPassword(shalp);
+			String shalp = MyDESutil.getMD5(seller.getSellerPassword());
+			seller.setSellerPassword(shalp);
 		
-		boolean status = merSellerService.addMerSeller(merSeller);
-		session.setAttribute("merSeller", merSeller);
+		boolean status = sellerService.addSeller(seller);
+		session.setAttribute("seller", seller);
 		if(status){
 			//成功则清除validcode
 			session.removeAttribute("sellerPhoneValidCodeExpire");
 			session.removeAttribute("sellerPhoneValidCode");
-			merSeller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
-			return merSeller;
+			seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+			return seller;
 		}
 		return null;
 			}
-			merSeller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR));
-			return merSeller;
+			seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR));
+			return seller;
 		}
-		merSeller.setSellerMsg(StatusCode.GetValueByKey("VERIFICATION_CODE_EXPIRED"));
+		seller.setSellerMsg(StatusCode.GetValueByKey("VERIFICATION_CODE_EXPIRED"));
 		
-		return merSeller;
+		return seller;
 		
 	}
 	/**
@@ -94,7 +94,7 @@ public class SellerController {
 	@RequestMapping(value = "/chkSellerName", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
 	String userNameValid(@RequestParam String sellerName) {
-		boolean state = merSellerService.chkLoginName(sellerName);
+		boolean state =sellerService.chkLoginName(sellerName);
 		if (state) {
 			return StatusCode.GetValueByKey(StatusCode.SELLER_EXIST);
 		}
@@ -111,15 +111,15 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerLogin", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	MerSeller sellerLogin(HttpSession session,String sellerName,String sellerPassword) throws Exception {
-		boolean status = merSellerService.chkLoginName(sellerName);
+	Seller sellerLogin(HttpSession session,String sellerName,String sellerPassword) throws Exception {
+		boolean status = sellerService.chkLoginName(sellerName);
 		if(status&&sellerPassword!=null){
-			String shaup = SHAutil.getSHA(sellerPassword);
-			MerSeller seller = merSellerService.merSellerLogin(sellerName, shaup);
+			String shaup =  MyDESutil.getMD5(sellerPassword);
+			Seller seller = sellerService.merSellerLogin(sellerName, shaup);
 			if(seller!=null){
 				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
-				seller.setSellerToken(SHAutil.getSHA(sellerName));//设置token
-				session.setAttribute("merSeller", seller);
+				seller.setSellerToken( MyDESutil.getMD5(sellerName));//设置token
+				session.setAttribute("seller", seller);
 				return seller;
 			}
 		}
@@ -137,11 +137,11 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerAutoLogin", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	MerSeller sellerAutoLogin(HttpSession session,String sellerid,String sellerloginstate,String sellerToken) throws Exception {
-		MerSeller seller=new MerSeller();
+	Seller sellerAutoLogin(HttpSession session,String sellerid,String sellerloginstate,String sellerToken) throws Exception {
+		Seller seller=new Seller();
 		//如果会话存在
 		if(session.getAttribute("merSeller")!=null){
-			seller=(MerSeller) session.getAttribute("merSeller");
+			seller=(Seller) session.getAttribute("seller");
 			seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 			return seller;
 		}
@@ -154,10 +154,10 @@ public class SellerController {
 			}
 			//设置自动登录
 			if(sellerloginstate.equals("1")){
-			seller = merSellerService.loadMerSeller(Integer.valueOf(sellerid));
-			if(SHAutil.getSHA(seller.getSellerEmail()).equals(sellerToken)||SHAutil.getSHA(seller.getSellerPhone()).equals(sellerToken)){
+			seller =sellerService.loadSeller(Integer.valueOf(sellerid));
+			if( MyDESutil.getMD5(seller.getSellerEmail()).equals(sellerToken)|| MyDESutil.getMD5(seller.getSellerPhone()).equals(sellerToken)){
 				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
-				session.setAttribute("merSeller", seller);
+				session.setAttribute("seller", seller);
 			}
 			}
 		}
@@ -173,7 +173,7 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerLoginOut", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody void sellerLoginOut(HttpSession session) throws Exception {
-		if(session.getAttribute("merSeller")!=null){
+		if(session.getAttribute("seller")!=null){
 			session.invalidate();
 		}
 		

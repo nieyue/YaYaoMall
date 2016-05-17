@@ -1,6 +1,6 @@
 package com.yayao.service.impl.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -17,11 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.MerCategory;
-import com.yayao.bean.MerSeller;
-import com.yayao.bean.UserLevel;
+import com.yayao.bean.Seller;
 import com.yayao.service.MerCategoryService;
-import com.yayao.service.MerSellerService;
-import com.yayao.service.UserLevelService;
+import com.yayao.service.SellerService;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:config/applicationContext.xml"})
@@ -31,8 +29,8 @@ public class MerCategoryServiceImplTest {
 	@Qualifier("merCategoryService")
 	MerCategoryService merCategoryService;
 	@Autowired
-	@Qualifier("merSellerService")
-	MerSellerService merSellerService;
+	@Qualifier("sellerService")
+	SellerService sellerService;
 	@Autowired
 	@Qualifier("sessionFactory")
 	SessionFactory sessionFactory;
@@ -51,8 +49,8 @@ public class MerCategoryServiceImplTest {
 	public void testAddMerCategory() {
 		MerCategory ul=new MerCategory();
 		ul.setCateName("青2茶");
-		MerSeller merSeller = merSellerService.loadMerSeller(6);
-		ul.setMerSeller(merSeller);
+		Seller seller = sellerService.loadSeller(6);
+		ul.setSeller(seller);
 		merCategoryService.addMerCategory(ul);
 	}
 
@@ -61,7 +59,7 @@ public class MerCategoryServiceImplTest {
 		List<MerCategory> mc = merCategoryService.browseMerCategory(1);
 		for (int i = 0; i < mc.size(); i++) {
 			MerCategory merCategory = mc.get(i);
-			merCategory.setMerSeller(merSellerService.loadMerSeller(1));
+			merCategory.setSeller(sellerService.loadSeller(1));
 			merCategoryService.updateMerCategory(merCategory);
 		}
 	}
@@ -76,7 +74,7 @@ public class MerCategoryServiceImplTest {
 		//merCategory.setMerSeller(merSeller);
 		//merCategory.setMercategoryid(5);
 		//merCategoryService.updateMerCategory(merCategory);
-		merCategoryService.delMerCategory(36);
+		merCategoryService.delMerCategory(7,36);
 	}
 
 	@Test
@@ -93,7 +91,7 @@ public class MerCategoryServiceImplTest {
 
 	@Test
 	public void testLoadMerCategory() {
-		MerCategory mercate = merCategoryService.loadMerCategory(1,"黑茶");
+		MerCategory mercate = merCategoryService.loadMerCategory(1,5);
 	System.out.println(mercate.getCateDate());
 	}
 

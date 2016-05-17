@@ -6,10 +6,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
+import com.yayao.bean.MerchandiseImg;
+import com.yayao.bean.Seller;
+import com.yayao.dto.MerchandiseDTO;
 import com.yayao.service.MerCategoryService;
+import com.yayao.service.MerchandiseImgService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.util.NumberUtil;
 import com.yayao.util.StatusCode;
@@ -35,21 +39,23 @@ public class MerchandiseController {
 	private MerCategoryService merCategoryService;
 	@Resource(name = "merchandiseService")
 	private MerchandiseService merchandiseService;
+	@Resource(name = "merchandiseImgService")
+	private MerchandiseImgService merchandiseImgService;
 	
 	/**
 	 * 分段获取所有商品
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("sellerid") Integer sellerid,@RequestParam("currentCount")String currentCount,@RequestParam("pageSize") Integer pageSize,@RequestParam("cateName")String cateName,HttpSession session)  {
+	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("sellerid") Integer sellerid,@RequestParam("currentCount")String currentCount,@RequestParam("pageSize") Integer pageSize,@RequestParam("merchandiseid")Integer merchandiseid,HttpSession session)  {
 		int pageNo=1;//初始化
 		MerCategory cate=null;
 		int count=0;
 		List<Merchandise> list = new ArrayList<Merchandise>();
-		if(cateName.equals("all")){
+		if(merchandiseid.equals("0")){
 			cate=null;
 		}else{
-			cate = merCategoryService.loadMerCategory(sellerid, cateName);
+			cate = merCategoryService.loadMerCategory(sellerid,merchandiseid );
 		}
 		count=merchandiseService.countRecord(cate);
 		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)>=count){
@@ -74,13 +80,15 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody Merchandise updateMerchandise(@ModelAttribute Merchandise merchandise,HttpSession session)  {
-		if(session.getAttribute("merSeller")==null){
+	public @ResponseBody Merchandise updateMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
+		Merchandise merchandise=new Merchandise();
+		if(session.getAttribute("merSeller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandise;
 		}
-		merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
-		merchandiseService.updateMer(merchandise);
+		BeanUtils.copyProperties(merchandiseDTO, merchandise);
+		//merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		//merchandiseService.updateMer(merchandise);
 		return merchandise;
 	}
 	/**
@@ -88,14 +96,30 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody Merchandise addMerchandise(@ModelAttribute Merchandise merchandise,HttpSession session)  {
-		if(session.getAttribute("merSeller")==null){
-			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-			return merchandise;
+	public @ResponseBody Merchandise addMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO, HttpSession session)  {
+		Merchandise merchandise=new Merchandise();
+		//if(session.getAttribute("merSeller")==null){
+		//	merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
+		//	return merchandise;
+		//}
+		//if(merchandiseDTO.getMerCategoryid()!=null){
+			//merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryid(), cateName)
+		//}
+		BeanUtils.copyProperties(merchandiseDTO, merchandise);//dto复制到bean
+		//查询绑定商品类别
+		if(merchandiseDTO.getSellerid()!=null&&merchandiseDTO.getMerCategoryid()!=null){
+			MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getSellerid(), merchandiseDTO.getMerCategoryid());
+			merchandise.setMerCategory(merCate);
+		}
+		for (int i = 0; i < merchandiseDTO.getMerchandiseImgsid().length; i++) {
+			MerchandiseImg merImg = merchandiseImgService.loadMerchandiseImg(merchandiseDTO.getMerchandiseImgsid()[i]);
+			merImg.setMerchandise(merchandise);
+			System.out.println(merchandiseDTO.getMerchandiseImgsid()[i]);
+			//merchandiseImgService.updateMerchandiseImg(merImg);
 		}
 		
-		merchandiseService.addMer(merchandise);
-		merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		//merchandiseService.addMer(merchandise);
+		//merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		return merchandise;
 	}
 	/**
@@ -103,11 +127,11 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String delMerchandise(@ModelAttribute Merchandise merchandise,HttpSession session)  {
-		if(session.getAttribute("merSeller")==null){
+	public @ResponseBody String delMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
+		if(session.getAttribute("merSeller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
 			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
-		merchandiseService.delMer(merchandise.getMerchandiseid());;
+		//merchandiseService.delMer(merchandise.getMerchandiseid());;
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	
