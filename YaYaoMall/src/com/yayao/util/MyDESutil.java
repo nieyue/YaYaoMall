@@ -20,7 +20,7 @@ public class MyDESutil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getSHA(Object obj) throws Exception{
+	public static String getSHA(Object obj){
 	 String sha1 = DigestUtils.sha1Hex(obj+SHA_SLAT);
 		return sha1;
 	}
@@ -30,7 +30,7 @@ public class MyDESutil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getMD5(Object obj) throws Exception{
+	public static String getMD5(Object obj){
 		String md5 = DigestUtils.md5Hex(obj+MD5_SLAT);
 		return md5;
 	}

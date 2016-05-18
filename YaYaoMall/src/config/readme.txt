@@ -47,3 +47,11 @@ private Set<Teacher> teacher;
 	
 @ManyToMany(mappedBy="teacher")
 private Set<Student> stus;//学生是主控方。教师是被控方
+
+/**
+**业务权限说明
+*/
+//增/删/改/必须确定当前商户会话存在，且会话商户id==传入的商户id,确保安全
+if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
+				return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
+}

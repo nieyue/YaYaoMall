@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 @Entity
-@Table(name="merseller_tb",catalog="YaYaoMall_db")
+@Table(name="seller_tb",catalog="YaYaoMall_db")
 @JsonIgnoreProperties(value="sellerPassword")
 public class Seller implements Serializable {
 	/**

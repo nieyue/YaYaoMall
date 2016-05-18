@@ -42,7 +42,7 @@ public class MerCategoryController {
 	@RequestMapping(value = "/browseMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody List<MerCategory> browseMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("sellerid") Integer sellerid)  {
 		List<MerCategory> list = new ArrayList<MerCategory>();
-		if(mercategoryid.equals("0")){//全部查询
+		if(mercategoryid.equals(0)){//全部查询
 			list=merCategoryService.browseMerCategory(sellerid);
 		}else{
 				list.add(merCategoryService.loadMerCategory(sellerid,mercategoryid));
@@ -68,7 +68,7 @@ public class MerCategoryController {
 	@RequestMapping(value = "/addMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody MerCategory addMerCategory(@RequestParam("cateName") String cateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
 		MerCategory merCategory=new MerCategory();
-		if(session.getAttribute("merSeller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merCategory;
 		}
@@ -90,7 +90,7 @@ public class MerCategoryController {
 	@RequestMapping(value = "/updateMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody MerCategory updateMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("newCateName") String newCateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
 		MerCategory oldMerCategory=merCategoryService.loadMerCategory(sellerid, mercategoryid);
-		if(session.getAttribute("merSeller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return oldMerCategory;
 		}

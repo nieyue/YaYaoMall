@@ -66,7 +66,7 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	public MerCategory loadMerCategory(Integer sellerid,Integer mercategoryid) {
 		MerCategory merCategory=null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
-		c.add(Restrictions.eq("merSeller.mersellerid", sellerid));
+		c.add(Restrictions.eq("seller.sellerid", sellerid));
 		c.add(Restrictions.eq("mercategoryid", mercategoryid));
 		merCategory=(MerCategory) c.uniqueResult();
 		return merCategory;
@@ -79,7 +79,7 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	public List<MerCategory> browseMerCategory(Integer sellerid) {
 		List<MerCategory> list = null;
 		Criteria userLevel = getSession().createCriteria(MerCategory.class);
-		userLevel.add(Restrictions.eq("merSeller.mersellerid", sellerid));
+		userLevel.add(Restrictions.eq("seller.sellerid", sellerid));
 		userLevel.addOrder(Order.asc("mercategoryid"));
 		list = userLevel.list();
 		return list;
@@ -91,7 +91,7 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 		boolean status = true;//true代表数据库已经存在
 		MerCategory cate = null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
-		c.add(Restrictions.eq("merSeller.mersellerid", sellerid));
+		c.add(Restrictions.eq("seller.sellerid", sellerid));
 		c.add(Restrictions.eq("cateName", cateName));
 		 cate = (MerCategory) c.uniqueResult();
 		if(cate==null){

@@ -1,5 +1,6 @@
 package com.yayao.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class MerchandiseImgServiceImpl implements MerchandiseImgService {
 
 	/** 新增商品图片 */
 	public void addMerchandiseImg(MerchandiseImg merchandiseImg) {
+		merchandiseImg.setUpdateMerImgTime(new Date());
 		merchandiseImgDao.addMerchandiseImg(merchandiseImg);
 		
 	}

@@ -52,13 +52,13 @@ public class MerchandiseController {
 		MerCategory cate=null;
 		int count=0;
 		List<Merchandise> list = new ArrayList<Merchandise>();
-		if(merchandiseid.equals("0")){
+		if(merchandiseid.equals(0)){
 			cate=null;
 		}else{
 			cate = merCategoryService.loadMerCategory(sellerid,merchandiseid );
 		}
 		count=merchandiseService.countRecord(cate);
-		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)>=count){
+		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)<=count){
 			if(Integer.valueOf(currentCount)%pageSize!=0){//前台页面有问题，需重新获取
 				//每次pageSize个
 				list= merchandiseService.browseMer(pageSize, pageNo, cate, "merchandiseid", "asc");
@@ -82,7 +82,7 @@ public class MerchandiseController {
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Merchandise updateMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
 		Merchandise merchandise=new Merchandise();
-		if(session.getAttribute("merSeller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandise;
 		}
@@ -98,29 +98,25 @@ public class MerchandiseController {
 	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Merchandise addMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO, HttpSession session)  {
 		Merchandise merchandise=new Merchandise();
-		//if(session.getAttribute("merSeller")==null){
-		//	merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-		//	return merchandise;
-		//}
-		//if(merchandiseDTO.getMerCategoryid()!=null){
-			//merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryid(), cateName)
-		//}
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
+			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
+			return merchandise;
+		}
 		BeanUtils.copyProperties(merchandiseDTO, merchandise);//dto复制到bean
 		//查询绑定商品类别
 		if(merchandiseDTO.getSellerid()!=null&&merchandiseDTO.getMerCategoryid()!=null){
 			MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getSellerid(), merchandiseDTO.getMerCategoryid());
 			merchandise.setMerCategory(merCate);
+			merchandiseService.addMer(merchandise);
+			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		}
 		for (int i = 0; i < merchandiseDTO.getMerchandiseImgsid().length; i++) {
 			MerchandiseImg merImg = merchandiseImgService.loadMerchandiseImg(merchandiseDTO.getMerchandiseImgsid()[i]);
 			merImg.setMerchandise(merchandise);
-			System.out.println(merchandiseDTO.getMerchandiseImgsid()[i]);
-			//merchandiseImgService.updateMerchandiseImg(merImg);
+			merchandiseImgService.updateMerchandiseImg(merImg);
 		}
-		
-		//merchandiseService.addMer(merchandise);
-		//merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
-		return merchandise;
+		Merchandise mer = merchandiseService.loadMer(merchandise.getMerchandiseid());//最新数据
+		return mer;
 	}
 	/**
 	 * 商品删除
@@ -128,7 +124,7 @@ public class MerchandiseController {
 	 */
 	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String delMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
-		if(session.getAttribute("merSeller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
 			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
 		//merchandiseService.delMer(merchandise.getMerchandiseid());;

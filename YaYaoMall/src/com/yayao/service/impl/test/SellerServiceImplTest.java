@@ -21,7 +21,7 @@ import com.yayao.util.MyDESutil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:config/applicationContext.xml"})
 @TransactionConfiguration(transactionManager="txManager",defaultRollback = false)//true:始终回滚 false:数据提交
-public class MerSellerServiceImplTest {
+public class SellerServiceImplTest {
 	@Autowired
 	@Qualifier("sellerService")
 	SellerService sellerService;
@@ -56,15 +56,19 @@ public class MerSellerServiceImplTest {
 
 	@Test
 	public void testAddSeller() throws Exception {
-		String sellerName="15555555556";
+		String sellerName="15555555555";
 		String sellerPassword= MyDESutil.getMD5("123456");
+		System.out.println(sellerPassword);
 		boolean status = sellerService.chkLoginName(sellerName);
 		System.out.println(status);
 		if(!status){
 			Seller seller =new Seller();
 			seller.setSellerPhone(sellerName);
+			System.out.println(sellerName);
 			seller.setSellerPassword(sellerPassword);
-			sellerService.addSeller(seller);
+			System.out.println(sellerPassword);
+			boolean s = sellerService.addSeller(seller);
+			System.out.println(s);
 		}
 	}
 

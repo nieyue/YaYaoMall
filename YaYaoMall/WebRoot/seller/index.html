@@ -173,7 +173,7 @@
        		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerIMGS);
        		}
        		$("#sellerAutoLogin").click(function(){
-       		location.replace("/seller/main?sellerid="+myUtils.getCookie("sellerid"));
+       		location.replace("/seller/main");
        		});
        		//登录退出
        		sellerData.sellerLoginOut("#sellerAutoLoginOut");
@@ -199,11 +199,11 @@
       						}else{
       					myUtils.setCookie("sellerloginstate","0",60*60*24*365);
       						}
-      					myUtils.setCookie("sellerid",data.mersellerid,60*60*24*365);
+      					myUtils.setCookie("sellerid",data.sellerid,60*60*24*365);
       					myUtils.setCookie("sellerToken",data.sellerToken,60*60*24*365);
       					sessionStorage.setItem("seller",encode64(JSON.stringify(data)));
       						myUtils.myPrevToast("登录成功",function(){
-      			      			location.replace("/seller/main?sellerid="+myUtils.getCookie("sellerid"));
+      			      			location.replace("/seller/main");
       			      			},"remove");
       					}
       					

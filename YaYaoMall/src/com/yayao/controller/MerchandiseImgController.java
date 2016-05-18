@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
+import com.yayao.bean.Seller;
 import com.yayao.service.MerchandiseImgService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.util.FileUploadUtil;
@@ -37,7 +38,7 @@ public class MerchandiseImgController {
 	private MerchandiseService merchandiseService;
 	
 	/**
-	 * 浏览商品图片
+	 * 浏览单个商品图片
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
@@ -50,9 +51,9 @@ public class MerchandiseImgController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody MerchandiseImg updateMerchandiseImg(@RequestParam("merchandiseimgid")Integer id,HttpSession session,@RequestParam("merFile") MultipartFile file,@RequestParam("sellerid")String sellerid)  {
+	public @ResponseBody MerchandiseImg updateMerchandiseImg(@RequestParam("merchandiseimgid")Integer id,HttpSession session,@RequestParam("merFile") MultipartFile file,@RequestParam("sellerid")Integer sellerid)  {
 		MerchandiseImg merchandiseImg=merchandiseImgService.loadMerchandiseImg(id);
-		if(session.getAttribute("merSeller")==null){
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			merchandiseImg.setMerchandiseImgMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandiseImg;
 		}
@@ -73,9 +74,9 @@ public class MerchandiseImgController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody MerchandiseImg addMerchandiseImg(@RequestParam("merFile") MultipartFile file,HttpSession session,@RequestParam("sellerid")String sellerid )  {
+	public @ResponseBody MerchandiseImg addMerchandiseImg(@RequestParam("merFile") MultipartFile file,HttpSession session,@RequestParam("sellerid")Integer sellerid )  {
 		MerchandiseImg merchandiseImg=new MerchandiseImg();
-		if(session.getAttribute("merSeller")==null){
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			merchandiseImg.setMerchandiseImgMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandiseImg;
 		}
@@ -97,8 +98,8 @@ public class MerchandiseImgController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String delMerchandiseImg(@RequestParam("merchandiseimgid")Integer id,HttpSession session)  {
-		if(session.getAttribute("merSeller")==null){
+	public @ResponseBody String delMerchandiseImg(@RequestParam("merchandiseimgid")Integer id,@RequestParam("sellerid")Integer sellerid,HttpSession session)  {
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
 		MerchandiseImg merimg = merchandiseImgService.loadMerchandiseImg(id);

@@ -9,7 +9,7 @@ var sellerData={
 			$(".right-bar").html("");
     		$(".right-bar").load('/seller/templates/mer_category.html');
     		myUtils.myPrevToast("加载中",function(){
-    			$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.GetQueryString("sellerid")+"&mercategoryid=0",function(data){
+    			$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.getCookie("sellerid")+"&mercategoryid=0",function(data){
     				if(data==null||data==''||data==undefined){
     					$("#merCategoryList").after("<div id='merCategoryEmpty' class='text-center'>你还没有添加分类哦，赶紧添加吧</div>");
     					return;
@@ -37,7 +37,7 @@ var sellerData={
     				$("#errorSellerInfo").text("1-10位，不能有空格");
     				return;
     			}
-    			$.get("/merCategory/addMerCategory.json?sellerid="+myUtils.GetQueryString("sellerid")+"&cateName="+mcv,function(data){
+    			$.get("/merCategory/addMerCategory.json?sellerid="+myUtils.getCookie("sellerid")+"&cateName="+mcv,function(data){
     				if(data.cateMsg=="200"){
     					$("#closeModal").click();
     					console.log(data)
@@ -57,8 +57,8 @@ var sellerData={
 		/**
 		 * 删除商品分类
 		 */
-		delMerCategoryHandler:function(){
-			var thisDelCate=$(this);
+		delMerCategoryHandler:function($obj){
+			var thisDelCate=$obj;
 			//console.log(thisDelCate.parent().parent("tr").attr("data-merCateName"));
 			myUtils.myConfirm("确定删除吗？",function(){
 				$.post("/merCategory/delMerCategory.json",{mercategoryid:thisDelCate.parent().parent("tr").attr("data-mercategoryid"),sellerid:myUtils.getCookie("sellerid")},
@@ -78,8 +78,8 @@ var sellerData={
 		/**
 		 * 修改指定分类
 		 */
-		updateMerCategoryHandler:function(){
-			var thisDelCate=$(this);
+		updateMerCategoryHandler:function($obj){
+			var thisDelCate=$obj;
 			$("#mySellerModalLabel").text("更改商品类别");
     		$("#mySellerModalBody").html("<input type='text'class='form-control' placeholder='类别' id='merCategoryValue' />");
     		$("#errorSellerInfo").text("");
@@ -93,7 +93,6 @@ var sellerData={
     			}
 				$.post("/merCategory/updateMerCategory.json?sellerid="+myUtils.getCookie("sellerid")+"&mercategoryid="+thisDelCate.parent().parent("tr").attr("data-mercategoryid")+"&newCateName="+mcv,
 					function(data){
-					console.log(data);
 					if(data.cateMsg=="200"){
 						$("#closeModal").click();
     					myUtils.myLoadingToast("修改成功", null);
@@ -105,6 +104,116 @@ var sellerData={
     				}
 					});
 					});
+		},
+		/**
+		 * 点击商品管理展示
+		 */
+		showMerchandiseHandler:function(){
+			$(".right-bar").html("");
+    		$(".right-bar").load('/seller/templates/merchandise.html');
+    		myUtils.myPrevToast("加载中",function(){
+    			$.post("/merchandise/browseMerchandise.json?sellerid="+myUtils.getCookie("sellerid")+"&currentCount=1&pageSize=10&merchandiseid=0",function(data){
+    				if(data==null||data==''||data==undefined){
+    					$("#merchandiseList").after("<div class='text-center'>你还没有添加商品哦，赶紧添加吧</div>");
+    					return;
+    				}
+    				for (var i = 0; i < data.length; i++) {
+    					//data[i].merchandiseImgs[0].imgAddress
+    				$("#merchandiseList tbody").append(
+    					"<tr data-merid="+data[i].merchandiseid+"><td class='merdesctd'><input type='checkbox' class='merchandiseCheckbox' >"+
+     					"<img   src='"+data[i].merchandiseImgs[0].imgAddress+"'>"+
+     					"<div>"+data[i].merchandiseName+"</div></td>"+
+     					"<td class='merpricetd'>"+data[i].merchandisePrice+"</td>"+
+     					"<td class='mersoldtd'>"+data[i].merchandiseSold+"</td>"+
+     					"<td class='merstocktd'>"+data[i].merchandiseStock+"</td>"+
+     					"<td class='mercatetd'>"+data[i].merCategory.cateName+"</td>"+
+    				    "<td class='merdatetd'>"+myUtils.timeStampToSimpleDate(data[i].merchandiseUpdateTime)+"</td>"+
+     					"<td class='meroperationtd'>"+
+	 					"<a class='button button-3d button-primary button-tiny myblock'>编辑</a>"+
+	 					"<a class='button button-3d button-inverse button-tiny myblock'>下架</a>"+
+	 					"<a class='button button-3d button-caution button-tiny myblock'>删除</a>"+
+	 					"</td>"+
+  						"</tr>");
+					}
+    				
+    			});
+    		myUtils.myPrevToast("加载完成",null,"remove");
+    		//全选/全不选
+			myUtils.changeAllChecked("#merchandiseCheckboxBoss", ".merchandiseCheckbox");
+		},"add");
+		},
+		/**
+		 * 添加商品图片
+		 */
+		addMerchandiseImgsHandler:function(){
+			$(".right-bar").html("");
+    		$(".right-bar").load('/seller/templates/addmerchandise.html');
+    		//上传图片
+    		 $(document).on("click",".dragMerFileBtn",function(event){
+    			 	var filebtnthis=$(this);
+					var dragMerImgWarp=filebtnthis.prev(".dragMerImgWarp");
+					filebtnthis.next(".dragMerFile").click();
+					filebtnthis.next(".dragMerFile").change(function(){
+    			    myUtils.fileUpload({
+    			    	inputfile:filebtnthis.next(".dragMerFile"),
+    			    	ajaxObj:
+    			    		{
+    	  		  				formData:[{key:"merFile",value:filebtnthis.next(".dragMerFile").get(0).files[0]},{key:"sellerid",value:myUtils.getCookie("sellerid")}],
+    	  		  				url:"/merchandiseImg/addMerchandiseImg.json",
+    	  		  				success:function(merimg){
+    	  		  				console.log(merimg)
+    	  		                myUtils.myPrevToast("上传成功",null,"remove");
+    	  		            	//设定图片显示问题
+            			    	filebtnthis.parent(".dragMerWarp").after(filebtnthis.parent(".dragMerWarp").clone());
+            			    	filebtnthis.css("display","none");
+    	  		              	dragMerImgWarp.children(".dragMerImg").prev().attr("value",merimg.merchandiseimgid);//提交表单用
+    	  		              	dragMerImgWarp.children(".dragMerImg").attr("src",merimg.imgAddress);
+            		      		dragMerImgWarp.css("display","inline-block");
+    	  		  				}
+    	  		  				},
+    			    	dragFn:function(e){
+    			    	//图片排序
+    			   $("#imgwarp ").sortable({
+    			    	opacity: 0.6,
+    			    	items:".dragMerWarp:not(.dragMerWarp:last-child)",
+    			    	placeholder: "divback",
+    			    	update : function(event, ui){       //更新排序之后
+    			              console.log($(this).get(0));
+    			          }
+    			    });
+           		 	$("#imgwarp .dragMerWarp").disableSelection();
+           		 	
+    			    }});
+    			    });
+    			  });
+		},
+		/**
+		 * 添加商品中分类展示
+		 */
+		merCategoryShowInMerchandise:function(){
+			//分类展示
+    		myUtils.myPrevToast("加载中",function(){
+    		$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.getCookie("sellerid")+"&mercategoryid=0",function(data){
+    			$("#addMerCategoryList").append("<a class='button button-small  button-raised  button-primary' id='merAddCate'>添加分类</a>");
+        		$(document).on('click',"#merAddCate",function(){
+        			sellerData.addMerCategoryHandler();
+        		});
+    			if(data==null||data==''||data==undefined){
+    				return;
+    			}
+    			for (var i = 0; i<data.length; i++) {
+				$("#addMerCategoryList").prepend("<label class='radio-inline'><input type='radio' name='merCategoryid' value='"+data[i].mercategoryid+"'>  "+data[i].cateName+"</label>");
+    			}
+    			$("#addMerCategoryList").append("<a class='button button-small button-raised button-caution hide' id='merCancelCate'>取消分类</a>");
+    			$(document).on('click',"input[name='merCategoryid']",function(){
+    				$("#merCancelCate").removeClass("hide");
+    			$(document).on('click',"#merCancelCate",function(){
+    				$("input[name='merCategoryid']").attr("checked",false); 
+    			});
+    			});
+    		});
+    		myUtils.myPrevToast("加载完成",null,"remove");
+    		},"add");
 		},
 		/**
 		 * *登录退出

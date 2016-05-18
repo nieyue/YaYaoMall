@@ -1,5 +1,6 @@
 package com.yayao.controller;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -42,6 +43,8 @@ public class SellerController {
 	 * @param merSeller
 	 * @param modelMap
 	 * @return
+	 * @throws ParseException 
+	 * @throws NumberFormatException 
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/sellerPhoneRegister", method = {RequestMethod.GET,RequestMethod.POST})
@@ -111,7 +114,7 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerLogin", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	Seller sellerLogin(HttpSession session,String sellerName,String sellerPassword) throws Exception {
+	Seller sellerLogin(HttpSession session,String sellerName,String sellerPassword) {
 		boolean status = sellerService.chkLoginName(sellerName);
 		if(status&&sellerPassword!=null){
 			String shaup =  MyDESutil.getMD5(sellerPassword);
@@ -137,16 +140,16 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerAutoLogin", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	Seller sellerAutoLogin(HttpSession session,String sellerid,String sellerloginstate,String sellerToken) throws Exception {
+	Seller sellerAutoLogin(HttpSession session,Integer sellerid,String sellerloginstate,String sellerToken){
 		Seller seller=new Seller();
 		//如果会话存在
-		if(session.getAttribute("merSeller")!=null){
+		if(session.getAttribute("seller")!=null&&((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid)){
 			seller=(Seller) session.getAttribute("seller");
 			seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 			return seller;
 		}
 		//如何会话不存在，新会话
-		if(NumberUtil.isNumeric(sellerid)&&sellerToken!=null){
+		if(sellerToken!=null){
 			//没有设置自动登录
 			if(sellerloginstate.equals("0")){
 				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
@@ -172,7 +175,7 @@ public class SellerController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/sellerLoginOut", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody void sellerLoginOut(HttpSession session) throws Exception {
+	public @ResponseBody void sellerLoginOut(HttpSession session) {
 		if(session.getAttribute("seller")!=null){
 			session.invalidate();
 		}

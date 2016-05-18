@@ -110,7 +110,7 @@ public class UserControllerTest {
 		}*/
 		//调用路径
 		 //this.mockMvc.perform(post("/merCategory/browseMerCategory.json?cateName=绿茶&sellerid=7"))
-		this.mockMvc.perform(post("/merchandise/addMerchandise.json?merchandiseName=sdaf&merchandisePrice=43&merchandiseStock=3&merchandiseCode=dsaf&merCategory=52&merchandisePostage=43&merchandiseImgs=60&merchandiseImgs=61"))
+		this.mockMvc.perform(post("/merchandise/addMerchandise.json?merchandiseName=sdaf&merchandisePrice=43&merchandiseStock=3&merchandiseCode=dsaf&sellerid=8&merCategoryid=52&merchandisePostage=43&merchandiseImgsid=60&merchandiseImgsid=61"))
        // .andExpect(status().isOk())
           .andDo(print());  ;
 	}

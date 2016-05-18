@@ -118,6 +118,8 @@ public class Test {
 	    //new MyFile().createFile("c:/temp", "/sellerid/黑茶/11.txt");
 	    //new MyFile().delFile("c:/temp", "/sellerid/11.txt");
 	    //new MyFile().delDir("c:/temp/sellerid");
+	    	System.out.println(aaaaaa);
 		}
+	static int aaaaaa;
 
 }
