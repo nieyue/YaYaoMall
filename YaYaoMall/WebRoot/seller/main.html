@@ -172,6 +172,7 @@
        <script src="/resources/js/jquery2.1.js"></script>  
        <script src="/resources/js/bootstrap3.2.0.js"></script>
        <script src="/resources/js/jqueryui1.11.4.min.js"></script>
+        <script src="/resources/js/sortable.min.js"></script>
         <script src="/resources/js/buttons.js"></script>
        <script src="/resources/js/base64.js"></script> 
        <script src="/resources/js/base.js"></script> 
@@ -239,9 +240,9 @@
         	//商品添加图片
         	$(document).on('click','#addMerchandiseBtn',function(){
               sellerData.addMerchandiseImgsHandler();
-        	});
         	//商品中分类展示
               sellerData.merCategoryShowInMerchandise();
+        	});
         	
         	//商品添加实体
         	$(document).on('click','#addMerchandiseSubmit',function(){
@@ -260,6 +261,9 @@
         				}
         				if(!myUtils.userVerification.merPrice.test($("#addMerchandiseOldPrice").val())){
         					return myUtils.myLoadingToast("商品价格必须为合法数字(正数，最多两位小数)", null);
+        				}
+        				if(!myUtils.userVerification.merDiscount.test($("#addMerDiscount").val())){
+        					return myUtils.myLoadingToast("商品折扣范围0.01-1.00，选填，默认1.00", null);
         				}
         				if(!myUtils.userVerification.merPrice.test($("#addMerchandisePrice").val())){
         					return myUtils.myLoadingToast("商品价格必须为合法数字(正数，最多两位小数)", null);
@@ -282,7 +286,9 @@
                     			myUtils.myPrevToast("添加失败",null,"remove");
                     			myUtils.myLoadingToast("请重新添加", null);
                     			}
-                    				$("#addMerchandiseBtn").click();
+                    		//复原
+                    		sellerData.addMerchandiseImgsHandler();
+                            sellerData.merCategoryShowInMerchandise();
                     		}});
                     		},"add");  
                 	});

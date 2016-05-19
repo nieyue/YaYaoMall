@@ -74,7 +74,7 @@ public class MerCategoryServiceImplTest {
 		//merCategory.setMerSeller(merSeller);
 		//merCategory.setMercategoryid(5);
 		//merCategoryService.updateMerCategory(merCategory);
-		merCategoryService.delMerCategory(7,36);
+		merCategoryService.delMerCategory(36);
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class MerCategoryServiceImplTest {
 
 	@Test
 	public void testLoadMerCategory() {
-		MerCategory mercate = merCategoryService.loadMerCategory(1,5);
+		MerCategory mercate = merCategoryService.loadMerCategory(5);
 	System.out.println(mercate.getCateDate());
 	}
 

@@ -1,5 +1,6 @@
 package com.yayao.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
 import com.yayao.dao.MerchandiseDao;
 
@@ -37,13 +37,14 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	 * 新增商品 
 	 */
 	public void addMer(Merchandise merchandise) {
+		merchandise.setMerchandiseUpdateTime(new Date());
 		getSession().save(merchandise);
 	}
 
 	/**
 	 * 删除指定的商品 
 	 */
-	public void delMer(Integer sellerid,Integer merchandiseid) {
+	public void delMer(Integer merchandiseid) {
 		getSession().delete(loadMer(merchandiseid));
 	}
 
@@ -51,6 +52,7 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	 * 更新商品 
 	 */
 	public void updateMer(Merchandise merchandise) {
+		merchandise.setMerchandiseUpdateTime(new Date());
 		getSession().update(merchandise);
 	}
 
@@ -64,13 +66,33 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	}
 
 	/**
-	 * 浏览商品 
+	 * 浏览类别商品 ，若为0浏览所有
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Merchandise> browseMer(MerCategory merchandise,String orderName,String orderWay) {
+	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,String orderName,String orderWay) {
 		Criteria c = getSession().createCriteria(Merchandise.class);
-		if(merchandise!=null){
-			c.add(Restrictions.eq("merCategory", merchandise));
+		if(mercategoryid!=0){
+			c.add(Restrictions.eq("merCategory.mercategoryid",mercategoryid));
+		}
+		switch (orderWay) {
+		case "asc":
+			c.addOrder(Order.asc(orderName));
+			break;
+		case "desc":
+			c.addOrder(Order.desc(orderName));
+			break;
+		}
+		List<Merchandise> list = c.list();
+		return list;
+	}
+	/**
+	 *  根据商家浏览商品 ，若为0浏览所有
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Merchandise> browseMerBySeller(Integer sellerid,String orderName,String orderWay) {
+		Criteria c = getSession().createCriteria(Merchandise.class);
+		if(sellerid!=0){
+			c.add(Restrictions.eq("seller.sellerid", sellerid));
 		}
 		switch (orderWay) {
 		case "asc":
@@ -85,14 +107,37 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	}
 
 	/**
-	 * 分页浏览商品 
+	 * 根据类别分页浏览商品 ，若为0浏览所有
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Merchandise> browseMer(int pageSize, int pageNo, MerCategory merchandise,String orderName,String orderWay) {
+	public List<Merchandise> browseMerByMerCate(int pageSize, int pageNo, Integer mercategoryid,String orderName,String orderWay) {
 		List<Merchandise> list = null;
 		Criteria c = getSession().createCriteria(Merchandise.class);
-		if(merchandise!=null){
-			c.add(Restrictions.eq("merCategory", merchandise));
+		if(mercategoryid!=0){
+			c.add(Restrictions.eq("merCategory.mercategoryid", mercategoryid));
+		}
+		switch (orderWay) {
+		case "asc":
+			c.addOrder(Order.asc(orderName));
+			break;
+		case "desc":
+			c.addOrder(Order.desc(orderName));
+			break;
+		}
+		c.setFirstResult((pageNo-1)*pageSize);
+		c.setMaxResults(pageSize);
+		list = c.list();
+		return list;
+	}
+	/**
+	 * 根据商家分页浏览商品 ，若为0浏览所有
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Merchandise> browseMerBySeller(int pageSize, int pageNo,Integer sellerid,String orderName,String orderWay) {
+		List<Merchandise> list = null;
+		Criteria c = getSession().createCriteria(Merchandise.class);
+		if(sellerid!=0){
+			c.add(Restrictions.eq("seller.sellerid", sellerid));
 		}
 		switch (orderWay) {
 		case "asc":
@@ -110,15 +155,15 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 
 	
 	/**
-	**后台检索商品（按商品模糊名称） 
+	**后台检索商品（按商品模糊名称） ，若为0浏览所有
 	** 
 	*/
 	@SuppressWarnings("unchecked")
-	public List<Merchandise> searchMerchandise(MerCategory merchandise,String merName) {
+	public List<Merchandise> searchMerchandise(Integer sellerid,String merName) {
 		List<Merchandise> list=null;
 		Criteria criteria = getSession().createCriteria(Merchandise.class);
-		if(merchandise!=null){
-			criteria.add(Restrictions.eq("merCategory", merchandise));
+		if(sellerid!=0){
+			criteria.add(Restrictions.eq("seller.sellerid", sellerid));
 		}
 		criteria.add(Restrictions.like("merchandiseName", "%"+merName+"%"));
 		list=criteria.list();
@@ -129,11 +174,16 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	 * 统计记录条数 
 	 */
 	@SuppressWarnings("unchecked")
-	public int countRecord(MerCategory merchandise) {
+	public int countRecord(Integer sellerid,Integer mercategoryid) {
 		List<Merchandise> list=null;
 		Criteria criteria = getSession().createCriteria(Merchandise.class);
-		if(merchandise!=null){
-			criteria.add(Restrictions.eq("merCategory", merchandise));
+		if(sellerid==0&&mercategoryid!=0){//只查询一个类别所有商品记录
+			criteria.add(Restrictions.eq("merCategory.mercategoryid", mercategoryid));
+		}else if(mercategoryid==0&&sellerid!=0){//只查询一个商户所有商品记录
+			criteria.add(Restrictions.eq("seller.sellerid", sellerid));
+		}else if(mercategoryid!=0&&sellerid!=0){//只查询一个商户下的一个类别所有商品记录，同上上
+			criteria.add(Restrictions.eq("seller.sellerid", sellerid));
+			criteria.add(Restrictions.eq("merCategory.mercategoryid", mercategoryid));
 		}
 		list=criteria.list();
 		return list.size();

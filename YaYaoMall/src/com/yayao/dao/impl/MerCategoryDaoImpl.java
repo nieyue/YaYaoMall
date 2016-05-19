@@ -44,29 +44,24 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	 * 更新商品分类 
 	 */
 	public void updateMerCategory(MerCategory merCategory) {
-		if(merCategory!=null){
 			getSession().update(merCategory);
-		}
 	}
 
 
 	/**
 	 * 删除指定的商品分类 
 	 */
-	public void delMerCategory(Integer sellerid,Integer mercategoryid) {
+	public void delMerCategory(Integer mercategoryid) {
 		MerCategory merCategory = (MerCategory) getSession().get(MerCategory.class, mercategoryid);
-		if(merCategory!=null&&merCategory.getSeller().getSellerid().equals(sellerid)){
 			getSession().delete(merCategory);
-		}
 	}
 
 	/**
 	 * 装载指定商户的商品分类 
 	 */
-	public MerCategory loadMerCategory(Integer sellerid,Integer mercategoryid) {
+	public MerCategory loadMerCategory(Integer mercategoryid) {
 		MerCategory merCategory=null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
-		c.add(Restrictions.eq("seller.sellerid", sellerid));
 		c.add(Restrictions.eq("mercategoryid", mercategoryid));
 		merCategory=(MerCategory) c.uniqueResult();
 		return merCategory;
@@ -79,7 +74,9 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	public List<MerCategory> browseMerCategory(Integer sellerid) {
 		List<MerCategory> list = null;
 		Criteria userLevel = getSession().createCriteria(MerCategory.class);
-		userLevel.add(Restrictions.eq("seller.sellerid", sellerid));
+		if(sellerid!=0){
+			userLevel.add(Restrictions.eq("seller.sellerid", sellerid));
+		}
 		userLevel.addOrder(Order.asc("mercategoryid"));
 		list = userLevel.list();
 		return list;

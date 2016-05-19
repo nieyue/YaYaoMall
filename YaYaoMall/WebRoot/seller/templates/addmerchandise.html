@@ -9,9 +9,9 @@
    <input type="hidden" name="sellerid" id="mersellerid"/>
    </div>
    <div id="imgwarp">
-            <div class="dragMerWarp">
+            <div class="dragMerWarp nodrag">
             	<div class="dragMerImgWarp">
-             <input type="hidden" name="merchandiseImgsid" class="merchandiseImgsid"/>
+             <input type="hidden"  class="merchandiseImgsid"/>
              <img class="dragMerImg" src="/resources/img/preLoding.jpg"/>
             <!-- <div style="display:block;width:100px;height:20px; line-height:100px;cursor:pointer;z-index:99999;position:absolute;top:0;left:0;">
             	<div style="width:50%">替换</div>
@@ -36,9 +36,16 @@
      <label for="addMerchandiseOldPrice" class="col-sm-1 control-label">元</label>
   </div>
   <div class="form-group">
-    <label for="addMerchandisePrice" class="col-sm-2 control-label">价格</label>
+    <label for="addMerDiscount" class="col-sm-2 control-label">折扣</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="addMerchandisePrice" name="merchandisePrice" placeholder="正数，最多两位小数">
+      <input type="text" class="form-control" id="addMerDiscount" name="merDiscount" placeholder="0.01-1.00，选填，默认1.00">
+    </div>
+     <label for="addMerDiscount" class="col-sm-1 control-label">折</label>
+  </div>
+  <div class="form-group hide" id="addMerchandisePriceDiv">
+    <label for="addMerchandisePrice" class="col-sm-2 control-label">销售价格</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="addMerchandisePrice" readonly="readonly" name="merchandisePrice" placeholder="正数，最多两位小数">
     </div>
      <label for="addMerchandisePrice" class="col-sm-1 control-label">元</label>
   </div>
@@ -64,7 +71,7 @@
   <div class="form-group">
     <label for="addMerchandisePostage" class="col-sm-2 control-label">邮费</label>
     <div class="col-sm-10" style="line-height: 37px;">
-      <input type="number" class="form-control" id="addMerchandisePostage"  name="merchandisePostage" placeholder="选填，不填或填‘0’为包邮">
+      <input type="number" class="form-control" id="addMerchandisePostage"  name="merchandisePostage" placeholder="选填，不填为包邮">
     </div>
   </div>
  

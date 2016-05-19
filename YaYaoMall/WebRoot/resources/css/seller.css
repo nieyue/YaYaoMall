@@ -368,7 +368,7 @@ body{
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 }
-.merpricetd,.mersoldtd,.merstocktd,.mercatetd,.merdatetd{
+.merpostagetd,.meroldpricetd,.merdiscounttd,.merpricetd,.mersoldtd,.merstocktd,.mercatetd,.merdatetd{
 		line-height: 80px !important;
 	}
 @media screen and (max-width:760px){

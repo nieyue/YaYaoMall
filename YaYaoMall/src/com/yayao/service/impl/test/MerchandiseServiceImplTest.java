@@ -58,12 +58,12 @@ public class MerchandiseServiceImplTest {
 	@Test
 	public void testAddMer() {
 		Merchandise mer=new Merchandise();
-		MerCategory mercate = merCategoryService.loadMerCategory(7,5);
+		MerCategory mercate = merCategoryService.loadMerCategory(5);
 		mer.setMerCategory(mercate);
 		mer.setMerchandiseCode("sr1d55");
 		Seller merSeller = new Seller();
 		merSeller.setSellerid(7);
-		mer.setMerSeller(merSeller);
+		mer.setSeller(merSeller);
 		//mer.setMerchandiseImg("http://wd.geilicdn.com/vshop333816149-1457603308132-5927369.jpg?w=1080&h=0");
 		mer.setMerchandiseName("施兆鹏八十大寿礼茶 湖南安化黑茶 金花茯砖 收藏茶 盒装1936g");
 		mer.setMerchandiseOldPrice(2980.00);
@@ -84,12 +84,12 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testUpdateMer() {
-		List<Merchandise> list = merchandiseService.browseMer(null, "merchandiseid", "asc");
+		List<Merchandise> list = merchandiseService.browseMerBySeller(0, "merchandiseid", "asc");
 		System.out.println(list);
 		for (int i = 0; i < list.size(); i++) {
 			Merchandise merchandise = list.get(i);
 			Seller seller =merchandise.getMerCategory().getSeller();
-			merchandise.setMerSeller(seller);
+			merchandise.setSeller(seller);
 			merchandiseService.updateMer(merchandise);
 		}
 		//Merchandise mer = merchandiseService.loadMer(1);
@@ -107,9 +107,9 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testBrowseMerString() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,6);
+		MerCategory cate = merCategoryService.loadMerCategory(6);
 		System.out.println(cate);
-		List<Merchandise> list = merchandiseService.browseMer(null, "merchandiseSold","desc");
+		List<Merchandise> list = merchandiseService.browseMerBySeller(0, "merchandiseSold","desc");
 	for (int i = 0; i < list.size(); i++) {
 		
 		System.out.println(list.get(i));
@@ -118,9 +118,9 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testBrowseMerIntIntInt() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,7);
+		MerCategory cate = merCategoryService.loadMerCategory(7);
 		System.out.println(cate);
-		List<Merchandise> list = merchandiseService.browseMer(10,1,null, "merchandiseSold","des");
+		List<Merchandise> list = merchandiseService.browseMerBySeller(10, 1, 0, "merchandiseSold","des");
 	for (int i = 0; i < list.size(); i++) {
 		
 		System.out.println((list.get(0).getMerchandiseUpdateTime()).before(list.get(1).getMerchandiseUpdateTime()));
@@ -130,9 +130,9 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testSearchMer() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,7);
+		MerCategory cate = merCategoryService.loadMerCategory(7);
 		System.out.println(cate);
-		List<Merchandise> list = merchandiseService.searchMerchandise(cate, "为人民服务");
+		List<Merchandise> list = merchandiseService.searchMerchandise(0, "为人民服务");
 	for (int i = 0; i < list.size(); i++) {
 		
 		System.out.println(list.get(i));
@@ -146,8 +146,7 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testCountRecord() {
-		MerCategory cate = merCategoryService.loadMerCategory(1,7);
-		int aa = merchandiseService.countRecord(cate);
+		int aa = merchandiseService.countRecord(0, 0);
 			System.out.println(aa);
 	}
 

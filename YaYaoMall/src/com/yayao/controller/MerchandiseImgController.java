@@ -8,14 +8,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
 import com.yayao.bean.Seller;
 import com.yayao.service.MerchandiseImgService;
@@ -42,8 +40,8 @@ public class MerchandiseImgController {
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<MerchandiseImg> browseMerchandiseImg(@ModelAttribute Merchandise merchandise,HttpSession session)  {
-			List<MerchandiseImg> list = merchandiseImgService.browseMerchandiseImg(merchandise, "updateMerImgTime", "asc");
+	public @ResponseBody List<MerchandiseImg> browseMerchandiseImg(@RequestParam Integer merchandiseid,HttpSession session)  {
+			List<MerchandiseImg> list = merchandiseImgService.browseMerchandiseImg(merchandiseid, "updateMerImgTime", "asc");
 			return list;
 	}
 	/**

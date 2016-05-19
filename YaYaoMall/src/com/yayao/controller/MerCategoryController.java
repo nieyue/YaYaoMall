@@ -36,17 +36,14 @@ public class MerCategoryController {
 	@Resource(name = "sellerService")
 	private SellerService sellerService;
 	/**
-	 * 浏览商家 分类（含单个查询（用cateName））
+	 * 浏览商家 分类 sellerid==0浏览所有
+	 * sellerid=指定id 浏览指定id商家
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<MerCategory> browseMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("sellerid") Integer sellerid)  {
+	public @ResponseBody List<MerCategory> browseMerCategory(@RequestParam("sellerid") Integer sellerid)  {
 		List<MerCategory> list = new ArrayList<MerCategory>();
-		if(mercategoryid.equals(0)){//全部查询
-			list=merCategoryService.browseMerCategory(sellerid);
-		}else{
-				list.add(merCategoryService.loadMerCategory(sellerid,mercategoryid));
-		}
+		list=merCategoryService.browseMerCategory(sellerid);
 		return list;
 	}
 	/**
@@ -58,7 +55,7 @@ public class MerCategoryController {
 		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 				return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 			}
-			merCategoryService.delMerCategory(sellerid,mercategoryid);
+			merCategoryService.delMerCategory(mercategoryid);
 			return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
@@ -89,7 +86,7 @@ public class MerCategoryController {
 	 */
 	@RequestMapping(value = "/updateMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody MerCategory updateMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("newCateName") String newCateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
-		MerCategory oldMerCategory=merCategoryService.loadMerCategory(sellerid, mercategoryid);
+		MerCategory oldMerCategory=merCategoryService.loadMerCategory(mercategoryid);
 		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return oldMerCategory;

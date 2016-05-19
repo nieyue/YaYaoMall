@@ -285,7 +285,7 @@ public class Merchandise implements Serializable{
 	}
 
 
-	public void setMerSeller(Seller seller) {
+	public void setSeller(Seller seller) {
 		this.seller = seller;
 	}
 

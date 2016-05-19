@@ -51,6 +51,10 @@ public class MerchandiseImg implements Serializable{
 	 */
 	private String thumbImgAddress;
 	/**
+	 * 商品图片排序
+	 */
+	private Integer merImgOrder;
+	/**
 	 * 更新创建时间
 	 */
 	private Date updateMerImgTime;
@@ -63,7 +67,8 @@ public class MerchandiseImg implements Serializable{
 		super();
 	}
 	public MerchandiseImg(Integer merchandiseimgid, Merchandise merchandise,
-			String imgAddress, String thumbImgAddress,Date updateMerImgTime,String merchandiseImgMsg) {
+			String imgAddress, String thumbImgAddress,Date updateMerImgTime,
+			String merchandiseImgMsg, Integer merImgOrder) {
 		super();
 		this.merchandiseimgid = merchandiseimgid;
 		this.merchandise = merchandise;
@@ -71,6 +76,7 @@ public class MerchandiseImg implements Serializable{
 		this.thumbImgAddress=thumbImgAddress;
 		this.updateMerImgTime=updateMerImgTime;
 		this.merchandiseImgMsg=merchandiseImgMsg;
+		this.merImgOrder=merImgOrder;
 	}
 	public Integer getMerchandiseimgid() {
 		return merchandiseimgid;
@@ -107,6 +113,12 @@ public class MerchandiseImg implements Serializable{
 	}
 	public void setMerchandiseImgMsg(String merchandiseImgMsg) {
 		this.merchandiseImgMsg = merchandiseImgMsg;
+	}
+	public Integer getMerImgOrder() {
+		return merImgOrder;
+	}
+	public void setMerImgOrder(Integer merImgOrder) {
+		this.merImgOrder = merImgOrder;
 	}
 	
 }

@@ -36,9 +36,9 @@ public class MerCategoryServiceImpl implements MerCategoryService {
 	}
 	
 	/** 删除指定的商品分类 */	
-	public void delMerCategory(Integer sellerid, Integer mercategoryid) {
+	public void delMerCategory( Integer mercategoryid) {
 		
-		merCategoryDao.delMerCategory(sellerid,mercategoryid);
+		merCategoryDao.delMerCategory(mercategoryid);
 
 	}
 	/** 浏览商品分类 */
@@ -47,8 +47,8 @@ public class MerCategoryServiceImpl implements MerCategoryService {
 		return l;
 	}
 	/** 装载指定的商品分类 */
-	public MerCategory loadMerCategory(Integer sellerid,Integer mercategoryid) {
-		MerCategory ml = merCategoryDao.loadMerCategory(sellerid,mercategoryid);
+	public MerCategory loadMerCategory(Integer mercategoryid) {
+		MerCategory ml = merCategoryDao.loadMerCategory(mercategoryid);
 		return ml;
 	}
 	/** 检查商品分类存在否 */

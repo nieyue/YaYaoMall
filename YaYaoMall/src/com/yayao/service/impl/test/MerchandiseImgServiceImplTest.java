@@ -69,8 +69,7 @@ public class MerchandiseImgServiceImplTest {
 
 	@Test
 	public void testUpdateMerchandiseImg() {
-		Merchandise mer = merchandiseService.loadMer(1);
-		List<MerchandiseImg> list = merchandiseImgService.browseMerchandiseImg(mer, "merchandiseimgid", "asc");
+		List<MerchandiseImg> list = merchandiseImgService.browseMerchandiseImg(1, "merchandiseimgid", "asc");
 		StringBuffer imgsbuffer = new StringBuffer();
 		//String imgs="";
 		for (int i =0; i <list.size(); i++) {

@@ -1,12 +1,12 @@
 package com.yayao.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.yayao.bean.MerCategory;
 import com.yayao.bean.Merchandise;
 import com.yayao.dao.MerchandiseDao;
 import com.yayao.service.MerchandiseService;
@@ -25,13 +25,15 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
 	/** 新增商品 */	
 	public void addMer(Merchandise merchandise) {
+		merchandise.setMerchandiseStatus("上架");//初始化
+		merchandise.setMerchandiseUpdateTime(new Date());
 		merchandiseDao.addMer(merchandise);
 		
 	}
 
 	/** 删除指定的商品 */
-	public void delMer(Integer sellerid,Integer merchandiseid) {
-		merchandiseDao.delMer(sellerid,merchandiseid);
+	public void delMer(Integer merchandiseid) {
+		merchandiseDao.delMer(merchandiseid);
 		
 	}
 
@@ -47,28 +49,44 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		return mer;
 	}
 
-	/** 浏览商品 */
-	public List<Merchandise> browseMer(MerCategory merchandise,String orderName,String orderWay) {
-		List<Merchandise> list = merchandiseDao.browseMer(merchandise, orderName,orderWay);
+	/** 浏览类别商品 */
+	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,
+			String orderName, String orderWay) {
+		List<Merchandise> list = merchandiseDao.browseMerByMerCate(mercategoryid, orderName,orderWay);
 		return list;
 	}
 
-	/** 分页浏览商品 */
-	public List<Merchandise> browseMer(int pageSize, int pageNo,MerCategory merchandise,String orderName,String orderWay) {
-		List<Merchandise> list = merchandiseDao.browseMer(pageSize,pageNo,merchandise, orderName,orderWay);
+	/** 根据商家浏览商品 */
+	public List<Merchandise> browseMerBySeller(Integer sellerid,
+			String orderName, String orderWay) {
+		List<Merchandise> list = merchandiseDao.browseMerBySeller(sellerid, orderName,orderWay);
 		return list;
+	}
+
+	/** 根据类别分页浏览商品 */
+	public List<Merchandise> browseMerByMerCate(int pageSize, int pageNo,
+			Integer mercategoryid, String orderName, String orderWay) {
+		List<Merchandise> merlist = merchandiseDao.browseMerByMerCate(pageSize, pageNo, mercategoryid, orderName, orderWay);
+		return merlist;
+	}
+
+	/** 根据商家分页浏览商品 */
+	public List<Merchandise> browseMerBySeller(int pageSize, int pageNo,
+			Integer sellerid, String orderName, String orderWay) {
+		List<Merchandise> merlist = merchandiseDao.browseMerBySeller(pageSize, pageNo, sellerid, orderName, orderWay);
+		return merlist;
 	}
 
 	/** 后台检索商品（按商品模糊名称） */
-	public List<Merchandise> searchMerchandise(MerCategory cate,String merName) {
-		List<Merchandise> l = merchandiseDao.searchMerchandise(cate, merName);
-		return l;
+	public List<Merchandise> searchMerchandise(Integer sellerid, String merName) {
+		List<Merchandise> merlist = merchandiseDao.searchMerchandise(sellerid,merName);
+		return merlist;
 	}
 
 	/** 统计记录条数 */
-	public int countRecord(MerCategory cate) {
-		int num = merchandiseDao.countRecord(cate);
-		return num;
+	public int countRecord(Integer sellerid, Integer mercategoryid) {
+		int cr = merchandiseDao.countRecord(sellerid, mercategoryid);
+		return cr;
 	}
 	
 	

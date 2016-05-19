@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
 import com.yayao.dao.MerchandiseImgDao;
 import com.yayao.service.MerchandiseImgService;
@@ -31,8 +30,8 @@ public class MerchandiseImgServiceImpl implements MerchandiseImgService {
 		
 	}
 	/** 删除指定的商品图片 */
-	public void delMerchandiseImg(Integer id) {
-		merchandiseImgDao.delMerchandiseImg(id);
+	public void delMerchandiseImg(Integer merchandiseimgid) {
+		merchandiseImgDao.delMerchandiseImg(merchandiseimgid);
 		
 	}
 	/** 更新商品图片 */
@@ -41,14 +40,14 @@ public class MerchandiseImgServiceImpl implements MerchandiseImgService {
 		
 	}
 	/** 装载指定的商品图片 */
-	public MerchandiseImg loadMerchandiseImg(Integer id) {
-		MerchandiseImg ml = merchandiseImgDao.loadMerchandiseImg(id);
+	public MerchandiseImg loadMerchandiseImg(Integer merchandiseimgid) {
+		MerchandiseImg ml = merchandiseImgDao.loadMerchandiseImg(merchandiseimgid);
 		return ml;
 	}
 	/** 浏览商品图片 */
-	public List<MerchandiseImg> browseMerchandiseImg(Merchandise merchandise,
+	public List<MerchandiseImg> browseMerchandiseImg(Integer merchandiseimgid,
 			String orderName, String orderWay) {
-		List<MerchandiseImg> l = merchandiseImgDao.browseMerchandiseImg(merchandise, orderName, orderWay);
+		List<MerchandiseImg> l = merchandiseImgDao.browseMerchandiseImg(merchandiseimgid, orderName, orderWay);
 		return l;
 	}
 	/** 图片地址查询商品图片 */	

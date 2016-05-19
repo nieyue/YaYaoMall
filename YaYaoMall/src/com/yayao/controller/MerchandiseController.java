@@ -23,6 +23,7 @@ import com.yayao.dto.MerchandiseDTO;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseImgService;
 import com.yayao.service.MerchandiseService;
+import com.yayao.service.SellerService;
 import com.yayao.util.NumberUtil;
 import com.yayao.util.StatusCode;
 /**
@@ -41,27 +42,22 @@ public class MerchandiseController {
 	private MerchandiseService merchandiseService;
 	@Resource(name = "merchandiseImgService")
 	private MerchandiseImgService merchandiseImgService;
+	@Resource(name = "sellerService")
+	private SellerService sellerService;
 	
 	/**
-	 * 分段获取所有商品
+	 * 浏览商家的获取所有商品
 	 * @return
 	 */
-	@RequestMapping(value = "/browseMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("sellerid") Integer sellerid,@RequestParam("currentCount")String currentCount,@RequestParam("pageSize") Integer pageSize,@RequestParam("merchandiseid")Integer merchandiseid,HttpSession session)  {
+	@RequestMapping(value = "/browseMerBySeller", method = {RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("sellerid") Integer sellerid,@RequestParam("currentCount")String currentCount,@RequestParam("pageSize") Integer pageSize,HttpSession session)  {
 		int pageNo=1;//初始化
-		MerCategory cate=null;
 		int count=0;
 		List<Merchandise> list = new ArrayList<Merchandise>();
-		if(merchandiseid.equals(0)){
-			cate=null;
-		}else{
-			cate = merCategoryService.loadMerCategory(sellerid,merchandiseid );
-		}
-		count=merchandiseService.countRecord(cate);
+		count=merchandiseService.countRecord(sellerid, 0);//查询一个商户的所有商品，不分类别
 		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)<=count){
 			if(Integer.valueOf(currentCount)%pageSize!=0){//前台页面有问题，需重新获取
-				//每次pageSize个
-				list= merchandiseService.browseMer(pageSize, pageNo, cate, "merchandiseid", "asc");
+				list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerid, "merchandiseid", "asc");
 				return list;
 			}
 			//
@@ -70,10 +66,10 @@ public class MerchandiseController {
 			if(count<pageSize*pageNo){
 				return list;
 			}
-			list= merchandiseService.browseMer(pageSize, pageNo, cate, "merchandiseid", "asc");
+			list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerid, "merchandiseid", "asc");
 			return list;
 		}
-		return null;
+		return list;
 	}
 	/**
 	 * 商品修改
@@ -81,15 +77,28 @@ public class MerchandiseController {
 	 */
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Merchandise updateMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
-		Merchandise merchandise=new Merchandise();
+		Merchandise merchandise=merchandiseService.loadMer(merchandiseDTO.getMerchandiseid());
 		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandise;
 		}
 		BeanUtils.copyProperties(merchandiseDTO, merchandise);
-		//merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
-		//merchandiseService.updateMer(merchandise);
-		return merchandise;
+		//查询绑定商品类别
+		if(merchandiseDTO.getSellerid()!=0){
+					Seller seller = sellerService.loadSeller(merchandiseDTO.getSellerid());
+					merchandise.setSeller(seller);
+					MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryid());
+					merchandise.setMerCategory(merCate);
+					merchandiseService.addMer(merchandise);
+					merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		}
+		for (int i = 0;i < merchandiseDTO.getMerchandiseImgsid().length; i++) {
+					MerchandiseImg merImg = merchandiseImgService.loadMerchandiseImg(merchandiseDTO.getMerchandiseImgsid()[i]);
+					merImg.setMerchandise(merchandise);
+					merchandiseImgService.updateMerchandiseImg(merImg);
+		}
+				Merchandise mer = merchandiseService.loadMer(merchandise.getMerchandiseid());//最新数据
+				return mer;
 	}
 	/**
 	 * 商品增加
@@ -104,8 +113,10 @@ public class MerchandiseController {
 		}
 		BeanUtils.copyProperties(merchandiseDTO, merchandise);//dto复制到bean
 		//查询绑定商品类别
-		if(merchandiseDTO.getSellerid()!=null&&merchandiseDTO.getMerCategoryid()!=null){
-			MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getSellerid(), merchandiseDTO.getMerCategoryid());
+		if(merchandiseDTO.getSellerid()!=0){
+			Seller seller = sellerService.loadSeller(merchandiseDTO.getSellerid());
+			merchandise.setSeller(seller);
+			MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryid());
 			merchandise.setMerCategory(merCate);
 			merchandiseService.addMer(merchandise);
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
@@ -123,11 +134,11 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String delMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
+	public @ResponseBody String delMerchandise(@RequestParam Integer merchandiseid,@RequestParam Integer sellerid,HttpSession session)  {
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
-		//merchandiseService.delMer(merchandise.getMerchandiseid());;
+		merchandiseService.delMer(merchandiseid);
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	

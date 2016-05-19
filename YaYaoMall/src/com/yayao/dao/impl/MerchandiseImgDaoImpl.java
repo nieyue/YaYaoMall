@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
 import com.yayao.dao.MerchandiseImgDao;
 
@@ -43,8 +42,8 @@ public class MerchandiseImgDaoImpl implements MerchandiseImgDao {
 	/**
 	 * 删除指定的商品图片 
 	 */
-	public void delMerchandiseImg(Integer id) {
-		getSession().delete(loadMerchandiseImg(id));
+	public void delMerchandiseImg(Integer merchandiseimgid) {
+		getSession().delete(loadMerchandiseImg(merchandiseimgid));
 	}
 
 	/**
@@ -57,9 +56,9 @@ public class MerchandiseImgDaoImpl implements MerchandiseImgDao {
 	/**
 	 * 装载指定的商品图片
 	 */
-	public MerchandiseImg loadMerchandiseImg(Integer id) {
+	public MerchandiseImg loadMerchandiseImg(Integer merchandiseimgid) {
 		MerchandiseImg merchandiseImg = null;
-		merchandiseImg = (MerchandiseImg)getSession().get(MerchandiseImg.class, id);
+		merchandiseImg = (MerchandiseImg)getSession().get(MerchandiseImg.class, merchandiseimgid);
 		return merchandiseImg;
 	}
 
@@ -67,10 +66,10 @@ public class MerchandiseImgDaoImpl implements MerchandiseImgDao {
 	 * 浏览商品 图片
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MerchandiseImg> browseMerchandiseImg(Merchandise merchandise,String orderName,String orderWay) {
+	public List<MerchandiseImg> browseMerchandiseImg(Integer merchandiseid,String orderName,String orderWay) {
 		Criteria c = getSession().createCriteria(MerchandiseImg.class);
-		if(merchandise!=null){
-			c.add(Restrictions.eq("merchandise", merchandise));
+		if(merchandiseid!=0){
+			c.add(Restrictions.eq("merchandise.merchandiseid", merchandiseid));
 		}
 		switch (orderWay) {
 		case "asc":
