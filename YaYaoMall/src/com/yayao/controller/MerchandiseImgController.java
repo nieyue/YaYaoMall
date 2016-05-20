@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yayao.bean.MerchandiseImg;
-import com.yayao.bean.Seller;
 import com.yayao.service.MerchandiseImgService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.util.FileUploadUtil;
@@ -51,10 +50,6 @@ public class MerchandiseImgController {
 	@RequestMapping(value = "/updateMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody MerchandiseImg updateMerchandiseImg(@RequestParam("merchandiseimgid")Integer id,HttpSession session,@RequestParam("merFile") MultipartFile file,@RequestParam("sellerid")Integer sellerid)  {
 		MerchandiseImg merchandiseImg=merchandiseImgService.loadMerchandiseImg(id);
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			merchandiseImg.setMerchandiseImgMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-			return merchandiseImg;
-		}
 		String imgdir="/"+sellerid;
 		String merImgUrl = "";
 		try{
@@ -74,10 +69,6 @@ public class MerchandiseImgController {
 	@RequestMapping(value = "/addMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody MerchandiseImg addMerchandiseImg(@RequestParam("merFile") MultipartFile file,HttpSession session,@RequestParam("sellerid")Integer sellerid )  {
 		MerchandiseImg merchandiseImg=new MerchandiseImg();
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			merchandiseImg.setMerchandiseImgMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-			return merchandiseImg;
-		}
 		String imgdir="/"+sellerid;
 		String merImgUrl = "";
 		try{
@@ -97,9 +88,6 @@ public class MerchandiseImgController {
 	 */
 	@RequestMapping(value = "/delMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String delMerchandiseImg(@RequestParam("merchandiseimgid")Integer id,@RequestParam("sellerid")Integer sellerid,HttpSession session)  {
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
-		}
 		MerchandiseImg merimg = merchandiseImgService.loadMerchandiseImg(id);
 		boolean status = FileUploadUtil.delMerImgFile(session, merimg.getImgAddress());
 		if(status){

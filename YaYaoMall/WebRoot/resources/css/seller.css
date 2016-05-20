@@ -54,7 +54,7 @@ body{
 	top:5%;
 	margin-top:5%;
 	left:2%;
-	max-width:200px;
+	max-width:180px;
 	font-size:1.5rem !important;
 	min-width: 50px;
 	text-align: center;
@@ -67,8 +67,8 @@ body{
 .right-bar{
 	position:absolute;
 	display:inline-block;
-	left:30%;
-	width:70%;
+	left:28%;
+	width:72%;
 	top:5%;
 	margin-top:5%;
 	min-width: 200px;
@@ -83,7 +83,7 @@ body{
 .main-body{
 	position:relative;
 	margin-top:0;
-	max-width:1200px;
+	max-width:1400px;
 	margin:0 auto;
 	border:1px dotted #ccc;
 	border-radius:3px;

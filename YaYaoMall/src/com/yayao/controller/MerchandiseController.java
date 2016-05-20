@@ -78,10 +78,10 @@ public class MerchandiseController {
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Merchandise updateMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
 		Merchandise merchandise=merchandiseService.loadMer(merchandiseDTO.getMerchandiseid());
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
+		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandise;
-		}
+		}*/
 		BeanUtils.copyProperties(merchandiseDTO, merchandise);
 		//查询绑定商品类别
 		if(merchandiseDTO.getSellerid()!=0){
@@ -107,10 +107,10 @@ public class MerchandiseController {
 	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Merchandise addMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO, HttpSession session)  {
 		Merchandise merchandise=new Merchandise();
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
+		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 			return merchandise;
-		}
+		}*/
 		BeanUtils.copyProperties(merchandiseDTO, merchandise);//dto复制到bean
 		//查询绑定商品类别
 		if(merchandiseDTO.getSellerid()!=0){
@@ -135,9 +135,9 @@ public class MerchandiseController {
 	 */
 	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String delMerchandise(@RequestParam Integer merchandiseid,@RequestParam Integer sellerid,HttpSession session)  {
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
+		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
 			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
-		}
+		}*/
 		merchandiseService.delMer(merchandiseid);
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}

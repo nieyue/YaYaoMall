@@ -109,10 +109,15 @@ public class MerchandiseServiceImplTest {
 	public void testBrowseMerString() {
 		MerCategory cate = merCategoryService.loadMerCategory(6);
 		System.out.println(cate);
-		List<Merchandise> list = merchandiseService.browseMerBySeller(0, "merchandiseSold","desc");
+		List<Merchandise> list = merchandiseService.browseMerBySeller(8, "merchandiseSold","desc");
+		List<Merchandise> list2 = merchandiseService.browseMerBySeller(1, 1, 8, "merchandiseSold","desc");
 	for (int i = 0; i < list.size(); i++) {
 		
 		System.out.println(list.get(i));
+	}
+	System.out.println("---------");
+	for (int i = 0; i < list2.size(); i++) {
+		System.out.println(list2.get(i));
 	}
 	}
 

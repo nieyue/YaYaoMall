@@ -17,7 +17,7 @@
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>  
 	</context:component-scan>
     <mvc:annotation-driven  />
-	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
+	<!--  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
         <property name="messageConverters">
             <list>  
               <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
@@ -39,9 +39,7 @@
 			</bean>
             </list>  
         </property> 
-    </bean>  -->
- 
-		
+    </bean>    -->
 	<!-- <mvc:annotation-driven validator="validator"
 		conversion-service="conversion-service" />
 	<bean id="validator"
@@ -72,13 +70,11 @@
             </list>  
         </property>  
     </bean>    -->
-    
-	<bean id="myModelAndView"
+	 <bean id="myModelAndView"
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<!-- <property name="order" value="0" /> -->
 		 <property name="viewResolvers">
 			<list>
-			<!-- <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
+			<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
                     <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>  
                     <property name="viewNames" value=".ftl"/>  
                     <property name="contentType" value="text/html; charset=utf-8"/>  
@@ -86,16 +82,17 @@
                     <property name="prefix" value="/" />  
                     <property name="suffix" value=".html" />  
                     <property name="order" value="5"/>  
-                </bean>  -->
+                </bean> 
 				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 					<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-					<property name="prefix" value="/"/>
+					<property name="prefix" value="/WEB-INF/jsp/"/>
 					<property name="suffix" value=".jsp"/>
 				     <property name="contentType" value="text/html;charset=UTF-8"/> 
-        			<property name="order" value="10"/>
+        			<property name="order" value="1"/>
          		</bean>
 			</list>
 		</property> 
+		<property name="order" value="2" />
 		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
 		<property name="defaultViews">
 			<list>
@@ -109,7 +106,7 @@
 				</bean> 
  		</list>
 		</property>
-	</bean>
+	</bean> 
 	 <!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
           p:defaultContentType="text/html"  
@@ -117,18 +114,17 @@
           p:favorPathExtension="true"  
           p:favorParameter="false"  
           p:parameterName="content"
-            >
+          >
+          
 		<property name="mediaTypes">
 			<map>
-				<entry key="html" value="text/html" />
 				<entry key="json" value="application/json" />
          		<entry key="xml" value="application/xml" /> 
-         		<!-- <entry key="xls" value="application/x-xls" />   -->
 				<entry key="xls" value="application/vnd.ms-excel" /> 
          		<entry key="pdf" value="application/pdf"  />   
 			</map>
 		</property>
-	</bean>
+	</bean> 
 	
 	
     <mvc:default-servlet-handler/> 
@@ -183,12 +179,23 @@
 		path = "/**" /> <bean class = "com.yayao.interceptor.TokenHandlerInterceptor" 
 		/> </mvc:interceptor > <bean class = "com.yayao.interceptor.TokenHandlerInterceptor" 
 		/> </mvc:interceptors > -->
+		<mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/merchandise/**"/>
+				<mvc:mapping path="/merCategory/**"/>
+				<mvc:mapping path="/merchandiseImg/**"/>
+				<mvc:exclude-mapping path="/merCategory/browseMerCategory.json"/>
+				<mvc:exclude-mapping path="/merchandise/browseMerBySeller.json"/>
+				<mvc:exclude-mapping path="/merchandiseImg/browseMerchandiseImg.json"/>
+				<bean class="com.yayao.interceptor.SellerControllerSessionInterceptor" ></bean>
+			</mvc:interceptor>
+		</mvc:interceptors>
 		
 	<!--ehcache缓存 不能放在applicationContext.xml中 -->
-		<!--  <cache:annotation-driven cache-manager ="ehcacheCacheManager" />  
+		 <cache:annotation-driven cache-manager ="ehcacheCacheManager" />  
        <bean id = "ehcacheCacheManager" class= "org.springframework.cache.ehcache.EhCacheCacheManager"  
            p:cacheManager-ref= "ehcacheManager" />    
   		<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
   		 p:config-location="classpath:config/ehcache.xml" p:shared="true"/>
- --> 
+
 </beans>

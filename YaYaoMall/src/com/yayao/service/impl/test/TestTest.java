@@ -14,17 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.MerCategory;
 import com.yayao.bean.Seller;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.SellerService;
+import com.yayao.test.Test2;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:config/applicationContext.xml"})
-@TransactionConfiguration(transactionManager="txManager",defaultRollback = false)//true:始终回滚 false:数据提交
-public class MerCategoryServiceImplTest {
+public class TestTest {
+	@Autowired
+	@Qualifier("test2")
+	Test2 test2;
 	@Autowired
 	@Qualifier("merCategoryService")
 	MerCategoryService merCategoryService;
@@ -104,5 +106,10 @@ public class MerCategoryServiceImplTest {
 		fail("Not yet implemented");
 	}
 	
+	@Test
+	public void tasdf() {
+		test2.addUser("abc123",343);
+		//test2.updateUser("df");
+	}
 
 }

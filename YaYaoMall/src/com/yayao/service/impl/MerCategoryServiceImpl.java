@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yayao.bean.MerCategory;
@@ -42,16 +43,19 @@ public class MerCategoryServiceImpl implements MerCategoryService {
 
 	}
 	/** 浏览商品分类 */
+	@Cacheable(cacheNames="merCateCache")
 	public List<MerCategory> browseMerCategory(Integer sellerid) {
 		List<MerCategory> l = merCategoryDao.browseMerCategory(sellerid);
 		return l;
 	}
 	/** 装载指定的商品分类 */
+	@Cacheable(cacheNames="merCateCache")
 	public MerCategory loadMerCategory(Integer mercategoryid) {
 		MerCategory ml = merCategoryDao.loadMerCategory(mercategoryid);
 		return ml;
 	}
 	/** 检查商品分类存在否 */
+	@Cacheable(cacheNames="merCateCache")
 	public boolean chkMerCategory(Integer sellerid,String cateName){
 		boolean status = merCategoryDao.chkMerCategory(sellerid,cateName);
 		return status;

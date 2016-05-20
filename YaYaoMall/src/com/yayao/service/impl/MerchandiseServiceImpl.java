@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yayao.bean.Merchandise;
@@ -44,12 +45,14 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	/** 装载指定的商品 */
+	@Cacheable(cacheNames="merCache")
 	public Merchandise loadMer(Integer merchandiseid) {
 		Merchandise mer = merchandiseDao.loadMer(merchandiseid);
 		return mer;
 	}
 
 	/** 浏览类别商品 */
+	@Cacheable(cacheNames="merCache")
 	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,
 			String orderName, String orderWay) {
 		List<Merchandise> list = merchandiseDao.browseMerByMerCate(mercategoryid, orderName,orderWay);
@@ -57,6 +60,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	/** 根据商家浏览商品 */
+	@Cacheable(cacheNames="merCache")
 	public List<Merchandise> browseMerBySeller(Integer sellerid,
 			String orderName, String orderWay) {
 		List<Merchandise> list = merchandiseDao.browseMerBySeller(sellerid, orderName,orderWay);
@@ -64,6 +68,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	/** 根据类别分页浏览商品 */
+	@Cacheable(cacheNames="merCache")
 	public List<Merchandise> browseMerByMerCate(int pageSize, int pageNo,
 			Integer mercategoryid, String orderName, String orderWay) {
 		List<Merchandise> merlist = merchandiseDao.browseMerByMerCate(pageSize, pageNo, mercategoryid, orderName, orderWay);
@@ -71,6 +76,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	/** 根据商家分页浏览商品 */
+	@Cacheable(cacheNames="merCache")
 	public List<Merchandise> browseMerBySeller(int pageSize, int pageNo,
 			Integer sellerid, String orderName, String orderWay) {
 		List<Merchandise> merlist = merchandiseDao.browseMerBySeller(pageSize, pageNo, sellerid, orderName, orderWay);
@@ -78,12 +84,14 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	/** 后台检索商品（按商品模糊名称） */
+	@Cacheable(cacheNames="merCache")
 	public List<Merchandise> searchMerchandise(Integer sellerid, String merName) {
 		List<Merchandise> merlist = merchandiseDao.searchMerchandise(sellerid,merName);
 		return merlist;
 	}
 
 	/** 统计记录条数 */
+	@Cacheable(cacheNames="merCache")
 	public int countRecord(Integer sellerid, Integer mercategoryid) {
 		int cr = merchandiseDao.countRecord(sellerid, mercategoryid);
 		return cr;

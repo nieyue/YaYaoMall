@@ -132,19 +132,22 @@
 		</bean>
     	
     	 
-    	<!-- <cache:annotation-driven cache-manager="cacheManager"/>
+    	 <!--  <cache:annotation-driven cache-manager="cacheManager"/>
     	<bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 			<property name="configLocation" value="classpath:config/ehcache.xml"/>
 		</bean>
 		<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
 			<property name="cacheManager" ref="cacheManagerFactory"/>
-		</bean>  -->
+		</bean>   --> 
 	
 	
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	 <!-- <bean id="aopAspectTest"
+		class="com.yayao.aop.AopAspectTest">
+	</bean> --> 
 	<!-- 开启注解事务 只对当前配置文件有效 
 	-->	
 	<!-- 
@@ -180,9 +183,20 @@
             <tx:method name="search*" propagation="REQUIRED" read-only="true" />
             <tx:method name="*" read-only="true" />
         </tx:attributes>
-    </tx:advice>  
+    </tx:advice>
     <aop:config>
         <aop:pointcut id="txPointcut" expression="execution(* com.yayao.service..*.*(..))" />
         <aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
+    	
+    	   <!-- <aop:aspect id="sdfsd" ref="aopAspectTest">
+        <aop:pointcut id="test" expression="execution(* com.yayao.test..*.*(..))"/>
+    		<aop:before method="aopbeforetest" pointcut-ref="test" />
+    		<aop:after method="aopaftertest" pointcut-ref="test" />
+    		<aop:after-returning  method="aopafterreturntest" pointcut-ref="test" />
+    		<aop:after-throwing  method="aopafterthrowingtest" pointcut-ref="test" />
+    		<aop:around  method="aoparoundtest" pointcut-ref="test" />
+    	</aop:aspect>  -->  
+    
     </aop:config>
-	</beans>
+<!--      <aop:aspectj-autoproxy/> 
+ -->	</beans>

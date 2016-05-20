@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.stereotype.Service;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
@@ -23,7 +25,6 @@ import com.yayao.bean.MerchandiseImg;
 import com.yayao.bean.User;
 import com.yayao.dto.MerchandiseDTO;
 import com.yayao.util.MyFile;
-
 public class Test {
 	private  AtomicInteger ai=new AtomicInteger(0);
 	
@@ -44,6 +45,7 @@ public class Test {
 		document.add(new Paragraph("字体解决了",FontChinese));
 
 		document.close();
+		new Test2().updateUser("fdg");
   
 	}
 	
@@ -118,6 +120,8 @@ public class Test {
 	    //new MyFile().createFile("c:/temp", "/sellerid/黑茶/11.txt");
 	    //new MyFile().delFile("c:/temp", "/sellerid/11.txt");
 	    //new MyFile().delDir("c:/temp/sellerid");
-		}
+	    System.out.println(new Integer(1).getClass());
+	    System.out.println(Integer.class);
+	}
 
 }

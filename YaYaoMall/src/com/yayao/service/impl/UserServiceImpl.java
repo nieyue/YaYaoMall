@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yayao.bean.User;
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
 	}
 	/** 浏览注册账户*/
 	@Override
-	//@Cacheable(cacheNames="userCache")
+	@Cacheable(cacheNames="userCache")
 	public List<User> browseUser() {
 		//浏览所有会员
 		List<User> users=userDao.browseUser();

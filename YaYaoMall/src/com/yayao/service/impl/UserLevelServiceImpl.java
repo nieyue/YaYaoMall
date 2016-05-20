@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yayao.bean.UserLevel;
@@ -36,11 +37,13 @@ public class UserLevelServiceImpl implements UserLevelService {
 
 	}
 	/**浏览账户等级 */
+	@Cacheable(cacheNames="userLevelCache")
 	public List<UserLevel> browseUserLevel() {
 		List<UserLevel> l = userLevelDao.browseUserLevel();
 		return l;
 	}
 	/**装载账户等级*/
+	@Cacheable(cacheNames="userLevelCache")
 	public UserLevel loadUserLevel(Integer id) {
 		UserLevel ml = userLevelDao.loadUserLevel(id);
 		return ml;

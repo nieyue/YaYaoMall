@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yayao.bean.MerchandiseImg;
@@ -40,17 +41,20 @@ public class MerchandiseImgServiceImpl implements MerchandiseImgService {
 		
 	}
 	/** 装载指定的商品图片 */
+	@Cacheable(cacheNames="merImgCache")
 	public MerchandiseImg loadMerchandiseImg(Integer merchandiseimgid) {
 		MerchandiseImg ml = merchandiseImgDao.loadMerchandiseImg(merchandiseimgid);
 		return ml;
 	}
 	/** 浏览商品图片 */
+	@Cacheable(cacheNames="merImgCache")
 	public List<MerchandiseImg> browseMerchandiseImg(Integer merchandiseimgid,
 			String orderName, String orderWay) {
 		List<MerchandiseImg> l = merchandiseImgDao.browseMerchandiseImg(merchandiseimgid, orderName, orderWay);
 		return l;
 	}
-	/** 图片地址查询商品图片 */	
+	/** 图片地址查询商品图片 */
+	@Cacheable(cacheNames="merImgCache")
 	public MerchandiseImg imgAddressLoadMerchandiseImg(String imgAddress){
 		MerchandiseImg ml = merchandiseImgDao.imgAddressLoadMerchandiseImg(imgAddress);
 		return ml;

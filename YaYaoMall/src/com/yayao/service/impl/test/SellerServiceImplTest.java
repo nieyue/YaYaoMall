@@ -41,12 +41,23 @@ public class SellerServiceImplTest {
 
 	@Test
 	public void testMerSellerLogin() {
-		fail("Not yet implemented");
+		String sellerName="15555555555";
+		String sellerPassword= MyDESutil.getMD5("123456");
+		String sellerName2="15555555556";
+		String sellerPassword2= MyDESutil.getMD5("1234567");
+			Seller seller = sellerService.merSellerLogin(sellerName, sellerPassword);
+			Seller seller2 = sellerService.merSellerLogin(sellerName, sellerPassword);
+			Seller seller3 = sellerService.merSellerLogin(sellerName2, sellerPassword2);
+			Seller seller4 = sellerService.merSellerLogin(sellerName2, sellerPassword2);
+			System.out.println(seller);
+			System.out.println(seller3);
+			System.out.println(seller2);
+			System.out.println(seller4);
 	}
 
 	@Test
 	public void testChkLoginName() {
-		fail("Not yet implemented");
+		
 	}
 
 	@Test

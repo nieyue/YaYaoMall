@@ -52,5 +52,40 @@
     timeToLiveSeconds="120" 
      overflowToDisk="true"  
     />  
+  <cache name="userLevelCache" 
+  	maxElementsInMemory="2000"
+  	eternal="false" 
+    timeToIdleSeconds="120"
+    timeToLiveSeconds="120" 
+     overflowToDisk="true"  
+    />  
+  <cache name="sellerCache" 
+  	maxElementsInMemory="2000"
+  	eternal="false" 
+    timeToIdleSeconds="120"
+    timeToLiveSeconds="120" 
+     overflowToDisk="true"  
+    />  
+  <cache name="merCateCache" 
+  	maxElementsInMemory="2000"
+  	eternal="false" 
+    timeToIdleSeconds="120"
+    timeToLiveSeconds="120" 
+     overflowToDisk="true"  
+    />  
+  <cache name="merCache" 
+  	maxElementsInMemory="2000"
+  	eternal="false" 
+    timeToIdleSeconds="120"
+    timeToLiveSeconds="120" 
+     overflowToDisk="true"  
+    />  
+  <cache name="merImgCache" 
+  	maxElementsInMemory="2000"
+  	eternal="false" 
+    timeToIdleSeconds="120"
+    timeToLiveSeconds="120" 
+     overflowToDisk="true"  
+    />  
     
 </ehcache>

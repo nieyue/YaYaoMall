@@ -18,7 +18,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.yayao.bean.User;
 import com.yayao.bean.UserLevel;
-import com.yayao.controller.UserController;
 import com.yayao.service.UserLevelService;
 import com.yayao.service.UserService;
 @SuppressWarnings("deprecation")

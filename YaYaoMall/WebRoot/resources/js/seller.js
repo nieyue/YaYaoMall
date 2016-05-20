@@ -10,6 +10,8 @@ var sellerData={
     		$(".right-bar").load('/seller/templates/mer_category.html');
     		myUtils.myPrevToast("加载中",function(){
     			$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.getCookie("sellerid"),function(data){
+    				console.log(data);
+    				console.log(data.merCategoryList)
     				if(data==null||data==''||data==undefined){
     					$("#merCategoryList").after("<div id='merCategoryEmpty' class='text-center'>你还没有添加分类哦，赶紧添加吧</div>");
     					return;

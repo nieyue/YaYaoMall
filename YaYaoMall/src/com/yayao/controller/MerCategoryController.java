@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yayao.bean.MerCategory;
-import com.yayao.bean.Seller;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.service.SellerService;
@@ -52,9 +51,6 @@ public class MerCategoryController {
 	 */
 	@RequestMapping(value = "/delMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String delMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-				return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
-			}
 			merCategoryService.delMerCategory(mercategoryid);
 			return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
@@ -65,10 +61,6 @@ public class MerCategoryController {
 	@RequestMapping(value = "/addMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody MerCategory addMerCategory(@RequestParam("cateName") String cateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
 		MerCategory merCategory=new MerCategory();
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-			return merCategory;
-		}
 		boolean status = merCategoryService.chkMerCategory(sellerid, cateName);
 		if(status){
 			merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
@@ -87,10 +79,6 @@ public class MerCategoryController {
 	@RequestMapping(value = "/updateMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody MerCategory updateMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("newCateName") String newCateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
 		MerCategory oldMerCategory=merCategoryService.loadMerCategory(mercategoryid);
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-			return oldMerCategory;
-		}
 		boolean status = merCategoryService.chkMerCategory(sellerid, newCateName);
 		if(status){
 			oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
