@@ -78,7 +78,7 @@ public class JspFilter implements Filter{
 		}else if(new File(strServletUrl+rpath+".html").exists()){
 				servletRequest.getRequestDispatcher(rpath+".html").forward(request,response);
 		}else if(path.equals("/")){//综合门户
-				servletRequest.getRequestDispatcher(cpath+"/seller/index.html");
+				servletRequest.getRequestDispatcher(cpath+"/seller/index.html").forward(request, response);
 				//servletRequest.getRequestDispatcher("/mall/mobile/index.html").forward(request, response);
 			}else if(path.equals("/admin/")||path.equals("/admin")){
 				servletRequest.getRequestDispatcher("/admin/index.html").forward(request, response);

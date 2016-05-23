@@ -210,7 +210,9 @@
       				},
       				error:function(data){
       					$("#sellerErrorValue").text("账号或密码错误");
-      					myUtils.myLoadingToast("登录失败");
+      					myUtils.myPrevToast("登录失败",function(){
+  			      			location.replace("/seller/index");
+  			      			},"remove");
       				}
       			});
       				},"add");

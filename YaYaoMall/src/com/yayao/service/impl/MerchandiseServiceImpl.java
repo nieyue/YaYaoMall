@@ -53,33 +53,33 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
 	/** 浏览类别商品 */
 	@Cacheable(cacheNames="merCache")
-	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,
+	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,String merchandiseStatus,
 			String orderName, String orderWay) {
-		List<Merchandise> list = merchandiseDao.browseMerByMerCate(mercategoryid, orderName,orderWay);
+		List<Merchandise> list = merchandiseDao.browseMerByMerCate(mercategoryid,merchandiseStatus, orderName,orderWay);
 		return list;
 	}
 
 	/** 根据商家浏览商品 */
 	@Cacheable(cacheNames="merCache")
-	public List<Merchandise> browseMerBySeller(Integer sellerid,
+	public List<Merchandise> browseMerBySeller(Integer sellerid,String merchandiseStatus,
 			String orderName, String orderWay) {
-		List<Merchandise> list = merchandiseDao.browseMerBySeller(sellerid, orderName,orderWay);
+		List<Merchandise> list = merchandiseDao.browseMerBySeller(sellerid,merchandiseStatus, orderName,orderWay);
 		return list;
 	}
 
 	/** 根据类别分页浏览商品 */
 	@Cacheable(cacheNames="merCache")
 	public List<Merchandise> browseMerByMerCate(int pageSize, int pageNo,
-			Integer mercategoryid, String orderName, String orderWay) {
-		List<Merchandise> merlist = merchandiseDao.browseMerByMerCate(pageSize, pageNo, mercategoryid, orderName, orderWay);
+			Integer mercategoryid,String merchandiseStatus, String orderName, String orderWay) {
+		List<Merchandise> merlist = merchandiseDao.browseMerByMerCate(pageSize, pageNo, mercategoryid,merchandiseStatus, orderName, orderWay);
 		return merlist;
 	}
 
 	/** 根据商家分页浏览商品 */
 	@Cacheable(cacheNames="merCache")
 	public List<Merchandise> browseMerBySeller(int pageSize, int pageNo,
-			Integer sellerid, String orderName, String orderWay) {
-		List<Merchandise> merlist = merchandiseDao.browseMerBySeller(pageSize, pageNo, sellerid, orderName, orderWay);
+			Integer sellerid, String merchandiseStatus, String orderName, String orderWay) {
+		List<Merchandise> merlist = merchandiseDao.browseMerBySeller(pageSize, pageNo, sellerid,merchandiseStatus, orderName, orderWay);
 		return merlist;
 	}
 
@@ -92,8 +92,8 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
 	/** 统计记录条数 */
 	@Cacheable(cacheNames="merCache")
-	public int countRecord(Integer sellerid, Integer mercategoryid) {
-		int cr = merchandiseDao.countRecord(sellerid, mercategoryid);
+	public int countRecord(Integer sellerid,String merchandiseStatus, Integer mercategoryid) {
+		int cr = merchandiseDao.countRecord(sellerid,merchandiseStatus, mercategoryid);
 		return cr;
 	}
 	

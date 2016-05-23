@@ -84,7 +84,7 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testUpdateMer() {
-		List<Merchandise> list = merchandiseService.browseMerBySeller(0, "merchandiseid", "asc");
+		List<Merchandise> list = merchandiseService.browseMerBySeller(0,null, "merchandiseid", "asc");
 		System.out.println(list);
 		for (int i = 0; i < list.size(); i++) {
 			Merchandise merchandise = list.get(i);
@@ -109,8 +109,8 @@ public class MerchandiseServiceImplTest {
 	public void testBrowseMerString() {
 		MerCategory cate = merCategoryService.loadMerCategory(6);
 		System.out.println(cate);
-		List<Merchandise> list = merchandiseService.browseMerBySeller(8, "merchandiseSold","desc");
-		List<Merchandise> list2 = merchandiseService.browseMerBySeller(1, 1, 8, "merchandiseSold","desc");
+		List<Merchandise> list = merchandiseService.browseMerBySeller(8, null,"merchandiseSold","desc");
+		List<Merchandise> list2 = merchandiseService.browseMerBySeller(1, 1, 8,null, "merchandiseSold","desc");
 	for (int i = 0; i < list.size(); i++) {
 		
 		System.out.println(list.get(i));
@@ -125,7 +125,7 @@ public class MerchandiseServiceImplTest {
 	public void testBrowseMerIntIntInt() {
 		MerCategory cate = merCategoryService.loadMerCategory(7);
 		System.out.println(cate);
-		List<Merchandise> list = merchandiseService.browseMerBySeller(10, 1, 0, "merchandiseSold","des");
+		List<Merchandise> list = merchandiseService.browseMerBySeller(10, 1, 0,null, "merchandiseSold","des");
 	for (int i = 0; i < list.size(); i++) {
 		
 		System.out.println((list.get(0).getMerchandiseUpdateTime()).before(list.get(1).getMerchandiseUpdateTime()));
@@ -151,7 +151,7 @@ public class MerchandiseServiceImplTest {
 
 	@Test
 	public void testCountRecord() {
-		int aa = merchandiseService.countRecord(0, 0);
+		int aa = merchandiseService.countRecord(0,null, 0);
 			System.out.println(aa);
 	}
 

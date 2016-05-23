@@ -18,16 +18,16 @@ public interface MerchandiseService {
 	/** 装载指定的商品 */	
 	public Merchandise loadMer(Integer merchandiseid) ;	
 	/** 浏览类别商品 */
-	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,String orderName,String orderWay) ;	
+	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,String merchandiseStatus,String orderName,String orderWay) ;	
 	/** 根据商家浏览商品 */
-	public List<Merchandise> browseMerBySeller(Integer sellerid,String orderName,String orderWay) ;	
+	public List<Merchandise> browseMerBySeller(Integer sellerid,String merchandiseStatus,String orderName,String orderWay) ;	
 	
 	/** 根据类别分页浏览商品 */
-	public List<Merchandise> browseMerByMerCate(int pageSize,int pageNo,Integer mercategoryid,String orderName,String orderWay) ;
+	public List<Merchandise> browseMerByMerCate(int pageSize,int pageNo,Integer mercategoryid,String merchandiseStatus,String orderName,String orderWay) ;
 	/** 根据商家分页浏览商品 */
-	public List<Merchandise> browseMerBySeller(int pageSize,int pageNo,Integer sellerid,String orderName,String orderWay) ;
+	public List<Merchandise> browseMerBySeller(int pageSize,int pageNo,Integer sellerid,String merchandiseStatus,String orderName,String orderWay) ;
 	/** 后台检索商品（按商品模糊名称） */
 	public List<Merchandise> searchMerchandise(Integer sellerid,String merName);	
 	/** 统计记录条数 */
-	public int countRecord(Integer sellerid,Integer mercategoryid);
+	public int countRecord(Integer sellerid,String merchandiseStatus,Integer mercategoryid);
 }

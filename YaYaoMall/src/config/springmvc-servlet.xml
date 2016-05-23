@@ -186,6 +186,7 @@
 				<mvc:mapping path="/merchandiseImg/**"/>
 				<mvc:exclude-mapping path="/merCategory/browseMerCategory.json"/>
 				<mvc:exclude-mapping path="/merchandise/browseMerBySeller.json"/>
+				<mvc:exclude-mapping path="/merchandise/loadMerchandise.json"/>
 				<mvc:exclude-mapping path="/merchandiseImg/browseMerchandiseImg.json"/>
 				<bean class="com.yayao.interceptor.SellerControllerSessionInterceptor" ></bean>
 			</mvc:interceptor>

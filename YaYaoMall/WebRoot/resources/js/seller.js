@@ -110,18 +110,17 @@ var sellerData={
 		/**
 		 * 点击商品管理展示
 		 */
-		showMerchandiseHandler:function(){
+		showMerchandiseHandler:function(merchandiseStatus){
 			$(".right-bar").html("");
     		$(".right-bar").load('/seller/templates/merchandise.html');
     		myUtils.myPrevToast("加载中",function(){
-    			$.post("/merchandise/browseMerBySeller.json?sellerid="+myUtils.getCookie("sellerid")+"&currentCount=1&pageSize=10",function(data){
+    			$.post("/merchandise/browseMerBySeller.json?sellerid="+myUtils.getCookie("sellerid")+"&currentCount=1&pageSize=10&merchandiseStatus="+merchandiseStatus,function(data){
     				if(data==null||data==''||data==undefined){
-    					$("#merchandiseList").after("<div class='text-center'>你还没有添加商品哦，赶紧添加吧</div>");
+    					$("#merchandiseList").after("<div id='merEmpty' class='text-center'>你还没有添加商品哦，赶紧添加吧</div>");
     					return;
     				}
-    				console.log(data)
+    				//console.log(data)
     				for (var i = 0; i < data.length; i++) {
-    					//data[i].merchandiseImgs[0].imgAddress0000000
     				$("#merchandiseList tbody").append(
     					"<tr data-merid="+data[i].merchandiseid+"><td class='merdesctd'><input type='checkbox' class='merchandiseCheckbox' >"+
      					"<img   src='"+data[i].merchandiseImgs[0].imgAddress+"'>"+
@@ -135,9 +134,9 @@ var sellerData={
      					"<td class='mercatetd'>"+(data[i].merCategory!=null?data[i].merCategory.cateName:'')+"</td>"+
     				    "<td class='merdatetd'>"+myUtils.timeStampToSimpleDate(data[i].merchandiseUpdateTime||"")+"</td>"+
      					"<td class='meroperationtd'>"+
-	 					"<a class='button button-3d button-primary button-tiny myblock'>编辑</a>"+
-	 					"<a class='button button-3d button-inverse button-tiny myblock'>下架</a>"+
-	 					"<a class='button button-3d button-caution button-tiny myblock'>删除</a>"+
+	 					"<a class='button button-3d button-primary button-tiny myblock updateSingleMer'>编辑</a>"+
+	 					"<a class='button button-3d button-inverse button-tiny myblock singleBan'>下架</a>"+
+	 					"<a class='button button-3d button-caution button-tiny myblock delSingleMer'>删除</a>"+
 	 					"</td>"+
   						"</tr>");
 					}
@@ -151,14 +150,11 @@ var sellerData={
 		/**
 		 * 添加商品图片
 		 */
-		addMerchandiseImgsHandler:function(){
+		addMerchandiseImgsHandler:function(reload){
+			if(reload==true){
 			$(".right-bar").html("");
     		$(".right-bar").load('/seller/templates/addmerchandise.html');
-    		//监听折扣输入时间显示销售价格
-    		$(document).off("change focus","#addMerDiscount");
-    		$(document).on("focus","#addMerDiscount",function(){
-    			$("#addMerchandisePriceDiv").removeClass("hide");
-    		});
+			}
     		$(document).on("change","#addMerDiscount",function(){
     			if(myUtils.userVerification.merPrice.test($("#addMerchandiseOldPrice").val())
     					&&myUtils.userVerification.merDiscount.test($("#addMerDiscount").val())){
@@ -221,7 +217,7 @@ var sellerData={
 		/**
 		 * 添加商品时的商品分类展示
 		 */
-		merCategoryShowInMerchandise:function(){
+		merCategoryShowInMerchandise:function(updatedata){
 			//分类展示
     		myUtils.myPrevToast("加载中",function(){
     		$.get("/merCategory/browseMerCategory.json?sellerid="+myUtils.getCookie("sellerid"),function(data){
@@ -242,16 +238,173 @@ var sellerData={
     				$("input[name='merCategoryid']").attr("checked",false); 
     			});
     			});
+    			//修改商品时显示的分类
+    			if(updatedata){
+    			for (var int = 0; int < $("input[name='merCategoryid']").length; int++) {
+					if($("input[name='merCategoryid']")[int].value==updatedata.merCategoryid){
+						$("input[name='merCategoryid']")[int].click();
+				}
+				}
+    			}
     		});
     		myUtils.myPrevToast("加载完成",null,"remove");
     		},"add");
 		},
 		/**
-		 * 添加商品表单提交
+		 * 添加商品表单提交,增加或修改
 		 */
-		addMerchandiseHandler:function(){
-			
+		addMerchandiseHandler:function(obj){
+			$("#mersellerid").val(myUtils.getCookie("sellerid"));//传sellerid
+			$(".merchandiseImgsid").each(function(){
+			$(this).attr("name","merchandiseImgsid");
+			if($(".merchandiseImgsid").length>=2&&$(this).next("img").attr("src")=="/resources/img/preLoding.jpg"){
+			$(this).removeAttr("name");//去掉最后一个空图片
+    		}
+			});
+			//商品id,更新用
+			if(obj.merchandiseid){
+				$("#merchandiseid").attr("value",obj.merchandiseid);
+			}
+    		if(!$(".dragMerImg").prev().attr("value")){
+				return myUtils.myLoadingToast("未添加图片", null);
+			} 
+			if($("#addMerchandiseName").val().trim().length<=2||$("#addMerchandiseName").val().trim().length>=300){
+				return myUtils.myLoadingToast("商品描述2-300字数之间", null);
+			}
+			if(!myUtils.userVerification.merPrice.test($("#addMerchandiseOldPrice").val())){
+				return myUtils.myLoadingToast("商品价格必须为合法数字(正数，最多两位小数)", null);
+			}
+			if(!myUtils.userVerification.merDiscount.test($("#addMerDiscount").val())){
+				return myUtils.myLoadingToast("商品折扣范围0.01-1.00，选填，默认1.00", null);
+			}
+			if(!myUtils.userVerification.merPrice.test($("#addMerchandisePrice").val())){
+				return myUtils.myLoadingToast("商品价格必须为合法数字(正数，最多两位小数)", null);
+			}
+			if(!myUtils.userVerification.catNum.test($("#addMerchandiseStock").val())){
+				return myUtils.myLoadingToast("商品库存(大于0正整数)", null);
+			}
+			if($("#addMerchandisePostage").val()!=""&&(!myUtils.userVerification.catNum.test($("#addMerchandisePostage").val()))){
+				return myUtils.myLoadingToast("邮费必须为合法数字(正数，最多两位小数)", null);
+			}
+			 myUtils.myPrevToast("加载中",function(){
+        		$.ajax({
+        		url:obj.ajaxFn,//not代表除去file
+        		data:$("#addMerForm").serialize(),
+        		success:function(data){
+        		console.log(data)
+        			if(data.merchandiseMsg=="200"){
+        			myUtils.myPrevToast("添加成功",null,"remove");
+        			}else{
+        			myUtils.myPrevToast("添加失败",null,"remove");
+        			myUtils.myLoadingToast("请重新添加", null);
+        			}
+        		if(obj.add){
+        		//复原
+        		sellerData.addMerchandiseImgsHandler(true);
+                sellerData.merCategoryShowInMerchandise();
+        		}else if(obj.update){
+        			sellerData.updateMerchandiseSingleHandler(obj.update.$element);
+        		}
+        		}});
+        		},"add");  
 		},
+		/**
+		 * 商品单个删除
+		 */
+		delMerchandiseSingleHandler:function($obj){
+			var thisDelMer=$obj;
+			myUtils.myConfirm("确定删除吗？",function(){
+				$.post("/merchandise/delMerchandise.json",{merchandiseid:thisDelMer.parent().parent("tr").attr("data-merid"),sellerid:myUtils.getCookie("sellerid")},
+						function(data){
+					if(data=="200"){
+					myUtils.myLoadingToast("删除成功", function(){
+					thisDelMer.parent().parent("tr").remove();
+  					if($("#merchandiseList tbody").html().trim()==""){
+  						$("#merchandiseList").after("<div id='merEmpty' class='text-center'>你还没有添加商品哦，赶紧添加吧</div>");
+  					}
+  						
+					});
+					}
+				});
+  			});
+		},
+		/**
+		 * 商品单个上、下架
+		 */
+		singleMerchandiseStatusHandler:function($obj,merchandiseStatus){
+			var thisbanMer=$obj;
+			myUtils.myConfirm("确定"+merchandiseStatus+"吗？",function(){
+				$.post("/merchandise/statusMerchandise.json",{merchandiseid:thisbanMer.parent().parent("tr").attr("data-merid"),sellerid:myUtils.getCookie("sellerid"),merchandiseStatus:merchandiseStatus},
+						function(data){
+					if(data=="200"){
+					myUtils.myLoadingToast(merchandiseStatus+"成功", function(){
+						thisbanMer.parent().parent("tr").remove();
+  					if($("#merchandiseList tbody").html().trim()==""){
+  						$("#merchandiseList").after("<div id='merEmpty' class='text-center'>你还没有添加商品哦，赶紧添加吧</div>");
+  					}
+  						
+					});
+					}
+				});
+  			});
+		},
+		/**
+		 * 商品单个修改
+		 */
+		updateMerchandiseSingleHandler:function($obj){
+			$(".right-bar").html("");
+    		$(".right-bar").load('/seller/templates/addmerchandise.html');
+			var thisupdateMer=$obj;
+			//原数据加载
+			myUtils.myPrevToast("加载中",function(){
+			$.get("/merchandise/loadMerchandise.json",{merchandiseid:thisupdateMer.parent().parent("tr").attr("data-merid"),sellerid:myUtils.getCookie("sellerid")},
+					function(data){
+				if(data.merchandiseMsg=="200"){
+					$("#addMerchandiseName").text(data.merchandiseName);
+					$("#addMerchandiseOldPrice").val(data.merchandiseOldPrice);
+					$("#addMerDiscount").val(data.merDiscount);
+					$("#addMerchandisePrice").val(data.merchandisePrice);
+					$("#addMerchandiseStock").val(data.merchandiseStock);
+					$("#addMerchandiseCode").val(data.merchandiseCode);
+					//商品分类
+					sellerData.merCategoryShowInMerchandise(data);
+					$("#addMerchandisePostage").val(data.merchandisePostage);
+					//原图片数据加载
+				$.get("/merchandiseImg/browseMerchandiseImg.json",{merchandiseid:data.merchandiseid},function(d){
+					console.log(d.length)
+				for (var i = 0; i < d.length; i++) {
+						$(".dragMerWarp:first-child").after($(".dragMerWarp:first-child").clone());
+					}
+					for (var j = 0; j < $(".dragMerWarp").length-1; j++) {
+						console.log($(".dragMerWarp").length)
+						console.log($($(".dragMerWarp .dragMerImg")[j]).prev())
+						$($(".dragMerWarp .dragMerFileBtn")[j]).css("display","none");
+						$($(".dragMerWarp .dragMerImg")[j]).prev().attr("value",d[j].merchandiseimgid);//提交表单用
+						$($(".dragMerWarp .dragMerImg")[j]).attr("src",d[j].imgAddress);
+						$($(".dragMerWarp")[j]).removeClass("nodrag").addClass("myDrag");//删除nodrag，实现拖拽
+						$($(".dragMerWarp .dragMerImgWarp")[j]).css("display","inline-block");
+					}
+					sellerData.addMerchandiseImgsHandler(false);
+					//sortable 更强大
+		    		 Sortable.create(imgwarp, { 
+		    		      handle: ".myDrag", 
+		    		      animation: 150,
+		    		      draggable:".myDrag",
+		    		      filter: ".nodrag"
+		    		       });	
+  		 	
+				});
+				
+				$("#addMerchandiseSubmit").attr("id","updateMerchandiseSubmit");
+				$(document).off("click","#updateMerchandiseSubmit").on('click','#updateMerchandiseSubmit',function(){
+					sellerData.addMerchandiseHandler({ajaxFn:"/merchandise/updateMerchandise.json",update:{$element:$obj},merchandiseid:data.merchandiseid});
+				});
+				}
+			});
+				myUtils.myPrevToast("加载完成",null,"remove");
+			},"add");
+		},
+		
 		/**
 		 * *登录退出
 		 */

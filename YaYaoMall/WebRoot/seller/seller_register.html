@@ -45,7 +45,7 @@
 	<!-- one form-->
 	<div class="container seller-register-div" id="oneForm">
   			
-			<form class="col-sm-offset-3 col-sm-6">
+			<form class="col-sm-offset-2 col-sm-7">
 			<div class="form-group text-center">
 			<label id="sellerErrorValue" class="text-danger hidden"></label>
 			</div>
@@ -146,6 +146,18 @@
     		  $("#twoForm").css("display","block");
     		  $("#oneFormTitle").css("background-color","#ccc");
     		  $("#twoFormTitle").css("background-color","#EF0D06");
+    		  if(!myUtils.userVerification.phone.test($("#sellerPhone").val())){
+  				return myUtils.myLoadingToast("手机号码不正确", null);
+  			}
+    		  if(!myUtils.userVerification.password.test($("#sellerPassword").val())){
+  				return myUtils.myLoadingToast("数字、字母、下划线，6-20长度", null);
+  			}
+    		  if($("#sellerRePassword").val()trim()==""||!myUtils.userVerification.password.test($("#sellerRePassword").val())){
+  				return myUtils.myLoadingToast("两次密码必须相同，且不等于空", null);
+  			}
+    		  if(!myUtils.userVerification.password.test($("#sellerValidCodeValue").val())){
+  				return myUtils.myLoadingToast("两次密码必须相同，且不等于空", null);
+  			}
     	   });
     	   //第二注册表单
     	   $("#twoFormSubmit").click(function(){

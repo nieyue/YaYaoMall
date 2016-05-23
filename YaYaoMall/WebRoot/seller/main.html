@@ -171,7 +171,6 @@
 
        <script src="/resources/js/jquery2.1.js"></script>  
        <script src="/resources/js/bootstrap3.2.0.js"></script>
-       <script src="/resources/js/jqueryui1.11.4.min.js"></script>
         <script src="/resources/js/sortable.min.js"></script>
         <script src="/resources/js/buttons.js"></script>
        <script src="/resources/js/base64.js"></script> 
@@ -235,70 +234,38 @@
 			});
         	//点击商品管理展示
         	$("#merchandise").click(function(){
-        		sellerData.showMerchandiseHandler();
+        		sellerData.showMerchandiseHandler("上架");
         	});			
         	//商品添加图片
         	$(document).on('click','#addMerchandiseBtn',function(){
-              sellerData.addMerchandiseImgsHandler();
+              sellerData.addMerchandiseImgsHandler(true);
         	//商品中分类展示
               sellerData.merCategoryShowInMerchandise();
         	});
         	
-        	//商品添加实体
-        	$(document).on('click','#addMerchandiseSubmit',function(){
-        				$("#mersellerid").val(myUtils.getCookie("sellerid"));//传sellerid
-        				$(".merchandiseImgsid").each(function(){
-        				$(this).attr("name","merchandiseImgsid");
-        				if($(".merchandiseImgsid").length>=2&&$(this).next("img").attr("src")=="/resources/img/preLoding.jpg"){
-        				$(this).removeAttr("name");//去掉最后一个空图片
-                		}
-        				});
-                		if(!$(".dragMerImg").prev().attr("value")){
-        					return myUtils.myLoadingToast("未添加图片", null);
-        				} 
-        				if($("#addMerchandiseName").val().trim().length<=2||$("#addMerchandiseName").val().trim().length>=300){
-        					return myUtils.myLoadingToast("商品描述2-300字数之间", null);
-        				}
-        				if(!myUtils.userVerification.merPrice.test($("#addMerchandiseOldPrice").val())){
-        					return myUtils.myLoadingToast("商品价格必须为合法数字(正数，最多两位小数)", null);
-        				}
-        				if(!myUtils.userVerification.merDiscount.test($("#addMerDiscount").val())){
-        					return myUtils.myLoadingToast("商品折扣范围0.01-1.00，选填，默认1.00", null);
-        				}
-        				if(!myUtils.userVerification.merPrice.test($("#addMerchandisePrice").val())){
-        					return myUtils.myLoadingToast("商品价格必须为合法数字(正数，最多两位小数)", null);
-        				}
-        				if(!myUtils.userVerification.catNum.test($("#addMerchandiseStock").val())){
-        					return myUtils.myLoadingToast("商品库存(大于0正整数)", null);
-        				}
-        				if(!myUtils.userVerification.catNum.test($("#addMerchandisePostage").val())){
-        					return myUtils.myLoadingToast("邮费必须为合法数字(正数，最多两位小数)", null);
-        				}
-        				 myUtils.myPrevToast("加载中",function(){
-                    		$.ajax({
-                    		url:"/merchandise/addMerchandise.json",//not代表除去file
-                    		data:$("#addMerForm").serialize(),
-                    		success:function(data){
-                    		console.log(data)
-                    			if(data.merchandiseMsg=="200"){
-                    			myUtils.myPrevToast("添加成功",null,"remove");
-                    			}else{
-                    			myUtils.myPrevToast("添加失败",null,"remove");
-                    			myUtils.myLoadingToast("请重新添加", null);
-                    			}
-                    		//复原
-                    		sellerData.addMerchandiseImgsHandler();
-                            sellerData.merCategoryShowInMerchandise();
-                    		}});
-                    		},"add");  
-                	});
-       		
-        			/* $(document).on('change','#addMerForm',function(){
-        				console.log($("#addMerForm"))
-                		console.log(document.getElementById("addMerForm"))
-                		console.log(document.querySelector("#addMerForm"))
-        				}); */
-       });
-       </script>
+        	//单个商品添加实体
+        	$(document).off("click","#addMerchandiseSubmit").on('click','#addMerchandiseSubmit',function(){
+        	 sellerData.addMerchandiseHandler({ajaxFn:"/merchandise/addMerchandise.json",add:true});
+            });
+        	//单个商品删除
+       		$(document).on("click",".delSingleMer",function(){
+       			sellerData.delMerchandiseSingleHandler($(this));
+       		});
+        	//单个商品下架
+       		$(document).on("click",".singleBan",function(){
+       			sellerData.singleMerchandiseStatusHandler($(this),"下架");
+       		});
+        	//单个商品修改
+       		$(document).on("click",".updateSingleMer",function(){
+       			sellerData.updateMerchandiseSingleHandler($(this));
+       		});
+        			
+								/* $(document).on('change','#addMerForm',function(){
+										console.log($("#addMerForm"))
+										console.log(document.getElementById("addMerForm"))
+										console.log(document.querySelector("#addMerForm"))
+										}); */
+			});
+							</script>
         </body>
 </html>
