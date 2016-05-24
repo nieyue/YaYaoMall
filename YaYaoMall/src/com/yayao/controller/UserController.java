@@ -54,7 +54,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/chkUserName", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	String userNameValid(@RequestParam String userName) {
+	String userNameValid(@RequestParam("accountName") String userName) {
 		boolean state = userService.chkLoginName(userName);
 		if (state) {
 			return StatusCode.GetValueByKey(StatusCode.USER_EXIST);
@@ -71,7 +71,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/userEmailValidCode", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	String validCode(@RequestParam("userEmail") final String userEmail,@RequestParam("userEmailValidCode") final String userEmailValidCode,HttpSession session) throws ParseException {
+	String validCode(@RequestParam("accountName") final String userEmail,HttpSession session) throws ParseException {
 		if(session.getAttribute("userEmailValidCodeExpire")!=null){
 			String sessionvce = session.getAttribute("userEmailValidCodeExpire").toString();
 			if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 1)))){//没超过一分钟
@@ -79,15 +79,15 @@ public class UserController {
 		}
 			
 		}		
-		
+		Integer userValidCode=(int) (Math.random()*9000+1000);
 		try {
-			SendMailDemo.sendSafeMail(userEmail,Integer.valueOf(userEmailValidCode));
+			SendMailDemo.sendSafeMail(userEmail,Integer.valueOf(userValidCode));
 		} catch (NumberFormatException e) {
 			return null;
 		} catch (InterruptedException e) {
 			return null;
 		}
-		session.setAttribute("userEmailValidCode",Integer.valueOf(userEmailValidCode));
+		session.setAttribute("userEmailValidCode",userValidCode);
 		session.setAttribute("userEmailValidCodeExpire",DateUtil.getCurrentTime());
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
@@ -102,7 +102,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/chkUserEmailValidCode", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	String chkValidCode(@RequestParam("userEmailValidCode")String userEmailValidCode,HttpSession session) throws NumberFormatException, ParseException {
+	String chkValidCode(@RequestParam("validCode")String userEmailValidCode,HttpSession session) throws NumberFormatException, ParseException {
 		if(!NumberUtil.isNumeric(userEmailValidCode)){
 			return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR);
 		}
@@ -129,7 +129,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/userEmailRegister", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	User userRegister(@ModelAttribute User user,@RequestParam("userEmailValidCode") String userEmailValidCode, HttpSession session) throws Exception {
+	User userRegister(@ModelAttribute User user,@RequestParam("validCode") String userEmailValidCode, HttpSession session) throws Exception {
 		/*
 		 * if(result.hasErrors()){
 		 * //customer.setContent(result.getFieldError().getDefaultMessage());
@@ -149,12 +149,12 @@ public class UserController {
 			user.setUserPassword(shalp);
 		
 		boolean status = userService.addUser(user);
-		session.setAttribute("user", user);
 		if(status){
 			//成功则清除validcode
 			session.removeAttribute("userEmailValidCodeExpire");
 			session.removeAttribute("userEmailValidCode");
 			user.setUserMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+			session.setAttribute("user", user);
 			return user;
 		}
 		return null;

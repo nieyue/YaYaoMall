@@ -198,8 +198,11 @@
 			<version>2.6.3</version>
 		</dependency>
 		<!-- 使用 Jackson 把 Java 对象转换成 JSON 字串 -->
-		<!-- <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-asl</artifactId> 
-			<version>1.9.13</version> </dependency> -->
+		<!--  <dependency> 
+		 	<groupId>org.codehaus.jackson</groupId>
+		 	<artifactId>jackson-mapper-asl</artifactId> 
+			<version>1.9.13</version> 
+		</dependency> -->
 
 		<!-- mysql数据库驱动 -->
 		<dependency>

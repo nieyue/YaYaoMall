@@ -16,30 +16,55 @@
 	<!--  将service排除在外，意味着这个时候不初始化service    -->  
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>  
 	</context:component-scan>
-    <mvc:annotation-driven  />
-	<!--  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
-        <property name="messageConverters">
-            <list>  
-              <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
-                    <property name="supportedMediaTypes"> 
-                        <list> 
-                            <value>text/html; charset=utf-8</value> 
-                        </list> 
-                    </property> 
-                </bean> 
-    		<bean id="mappingJackson2HttpMessageConverter"
-					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-				<property name="supportedMediaTypes">
-			<list>
-				<value>text/html;charset=UTF-8</value>
-				<value>text/json;charset=UTF-8</value>
-				<value>application/json;charset=UTF-8</value>
-			</list>
+    <!--  <mvc:annotation-driven  /> -->
+    <!-- @responsebody 下 '/'、'.josn'匹配json,'.xml'匹配xml  -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
+        <property name="contentNegotiationManager" ref="responseContentNegotiationManager"></property>
+         <property name="messageConverters">
+        <list>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+				<property name="propertyNamingStrategy">
+					<bean
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"></bean>
 				</property>
 			</bean>
-            </list>  
+		</property>
+	</bean>
+	<bean class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter">
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.dataformat.xml.XmlMapper">
+				<property name="propertyNamingStrategy">
+					<bean
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy">
+						</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+        </list>
         </property> 
-    </bean>    -->
+    </bean> 
+    <bean id="responseContentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
+          p:defaultContentType="application/json"  
+          p:ignoreAcceptHeader="true"  
+          p:favorPathExtension="true"  
+          p:favorParameter="false"  
+          p:parameterName="content"
+          >
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html;charset=UTF-8" />
+				<entry key="json" value="application/json" />
+         		<entry key="xml" value="application/xml" /> 
+				<entry key="xls" value="application/vnd.ms-excel" /> 
+         		<entry key="pdf" value="application/pdf"  />   
+			</map>
+		</property>
+	</bean>
+	   
 	<!-- <mvc:annotation-driven validator="validator"
 		conversion-service="conversion-service" />
 	<bean id="validator"
@@ -70,6 +95,23 @@
             </list>  
         </property>  
     </bean>    -->
+     <!--非@responsebody下的 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
+          p:defaultContentType="text/html;charset=UTF-8"  
+          p:ignoreAcceptHeader="true"  
+          p:favorPathExtension="true"  
+          p:favorParameter="false"  
+          p:parameterName="content"
+          >
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+         		<entry key="xml" value="application/xml" /> 
+				<entry key="xls" value="application/vnd.ms-excel" /> 
+         		<entry key="pdf" value="application/pdf"  />   
+			</map>
+		</property>
+	</bean>  
 	 <bean id="myModelAndView"
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		 <property name="viewResolvers">
@@ -96,37 +138,35 @@
 		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
 		<property name="defaultViews">
 			<list>
-				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
-				</bean>
-				<bean  class="org.springframework.web.servlet.view.xml.MappingJackson2XmlView">
-				</bean> 
-				 <bean id="xlsView"  class="com.yayao.myView.XLSView">
-				</bean>
-				<bean id="pdfView" class="com.yayao.myView.PDFView">
-				</bean> 
+	<bean 
+		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+				<property name="propertyNamingStrategy">
+					<bean
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"></bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean class="org.springframework.web.servlet.view.xml.MappingJackson2XmlView">
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.dataformat.xml.XmlMapper">
+				<property name="propertyNamingStrategy">
+					<bean
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy">
+						</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="xlsView" class="com.yayao.myView.XLSView">
+	</bean>
+	<bean id="pdfView" class="com.yayao.myView.PDFView">
+	</bean> 
  		</list>
 		</property>
 	</bean> 
-	 <!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
-	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
-          p:defaultContentType="text/html"  
-          p:ignoreAcceptHeader="true"  
-          p:favorPathExtension="true"  
-          p:favorParameter="false"  
-          p:parameterName="content"
-          >
-          
-		<property name="mediaTypes">
-			<map>
-				<entry key="json" value="application/json" />
-         		<entry key="xml" value="application/xml" /> 
-				<entry key="xls" value="application/vnd.ms-excel" /> 
-         		<entry key="pdf" value="application/pdf"  />   
-			</map>
-		</property>
-	</bean> 
-	
-	
     <mvc:default-servlet-handler/> 
     
 	<!-- <mvc:resources location="/resources/css/,/WEB-INF/resources/css/"

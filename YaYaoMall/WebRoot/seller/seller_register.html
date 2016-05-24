@@ -50,25 +50,30 @@
 			<label id="sellerErrorValue" class="text-danger hidden"></label>
 			</div>
 				<div class="form-group">
+					<label class="control-label text-danger verification-email" id="sellerPhoneError"></label>
 					 <input
 						type="tel" class="form-control" id="sellerPhone"
-						placeholder="手机号">
+						placeholder="手机号" name="sellerPhone">
 				</div>
 				<div class="form-group">
+					<label class="control-label text-danger verification-email" id="sellerPasswordError"></label>
 					 <input
 						type="password" class="form-control" id="sellerPassword"
-						placeholder="输入密码">
+						placeholder="输入密码" name="sellerPassword">
 				</div>
 				<div class="form-group">
+					<label class="control-label text-danger verification-email" id="sellerRePasswordError"></label>
 					 <input
 						type="password" class="form-control" id="sellerRePassword"
 						placeholder="确认密码">
 				</div>
+					<label id="sellerValidCodeValueError" class="control-label text-danger verification-email"></label>
 				<div class="form-group row">
 					 <div class="col-sm-7">
+
 					 <input
 						type="text" class="form-control"  id="sellerValidCodeValue"
-						placeholder="验证码">
+						placeholder="验证码" name="validCode">
 					 </div>
 					 <div class="col-sm-5">
 					 <input
@@ -140,24 +145,81 @@
       <script src="/resources/js/base.js"></script>
        <script>
        $(function(){
+    	   /**
+         	**注册校验
+         	*/
+         		
+         	myUtils.registerFormValid(
+         		//账号
+         		{
+         		userNameValue:"#sellerPhone",
+         		verification:myUtils.userVerification.phone,
+         		userNameError:"#sellerPhoneError",
+         		userNameErrorValue:"请输入正确的手机号",
+         		userNameURL:"/seller/chkSellerName.json"
+         	},
+         //密码
+         	{
+         		userPasswordValue:"#sellerPassword",
+         		userPasswordError:"#sellerPasswordError",
+         		userPasswordErrorValue:"数字、字母、下划线，6-20长度"
+         	},
+         //重复密码
+         	{
+         		userRePasswordValue:"#sellerRePassword",
+         		userRePasswordError:"#sellerRePasswordError",
+         		userRePasswordErrorValue:"两次密码必须相同"
+         	},
+         	//验证码btn
+         	"#sellerValidCodeBtn",
+         	//验证码
+         	{	
+         		userValidCodeSendURL:"/seller/sellerPhoneValidCode.json",
+         		userValidCodeValue:"#sellerValidCodeValue",
+         		userValidCodeError:"#sellerValidCodeValueError",
+         		userValidCodeCheckedURL:"/seller/chkSellerPhoneValidCode.json"
+         	}); 
     	   //第一注册表单
     	   $("#oneFormSubmit").click(function(){
-    		  $("#oneForm").hide();
-    		  $("#twoForm").css("display","block");
-    		  $("#oneFormTitle").css("background-color","#ccc");
-    		  $("#twoFormTitle").css("background-color","#EF0D06");
     		  if(!myUtils.userVerification.phone.test($("#sellerPhone").val())){
   				return myUtils.myLoadingToast("手机号码不正确", null);
   			}
     		  if(!myUtils.userVerification.password.test($("#sellerPassword").val())){
   				return myUtils.myLoadingToast("数字、字母、下划线，6-20长度", null);
   			}
-    		  if($("#sellerRePassword").val()trim()==""||!myUtils.userVerification.password.test($("#sellerRePassword").val())){
+    		  if($("#sellerRePassword").val().trim()==""||!myUtils.userVerification.password.test($("#sellerRePassword").val())){
   				return myUtils.myLoadingToast("两次密码必须相同，且不等于空", null);
   			}
-    		  if(!myUtils.userVerification.password.test($("#sellerValidCodeValue").val())){
-  				return myUtils.myLoadingToast("两次密码必须相同，且不等于空", null);
+    		  if(!$("#sellerValidCodeValue").val().trim()){
+  				return myUtils.myLoadingToast("验证码错误", null);
   			}
+    		  myUtils.myPrevToast("注册中",function(){
+        			$.ajax({
+        				url:"/seller/sellerPhoneRegister.json",
+        			  data:$("#emailForm").serialize(),
+        			  type:"POST",
+        			  dataType:"json",
+        			  success:function(data){
+        				  console.log(data)
+        				 if(data.user_msg=="200"){
+        				myUtils.myPrevToast("注册成功",function(){
+        				sessionStorage.setItem("seller",encode64(JSON.stringify(data)));
+        				myUtils.setCookie("sellerloginstate","1",60*60*24*365);
+        				myUtils.setCookie("sellerid",data.sellerid,60*60*24*365);
+        				myUtils.setCookie("sellerToken",data.sellerToken,60*60*24*365);
+        			//执行下一步
+        				$("#oneForm").hide();
+        	    		  $("#twoForm").css("display","block");
+        	    		  $("#oneFormTitle").css("background-color","#ccc");
+        	    		  $("#twoFormTitle").css("background-color","#EF0D06");
+        				},"remove");
+        				}
+        			},
+        			error:function(){
+        				myUtils.myLoadingToast("注册失败");
+        			}
+        		});
+        		},"add");
     	   });
     	   //第二注册表单
     	   $("#twoFormSubmit").click(function(){

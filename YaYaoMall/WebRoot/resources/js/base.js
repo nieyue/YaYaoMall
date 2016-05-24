@@ -111,23 +111,28 @@ var myUtils = {
 		// 账号
 		if(typeof userName=='object'&&userName!=null){
       	$(userName.userNameValue).on("change",function(){
+      		$(userName.userNameError).text("");
       		var  userNameInfo=$(userName.userNameValue).val().trim();
 			if(!userName.verification.test(userNameInfo)){
       			$(userName.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
-      		$.get(userName.userNameURL,
-      			{userName:userNameInfo},
-      			function(data){
+      		$.ajax({
+      			type:"GET",
+      			dataType:"json",
+      			url:userName.userNameURL+"?accountName="+userNameInfo,
+      			success:function(data){
       				console.log(data)
-      				if(data=="用户不存在"){
+      				if(data=="用户不存在"||data=="商户不存在"){
       					$(userName.userNameError).text("");
       				}else{
       			$(userName.userNameError).text(data);
       		}
-      				
+      	},
+      	error:function(responseText){
+      		console.log(responseText)
       	}
-      			);
+      		});
       	});
 		}
       	// 密码
@@ -162,8 +167,7 @@ var myUtils = {
       		}
       		$.get(validCode.userValidCodeSendURL,
       				{
-      				userEmail:userNameInfo,
-      				validCode:parseInt(Math.random()*9000+1000)
+      				accountName:userNameInfo
       				},
       				function(data){
       		if(data=="200"){
@@ -176,7 +180,7 @@ var myUtils = {
       		}else{
       			timer--;
       			$(validBtn).attr("disabled",true);	
-      			$(validBtn).text(timer+"s重新发送")
+      			$(validBtn).val(timer+"s重新发送")
       			
       		}
       		},1000);
@@ -199,6 +203,7 @@ var myUtils = {
       			validCode:$(validCode.userValidCodeValue).val().trim()
       		},
       			function(data){
+      			console.log(data)
       				if(data=='200'){
       				$(validCode.userValidCodeError).text("");
       				}else{

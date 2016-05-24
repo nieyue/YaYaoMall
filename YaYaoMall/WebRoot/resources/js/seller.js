@@ -398,6 +398,8 @@ var sellerData={
 				$("#addMerchandiseSubmit").attr("id","updateMerchandiseSubmit");
 				$(document).off("click","#updateMerchandiseSubmit").on('click','#updateMerchandiseSubmit',function(){
 					sellerData.addMerchandiseHandler({ajaxFn:"/merchandise/updateMerchandise.json",update:{$element:$obj},merchandiseid:data.merchandiseid});
+					$("#addMerchandiseSubmit").attr("id","addMerchandiseSubmit");//复原
+					
 				});
 				}
 			});

@@ -3,7 +3,9 @@ package com.yayao.messageinterface;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.AlibabaAliqinFcSmsNumQueryRequest;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
+import com.taobao.api.response.AlibabaAliqinFcSmsNumQueryResponse;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 
 /**
@@ -22,20 +24,61 @@ public class SMSInterface {
     public static final String sessionKey = "*********";
     //App Secret是TOP给应用分配的密钥，开发者需要妥善保存这个密钥，这个密钥用来保证应用来源的可靠性，防止被伪造。  
     public static final String secret = "acbeda26389ee14c9f8072313245c92d"; 
-	public static void main(String[] args) throws ApiException {
-		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+	/**
+	 *短信发送
+	 */
+    public static String SmsNumSend(String extend,String recNum,String templateCode){
+    	TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
-		req.setExtend("123456");
+		req.setExtend(extend);
 		req.setSmsType("normal");
 		req.setSmsFreeSignName("测试短信");
-		
-		req.setSmsParamString("{\"code\":\"1234\",\"phoneName\":\"15111336587\"}");
-		req.setRecNum("15111336587");
-		req.setSmsTemplateCode("SMS_9140087");
+		req.setRecNum(recNum);
+		req.setSmsParamString("{\"code\":\""+extend+"\",\"phoneName\":\""+recNum+"\"}");
+		req.setSmsTemplateCode(templateCode);
 		//req.setExtendCode("1234");
 		//req.setExtendName("1234");
-		
-		AlibabaAliqinFcSmsNumSendResponse rsp = client.execute(req);
-		System.out.println(rsp.getBody());
+		AlibabaAliqinFcSmsNumSendResponse rsp = null;
+		try {
+			 rsp = client.execute(req);
+			//System.out.println(rsp.getBody());
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rsp.getBody();
+    }
+    /**
+     *短信发送记录查询
+     */
+    public static String SmsNumQuery(){
+    	TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+    	AlibabaAliqinFcSmsNumQueryRequest req = new AlibabaAliqinFcSmsNumQueryRequest();
+    	//req.setBizId("101688180762^1102237830646");
+    	req.setRecNum("15111336587");
+    	req.setQueryDate("20160524");
+    	req.setCurrentPage(1L);
+    	req.setPageSize(40L);
+    	AlibabaAliqinFcSmsNumQueryResponse rsp = null;
+		try {
+			rsp = client.execute(req);
+			//System.out.println(rsp.getBody());
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rsp.getBody();
+    }
+    /**
+     * 综合测试
+     * @param args
+     * @throws ApiException
+     */
+    public static void SmsNumTotal(){
+    	
+    }
+    public static void main(String[] args) throws ApiException {
+    	//System.out.println(SmsNumSend("5484","15111336587","SMS_9140087"));
+    	System.out.println(SmsNumQuery());
 	}
 }

@@ -39,6 +39,10 @@ public class StatusCode {
 	 */
 	public static String ERROR="ERROR";
 	/**
+	 * 短信注册模板ID
+	 */
+	public static String SMS_TEMPLATE_CODE_REG="SMS_TEMPLATE_CODE_REG";
+	/**
 	 * 用户已经存在
 	 */
 	public static String USER_EXIST="USER_EXIST";

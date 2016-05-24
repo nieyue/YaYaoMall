@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yayao.bean.Seller;
+import com.yayao.messageinterface.SMSInterface;
 import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.service.SellerService;
@@ -38,6 +39,65 @@ public class SellerController {
 	private MerchandiseService merchandiseService;
 	@Resource(name = "sellerService")
 	private SellerService sellerService;
+	
+	/**
+	 * 手机验证码发送
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/sellerPhoneValidCode", method = {RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody
+	String validCode(@RequestParam("accountName") final String sellerPhone,HttpSession session) throws ParseException {
+		if(session.getAttribute("sellerPhoneValidCodeExpire")!=null){
+			String sessionvce = session.getAttribute("sellerPhoneValidCodeExpire").toString();
+			if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 1)))){//没超过一分钟
+			return StatusCode.GetValueByKey(StatusCode.ONE_ASK_ONE);
+		}
+			
+		}		
+		
+		Integer sellerPhoneValidCode=(int) (Math.random()*9000+1000);
+		try {
+				SMSInterface.SmsNumSend(String.valueOf(sellerPhoneValidCode), sellerPhone,StatusCode.GetValueByKey(StatusCode.SMS_TEMPLATE_CODE_REG));
+		} catch (Exception e) {
+			return null;
+		} 
+		session.setAttribute("sellerPhoneValidCode",sellerPhoneValidCode);
+		session.setAttribute("sellerPhoneValidCodeExpire",DateUtil.getCurrentTime());
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
+	}
+	/**
+	 * 手机验证码验证
+	 * 
+	 * @param user
+	 * @param session
+	 * @return
+	 * @throws ParseException 
+	 * @throws NumberFormatException 
+	 */
+	@RequestMapping(value = "/chkSellerPhoneValidCode", method = {RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody
+	String chkValidCode(@RequestParam("validCode")String sellerPhoneValidCode,HttpSession session) throws NumberFormatException, ParseException {
+		if(!NumberUtil.isNumeric(sellerPhoneValidCode)){
+			return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR);
+		}
+		if(session.getAttribute("sellerPhoneValidCodeExpire")==null){
+			return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR);
+		}
+		String sessionvce = session.getAttribute("sellerPhoneValidCodeExpire").toString();
+		if(!(new Date().after(DateUtil.getFirstToSecondsTime(DateUtil.parseDate(sessionvce), 10)))){//没过期
+			if(Integer.valueOf(session.getAttribute("sellerPhoneValidCode").toString()).equals(Integer.valueOf(sellerPhoneValidCode))){
+				return StatusCode.GetValueByKey(StatusCode.SUCCESS);
+			
+		}
+			return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_ERROR);
+			
+		}
+		return StatusCode.GetValueByKey(StatusCode.VERIFICATION_CODE_EXPIRED);
+	}
 	/**
 	 * 商户手机注册
 	 * @param merSeller
@@ -49,7 +109,7 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerPhoneRegister", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	Seller merSellerRegister(@ModelAttribute Seller seller,@RequestParam("sellerPhoneValidCode") String sellerPhoneValidCode, HttpSession session) throws Exception {
+	Seller merSellerRegister(@ModelAttribute Seller seller,@RequestParam("validCode") String sellerPhoneValidCode, HttpSession session) throws Exception {
 		/*
 		 * if(result.hasErrors()){
 		 * //customer.setContent(result.getFieldError().getDefaultMessage());
@@ -69,12 +129,13 @@ public class SellerController {
 			seller.setSellerPassword(shalp);
 		
 		boolean status = sellerService.addSeller(seller);
-		session.setAttribute("seller", seller);
 		if(status){
 			//成功则清除validcode
 			session.removeAttribute("sellerPhoneValidCodeExpire");
 			session.removeAttribute("sellerPhoneValidCode");
 			seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+			seller.setSellerToken( MyDESutil.getMD5(seller.getSellerPhone()));//设置token
+			session.setAttribute("seller", seller);
 			return seller;
 		}
 		return null;
@@ -95,9 +156,8 @@ public class SellerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/chkSellerName", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody
-	String userNameValid(@RequestParam String sellerName) {
-		boolean state =sellerService.chkLoginName(sellerName);
+	public @ResponseBody String sellerNameValid(@RequestParam("accountName") String accountName) {
+		boolean state =sellerService.chkLoginName(accountName);
 		if (state) {
 			return StatusCode.GetValueByKey(StatusCode.SELLER_EXIST);
 		}
