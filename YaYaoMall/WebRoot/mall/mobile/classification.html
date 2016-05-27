@@ -156,13 +156,13 @@
       	//myUtils.elasticSlide("#classification-left");
       	//myUtils.elasticSlide("#remtjsp");
       	//加载类型
-      	if(sessionStorage.getItem("merCategory")!=null){
-      		var data=JSON.parse(decode64(sessionStorage.getItem("merCategory")));
+      	if(sessionStorage.getItem("mer_category")!=null){
+      		var data=JSON.parse(decode64(sessionStorage.getItem("mer_category")));
       		userData.merCategory(data);
       	}else{
-      	$.get("/merCategory/browseMerCategory/all.json"
+      	$.get("/merCategory/browseMerCategory"
       	,function(data){
-      	sessionStorage.setItem("merCategory",encode64(JSON.stringify(data)));
+      	sessionStorage.setItem("mer_category",encode64(JSON.stringify(data)));
       	userData.merCategory(data);
       	}); 
       	}

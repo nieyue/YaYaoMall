@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 @Entity
 
-@Table(name="user_tb",catalog="YaYaoMall_db")
+@Table(name="user_tb",catalog="yayaomall_db")
 @JsonIgnoreProperties({"userPassword"})
 public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
@@ -39,9 +39,10 @@ public class User implements java.io.Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	//@GeneratedValue(strategy=GenerationType.AUTO,generator="userid")
-	//@GenericGenerator(name="userid",strategy="assigned")
-	private Integer userid;
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="user_id")
+	//@GenericGenerator(name="user_id",strategy="native",parameters={})
+	//@SequenceGenerator(name="user_id",initialValue=1000,allocationSize=1)
+	private Integer userId;
 	/**
 	 * 邮箱
 	 */
@@ -49,7 +50,7 @@ public class User implements java.io.Serializable {
 	/**
 	 * 用户图片
 	 */
-	private String userIMG;
+	private String userImg;
 	/**
 	 * 登录昵称
 	 */
@@ -88,7 +89,7 @@ public class User implements java.io.Serializable {
 	 * 账户等级
 	 */
 	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
-	@JoinColumn(name="userlevelid")
+	@JoinColumn(name="userlevel_id")
 	@JsonManagedReference
 	private UserLevel userLevel;
 	/**
@@ -113,46 +114,47 @@ public class User implements java.io.Serializable {
 	 * 收货地址
 	 */
 	@Transient
-	private Set<UserReceiptAddress> userReceiptAddress;
+	private Set<UserReceiptAddress> userReceiptAddresss;
 	/**
 	 * 好友
 	 */
 	@Transient
-	private Set<Friends> friends;
+	private Set<Friend> friends;
 	/**
 	 * 订单
 	 */
 	@Transient
-	private Set<Orders> orders ;
+	private Set<Order> orders ;
 	/**
 	 * 商品收藏
 	 */
 	@Transient
-	private Set<MerCollections> merCollections ;
+	private Set<MerCollection> merCollections ;
 	/**
 	 * 评论
 	 */
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy="user")
 	@JsonBackReference
-	private Set<Comments> userComments;
+	private Set<Comment> comments;
 	
 	
 	
 	public User() {
 	}
 
-	public User(Integer userid, String userEmail,String userIMG, String userNiceName,
-			String userPassword, String userSignature, String userPhone,
-			String userIdentity, Set<CardPackage> cardPackages,
-			Integer integral, Integer isLogin, UserLevel userLevel,
-			Date regDate, Date lastLoginTime, String userMsg,
-			Set<UserReceiptAddress> userReceiptAddress, Set<Friends> friends,
-			Set<Orders> orders, Set<MerCollections> merCollections,
-			Set<Comments> userComments,String userToken) {
+	public User(Integer userId, String userEmail, String userImg,
+			String userNiceName, String userPassword, String userSignature,
+			String userPhone, String userIdentity,
+			Set<CardPackage> cardPackages, Integer integral, Integer isLogin,
+			UserLevel userLevel, Date regDate, Date lastLoginTime,
+			String userMsg, String userToken,
+			Set<UserReceiptAddress> userReceiptAddresss, Set<Friend> friends,
+			Set<Order> orders, Set<MerCollection> merCollections,
+			Set<Comment> comments) {
 		super();
-		this.userid = userid;
+		this.userId = userId;
 		this.userEmail = userEmail;
-		this.userIMG=userIMG;
+		this.userImg = userImg;
 		this.userNiceName = userNiceName;
 		this.userPassword = userPassword;
 		this.userSignature = userSignature;
@@ -165,29 +167,29 @@ public class User implements java.io.Serializable {
 		this.regDate = regDate;
 		this.lastLoginTime = lastLoginTime;
 		this.userMsg = userMsg;
-		this.userReceiptAddress = userReceiptAddress;
+		this.userToken = userToken;
+		this.userReceiptAddresss = userReceiptAddresss;
 		this.friends = friends;
 		this.orders = orders;
 		this.merCollections = merCollections;
-		this.userComments = userComments;
-		this.userToken=userToken;
+		this.comments = comments;
 	}
 
-
-
-
-
-
-
-
-	public Integer getUserid() {
-		return userid;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUserid(Integer userid) {
-		this.userid = userid;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 
 	public String getUserNiceName() {
 		return userNiceName;
@@ -211,14 +213,6 @@ public class User implements java.io.Serializable {
 
 	public void setUserSignature(String userSignature) {
 		this.userSignature = userSignature;
-	}
-
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
 	}
 
 	public String getUserPhone() {
@@ -261,6 +255,14 @@ public class User implements java.io.Serializable {
 		this.isLogin = isLogin;
 	}
 
+	public UserLevel getUserLevel() {
+		return userLevel;
+	}
+
+	public void setUserLevel(UserLevel userLevel) {
+		this.userLevel = userLevel;
+	}
+
 	public Date getRegDate() {
 		return regDate;
 	}
@@ -277,70 +279,12 @@ public class User implements java.io.Serializable {
 		this.lastLoginTime = lastLoginTime;
 	}
 
-	public Set<UserReceiptAddress> getUserReceiptAddress() {
-		return userReceiptAddress;
-	}
-
-	public void setUserReceiptAddress(Set<UserReceiptAddress> userReceiptAddress) {
-		this.userReceiptAddress = userReceiptAddress;
-	}
-
-	public Set<Friends> getFriends() {
-		return friends;
-	}
-
-	public void setFriends(Set<Friends> friends) {
-		this.friends = friends;
-	}
-
-	public Set<Orders> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(Set<Orders> orders) {
-		this.orders = orders;
-	}
-
-	public Set<MerCollections> getMerCollections() {
-		return merCollections;
-	}
-
-	public void setMerCollections(Set<MerCollections> merCollections) {
-		this.merCollections = merCollections;
-	}
-
-	public Set<Comments> getUserComments() {
-		return userComments;
-	}
-
-	public void setUserComments(Set<Comments> userComments) {
-		this.userComments = userComments;
-	}
-
-	public UserLevel getUserLevel() {
-		return userLevel;
-	}
-
-	public void setUserLevel(UserLevel userLevel) {
-		this.userLevel = userLevel;
-	}
-
-
 	public String getUserMsg() {
 		return userMsg;
 	}
 
-
 	public void setUserMsg(String userMsg) {
 		this.userMsg = userMsg;
-	}
-
-	public String getUserIMG() {
-		return userIMG;
-	}
-
-	public void setUserIMG(String userIMG) {
-		this.userIMG = userIMG;
 	}
 
 	public String getUserToken() {
@@ -351,5 +295,52 @@ public class User implements java.io.Serializable {
 		this.userToken = userToken;
 	}
 
+	public Set<UserReceiptAddress> getUserReceiptAddresss() {
+		return userReceiptAddresss;
+	}
+
+	public void setUserReceiptAddresss(Set<UserReceiptAddress> userReceiptAddresss) {
+		this.userReceiptAddresss = userReceiptAddresss;
+	}
+
+	public Set<Friend> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(Set<Friend> friends) {
+		this.friends = friends;
+	}
+
+	public Set<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
+	}
+
+	public Set<MerCollection> getMerCollections() {
+		return merCollections;
+	}
+
+	public void setMerCollections(Set<MerCollection> merCollections) {
+		this.merCollections = merCollections;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public String getUserImg() {
+		return userImg;
+	}
+
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
+	}
 	
 }

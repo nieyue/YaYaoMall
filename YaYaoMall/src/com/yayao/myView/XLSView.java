@@ -58,7 +58,7 @@ public class XLSView extends AbstractXlsView{
                 User user = sheetList.get(i);
                 Row row = sheet.createRow(i+1);
                 
-                row.createCell(0).setCellValue(user.getUserid().toString());
+                row.createCell(0).setCellValue(user.getUserId().toString());
                 row.createCell(1).setCellValue(user.getUserEmail());
                 row.createCell(2).setCellValue(user.getLastLoginTime().toLocaleString());
                 row.createCell(3).setCellValue(user.getUserNiceName());

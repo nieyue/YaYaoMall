@@ -178,13 +178,13 @@
        <script src="/resources/js/seller.js"></script> 
        <script type="text/javascript">
        $(function(){
-    	 if(myUtils.getCookie("sellerid")==null){
+    	 if(myUtils.getCookie("seller_id")==null){
     		 location.replace("/seller/index");
     	 }
     	 //sellerInfo商家信息
     	 //onsole.log(JSON.parse(decode64(sessionStorage.getItem("seller"))))
-    	 if(sessionStorage.getItem("seller")!=null&&JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName!=null){
-    	$("#sellerInfo").html(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName+"<b class='caret'></b>")
+    	 if(sessionStorage.getItem("seller")!=null&&JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_nice_name!=null){
+    	$("#sellerInfo").html(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_nice_name+"<b class='caret'></b>")
     	 }
     	 //自动登录，没session自动退出。
     	 sellerData.sellerAutoLoginSession({loginout:function(){
@@ -245,7 +245,7 @@
         	
         	//单个商品添加实体
         	$(document).off("click","#addMerchandiseSubmit").on('click','#addMerchandiseSubmit',function(){
-        	 sellerData.addMerchandiseHandler({ajaxFn:"/merchandise/addMerchandise.json",add:true});
+        	 sellerData.addMerchandiseHandler({ajaxFn:"/merchandise/addMerchandise",add:true});
             });
         	//单个商品删除
        		$(document).on("click",".delSingleMer",function(){

@@ -10,7 +10,7 @@
     <link href="/resources/css/style.css" rel="stylesheet">
 
     <script type="text/javascript">
-    if(localStorage.getItem("loginstate")==1){
+    if(localStorage.getItem("login_state")==1){
 			location.replace("/mall/mobile/person");
 		}
     </script>
@@ -64,7 +64,7 @@
        <script type="text/javascript">
       		$(function(){
       			//修改回退
-      			$("#backhref").attr("href","/mall/mobile/person?sellerid="+myUtils.GetQueryString("sellerid"));
+      			$("#backhref").attr("href","/mall/mobile/person?seller_id="+myUtils.GetQueryString("seller_id"));
       		
       			$("#userName").change(function(){
       			if(myUtils.userVerification.email.test($("#userName").val())||myUtils.userVerification.phone.test($("#userName").val())){
@@ -83,15 +83,15 @@
       				$.ajax({
       				url:'/user/login',
       				type:'POST',
-      				data:{userName:userName,userPassword:userPassword},
+      				data:{user_name:userName,user_password:userPassword},
       				dataType:'json',
       				success:function(data){
       					if(data.userMsg=="200"){
-      					myUtils.setCookie("loginstate","1",60*60*24*365);
-      					myUtils.setCookie("userid",data.userid,60*60*24*365);
+      					myUtils.setCookie("login_state","1",60*60*24*365);
+      					myUtils.setCookie("user_id",data.userid,60*60*24*365);
       					sessionStorage.setItem("user",encode64(JSON.stringify(data)));
       						myUtils.myPrevToast("登录成功",function(){
-      			      			location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
+      			      			location.replace("/mall/mobile/person?seller_id="+sessionStorage.getItem("seller_id"));
       			      			},"remove");
       					}
       					

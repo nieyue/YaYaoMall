@@ -40,8 +40,8 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
 	/** 更新商品 */	
 	public void updateMer(Merchandise merchandise) {
+		merchandise.setMerchandiseUpdateTime(new Date());
 		merchandiseDao.updateMer(merchandise);
-		
 	}
 
 	/** 装载指定的商品 */

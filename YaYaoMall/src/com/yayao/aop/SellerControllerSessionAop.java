@@ -26,7 +26,7 @@ public class SellerControllerSessionAop {
 				session=(HttpSession) args[i];
 			}
 		}
-		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
+		if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerId().equals(sellerid))){
 			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
 		}
 		return jp.proceed(args);

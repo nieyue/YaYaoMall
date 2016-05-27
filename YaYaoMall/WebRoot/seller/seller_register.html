@@ -45,7 +45,7 @@
 	<!-- one form-->
 	<div class="container seller-register-div" id="oneForm">
   			
-			<form class="col-sm-offset-2 col-sm-7">
+			<form class="col-sm-offset-2 col-sm-7" id="sellerForm">
 			<div class="form-group text-center">
 			<label id="sellerErrorValue" class="text-danger hidden"></label>
 			</div>
@@ -53,13 +53,13 @@
 					<label class="control-label text-danger verification-email" id="sellerPhoneError"></label>
 					 <input
 						type="tel" class="form-control" id="sellerPhone"
-						placeholder="手机号" name="sellerPhone">
+						placeholder="手机号" name="seller_phone">
 				</div>
 				<div class="form-group">
 					<label class="control-label text-danger verification-email" id="sellerPasswordError"></label>
 					 <input
 						type="password" class="form-control" id="sellerPassword"
-						placeholder="输入密码" name="sellerPassword">
+						placeholder="输入密码" name="seller_password">
 				</div>
 				<div class="form-group">
 					<label class="control-label text-danger verification-email" id="sellerRePasswordError"></label>
@@ -73,7 +73,7 @@
 
 					 <input
 						type="text" class="form-control"  id="sellerValidCodeValue"
-						placeholder="验证码" name="validCode">
+						placeholder="验证码" name="valid_code">
 					 </div>
 					 <div class="col-sm-5">
 					 <input
@@ -90,7 +90,7 @@
 	<!--two form-->
 	<div class="container seller-register-div" style="display:none;" id="twoForm">
   			
-			<form class="col-sm-offset-3 col-sm-6">
+			<form class="col-sm-offset-3 col-sm-6" id="sellerForm2">
 			<div class="form-group text-center">
 			<label id="sellerErrorValue" class="text-danger hidden"></label>
 			</div>
@@ -142,6 +142,7 @@
 <!-- endfoot -->
        <script src="/resources/js/jquery2.1.js"></script>  
        <script src="/resources/js/bootstrap3.2.0.js"></script>
+      <script src="/resources/js/base64.js"></script>
       <script src="/resources/js/base.js"></script>
        <script>
        $(function(){
@@ -156,7 +157,7 @@
          		verification:myUtils.userVerification.phone,
          		userNameError:"#sellerPhoneError",
          		userNameErrorValue:"请输入正确的手机号",
-         		userNameURL:"/seller/chkSellerName.json"
+         		userNameURL:"/seller/chkSellerName"
          	},
          //密码
          	{
@@ -174,13 +175,14 @@
          	"#sellerValidCodeBtn",
          	//验证码
          	{	
-         		userValidCodeSendURL:"/seller/sellerPhoneValidCode.json",
+         		userValidCodeSendURL:"/seller/sellerPhoneValidCode",
          		userValidCodeValue:"#sellerValidCodeValue",
          		userValidCodeError:"#sellerValidCodeValueError",
-         		userValidCodeCheckedURL:"/seller/chkSellerPhoneValidCode.json"
+         		userValidCodeCheckedURL:"/seller/chkSellerPhoneValidCode"
          	}); 
     	   //第一注册表单
     	   $("#oneFormSubmit").click(function(){
+    			  console.log($("#sellerForm").serialize())
     		  if(!myUtils.userVerification.phone.test($("#sellerPhone").val())){
   				return myUtils.myLoadingToast("手机号码不正确", null);
   			}
@@ -195,18 +197,18 @@
   			}
     		  myUtils.myPrevToast("注册中",function(){
         			$.ajax({
-        				url:"/seller/sellerPhoneRegister.json",
-        			  data:$("#emailForm").serialize(),
+        			url:"/seller/sellerPhoneRegister",
+        			  data:$("#sellerForm").serialize(),
         			  type:"POST",
         			  dataType:"json",
         			  success:function(data){
         				  console.log(data)
-        				 if(data.user_msg=="200"){
+        				 if(data.seller_msg=="200"){
         				myUtils.myPrevToast("注册成功",function(){
         				sessionStorage.setItem("seller",encode64(JSON.stringify(data)));
-        				myUtils.setCookie("sellerloginstate","1",60*60*24*365);
-        				myUtils.setCookie("sellerid",data.sellerid,60*60*24*365);
-        				myUtils.setCookie("sellerToken",data.sellerToken,60*60*24*365);
+        				myUtils.setCookie("seller_login_state","1",60*60*24*365);
+        				myUtils.setCookie("seller_id",data.seller_id,60*60*24*365);
+        				myUtils.setCookie("seller_token",data.seller_token,60*60*24*365);
         			//执行下一步
         				$("#oneForm").hide();
         	    		  $("#twoForm").css("display","block");
@@ -216,28 +218,67 @@
         				}
         			},
         			error:function(){
+        				myUtils.myPrevToast("注册成功",null,"remove");
         				myUtils.myLoadingToast("注册失败");
         			}
         		});
         		},"add");
     	   });
     	   //第二注册表单
-    	   $("#twoFormSubmit").click(function(){
-    		  $("#twoForm").hide();
-    		  $("#threeForm").css("display","block");
-    		  $("#twoFormTitle").css("background-color","#ccc");
-    		  $("#threeFormTitle").css("background-color","#EF0D06");
-    	   });
     	   $("#sellerImgBtn").on('click',function(){
-    		   console.log("ds")
     		  $("#sellerImgFile").click();
     	   });
+    	   //图片点击
     	   $("#sellerImgFile").on('change',function(){
-    	   	myUtils.fileUpload("#sellerImgFile",function(event){
-    	   		$("#sellerImgSrc").attr("src",event.target.result);
-    	   		$("#sellerImgBtn").text("修改店铺图片");
-    	   	});
+    		   myUtils.fileUpload({
+			    	inputfile:$("sellerImgFile"),
+			    	ajaxObj:
+			    		{
+	  		  				formData:[{key:"seller_file",value:$("sellerImgFile").get(0).files[0]},{key:"seller_id",value:myUtils.getCookie("seller_id")}],
+	  		  				url:"/seller/addSellerImg",
+	  		  				success:function(data){
+       			    		$("#sellerImgSrc").attr("src",data.seller_img);
+	  		                myUtils.myPrevToast("上传成功",null,"remove");
+    	   					$("#sellerImgBtn").text("修改店铺图片");
+    	   					$("#sellerImgFile").val(data.seller_id);
+	  		  				}
+	  		  				}
+			    	});
     	   });
+    	   $("#twoFormSubmit").click(function(){
+    		  if(!$("#sellerImgFile").val()){
+  				return myUtils.myLoadingToast("未添加图片", null);
+  			} 
+    		  if($("#sellerName").text().trim().length<=2||$("#sellerName").val().trim().length>=300){
+  				return myUtils.myLoadingToast("店铺描述2-300字数之间", null);
+  			}
+    		  myUtils.myPrevToast("注册中",function(){
+      			$.ajax({
+      			url:"/seller/sellerPhoneRegister",
+      			  data:$("#sellerForm2").serialize(),
+      			  type:"POST",
+      			  dataType:"json",
+      			  success:function(data){
+      				  console.log(data)
+      				 if(data.seller_msg=="200"){
+      				myUtils.myPrevToast("注册成功",function(){
+      			//执行下一步
+      				  $("#twoForm").hide();
+      	    		  $("#threeForm").css("display","block");
+      	    		  $("#twoFormTitle").css("background-color","#ccc");
+      	    		  $("#threeFormTitle").css("background-color","#EF0D06");
+      				},"remove");
+      				}
+      			},
+      			error:function(){
+      				myUtils.myPrevToast("注册成功",null,"remove");
+      				myUtils.myLoadingToast("注册失败");
+      			}
+      		});
+      		},"add"); 
+    	   });
+    	   
+    	   
     	  
     	   
        });

@@ -82,7 +82,7 @@ public class SellerDaoImpl implements SellerDao {
 	public List<Seller> browseSeller() {
 		List<Seller> list = null;
 		Criteria c = getSession().createCriteria(Seller.class);
-		c.addOrder(Order.asc("mersellerid"));
+		c.addOrder(Order.asc("sellerId"));
 		list = c.list();
 		return list;
 	}

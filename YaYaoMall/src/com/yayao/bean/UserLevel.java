@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  *
  */
 @Entity
-@Table(name="userlevel_tb",catalog="YaYaoMall_db")
+@Table(name="user_level_tb",catalog="yayaomall_db")
 public class UserLevel implements Serializable{
 
 	/**
@@ -32,15 +32,15 @@ public class UserLevel implements Serializable{
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer userlevelid;
+	private Integer userLevelId;
 	/**
 	 * 账户等级名称
 	 */
-	private String levelName;
+	private String userLevelName;
 	/**
 	 * 账户利率
 	 */
-	private Integer favourable;
+	private Integer userLevelFavourable;
 	
 	/**
 	 * 账户
@@ -54,59 +54,46 @@ public class UserLevel implements Serializable{
 	public UserLevel() {
 		super();
 	}
-	
-	
 
-	public UserLevel(Integer userlevelid, String levelName, Integer favourable,
-			Set<User> users) {
+	public UserLevel(Integer userLevelId, String userLevelName,
+			Integer userLevelFavourable, Set<User> users) {
 		super();
-		this.userlevelid = userlevelid;
-		this.levelName = levelName;
-		this.favourable = favourable;
+		this.userLevelId = userLevelId;
+		this.userLevelName = userLevelName;
+		this.userLevelFavourable = userLevelFavourable;
 		this.users = users;
 	}
 
-
-
-	public Integer getUserlevelid() {
-		return userlevelid;
+	public Integer getUserLevelId() {
+		return userLevelId;
 	}
 
-
-	public void setUserlevelid(Integer userlevelid) {
-		this.userlevelid = userlevelid;
+	public void setUserLevelId(Integer userLevelId) {
+		this.userLevelId = userLevelId;
 	}
 
-
-	public String getLevelName() {
-		return levelName;
+	public String getUserLevelName() {
+		return userLevelName;
 	}
 
-
-	public void setLevelName(String levelName) {
-		this.levelName = levelName;
+	public void setUserLevelName(String userLevelName) {
+		this.userLevelName = userLevelName;
 	}
 
-
-	public Integer getFavourable() {
-		return favourable;
+	public Integer getUserLevelFavourable() {
+		return userLevelFavourable;
 	}
 
-
-	public void setFavourable(Integer favourable) {
-		this.favourable = favourable;
+	public void setUserLevelFavourable(Integer userLevelFavourable) {
+		this.userLevelFavourable = userLevelFavourable;
 	}
-
 
 	public Set<User> getUsers() {
 		return users;
 	}
 
-
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 
-
-	
 }

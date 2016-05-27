@@ -21,7 +21,7 @@
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
         <property name="contentNegotiationManager" ref="responseContentNegotiationManager"></property>
-         <property name="messageConverters">
+        <property name="messageConverters">
         <list>
         <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="objectMapper">
@@ -29,6 +29,11 @@
 				<property name="propertyNamingStrategy">
 					<bean
 						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"></bean>
+				</property>
+				<property name="dateFormat">
+				<bean class="java.text.SimpleDateFormat">
+					<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+				</bean>
 				</property>
 			</bean>
 		</property>
@@ -40,6 +45,11 @@
 					<bean
 						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy">
 						</bean>
+				</property>
+				<property name="dateFormat">
+				<bean class="java.text.SimpleDateFormat">
+					<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+				</bean>
 				</property>
 			</bean>
 		</property>
@@ -146,6 +156,11 @@
 					<bean
 						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"></bean>
 				</property>
+		<property name="dateFormat">
+				<bean class="java.text.SimpleDateFormat">
+					<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+				</bean>
+		</property>
 			</bean>
 		</property>
 	</bean>
@@ -156,6 +171,11 @@
 					<bean
 						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy">
 						</bean>
+				</property>
+				<property name="dateFormat">
+				<bean class="java.text.SimpleDateFormat">
+					<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+				</bean>
 				</property>
 			</bean>
 		</property>
@@ -224,10 +244,10 @@
 				<mvc:mapping path="/merchandise/**"/>
 				<mvc:mapping path="/merCategory/**"/>
 				<mvc:mapping path="/merchandiseImg/**"/>
-				<mvc:exclude-mapping path="/merCategory/browseMerCategory.json"/>
-				<mvc:exclude-mapping path="/merchandise/browseMerBySeller.json"/>
-				<mvc:exclude-mapping path="/merchandise/loadMerchandise.json"/>
-				<mvc:exclude-mapping path="/merchandiseImg/browseMerchandiseImg.json"/>
+				<mvc:exclude-mapping path="/merCategory/browseMerCategory"/>
+				<mvc:exclude-mapping path="/merchandise/browseMerBySeller"/>
+				<mvc:exclude-mapping path="/merchandise/loadMerchandise"/>
+				<mvc:exclude-mapping path="/merchandiseImg/browseMerchandiseImg"/>
 				<bean class="com.yayao.interceptor.SellerControllerSessionInterceptor" ></bean>
 			</mvc:interceptor>
 		</mvc:interceptors>

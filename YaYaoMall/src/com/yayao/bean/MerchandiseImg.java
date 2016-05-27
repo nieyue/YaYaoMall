@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  *
  */
 @Entity
-@Table(name="merchandiseimg_tb",catalog="YaYaoMall_db")
+@Table(name="merchandise_img_tb",catalog="yayaomall_db")
 public class MerchandiseImg implements Serializable{
 
 	/**
@@ -34,30 +34,30 @@ public class MerchandiseImg implements Serializable{
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer merchandiseimgid;
+	private Integer merchandiseImgId;
 	/**
 	 * 商品id
 	 */
 	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
-	@JoinColumn(name="merchandiseid")
+	@JoinColumn(name="merchandise_id")
 	@JsonBackReference
 	private Merchandise merchandise;
 	/**
 	 * 商品图片地址
 	 */
-	private String imgAddress;
+	private String merchandiseImgAddress;
 	/**
 	 * 商品缩略图片地址
 	 */
-	private String thumbImgAddress;
+	private String merchandiseImgThumbAddress;
 	/**
 	 * 商品图片排序
 	 */
-	private Integer merImgOrder;
+	private Integer merchandiseImgOrder;
 	/**
 	 * 更新创建时间
 	 */
-	private Date updateMerImgTime;
+	private Date merchandiseImgUpdateTime;
 	/**
 	 * 图片消息
 	 */
@@ -66,23 +66,24 @@ public class MerchandiseImg implements Serializable{
 	public MerchandiseImg() {
 		super();
 	}
-	public MerchandiseImg(Integer merchandiseimgid, Merchandise merchandise,
-			String imgAddress, String thumbImgAddress,Date updateMerImgTime,
-			String merchandiseImgMsg, Integer merImgOrder) {
+	public MerchandiseImg(Integer merchandiseImgId, Merchandise merchandise,
+			String merchandiseImgAddress, String merchandiseImgThumbAddress,
+			Integer merchandiseImgOrder, Date merchandiseImgUpdateTime,
+			String merchandiseImgMsg) {
 		super();
-		this.merchandiseimgid = merchandiseimgid;
+		this.merchandiseImgId = merchandiseImgId;
 		this.merchandise = merchandise;
-		this.imgAddress = imgAddress;
-		this.thumbImgAddress=thumbImgAddress;
-		this.updateMerImgTime=updateMerImgTime;
-		this.merchandiseImgMsg=merchandiseImgMsg;
-		this.merImgOrder=merImgOrder;
+		this.merchandiseImgAddress = merchandiseImgAddress;
+		this.merchandiseImgThumbAddress = merchandiseImgThumbAddress;
+		this.merchandiseImgOrder = merchandiseImgOrder;
+		this.merchandiseImgUpdateTime = merchandiseImgUpdateTime;
+		this.merchandiseImgMsg = merchandiseImgMsg;
 	}
-	public Integer getMerchandiseimgid() {
-		return merchandiseimgid;
+	public Integer getMerchandiseImgId() {
+		return merchandiseImgId;
 	}
-	public void setMerchandiseimgid(Integer merchandiseimgid) {
-		this.merchandiseimgid = merchandiseimgid;
+	public void setMerchandiseImgId(Integer merchandiseImgId) {
+		this.merchandiseImgId = merchandiseImgId;
 	}
 	public Merchandise getMerchandise() {
 		return merchandise;
@@ -90,35 +91,35 @@ public class MerchandiseImg implements Serializable{
 	public void setMerchandise(Merchandise merchandise) {
 		this.merchandise = merchandise;
 	}
-	public String getImgAddress() {
-		return imgAddress;
+	public String getMerchandiseImgAddress() {
+		return merchandiseImgAddress;
 	}
-	public void setImgAddress(String imgAddress) {
-		this.imgAddress = imgAddress;
+	public void setMerchandiseImgAddress(String merchandiseImgAddress) {
+		this.merchandiseImgAddress = merchandiseImgAddress;
 	}
-	public String getThumbImgAddress() {
-		return thumbImgAddress;
+	public String getMerchandiseImgThumbAddress() {
+		return merchandiseImgThumbAddress;
 	}
-	public void setThumbImgAddress(String thumbImgAddress) {
-		this.thumbImgAddress = thumbImgAddress;
+	public void setMerchandiseImgThumbAddress(String merchandiseImgThumbAddress) {
+		this.merchandiseImgThumbAddress = merchandiseImgThumbAddress;
 	}
-	public Date getUpdateMerImgTime() {
-		return updateMerImgTime;
+	public Integer getMerchandiseImgOrder() {
+		return merchandiseImgOrder;
 	}
-	public void setUpdateMerImgTime(Date updateMerImgTime) {
-		this.updateMerImgTime = updateMerImgTime;
+	public void setMerchandiseImgOrder(Integer merchandiseImgOrder) {
+		this.merchandiseImgOrder = merchandiseImgOrder;
+	}
+	public Date getMerchandiseImgUpdateTime() {
+		return merchandiseImgUpdateTime;
+	}
+	public void setMerchandiseImgUpdateTime(Date merchandiseImgUpdateTime) {
+		this.merchandiseImgUpdateTime = merchandiseImgUpdateTime;
 	}
 	public String getMerchandiseImgMsg() {
 		return merchandiseImgMsg;
 	}
 	public void setMerchandiseImgMsg(String merchandiseImgMsg) {
 		this.merchandiseImgMsg = merchandiseImgMsg;
-	}
-	public Integer getMerImgOrder() {
-		return merImgOrder;
-	}
-	public void setMerImgOrder(Integer merImgOrder) {
-		this.merImgOrder = merImgOrder;
 	}
 	
 }

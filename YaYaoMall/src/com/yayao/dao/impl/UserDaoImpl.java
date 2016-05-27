@@ -84,7 +84,7 @@ public class UserDaoImpl implements UserDao {
 	public List<User> browseUser() {
 		List<User> list = null;
 		Criteria c = getSession().createCriteria(User.class);
-		c.addOrder(Order.asc("userid"));
+		c.addOrder(Order.asc("userId"));
 		list = c.list();
 		return list;
 	}

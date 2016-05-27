@@ -27,7 +27,7 @@
       <label for="userNameEmail" class="control-label">账号</label>
       <label class="control-label text-danger verification-email" id="userNameEmailError"></label>
          <input type="text" class="form-control" id="userNameEmail" 
-            placeholder="邮箱" name="userEmail">
+            placeholder="邮箱" name="user_email">
       </div>
    </div>
    <div class="form-group">
@@ -35,7 +35,7 @@
       <label for="userPasswordEmail" class="control-label">密码</label>
       <label id="userPasswordEmailError" class="control-label text-danger verification-email"></label>
          <input type="password" class="form-control" id="userPasswordEmail" 
-            placeholder="密码" name="userPassword">
+            placeholder="密码" name="user_password">
       </div>
    </div>
    <div class="form-group">
@@ -51,7 +51,7 @@
    
       <div class="col-sm-6">
          <input type="text" style="width:60%;" class="form-control pull-left" id="userValidEmail" 
-            placeholder="验证码" name="validCode">
+            placeholder="验证码" name="valid_code">
       </div>
          <input type="button" class="btn btn-default pull-left" id="userValidEmailBtn" value="获取验证码"/>
    </div>
@@ -114,8 +114,8 @@
          <script src="/resources/js/user.js"></script>
        <script type="text/javascript">
       		$(function(){
-      			if(myUtils.getCookie("loginstate")==1){
-          			location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
+      			if(myUtils.getCookie("login_state")==1){
+          			location.replace("/mall/mobile/person?seller_id="+sessionStorage.getItem("seller_id"));
           			}
       		$(".emailspan").on("click",function(){
       			$("#phoneForm").css("display","none");
@@ -142,7 +142,7 @@
       		verification:myUtils.userVerification.email,
       		userNameError:"#userNameEmailError",
       		userNameErrorValue:"请输入正确的邮箱",
-      		userNameURL:"/user/chkUserName.json"
+      		userNameURL:"/user/chkUserName"
       	},
       //密码
       	{
@@ -160,10 +160,10 @@
       	"#userValidEmailBtn",
       	//验证码
       	{	
-      		userValidCodeSendURL:"/user/userEmailValidCode.json",
+      		userValidCodeSendURL:"/user/userEmailValidCode",
       		userValidCodeValue:"#userValidEmail",
       		userValidCodeError:"#userValidEmailError",
-      		userValidCodeCheckedURL:"/user/chkUserEmailValidCode.json"
+      		userValidCodeCheckedURL:"/user/chkUserEmailValidCode"
       		
       	}); 
       
@@ -183,17 +183,17 @@
       		}
       		myUtils.myPrevToast("注册中",function(){
       			$.ajax({
-      				url:"/user/userEmailRegister.json",
+      				url:"/user/userEmailRegister",
       			  data:$("#emailForm").serialize(),
       			  type:"POST",
       			  dataType:"json",
       			  success:function(data){
       				  //console.log(JSON.stringify(data))
-      				 if(data.userMsg=="200"){
+      				 if(data.user_msg=="200"){
       				myUtils.myPrevToast("注册成功",function(){
       				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
-      				myUtils.setCookie("loginstate","1",60*60*24*365);
-      				myUtils.setCookie("userid",data.userid,60*60*24*365);
+      				myUtils.setCookie("login_state","1",60*60*24*365);
+      				myUtils.setCookie("user_id",data.userid,60*60*24*365);
       				location.href="/mall/mobile/user_info";
       			},"remove");
       				}

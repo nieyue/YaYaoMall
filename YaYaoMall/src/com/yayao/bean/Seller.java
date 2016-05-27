@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 @Entity
-@Table(name="seller_tb",catalog="YaYaoMall_db")
+@Table(name="seller_tb",catalog="yayaomall_db")
 @JsonIgnoreProperties(value="sellerPassword")
 public class Seller implements Serializable {
 	/**
@@ -35,7 +35,7 @@ public class Seller implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer sellerid;
+	private Integer sellerId;
 	/**
 	 * 商品
 	 */
@@ -65,9 +65,9 @@ public class Seller implements Serializable {
 	 */
 	private String sellerNiceName;
 	/**
-	 * 店铺轮播图片
+	 * 店铺图片
 	 */
-	private String sellerIMGS;
+	private String sellerImg;
 	/**
 	 * 店铺宣传信息
 	 */
@@ -104,19 +104,19 @@ public class Seller implements Serializable {
 	public Seller() {
 		super();
 	}
-	public Seller(Integer sellerid, Set<Merchandise> merchandises,
+	public Seller(Integer sellerId, Set<Merchandise> merchandises,
 			String sellerEmail, String sellerPhone, String sellerPassword,
-			String sellerNiceName, String sellerIMGS, String sellerSignature,
+			String sellerNiceName, String sellerImg, String sellerSignature,
 			Integer sellerNumber,Set<MerCategory> merCategory, Integer isAuthentication,
 			Date registerDate,Date authenticationDate,String sellerMsg,String sellerToken) {
 		super();
-		this.sellerid = sellerid;
+		this.sellerId = sellerId;
 		this.merchandises = merchandises;
 		this.sellerEmail = sellerEmail;
 		this.sellerPhone = sellerPhone;
 		this.sellerPassword = sellerPassword;
 		this.sellerNiceName = sellerNiceName;
-		this.sellerIMGS = sellerIMGS;
+		this.sellerImg = sellerImg;
 		this.sellerSignature = sellerSignature;
 		this.sellerNumber = sellerNumber;
 		this.merCategory=merCategory;
@@ -126,11 +126,11 @@ public class Seller implements Serializable {
 		this.sellerMsg=sellerMsg;
 		this.sellerToken=sellerToken;
 	}
-	public Integer getSellerid() {
-		return sellerid;
+	public Integer getSellerId() {
+		return sellerId;
 	}
-	public void setSellerid(Integer sellerid) {
-		this.sellerid = sellerid;
+	public void setSellerId(Integer sellerId) {
+		this.sellerId = sellerId;
 	}
 	public Set<Merchandise> getMerchandises() {
 		return merchandises;
@@ -161,12 +161,6 @@ public class Seller implements Serializable {
 	}
 	public void setSellerNiceName(String sellerNiceName) {
 		this.sellerNiceName = sellerNiceName;
-	}
-	public String getSellerIMGS() {
-		return sellerIMGS;
-	}
-	public void setSellerIMGS(String sellerIMGS) {
-		this.sellerIMGS = sellerIMGS;
 	}
 	public String getSellerSignature() {
 		return sellerSignature;
@@ -215,6 +209,12 @@ public class Seller implements Serializable {
 	}
 	public void setSellerToken(String sellerToken) {
 		this.sellerToken = sellerToken;
+	}
+	public String getSellerImg() {
+		return sellerImg;
+	}
+	public void setSellerImg(String sellerImg) {
+		this.sellerImg = sellerImg;
 	}
 	
 }

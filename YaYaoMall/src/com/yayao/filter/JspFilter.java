@@ -2,6 +2,8 @@ package com.yayao.filter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,6 +14,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.yayao.filter.params.ParameterRequestWrapper;
+import com.yayao.filter.params.ParameterUpdateUtil;
 
 
 /**
@@ -73,6 +78,10 @@ public class JspFilter implements Filter{
 				//servletResponse.sendRedirect(servletRequest.getContextPath()+"/404.html");
 			}DefaultServletHttpRequestHandler
 	}else {	*/
+        //过滤参数aa_aa转为aaAa
+        Map<String,String[]> mm = new HashMap<String,String[]>(ParameterUpdateUtil.UpdateParameterNames(request.getParameterMap()));  
+        request = new ParameterRequestWrapper((HttpServletRequest)request, mm);    
+        
         if(rpath.startsWith("/resources")&&new File(strServletUrl+rpath).exists()){
 			servletRequest.getRequestDispatcher(rpath).forward(request, response);
 		}else if(new File(strServletUrl+rpath+".html").exists()){

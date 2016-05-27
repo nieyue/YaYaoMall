@@ -40,9 +40,9 @@ public class MerCategoryController {
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<MerCategory> browseMerCategory(@RequestParam("sellerid") Integer sellerid)  {
+	public @ResponseBody List<MerCategory> browseMerCategory(@RequestParam("sellerId") Integer sellerId)  {
 		List<MerCategory> list = new ArrayList<MerCategory>();
-		list=merCategoryService.browseMerCategory(sellerid);
+		list=merCategoryService.browseMerCategory(sellerId);
 		return list;
 	}
 	/**
@@ -50,8 +50,8 @@ public class MerCategoryController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String delMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
-			merCategoryService.delMerCategory(mercategoryid);
+	public @ResponseBody String delMerCategory(@RequestParam("merCategoryId")Integer merCategoryId,HttpSession session)  {
+			merCategoryService.delMerCategory(merCategoryId);
 			return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
@@ -59,17 +59,17 @@ public class MerCategoryController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody MerCategory addMerCategory(@RequestParam("cateName") String cateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
+	public @ResponseBody MerCategory addMerCategory(@RequestParam("merCategoryName") String merCategoryName,@RequestParam("sellerId") Integer sellerId,HttpSession session)  {
 		MerCategory merCategory=new MerCategory();
-		boolean status = merCategoryService.chkMerCategory(sellerid, cateName);
+		boolean status = merCategoryService.chkMerCategory(sellerId, merCategoryName);
 		if(status){
-			merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
+			merCategory.setMerCategoryMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
 			return merCategory;
 		}
-		merCategory.setCateName(cateName);
-		merCategory.setSeller(sellerService.loadSeller(sellerid));
+		merCategory.setMerCategoryName(merCategoryName);
+		merCategory.setSeller(sellerService.loadSeller(sellerId));
 		merCategoryService.addMerCategory(merCategory);
-		merCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		merCategory.setMerCategoryMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		return merCategory;
 	}
 	/**
@@ -77,15 +77,15 @@ public class MerCategoryController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerCategory", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody MerCategory updateMerCategory(@RequestParam("mercategoryid")Integer mercategoryid,@RequestParam("newCateName") String newCateName,@RequestParam("sellerid") Integer sellerid,HttpSession session)  {
-		MerCategory oldMerCategory=merCategoryService.loadMerCategory(mercategoryid);
-		boolean status = merCategoryService.chkMerCategory(sellerid, newCateName);
+	public @ResponseBody MerCategory updateMerCategory(@RequestParam("merCategoryId")Integer merCategoryId,@RequestParam("newCateName") String newCateName,@RequestParam("sellerId") Integer sellerId,HttpSession session)  {
+		MerCategory oldMerCategory=merCategoryService.loadMerCategory(merCategoryId);
+		boolean status = merCategoryService.chkMerCategory(sellerId, newCateName);
 		if(status){
-			oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
+			oldMerCategory.setMerCategoryMsg(StatusCode.GetValueByKey(StatusCode.MERCATE_EXIST));
 			return oldMerCategory;
 		}
-		oldMerCategory.setCateName(newCateName);
-		oldMerCategory.setCateMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
+		oldMerCategory.setMerCategoryName(newCateName);
+		oldMerCategory.setMerCategoryMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		merCategoryService.updateMerCategory(oldMerCategory);
 		return oldMerCategory;
 	}

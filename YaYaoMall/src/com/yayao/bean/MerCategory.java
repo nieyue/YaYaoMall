@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  *
  */
 @Entity
-@Table(name="mercategory_tb",catalog="YaYaoMall_db")
+@Table(name="mer_category_tb",catalog="yayaomall_db")
 public class MerCategory implements Serializable{
 
 	/**
@@ -37,15 +37,15 @@ public class MerCategory implements Serializable{
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer mercategoryid;
+	private Integer merCategoryId;
 	/**
 	 * 商品分类名称
 	 */
-	private String cateName;
+	private String merCategoryName;
 	/**
 	 * 商品分类更新日期
 	 */
-	private Date cateDate;
+	private Date merCategoryDate;
 	
 	/**
 	 * 商品
@@ -57,49 +57,60 @@ public class MerCategory implements Serializable{
 	 * 卖家
 	 */
 	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
-	@JoinColumn(name="sellerid")
+	@JoinColumn(name="seller_id")
 	@JsonManagedReference
 	private Seller seller;
 	/**
 	 * 商品类别消息
 	 */
 	@Transient
-	private String cateMsg;
+	private String merCategoryMsg;
 	
 	public MerCategory() {
 		super();
 	}
 
 
-	public MerCategory(Integer mercategoryid, String cateName, Date cateDate,
-			Set<Merchandise> merchandises,Seller seller,String cateMsg) {
+	public MerCategory(Integer merCategoryId, String merCategoryName,
+			Date merCategoryDate, Set<Merchandise> merchandises, Seller seller,
+			String merCategoryMsg) {
 		super();
-		this.mercategoryid = mercategoryid;
-		this.cateName = cateName;
-		this.cateDate = cateDate;
+		this.merCategoryId = merCategoryId;
+		this.merCategoryName = merCategoryName;
+		this.merCategoryDate = merCategoryDate;
 		this.merchandises = merchandises;
-		this.seller=seller;
-		this.cateMsg=cateMsg;
+		this.seller = seller;
+		this.merCategoryMsg = merCategoryMsg;
 	}
 
 
-	public Integer getMercategoryid() {
-		return mercategoryid;
+	public Integer getMerCategoryId() {
+		return merCategoryId;
 	}
 
 
-	public void setMercategoryid(Integer mercategoryid) {
-		this.mercategoryid = mercategoryid;
+	public void setMerCategoryId(Integer merCategoryId) {
+		this.merCategoryId = merCategoryId;
 	}
 
 
-	public String getCateName() {
-		return cateName;
+	public String getMerCategoryName() {
+		return merCategoryName;
 	}
 
 
-	public void setCateName(String cateName) {
-		this.cateName = cateName;
+	public void setMerCategoryName(String merCategoryName) {
+		this.merCategoryName = merCategoryName;
+	}
+
+
+	public Date getMerCategoryDate() {
+		return merCategoryDate;
+	}
+
+
+	public void setMerCategoryDate(Date merCategoryDate) {
+		this.merCategoryDate = merCategoryDate;
 	}
 
 
@@ -123,24 +134,14 @@ public class MerCategory implements Serializable{
 	}
 
 
-	public Date getCateDate() {
-		return cateDate;
+	public String getMerCategoryMsg() {
+		return merCategoryMsg;
 	}
 
 
-	public void setCateDate(Date cateDate) {
-		this.cateDate = cateDate;
+	public void setMerCategoryMsg(String merCategoryMsg) {
+		this.merCategoryMsg = merCategoryMsg;
 	}
 
-
-	public String getCateMsg() {
-		return cateMsg;
-	}
-
-
-	public void setCateMsg(String cateMsg) {
-		this.cateMsg = cateMsg;
-	}
-	
 	
 }

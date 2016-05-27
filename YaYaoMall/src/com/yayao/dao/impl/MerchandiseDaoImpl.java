@@ -72,7 +72,7 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	public List<Merchandise> browseMerByMerCate(Integer mercategoryid,String merchandiseStatus,String orderName,String orderWay) {
 		Criteria c = getSession().createCriteria(Merchandise.class);
 		if(mercategoryid!=0){
-			c.add(Restrictions.eq("merCategory.mercategoryid",mercategoryid));
+			c.add(Restrictions.eq("merCategory.merCategoryId",mercategoryid));
 		}
 		if(merchandiseStatus!=null){
 			c.add(Restrictions.eq("merchandiseStatus",merchandiseStatus));
@@ -95,7 +95,7 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 	public List<Merchandise> browseMerBySeller(Integer sellerid,String merchandiseStatus,String orderName,String orderWay) {
 		Criteria c = getSession().createCriteria(Merchandise.class);
 		if(sellerid!=0){
-			c.add(Restrictions.eq("seller.sellerid", sellerid));
+			c.add(Restrictions.eq("seller.sellerId", sellerid));
 		}
 		if(merchandiseStatus!=null){
 			c.add(Restrictions.eq("merchandiseStatus",merchandiseStatus));
@@ -120,7 +120,7 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 		List<Merchandise> list = null;
 		Criteria c = getSession().createCriteria(Merchandise.class);
 		if(mercategoryid!=0){
-			c.add(Restrictions.eq("merCategory.mercategoryid", mercategoryid));
+			c.add(Restrictions.eq("merCategory.merCategoryId", mercategoryid));
 		}
 		if(merchandiseStatus!=null){
 			c.add(Restrictions.eq("merchandiseStatus",merchandiseStatus));
@@ -146,7 +146,7 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 		List<Merchandise> list = null;
 		Criteria c = getSession().createCriteria(Merchandise.class);
 		if(sellerid!=0){
-			c.add(Restrictions.eq("seller.sellerid", sellerid));
+			c.add(Restrictions.eq("seller.sellerId", sellerid));
 		}
 		if(merchandiseStatus!=null){
 			c.add(Restrictions.eq("merchandiseStatus",merchandiseStatus));
@@ -175,7 +175,7 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 		List<Merchandise> list=null;
 		Criteria criteria = getSession().createCriteria(Merchandise.class);
 		if(sellerid!=0){
-			criteria.add(Restrictions.eq("seller.sellerid", sellerid));
+			criteria.add(Restrictions.eq("seller.sellerId", sellerid));
 		}
 		criteria.add(Restrictions.like("merchandiseName", "%"+merName+"%"));
 		list=criteria.list();
@@ -193,12 +193,12 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
 			criteria.add(Restrictions.eq("merchandiseStatus",merchandiseStatus));
 		}
 		if(sellerid==0&&mercategoryid!=0){//只查询一个类别所有商品记录
-			criteria.add(Restrictions.eq("merCategory.mercategoryid", mercategoryid));
+			criteria.add(Restrictions.eq("merCategory.merCategoryId", mercategoryid));
 		}else if(mercategoryid==0&&sellerid!=0){//只查询一个商户所有商品记录
-			criteria.add(Restrictions.eq("seller.sellerid", sellerid));
+			criteria.add(Restrictions.eq("seller.sellerId", sellerid));
 		}else if(mercategoryid!=0&&sellerid!=0){//只查询一个商户下的一个类别所有商品记录，同上上
-			criteria.add(Restrictions.eq("seller.sellerid", sellerid));
-			criteria.add(Restrictions.eq("merCategory.mercategoryid", mercategoryid));
+			criteria.add(Restrictions.eq("seller.sellerId", sellerid));
+			criteria.add(Restrictions.eq("merCategory.merCategoryId", mercategoryid));
 		}
 		list=criteria.list();
 		return list.size();

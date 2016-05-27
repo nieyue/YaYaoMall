@@ -53,7 +53,7 @@ public class PDFView extends AbstractPdfView{
 	        table.addCell(hlastLoginTime); 
 	        for (int i = 0; i < list.size(); i++) {
 				User user = list.get(i);
-				PdfPCell userid = new PdfPCell(new Paragraph(user.getUserid().toString(),FontChinese));
+				PdfPCell userid = new PdfPCell(new Paragraph(user.getUserId().toString(),FontChinese));
 		        PdfPCell userEmail = new PdfPCell(new Paragraph(user.getUserEmail(),FontChinese));
 		        PdfPCell lastLoginTime = new PdfPCell(new Paragraph(user.getLastLoginTime().toLocaleString(),FontChinese));  
 

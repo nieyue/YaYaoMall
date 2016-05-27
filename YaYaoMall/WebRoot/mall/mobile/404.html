@@ -26,8 +26,8 @@
   <script src="/resources/js/jquery2.1.js"></script>
   <script src="/resources/js/base.js"></script>
   <script type="text/javascript">
-  if(myUtils.GetQueryString("sellerid")!=null&&myUtils.GetQueryString("sellerid")!=''){
-   $("#goIndex").attr("href",'/mall/mobile/index?sellerid='+myUtils.GetQueryString("sellerid"));
+  if(myUtils.GetQueryString("seller_id")!=null&&myUtils.GetQueryString("seller_id")!=''){
+   $("#goIndex").attr("href",'/mall/mobile/index?seller_id='+myUtils.GetQueryString("seller_id"));
   }else{
    $("#goIndex").click(function(){
 	   history.back();

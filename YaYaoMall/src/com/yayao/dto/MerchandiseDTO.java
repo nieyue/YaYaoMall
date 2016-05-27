@@ -16,7 +16,7 @@ public class MerchandiseDTO implements Serializable{
 	/**
 	 * 商品分类id
 	 */
-	private Integer merchandiseid;
+	private Integer merchandiseId;
 	/**
 	 * 商品描述
 	 */
@@ -58,11 +58,11 @@ public class MerchandiseDTO implements Serializable{
 	 * 商品图片 商品管理图片
 	 */
 	
-	private Integer[] merchandiseImgsid;
+	private Integer[] merchandiseImgIds;
 	/**
 	 * 商品评论
 	 */
-	private Integer[] merCommentsid;
+	private Integer[] commentIds;
 	/**
 	 * 商品更新时间
 	 */
@@ -70,11 +70,11 @@ public class MerchandiseDTO implements Serializable{
 	/**
 	 * 卖家
 	 */
-	private Integer sellerid;
+	private Integer sellerId;
 	/**
 	 * 商品类别
 	 */
-	private Integer merCategoryid;
+	private Integer merCategoryId;
 	/**
 	 * 商品消息
 	 */
@@ -84,126 +84,165 @@ public class MerchandiseDTO implements Serializable{
 	public MerchandiseDTO() {
 		super();
 	}
-	public MerchandiseDTO(Integer merchandiseid, String merchandiseName,
-			Integer merchandiseStock, Double merchandiseOldPrice,
-			Double merchandisePrice, Integer merchandiseSold,
-			Double merDiscount, Double merchandisePostage,
-			String merchandiseCode, String merchandiseStatus,
-			Integer[] merchandiseImgsid, Integer[] merCommentsid,
-			Date merchandiseUpdateTime, Integer sellerid, Integer merCategoryid,
-			String merchandiseMsg) {
-		super();
-		this.merchandiseid = merchandiseid;
-		this.merchandiseName = merchandiseName;
-		this.merchandiseStock = merchandiseStock;
-		this.merchandiseOldPrice = merchandiseOldPrice;
-		this.merchandisePrice = merchandisePrice;
-		this.merchandiseSold = merchandiseSold;
-		this.merDiscount = merDiscount;
-		this.merchandisePostage = merchandisePostage;
-		this.merchandiseCode = merchandiseCode;
-		this.merchandiseStatus = merchandiseStatus;
-		this.merchandiseImgsid = merchandiseImgsid;
-		this.merCommentsid = merCommentsid;
-		this.merchandiseUpdateTime = merchandiseUpdateTime;
-		this.sellerid = sellerid;
-		this.merCategoryid = merCategoryid;
-		this.merchandiseMsg = merchandiseMsg;
+
+
+	public Integer getMerchandiseId() {
+		return merchandiseId;
 	}
-	public Integer getMerchandiseid() {
-		return merchandiseid;
+
+
+	public void setMerchandiseId(Integer merchandiseId) {
+		this.merchandiseId = merchandiseId;
 	}
-	public void setMerchandiseid(Integer merchandiseid) {
-		this.merchandiseid = merchandiseid;
-	}
+
+
 	public String getMerchandiseName() {
 		return merchandiseName;
 	}
+
+
 	public void setMerchandiseName(String merchandiseName) {
 		this.merchandiseName = merchandiseName;
 	}
+
+
 	public Integer getMerchandiseStock() {
 		return merchandiseStock;
 	}
+
+
 	public void setMerchandiseStock(Integer merchandiseStock) {
 		this.merchandiseStock = merchandiseStock;
 	}
+
+
 	public Double getMerchandiseOldPrice() {
 		return merchandiseOldPrice;
 	}
+
+
 	public void setMerchandiseOldPrice(Double merchandiseOldPrice) {
 		this.merchandiseOldPrice = merchandiseOldPrice;
 	}
+
+
 	public Double getMerchandisePrice() {
 		return merchandisePrice;
 	}
+
+
 	public void setMerchandisePrice(Double merchandisePrice) {
 		this.merchandisePrice = merchandisePrice;
 	}
+
+
 	public Integer getMerchandiseSold() {
 		return merchandiseSold;
 	}
+
+
 	public void setMerchandiseSold(Integer merchandiseSold) {
 		this.merchandiseSold = merchandiseSold;
 	}
+
+
 	public Double getMerDiscount() {
 		return merDiscount;
 	}
+
+
 	public void setMerDiscount(Double merDiscount) {
 		this.merDiscount = merDiscount;
 	}
+
+
 	public Double getMerchandisePostage() {
 		return merchandisePostage;
 	}
+
+
 	public void setMerchandisePostage(Double merchandisePostage) {
 		this.merchandisePostage = merchandisePostage;
 	}
+
+
 	public String getMerchandiseCode() {
 		return merchandiseCode;
 	}
+
+
 	public void setMerchandiseCode(String merchandiseCode) {
 		this.merchandiseCode = merchandiseCode;
 	}
+
+
 	public String getMerchandiseStatus() {
 		return merchandiseStatus;
 	}
+
+
 	public void setMerchandiseStatus(String merchandiseStatus) {
 		this.merchandiseStatus = merchandiseStatus;
 	}
-	public Integer[] getMerchandiseImgsid() {
-		return merchandiseImgsid;
+
+
+	public Integer[] getMerchandiseImgIds() {
+		return merchandiseImgIds;
 	}
-	public void setMerchandiseImgsid(Integer[] merchandiseImgsid) {
-		this.merchandiseImgsid = merchandiseImgsid;
+
+
+	public void setMerchandiseImgIds(Integer[] merchandiseImgIds) {
+		this.merchandiseImgIds = merchandiseImgIds;
 	}
-	public Integer[] getMerCommentsid() {
-		return merCommentsid;
+
+
+	public Integer[] getCommentIds() {
+		return commentIds;
 	}
-	public void setMerCommentsid(Integer[] merCommentsid) {
-		this.merCommentsid = merCommentsid;
+
+
+	public void setCommentIds(Integer[] commentIds) {
+		this.commentIds = commentIds;
 	}
+
+
 	public Date getMerchandiseUpdateTime() {
 		return merchandiseUpdateTime;
 	}
+
+
 	public void setMerchandiseUpdateTime(Date merchandiseUpdateTime) {
 		this.merchandiseUpdateTime = merchandiseUpdateTime;
 	}
-	public Integer getSellerid() {
-		return sellerid;
+
+
+	public Integer getSellerId() {
+		return sellerId;
 	}
-	public void setSellerid(Integer sellerid) {
-		this.sellerid = sellerid;
+
+
+	public void setSellerId(Integer sellerId) {
+		this.sellerId = sellerId;
 	}
-	public Integer getMerCategoryid() {
-		return merCategoryid;
+
+
+	public Integer getMerCategoryId() {
+		return merCategoryId;
 	}
-	public void setMerCategoryid(Integer merCategoryid) {
-		this.merCategoryid = merCategoryid;
+
+
+	public void setMerCategoryId(Integer merCategoryId) {
+		this.merCategoryId = merCategoryId;
 	}
+
+
 	public String getMerchandiseMsg() {
 		return merchandiseMsg;
 	}
+
+
 	public void setMerchandiseMsg(String merchandiseMsg) {
 		this.merchandiseMsg = merchandiseMsg;
 	}
+	
 }

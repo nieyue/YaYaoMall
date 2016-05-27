@@ -67,7 +67,7 @@ public class UserLevelDaoImpl implements UserLevelDao {
 	public List<UserLevel> browseUserLevel() {
 		List<UserLevel> list = null;
 		Criteria userLevel = getSession().createCriteria(UserLevel.class);
-		userLevel.addOrder(Order.asc("userlevelid"));
+		userLevel.addOrder(Order.asc("userLevelId"));
 		list = userLevel.list();
 		return list;
 	}

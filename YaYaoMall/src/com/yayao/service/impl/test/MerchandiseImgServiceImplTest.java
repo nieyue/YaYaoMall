@@ -56,7 +56,7 @@ public class MerchandiseImgServiceImplTest {
 		for (int i =1; i <= 15; i++) {
 			
 			//imgs=imgsbuffer.toString();
-			merchandiseImg.setImgAddress("/resources/sellerUpload/7/黑茶/金花茯砖/金花茯砖1_0"+i+".jpg");
+			merchandiseImg.setMerchandiseImgAddress("/resources/sellerUpload/7/黑茶/金花茯砖/金花茯砖1_0"+i+".jpg");
 			merchandiseImgService.addMerchandiseImg(merchandiseImg);
 			
 		}
@@ -89,7 +89,7 @@ public class MerchandiseImgServiceImplTest {
 	@Test
 	public void testLoadMerchandiseImg() {
 		MerchandiseImg s = merchandiseImgService.imgAddressLoadMerchandiseImg("aa");
-		System.out.println(s.getImgAddress());
+		System.out.println(s.getMerchandiseImgAddress());
 	}
 
 	@Test

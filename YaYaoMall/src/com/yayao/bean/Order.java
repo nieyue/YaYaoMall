@@ -1,9 +1,9 @@
 package com.yayao.bean;
 /**
- * 好友类
+ * 订单类
  * @author yy
  *
  */
-public class Friends {
+public class Order {
 
 }

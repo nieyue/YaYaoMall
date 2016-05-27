@@ -27,12 +27,12 @@ public class MerCategoryServiceImpl implements MerCategoryService {
 	
 	/** 新增商品分类 */	
 	public void addMerCategory(MerCategory merCategory) {
-		merCategory.setCateDate(new Date());
+		merCategory.setMerCategoryDate(new Date());
 		merCategoryDao.addMerCategory(merCategory);
 	}
 	/** 更新商品分类 */
 	public void updateMerCategory(MerCategory merCategory) {
-		merCategory.setCateDate(new Date());
+		merCategory.setMerCategoryDate(new Date());
 		merCategoryDao.updateMerCategory(merCategory);
 	}
 	

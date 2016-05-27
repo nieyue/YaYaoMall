@@ -106,11 +106,11 @@
       		$(function(){
       			
       			//参数验证
-      			if(!myUtils.userVerification.catNum.test(myUtils.GetQueryString("merid"))){
-      				location.replace("/mall/mobile/index?sellerid="+sessionStorage.getItem("sellerid"));
+      			if(!myUtils.userVerification.catNum.test(myUtils.GetQueryString("merchandise_id"))){
+      				location.replace("/mall/mobile/index?seller_id="+sessionStorage.getItem("seller_id"));
       			}
-      			 if(localStorage.getItem("browseMerchandise")!=null){
-      				userData.merchandise_details(JSON.parse(decode64(localStorage.getItem("browseMerchandise"))));
+      			 if(localStorage.getItem("browse_merchandise")!=null){
+      				userData.merchandiseDetails(JSON.parse(decode64(localStorage.getItem("browse_merchandise"))));
       		   }
       			 
       		});

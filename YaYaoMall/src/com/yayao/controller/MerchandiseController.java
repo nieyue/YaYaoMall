@@ -50,14 +50,14 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/browseMerBySeller", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("sellerid") Integer sellerid,@RequestParam("currentCount")String currentCount,@RequestParam("pageSize") Integer pageSize,@RequestParam(value="merchandiseStatus",required=false) String merchandiseStatus,HttpSession session)  {
+	public @ResponseBody List<Merchandise> browseMerchandise(@RequestParam("sellerId") Integer sellerId,@RequestParam("currentCount")String currentCount,@RequestParam("pageSize") Integer pageSize,@RequestParam(value="merchandiseStatus",required=false) String merchandiseStatus,HttpSession session)  {
 		int pageNo=1;//初始化
 		int count=0;
 		List<Merchandise> list = new ArrayList<Merchandise>();
-		count=merchandiseService.countRecord(sellerid,merchandiseStatus, 0);//查询一个商户的所有商品，不分类别
+		count=merchandiseService.countRecord(sellerId,merchandiseStatus, 0);//查询一个商户的所有商品，不分类别
 		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)<=count){
 			if(Integer.valueOf(currentCount)%pageSize!=0){//前台页面有问题，需重新获取
-				list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerid,merchandiseStatus, "merchandiseid", "asc");
+				list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerId,merchandiseStatus, "merchandiseid", "asc");
 				return list;
 			}
 			//
@@ -66,7 +66,7 @@ public class MerchandiseController {
 			if(count<pageSize*pageNo){
 				return list;
 			}
-			list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerid,merchandiseStatus, "merchandiseid", "asc");
+			list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerId,merchandiseStatus, "merchandiseid", "asc");
 			return list;
 		}
 		return list;
@@ -77,27 +77,23 @@ public class MerchandiseController {
 	 */
 	@RequestMapping(value = "/updateMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Merchandise updateMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO,HttpSession session)  {
-		Merchandise merchandise=merchandiseService.loadMer(merchandiseDTO.getMerchandiseid());
-		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
-			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-			return merchandise;
-		}*/
+		Merchandise merchandise=merchandiseService.loadMer(merchandiseDTO.getMerchandiseId());
 		BeanUtils.copyProperties(merchandiseDTO, merchandise);
 		//查询绑定商品类别
-		if(merchandiseDTO.getSellerid()!=0){
-					Seller seller = sellerService.loadSeller(merchandiseDTO.getSellerid());
+		if(merchandiseDTO.getSellerId()!=0){
+					Seller seller = sellerService.loadSeller(merchandiseDTO.getSellerId());
 					merchandise.setSeller(seller);
-					MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryid());
+					MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryId());
 					merchandise.setMerCategory(merCate);
 					merchandiseService.addMer(merchandise);
 					merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		}
-		for (int i = 0;i < merchandiseDTO.getMerchandiseImgsid().length; i++) {
-					MerchandiseImg merImg = merchandiseImgService.loadMerchandiseImg(merchandiseDTO.getMerchandiseImgsid()[i]);
+		for (int i = 0;i < merchandiseDTO.getMerchandiseImgIds().length; i++) {
+					MerchandiseImg merImg = merchandiseImgService.loadMerchandiseImg(merchandiseDTO.getMerchandiseImgIds()[i]);
 					merImg.setMerchandise(merchandise);
 					merchandiseImgService.updateMerchandiseImg(merImg);
 		}
-				Merchandise mer = merchandiseService.loadMer(merchandise.getMerchandiseid());//最新数据
+				Merchandise mer = merchandiseService.loadMer(merchandise.getMerchandiseId());//最新数据
 				return mer;
 	}
 	/**
@@ -107,26 +103,22 @@ public class MerchandiseController {
 	@RequestMapping(value = "/addMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Merchandise addMerchandise(@ModelAttribute MerchandiseDTO merchandiseDTO, HttpSession session)  {
 		Merchandise merchandise=new Merchandise();
-		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(merchandiseDTO.getSellerid()))){
-			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
-			return merchandise;
-		}*/
 		BeanUtils.copyProperties(merchandiseDTO, merchandise);//dto复制到bean
 		//查询绑定商品类别
-		if(merchandiseDTO.getSellerid()!=0){
-			Seller seller = sellerService.loadSeller(merchandiseDTO.getSellerid());
+		if(merchandiseDTO.getSellerId()!=0){
+			Seller seller = sellerService.loadSeller(merchandiseDTO.getSellerId());
 			merchandise.setSeller(seller);
-			MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryid());
+			MerCategory merCate = merCategoryService.loadMerCategory(merchandiseDTO.getMerCategoryId());
 			merchandise.setMerCategory(merCate);
 			merchandiseService.addMer(merchandise);
 			merchandise.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		}
-		for (int i = 0; i < merchandiseDTO.getMerchandiseImgsid().length; i++) {
-			MerchandiseImg merImg = merchandiseImgService.loadMerchandiseImg(merchandiseDTO.getMerchandiseImgsid()[i]);
+		for (int i = 0; i < merchandiseDTO.getMerchandiseImgIds().length; i++) {
+			MerchandiseImg merImg = merchandiseImgService.loadMerchandiseImg(merchandiseDTO.getMerchandiseImgIds()[i]);
 			merImg.setMerchandise(merchandise);
 			merchandiseImgService.updateMerchandiseImg(merImg);
 		}
-		Merchandise mer = merchandiseService.loadMer(merchandise.getMerchandiseid());//最新数据
+		Merchandise mer = merchandiseService.loadMer(merchandise.getMerchandiseId());//最新数据
 		return mer;
 	}
 	/**
@@ -134,11 +126,8 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String delMerchandise(@RequestParam Integer merchandiseid,@RequestParam Integer sellerid,HttpSession session)  {
-		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
-		}*/
-		merchandiseService.delMer(merchandiseid);
+	public @ResponseBody String delMerchandise(@RequestParam("merchandiseId") Integer merchandiseId,HttpSession session)  {
+		merchandiseService.delMer(merchandiseId);
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	/**
@@ -146,11 +135,8 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/statusMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String statusMerchandise(@RequestParam Integer merchandiseid,@RequestParam Integer sellerid,@RequestParam(value="merchandiseStatus",required=false) String merchandiseStatus,HttpSession session)  {
-		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
-		}*/
-		Merchandise mer = merchandiseService.loadMer(merchandiseid);
+	public @ResponseBody String statusMerchandise(@RequestParam("merchandiseId") Integer merchandiseId,@RequestParam(value="merchandiseStatus",required=false) String merchandiseStatus,HttpSession session)  {
+		Merchandise mer = merchandiseService.loadMer(merchandiseId);
 		mer.setMerchandiseStatus(merchandiseStatus);
 		merchandiseService.updateMer(mer);
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
@@ -160,19 +146,16 @@ public class MerchandiseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/loadMerchandise", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody MerchandiseDTO loadMerchandise(@RequestParam Integer merchandiseid,@RequestParam Integer sellerid,HttpSession session)  {
-		/*if(session.getAttribute("seller")==null||!(((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid))){
-			return StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED);
-		}*/
+	public @ResponseBody MerchandiseDTO loadMerchandise(@RequestParam("merchandiseId") Integer merchandiseId,HttpSession session)  {
 		MerchandiseDTO merDTO=new MerchandiseDTO();
-		Merchandise mer = merchandiseService.loadMer(merchandiseid);
+		Merchandise mer = merchandiseService.loadMer(merchandiseId);
 		BeanUtils.copyProperties(mer, merDTO);
-		merDTO.setMerCategoryid(mer.getMerCategory().getMercategoryid());
+		merDTO.setMerCategoryId(mer.getMerCategory().getMerCategoryId());
 		Integer[] merchandiseImgsid=new Integer[mer.getMerchandiseImgs().size()];
 		for (int i = 0; i < merchandiseImgsid.length; i++) {
-			merchandiseImgsid[i]=mer.getMerchandiseImgs().get(i).getMerchandiseimgid();
+			merchandiseImgsid[i]=mer.getMerchandiseImgs().get(i).getMerchandiseImgId();
 		}
-		merDTO.setMerchandiseImgsid(merchandiseImgsid);
+		merDTO.setMerchandiseImgIds(merchandiseImgsid);
 		merDTO.setMerchandiseMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 		return merDTO;
 	}

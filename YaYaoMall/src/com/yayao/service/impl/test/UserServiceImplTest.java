@@ -89,7 +89,7 @@ public class UserServiceImplTest {
 		//UserLevel ul = userService.loadUserLevel(1);
 		//ul=null;
 		//u.setUserLevel(ul);
-		u.setUserIMG("1saf23.jpg");
+		u.setUserImg("1saf23.jpg");
 		userService.updateUser(u);
 	}
 

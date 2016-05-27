@@ -160,17 +160,16 @@
     	   if(myTouchEvents.isIE()){
     		  myUtils.myLoadingToast("请使用高版本浏览器",null);
     	   };
-       	//自动登录
+       		//自动登录
        		sellerData.sellerAutoLoginSession({
        		login:function(){
-       		$("#example-navbar-collapse ul").css("display","none");
-       		$("#sellerLoginForm").css("display","none");
+       			$("#example-navbar-collapse ul,#sellerLoginForm").addClass("hide");
        		$("#sellerLogining").css("display","block");
-       		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName!=null){
-       		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerNiceName);
+       		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_nice_name!=null){
+       		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_nice_name);
        		}
        		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerIMGS!=null){
-       		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerIMGS);
+       		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_img);
        		}
        		$("#sellerAutoLogin").click(function(){
        		location.replace("/seller/main");
@@ -190,17 +189,17 @@
       				$.ajax({
       				url:'/seller/sellerLogin',
       				type:'POST',
-      				data:{sellerName:sellerPhone,sellerPassword:sellerPassword},
+      				data:{seller_name:sellerPhone,seller_password:sellerPassword},
       				dataType:'json',
       				success:function(data){
-      					if(data.sellerMsg=="200"){
+      					if(data.seller_msg=="200"){
       						if($("#autoLogin").prop("checked")==true){
-      					myUtils.setCookie("sellerloginstate","1",60*60*24*365);
+      					myUtils.setCookie("seller_login_state","1",60*60*24*365);
       						}else{
-      					myUtils.setCookie("sellerloginstate","0",60*60*24*365);
+      					myUtils.setCookie("seller_login_state","0",60*60*24*365);
       						}
-      					myUtils.setCookie("sellerid",data.sellerid,60*60*24*365);
-      					myUtils.setCookie("sellerToken",data.sellerToken,60*60*24*365);
+      					myUtils.setCookie("seller_id",data.seller_id,60*60*24*365);
+      					myUtils.setCookie("seller_token",data.seller_token,60*60*24*365);
       					sessionStorage.setItem("seller",encode64(JSON.stringify(data)));
       						myUtils.myPrevToast("登录成功",function(){
       			      			location.replace("/seller/main");

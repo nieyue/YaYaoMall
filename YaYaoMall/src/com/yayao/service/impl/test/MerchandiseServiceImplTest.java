@@ -62,7 +62,7 @@ public class MerchandiseServiceImplTest {
 		mer.setMerCategory(mercate);
 		mer.setMerchandiseCode("sr1d55");
 		Seller merSeller = new Seller();
-		merSeller.setSellerid(7);
+		merSeller.setSellerId(7);
 		mer.setSeller(merSeller);
 		//mer.setMerchandiseImg("http://wd.geilicdn.com/vshop333816149-1457603308132-5927369.jpg?w=1080&h=0");
 		mer.setMerchandiseName("施兆鹏八十大寿礼茶 湖南安化黑茶 金花茯砖 收藏茶 盒装1936g");
@@ -73,7 +73,7 @@ public class MerchandiseServiceImplTest {
 		mer.setMerchandiseStatus("上架");
 		mer.setMerchandiseStock(965);//库存
 		mer.setMerchandiseUpdateTime(new Date());
-		mer.setMerDiscount(Double.valueOf(2820*100/2980)/100);//折扣
+		mer.setMerchandiseDiscount(Double.valueOf(2820*100/2980)/100);//折扣
 		merchandiseService.addMer(mer);
 	}
 

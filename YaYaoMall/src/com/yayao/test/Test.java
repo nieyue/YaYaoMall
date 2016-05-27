@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.yayao.bean.Merchandise;
 import com.yayao.bean.MerchandiseImg;
 import com.yayao.bean.User;
@@ -122,6 +124,9 @@ public class Test {
 	    //new MyFile().delDir("c:/temp/sellerid");
 	    System.out.println(new Integer(1).getClass());
 	    System.out.println(Integer.class);
+	    List<String> l=new ArrayList<String>();
+	    System.out.println(l.isEmpty());
+	    //System.out.println(l.get(0).equals(0));
 	}
 
 }

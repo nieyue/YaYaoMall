@@ -174,7 +174,7 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerLogin", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	Seller sellerLogin(HttpSession session,String sellerName,String sellerPassword) {
+	Seller sellerLogin(HttpSession session,@RequestParam("sellerName")String sellerName,@RequestParam("sellerPassword")String sellerPassword) {
 		boolean status = sellerService.chkLoginName(sellerName);
 		if(status&&sellerPassword!=null){
 			String shaup =  MyDESutil.getMD5(sellerPassword);
@@ -200,10 +200,10 @@ public class SellerController {
 	 */
 	@RequestMapping(value = "/sellerAutoLogin", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	Seller sellerAutoLogin(HttpSession session,Integer sellerid,String sellerloginstate,String sellerToken){
+	Seller sellerAutoLogin(HttpSession session,@RequestParam("sellerId")Integer sellerId,@RequestParam("sellerLoginState")String sellerLoginState,@RequestParam("sellerToken")String sellerToken){
 		Seller seller=new Seller();
 		//如果会话存在
-		if(session.getAttribute("seller")!=null&&((Seller)session.getAttribute("seller")).getSellerid().equals(sellerid)){
+		if(session.getAttribute("seller")!=null&&((Seller)session.getAttribute("seller")).getSellerId().equals(sellerId)){
 			seller=(Seller) session.getAttribute("seller");
 			seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 			return seller;
@@ -211,13 +211,13 @@ public class SellerController {
 		//如何会话不存在，新会话
 		if(sellerToken!=null){
 			//没有设置自动登录
-			if(sellerloginstate.equals("0")){
+			if(sellerLoginState.equals("0")){
 				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SESSION_EXPIRED));
 				return seller;
 			}
 			//设置自动登录
-			if(sellerloginstate.equals("1")){
-			seller =sellerService.loadSeller(Integer.valueOf(sellerid));
+			if(sellerLoginState.equals("1")){
+			seller =sellerService.loadSeller(Integer.valueOf(sellerId));
 			if( MyDESutil.getMD5(seller.getSellerEmail()).equals(sellerToken)|| MyDESutil.getMD5(seller.getSellerPhone()).equals(sellerToken)){
 				seller.setSellerMsg(StatusCode.GetValueByKey(StatusCode.SUCCESS));
 				session.setAttribute("seller", seller);

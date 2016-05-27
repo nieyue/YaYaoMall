@@ -1,9 +1,9 @@
 package com.yayao.bean;
 /**
- * 订单类
+ * 商品收藏类
  * @author yy
  *
  */
-public class Orders {
+public class MerCollection {
 
 }

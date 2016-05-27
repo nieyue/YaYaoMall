@@ -1,9 +1,9 @@
 package com.yayao.bean;
 /**
- * 商品收藏类
+ * 好友类
  * @author yy
  *
  */
-public class MerCollections {
+public class Friend {
 
 }

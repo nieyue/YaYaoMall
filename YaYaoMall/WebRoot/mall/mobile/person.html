@@ -89,7 +89,7 @@
       		//如果不存在sellerid，则404
       		   userData.refereerSeller();
       			//console.log(JSON.parse(decode64(localStorage.getItem("user"))));
-      			if(myUtils.getCookie("loginstate")==1){
+      			if(myUtils.getCookie("login_state")==1){
       				myUtils.myPrevToast("加载中",function(){
       					//如果缓存，直接取
       					if(sessionStorage.getItem("user")!=null){
@@ -99,7 +99,7 @@
               				return;
           				}
       					
-          			$.get("/user/loadUser.json?id="+myUtils.getCookie("userid"),"json",function(data){
+          			$.get("/user/loadUser?user_id="+myUtils.getCookie("user_id"),function(data){
           				if(data){
           			sessionStorage.setItem("user",encode64(JSON.stringify(data)));
           			userData.person(data);

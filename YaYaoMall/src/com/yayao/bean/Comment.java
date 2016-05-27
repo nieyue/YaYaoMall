@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  *
  */
 @Entity
-@Table(name="comments_tb",catalog="YaYaoMall_db")
-public class Comments implements Serializable{
+@Table(name="comment_tb",catalog="yayaomall_db")
+public class Comment implements Serializable{
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class Comments implements Serializable{
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer commentsid;
+	private Integer commentId;
 	/**
 	 * 评论账户
 	 */
@@ -55,22 +55,22 @@ public class Comments implements Serializable{
 	
 	
 	
-	public Comments() {
+	public Comment() {
 		super();
 	}
-	public Comments(Integer commentsid, User user, Merchandise merchandise
+	public Comment(Integer commentId, User user, Merchandise merchandise
 			,Date commentTime) {
 		super();
-		this.commentsid = commentsid;
+		this.commentId = commentId;
 		this.user = user;
 		this.merchandise = merchandise;
 		this.commentTime=commentTime;
 	}
-	public Integer getCommentsid() {
-		return commentsid;
+	public Integer getCommentId() {
+		return commentId;
 	}
-	public void setCommentsid(Integer commentsid) {
-		this.commentsid = commentsid;
+	public void setCommentId(Integer commentId) {
+		this.commentId = commentId;
 	}
 	public User getUser() {
 		return user;

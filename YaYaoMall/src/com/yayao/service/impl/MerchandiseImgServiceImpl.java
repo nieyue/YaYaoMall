@@ -26,7 +26,7 @@ public class MerchandiseImgServiceImpl implements MerchandiseImgService {
 
 	/** 新增商品图片 */
 	public void addMerchandiseImg(MerchandiseImg merchandiseImg) {
-		merchandiseImg.setUpdateMerImgTime(new Date());
+		merchandiseImg.setMerchandiseImgUpdateTime(new Date());
 		merchandiseImgDao.addMerchandiseImg(merchandiseImg);
 		
 	}
@@ -37,6 +37,7 @@ public class MerchandiseImgServiceImpl implements MerchandiseImgService {
 	}
 	/** 更新商品图片 */
 	public void updateMerchandiseImg(MerchandiseImg merchandiseImg) {
+		merchandiseImg.setMerchandiseImgUpdateTime(new Date());
 		merchandiseImgDao.updateMerchandiseImg(merchandiseImg);
 		
 	}

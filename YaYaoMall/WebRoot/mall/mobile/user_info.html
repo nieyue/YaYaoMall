@@ -93,38 +93,38 @@
        <script type="text/javascript">
       		$(function(){
       			//修改回退
-      			 $("#backhref").attr("href","/mall/mobile/person?sellerid="+myUtils.GetQueryString("sellerid"));
+      			 $("#backhref").attr("href","/mall/mobile/person?seller_id="+myUtils.GetQueryString("seller_id"));
       			//登录成功的用户信息
-      			if(myUtils.getCookie("loginstate")==1){
-      				var userid=myUtils.getCookie("userid");
+      			if(myUtils.getCookie("login_state")==1){
+      				var user_id=myUtils.getCookie("user_id");
       			myUtils.myPrevToast("加载中...",function(){
       			//如果缓存，直接取
   					if(sessionStorage.getItem("user")!=null){
       					var data=JSON.parse(decode64(sessionStorage.getItem("user")));
-      					userData.user_info(data);
+      					userData.userInfo(data);
           				myUtils.myPrevToast("加载中...",null,"remove");
           				return;
       				}
-      			$.get("/user/loadUser.json?id="+userid,"json",function(data){
+      			$.get("/user/loadUser?seller_id="+user_id,"json",function(data){
       				if(data){
       				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
-              		userData.user_info(data);
+              		userData.userInfo(data);
       				myUtils.myPrevToast("加载完成",null,"remove");
       				}
       				});
       				},"add");
       				
       			}else{
-      				location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
+      				location.replace("/mall/mobile/person?seller_id="+sessionStorage.getItem("seller_id"));
       			}
       		//登录退出
       		$("#userLoginOut").on('click',function(){
       			myUtils.myLoginOut("确定退出吗？",function(){
       			$.get("/user/loginOut",function(){
       			myUtils.myLoadingToast("退出成功",function(){
-      			myUtils.delCookie("loginstate");
-      			myUtils.delCookie("userid");
-      			location.replace("/mall/mobile/person?sellerid="+sessionStorage.getItem("sellerid"));
+      			myUtils.delCookie("login_state");
+      			myUtils.delCookie("user_id");
+      			location.replace("/mall/mobile/person?seller_id="+sessionStorage.getItem("seller_id"));
       			});
       			});
       			});
@@ -139,13 +139,13 @@
   		  			myUtils.fileUpload({
   		  				inputfile:$("#fileUserInfoIMG"),
   		  				ajaxObj:{
-  		  				formData:[{key:"userid",value:myUtils.getCookie("userid")},{key:"userFile",value:$("#fileUserInfoIMG").get(0).files[0]}],
+  		  				formData:[{key:"user_id",value:myUtils.getCookie("user_id")},{key:"user_file",value:$("#fileUserInfoIMG").get(0).files[0]}],
   		  				url:"/user/userIMGUpload",
   		  				success:function(userIMG){
   		  				var data=JSON.parse(decode64(sessionStorage.getItem("user")));
   		                data.userIMG=userIMG;
   		                sessionStorage.setItem("user",encode64(JSON.stringify(data)));
-  		                userData.user_info(data);
+  		                userData.userInfo(data);
   		                myUtils.myPrevToast("上传成功",null,"remove");
   		                $("#userInfoIMG").attr("src",userIMG);
   		  				}

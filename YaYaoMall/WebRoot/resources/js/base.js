@@ -32,7 +32,7 @@ var myUtils = {
 	 * 
 	 */
 	sellerNotExistence:function(){
-		if(myUtils.GetQueryString("sellerid")==null||myUtils.GetQueryString("sellerid")==''){
+		if(myUtils.GetQueryString("seller_id")==null||myUtils.GetQueryString("seller_id")==''){
 			if(location.href.indexOf("404")==-1){
 				location.replace("/mall/mobile/404");
 			}
@@ -120,7 +120,7 @@ var myUtils = {
       		$.ajax({
       			type:"GET",
       			dataType:"json",
-      			url:userName.userNameURL+"?accountName="+userNameInfo,
+      			url:userName.userNameURL+"?account_name="+userNameInfo,
       			success:function(data){
       				console.log(data)
       				if(data=="用户不存在"||data=="商户不存在"){
@@ -165,9 +165,10 @@ var myUtils = {
       			$(validCode.userNameError).text(userName.userNameErrorValue);
       			return ;
       		}
+			
       		$.get(validCode.userValidCodeSendURL,
       				{
-      				accountName:userNameInfo
+      				account_name:userNameInfo
       				},
       				function(data){
       		if(data=="200"){
@@ -176,11 +177,12 @@ var myUtils = {
       		if(timer==0){
       			clearInterval(setinterval);
       			timer=60;
-      			$(validBtn).text("获取验证码").removeAttr("disabled");
+      			$(validBtn).val("获取验证码").removeAttr("disabled");
       		}else{
       			timer--;
-      			$(validBtn).attr("disabled",true);	
-      			$(validBtn).val(timer+"s重新发送")
+      			$(validBtn).attr("disabled",true);
+      			$(validBtn).val(timer+"s重新发送");
+      			
       			
       		}
       		},1000);
@@ -262,9 +264,9 @@ var myUtils = {
 	  			}
 	  		}
 	  		$.post("/user/updateUserInfo",{
-	  			userid:localStorage.getItem("userid"),
-	  			userInfoOne:userInfoOne,
-	  			changeValue:uiom
+	  			user_id:localStorage.getItem("user_id"),
+	  			user_info_one:userInfoOne,
+	  			change_value:uiom
 	  		},
 	  		function(){
 	  			$(userInfoOne).text(uiom);

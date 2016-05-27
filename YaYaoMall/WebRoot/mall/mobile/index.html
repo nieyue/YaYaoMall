@@ -169,8 +169,8 @@
    });
    $(function(){
 	   //商品初始化加载
-	   if(localStorage.getItem("browseMerchandise")!=null){
-	   		userData.merchandiseIndex("#remtjsp",JSON.parse(decode64(localStorage.getItem("browseMerchandise"))));
+	   if(localStorage.getItem("browse_merchandise")!=null){
+	   		userData.merchandiseIndex("#remtjsp",JSON.parse(decode64(localStorage.getItem("browse_merchandise"))));
 		}
 	   userData.initIndexMer();
 	   

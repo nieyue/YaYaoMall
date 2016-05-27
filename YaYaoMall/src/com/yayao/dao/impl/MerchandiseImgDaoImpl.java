@@ -69,7 +69,7 @@ public class MerchandiseImgDaoImpl implements MerchandiseImgDao {
 	public List<MerchandiseImg> browseMerchandiseImg(Integer merchandiseid,String orderName,String orderWay) {
 		Criteria c = getSession().createCriteria(MerchandiseImg.class);
 		if(merchandiseid!=0){
-			c.add(Restrictions.eq("merchandise.merchandiseid", merchandiseid));
+			c.add(Restrictions.eq("merchandise.merchandiseId", merchandiseid));
 		}
 		switch (orderWay) {
 		case "asc":
@@ -87,7 +87,7 @@ public class MerchandiseImgDaoImpl implements MerchandiseImgDao {
 	public MerchandiseImg imgAddressLoadMerchandiseImg(String imgAddress){
 		MerchandiseImg merchandiseImg = null;
 		Criteria c = getSession().createCriteria(MerchandiseImg.class);
-		c.add(Restrictions.eq("imgAddress", imgAddress));
+		c.add(Restrictions.eq("merchandiseImgAddress", imgAddress));
 		merchandiseImg=(MerchandiseImg) c.uniqueResult();
 		return merchandiseImg;
 	}

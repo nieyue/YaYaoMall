@@ -49,16 +49,19 @@
         </bean>  
                     -->  
 <!-- cp30配置方式 -->
+<bean  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">         
+    <property name="location" value="classpath:config/jdbc.properties"/>         
+</bean>  
 	<bean id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass"
-			value="com.mysql.jdbc.Driver">
+			value="${driverClass}">
 			</property>
 		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/YaYaoMall_db">
+			value="${jdbcUrl}">
 		</property>
-		<property name="user" value="root"></property>
-		<property name="password" value="liliu"></property>
+		<property name="user" value="${user}"></property>
+		<property name="password" value="${password}"></property>
 		
 		   <property name="minPoolSize" value="2"/>
 		  <property name="maxPoolSize" value="1000"/>
@@ -126,11 +129,15 @@
                     org.hibernate.transaction.JDBCTransactionFactory
                    </prop>
                      -->
-        <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+          <!--驼峰转下划线-->
+       <!--  <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop> -->
 			</props>
 		</property>
+		 <!--驼峰转下划线-->
+		<property name="namingStrategy" ref="myNamingStrategy" /> 
 		</bean>
-    	
+		<!--驼峰转下划线bean-->
+		<bean id="myNamingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy"/>
     	 
     	 <!--  <cache:annotation-driven cache-manager="cacheManager"/>
     	<bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">

@@ -1,5 +1,6 @@
 package com.yayao.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -62,7 +63,7 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	public MerCategory loadMerCategory(Integer mercategoryid) {
 		MerCategory merCategory=null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
-		c.add(Restrictions.eq("mercategoryid", mercategoryid));
+		c.add(Restrictions.eq("merCategoryId", mercategoryid));
 		merCategory=(MerCategory) c.uniqueResult();
 		return merCategory;
 	}
@@ -72,12 +73,12 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MerCategory> browseMerCategory(Integer sellerid) {
-		List<MerCategory> list = null;
+		List<MerCategory> list = new ArrayList<MerCategory>();
 		Criteria userLevel = getSession().createCriteria(MerCategory.class);
 		if(sellerid!=0){
-			userLevel.add(Restrictions.eq("seller.sellerid", sellerid));
+			userLevel.add(Restrictions.eq("seller.sellerId", sellerid));
 		}
-		userLevel.addOrder(Order.asc("mercategoryid"));
+		userLevel.addOrder(Order.asc("merCategoryId"));
 		list = userLevel.list();
 		return list;
 	}
@@ -88,8 +89,8 @@ public class MerCategoryDaoImpl implements MerCategoryDao {
 		boolean status = true;//true代表数据库已经存在
 		MerCategory cate = null;
 		Criteria c = getSession().createCriteria(MerCategory.class);
-		c.add(Restrictions.eq("seller.sellerid", sellerid));
-		c.add(Restrictions.eq("cateName", cateName));
+		c.add(Restrictions.eq("seller.sellerId", sellerid));
+		c.add(Restrictions.eq("merCategoryName", cateName));
 		 cate = (MerCategory) c.uniqueResult();
 		if(cate==null){
 			status=false;

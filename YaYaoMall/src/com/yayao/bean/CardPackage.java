@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  *
  */
 @Entity
-@Table(name="cardpackage_tb",catalog="YaYaoMall_db")
+@Table(name="card_package_tb",catalog="yayaomall_db")
 public class CardPackage implements java.io.Serializable{
 
 	/**
@@ -32,7 +32,7 @@ public class CardPackage implements java.io.Serializable{
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer cardpackageid;
+	private Integer cardPackageId;
 	/**
 	 * 类型（卡，卷，包）
 	 */
@@ -53,7 +53,7 @@ public class CardPackage implements java.io.Serializable{
 	 *账户
 	 */
 	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.EAGER)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="user_id")
 	@JsonManagedReference
 	private User user;
 	
@@ -63,10 +63,10 @@ public class CardPackage implements java.io.Serializable{
 	}
 
 	
-	public CardPackage(Integer cardpackageid, String cpType, Date startTime,
+	public CardPackage(Integer cardPackageId, String cpType, Date startTime,
 			Date endTime, Double offsetAmount, User user) {
 		super();
-		this.cardpackageid = cardpackageid;
+		this.cardPackageId = cardPackageId;
 		this.cpType = cpType;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -75,12 +75,12 @@ public class CardPackage implements java.io.Serializable{
 	}
 
 
-	public Integer getCardpackageid() {
-		return cardpackageid;
+	public Integer getCardPackageId() {
+		return cardPackageId;
 	}
 
-	public void setCardpackageid(Integer cardpackageid) {
-		this.cardpackageid = cardpackageid;
+	public void setCardPackageId(Integer cardPackageId) {
+		this.cardPackageId = cardPackageId;
 	}
 
 	public String getCpType() {

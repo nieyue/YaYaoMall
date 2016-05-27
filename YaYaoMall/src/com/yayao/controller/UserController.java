@@ -177,7 +177,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/login", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	User login(HttpSession session,String userName,String userPassword) throws Exception {
+	User login(HttpSession session,@RequestParam("userName")String userName,@RequestParam("userPassword")String userPassword) throws Exception {
 		boolean status = userService.chkLoginName(userName);
 		if(status&&userPassword!=null){
 			String shaup =  MyDESutil.getMD5(userPassword);
@@ -216,15 +216,15 @@ public class UserController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/userIMGUpload", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody String userIMGUpload(@RequestParam("userFile") MultipartFile file,HttpSession session,@RequestParam("userid")Integer id)  {
+	public @ResponseBody String userIMGUpload(@RequestParam("userFile") MultipartFile file,HttpSession session,@RequestParam("userId")Integer id)  {
 			User u=userService.loadUser(id);
 			//删除原图片
 			String oldIMGURL="";
-			oldIMGURL=u.getUserIMG();
+			oldIMGURL=u.getUserImg();
 			String userIMG = "";
 			 try{
 				 userIMG = FileUploadUtil.FormDataFileUpload(file, session,"/resources/userUpload",oldIMGURL);
-				u.setUserIMG(userIMG);
+				u.setUserImg(userIMG);
 			}catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -240,12 +240,12 @@ public class UserController {
 	 * @throws Exception 
 	 */   
 	@RequestMapping(value = "/updateUserInfo", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody void updateUser(HttpSession session ,Integer userid, String userInfoOne,String changeValue)  {
+	public @ResponseBody void updateUser(HttpSession session ,@RequestParam("userId")Integer userId,@RequestParam("userInfoOne") String userInfoOne,@RequestParam("changeValue")String changeValue)  {
 		User u=null;
-			if(!NumberUtil.isNumeric(String.valueOf(userid))){
+			if(!NumberUtil.isNumeric(String.valueOf(userId))){
 			return ;
 			}
-			u=userService.loadUser(userid);
+			u=userService.loadUser(userId);
 		
 		if(userInfoOne.indexOf("NiceName")>-1){
 			u.setUserNiceName(changeValue);
@@ -272,7 +272,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/loadUser", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody
-	User loadUser(HttpSession session,Integer id) {
+	User loadUser(HttpSession session,@RequestParam("userId")Integer id) {
 		if(NumberUtil.isNumeric(String.valueOf(id))){
 			User u = userService.loadUser(id);
 			session.setAttribute("user",u);

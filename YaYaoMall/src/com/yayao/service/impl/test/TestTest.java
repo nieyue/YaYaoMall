@@ -50,7 +50,7 @@ public class TestTest {
 	@Test
 	public void testAddMerCategory() {
 		MerCategory ul=new MerCategory();
-		ul.setCateName("青2茶");
+		ul.setMerCategoryName("青2茶");
 		Seller seller = sellerService.loadSeller(6);
 		ul.setSeller(seller);
 		merCategoryService.addMerCategory(ul);
@@ -86,9 +86,9 @@ public class TestTest {
 		for (int i = 0; i < list.size(); i++) {
 			
 			System.out.println(list.get(i));
-			System.out.println(list.get(i).getMercategoryid());
-			System.out.println(list.get(i).getCateName());
-			System.out.println(list.get(i).getCateDate());
+			System.out.println(list.get(i).getMerCategoryId());
+			System.out.println(list.get(i).getMerCategoryName());
+			System.out.println(list.get(i).getMerCategoryDate());
 		}
 	}
 
@@ -98,7 +98,7 @@ public class TestTest {
 		MerCategory mercate2 = merCategoryService.loadMerCategory(50);
 		MerCategory mercate3 = merCategoryService.loadMerCategory(50);
 		List<MerCategory> list2 = merCategoryService.browseMerCategory(8);
-	System.out.println(mercate.getCateDate());
+	System.out.println(mercate.getMerCategoryDate());
 	}
 
 	@Test
