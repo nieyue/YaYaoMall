@@ -71,15 +71,16 @@ public class FileUploadUtil {
 	}
 	/**
 	 * FormData上传图片 单个图片上传，先删除原图片
+	 * rooturl /resources/userUpload
+	 * imgdir sellerId or userID 
+	 * oldImgUrl /resources/userUpload/{imgdir}/11.jpg
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws IOException 
 	 * @throws IllegalStateException 
-	 * rooturl /resources/userUpload 
-	 * oldImgUrl /resources/userUpload/11.jpg
 	 */
-	public static String FormDataFileUpload(MultipartFile file,HttpSession session,String rooturl,String oldImgUrl) throws IllegalStateException, IOException{
+	public static String FormDataFileUpload(MultipartFile file,HttpSession session,String rooturl,String imgdir,String oldImgUrl) throws IllegalStateException, IOException{
 		String fileName = null;
 		//取得当前上传文件的文件名称  
 		if(!file.isEmpty()){
@@ -98,23 +99,28 @@ public class FileUploadUtil {
 				}
 			}).start();
            }
+           //创建路径
+           if(imgdir!=null){
+           MyFile myfile=new MyFile();
+           myfile.createDir(path+"/"+imgdir);
+           }
            //建立新图片
-           File localFile = new File(path,fileName);  
+           File localFile = new File(path+"/"+imgdir,fileName);  
            
 			file.transferTo(localFile);
 		
            }
-		return rooturl+"/"+fileName;
+		return rooturl+"/"+imgdir+"/"+fileName;
 	}
 	/**
 	 * FormData上传图片 商品图片
+	 * rooturl /resources/sellerUpload 
+	 * imgdir sellerid 示例 4
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws IOException 
 	 * @throws IllegalStateException
-	 * rooturl /resources/sellerUpload 
-	 * imgdir /sellerid 示例 /4
 	 */
 	public static String FormDataMerImgFileUpload(MultipartFile file,HttpSession session,String rooturl,String imgdir) throws IllegalStateException, IOException{
 		//取得当前上传文件的文件名称  
@@ -127,25 +133,24 @@ public class FileUploadUtil {
          //创建路径
            if(imgdir!=null){
            MyFile myfile=new MyFile();
-           myfile.createDir(path+rooturl+imgdir);
+           myfile.createDir(path+rooturl+"/"+imgdir);
            }
            //建立新图片
-           File localFile = new File(path+rooturl+imgdir,fileName);  
+           File localFile = new File(path+rooturl+"/"+imgdir,fileName);  
 			file.transferTo(localFile);
-		
            }
-		return rooturl+imgdir+"/"+fileName;
+		return rooturl+"/"+imgdir+"/"+fileName;
 	}
 	/**
 	 * FormData更新 商品图片
+	 * rooturl /resources/userUpload
+	 * imgdir sellerid 示例 4
+	 * oldImgUrl /resources/userUpload/11.jpg
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws IOException 
 	 * @throws IllegalStateException 
-	 * rooturl /resources/sellerid 示例 /resources/4
-	 * imgdir /sellerid 示例 /4
-	 * oldImgUrl /resources/userUpload/11.jpg
 	 */
 	public static String updateFormDataMerImgFileUpload(MultipartFile file,HttpSession session,String rooturl,String imgdir,String oldImgUrl) throws IllegalStateException, IOException{
 		//取得当前上传文件的文件名称  
@@ -167,20 +172,20 @@ public class FileUploadUtil {
  			}).start();
             }
            //建立新图片
-           File localFile = new File(path+rooturl+imgdir,fileName);  
+           File localFile = new File(path+rooturl+"/"+imgdir,fileName);  
 			file.transferTo(localFile);
 		
            }
-		return rooturl+imgdir+"/"+fileName;
+		return rooturl+"/"+imgdir+"/"+fileName;
 	}
 	/**
 	 * 删除图片 商品图片
+	 * imgdir 实例 /resources/userUpload/11.jpg 
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws IOException 
 	 * @throws IllegalStateException 
-	 * imgdir /sellerid  示例/4
 	 */
 	public static boolean delMerImgFile(HttpSession session,String imgUrl) {
 			//创建路径
@@ -189,8 +194,9 @@ public class FileUploadUtil {
 				String path = session.getServletContext().getRealPath("/");
 				MyFile myFile=new MyFile();
 				myFile.delFile(path, imgUrl);
+				return true;
 			}
+			return false;
 			
-		return true;
 	}
 }

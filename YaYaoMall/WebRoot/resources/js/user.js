@@ -6,14 +6,14 @@ var userData = {
 	//商户href
 	refereerSeller:function(){
 		   myUtils.sellerNotExistence();
-		   $("#classificationhref").attr("href","/mall/mobile/classification?user_id="+myUtils.GetQueryString("user_id"));
-		   $("#indexhref").attr("href","/mall/mobile/index?user_id="+myUtils.GetQueryString("user_id"));
-		   $("#shoppingCirclehref").attr("href","/mall/mobile/shoppingCircle?user_id="+myUtils.GetQueryString("user_id"));
-		   $("#cathref").attr("href","/mall/mobile/cat?user_id="+myUtils.GetQueryString("user_id"));
-		   $("#personhref").attr("href","/mall/mobile/person?user_id="+myUtils.GetQueryString("user_id"));
+		   $("#classificationhref").attr("href","/mall/mobile/classification?seller_id="+myUtils.GetQueryString("seller_id"));
+		   $("#indexhref").attr("href","/mall/mobile/index?seller_id="+myUtils.GetQueryString("seller_id"));
+		   $("#shoppingCirclehref").attr("href","/mall/mobile/shoppingCircle?seller_id="+myUtils.GetQueryString("seller_id"));
+		   $("#cathref").attr("href","/mall/mobile/cat?seller_id="+myUtils.GetQueryString("seller_id"));
+		   $("#personhref").attr("href","/mall/mobile/person?seller_id="+myUtils.GetQueryString("seller_id"));
 		   //存储sellerid
-		   if(myUtils.userVerification.catNum.test(myUtils.GetQueryString("user_id"))){
-			   sessionStorage.setItem("user_id", myUtils.GetQueryString("user_id"));
+		   if(myUtils.userVerification.catNum.test(myUtils.GetQueryString("seller_id"))){
+			   sessionStorage.setItem("seller_id", myUtils.GetQueryString("seller_id"));
 		   }
 	},
 	// 用户数据初始化
@@ -142,7 +142,26 @@ var userData = {
      			 	+"</a>");
           	
 			}
+	},
+/**
+ * 自动登录
+ */
+userAutoLoginHandler:function(obj){
+	if(myUtils.userVerification.catNum.test(myUtils.getCookie("user_id"))&&myUtils.getCookie("login_state")==1){
+	$.get("/user/userAutoLogin",
+	{user_id:myUtils.getCookie("user_id"),login_state:myUtils.getCookie("login_state")}
+	,function(data){
+		if(data.user_msg=="200"){
+		sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+		if(obj&&typeof obj.login=='function'){
+			obj.login();//登录成功
+		}
+		}else {
+			if(obj&&typeof obj.loginout=='function'){
+				obj.loginout();//登录错误
+			}
+		}
+	});
 	}
-	//$().children("a:first-child").css("background-color","red");
-
+	}
 };

@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
 import com.lowagie.text.Document;
@@ -127,6 +129,10 @@ public class Test {
 	    List<String> l=new ArrayList<String>();
 	    System.out.println(l.isEmpty());
 	    //System.out.println(l.get(0).equals(0));
+	    String emailreg="^([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+(\\.[a-zA-Z]{2,3})+$";
+	    String emailreg2="^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+	    System.err.println(Pattern.matches(emailreg,null));
+	    
 	}
 
 }

@@ -48,10 +48,10 @@ public class MerchandiseImgController {
 	 * @return
 	 */
 	@RequestMapping(value = "/updateMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody MerchandiseImg updateMerchandiseImg(@RequestParam("merchandiseImgId")Integer merchandiseImgId,HttpSession session,@RequestParam("merFile") MultipartFile file,@RequestParam("sellerId")Integer sellerId)  {
+	public @ResponseBody MerchandiseImg updateMerchandiseImg(@RequestParam("merchandise_img_id")Integer merchandiseImgId,HttpSession session,@RequestParam("mer_file") MultipartFile file,@RequestParam("seller_id")Integer sellerId)  {
 		MerchandiseImg merchandiseImg=merchandiseImgService.loadMerchandiseImg(merchandiseImgId);
-		String imgdir="/"+sellerId;
-		String merImgUrl = "";
+		String imgdir=sellerId.toString();
+		String merImgUrl = null;
 		try{
 			 merImgUrl = FileUploadUtil.updateFormDataMerImgFileUpload(file, session, "/resources/sellerUpload", imgdir, merchandiseImg.getMerchandiseImgAddress());
 			 merchandiseImg.setMerchandiseImgAddress(merImgUrl);
@@ -67,10 +67,10 @@ public class MerchandiseImgController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody MerchandiseImg addMerchandiseImg(@RequestParam("merFile") MultipartFile file,HttpSession session,@RequestParam("sellerId")Integer sellerId )  {
+	public @ResponseBody MerchandiseImg addMerchandiseImg(@RequestParam("mer_file") MultipartFile file,HttpSession session,@RequestParam("seller_id")Integer sellerId )  {
 		MerchandiseImg merchandiseImg=new MerchandiseImg();
-		String imgdir="/"+sellerId;
-		String merImgUrl = "";
+		String imgdir=sellerId.toString();
+		String merImgUrl = null;
 		try{
 			 merImgUrl = FileUploadUtil.FormDataMerImgFileUpload(file, session,"/resources/sellerUpload",imgdir);
 			merchandiseImg.setMerchandiseImgAddress(merImgUrl);

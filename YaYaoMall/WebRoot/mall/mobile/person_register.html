@@ -21,7 +21,47 @@
   	<span class="phonespan">手机注册</span>
   </div>
   <div class="person-register-body">
- <form class="form-horizontal" role="form" id="emailForm">
+<form class="form-horizontal" role="form"  id="phoneForm">
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userNamePhone" class="control-label">账号</label>
+      <label class="control-label text-danger verification-email" id="userNamePhoneError"></label>
+         <input type="text" class="form-control" name="user_phone" id="userNamePhone" 
+            placeholder="手机号">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="userPasswordPhone" class="control-label">密码</label>
+        <label class="control-label text-danger verification-email" id="userPasswordPhoneError"></label> 
+         <input type="password" class="form-control" name="user_password" id="userPasswordPhone" 
+            placeholder="密码">
+      </div>
+   </div>
+   <div class="form-group">
+      <div class="col-sm-10">
+      <label for="reUserPasswordPhone" class="control-label">重复密码</label>
+       <label id="reUserPasswordPhoneError" class="control-label text-danger verification-email"></label>
+         <input type="password" class="form-control" id="reUserPasswordPhone" 
+            placeholder="重复密码">
+      </div>
+      </div>
+      <label id="userValidPhoneError" class="control-label text-danger verification-email"></label>
+   <div class="form-group">
+      <div class="col-sm-6">
+         <input type="text" style="width:60%;" name="valid_code" class="form-control pull-left" id="userValidPhone" 
+            placeholder="验证码">
+      </div>
+         <input type="button" class="btn btn-default pull-left" id="userValidPhoneBtn" value="获取验证码">
+   </div>
+   
+   <div class="form-group">
+      <div class="col-sm-10 text-center">
+         <button type="button" class="btn btn-default btn-block btn-primary" id="phoneSubmit">注册</button>
+      </div>
+   </div>
+</form>
+<form class="form-horizontal" role="form" id="emailForm" style="display:none;">
    <div class="form-group">
       <div class="col-sm-10">
       <label for="userNameEmail" class="control-label">账号</label>
@@ -63,42 +103,6 @@
    </div>
 </form>
 
-<form class="form-horizontal" role="form" style="display:none;" id="phoneForm">
-   <div class="form-group">
-      <div class="col-sm-10">
-      <label for="userNamePhone" class="control-label">账号</label>
-         <input type="text" class="form-control" id="userNamePhone" 
-            placeholder="手机号">
-      </div>
-   </div>
-   <div class="form-group">
-      <div class="col-sm-10">
-      <label for="userPasswordPhone" class="control-label">密码</label>
-         <input type="password" class="form-control" id="userPasswordPhone" 
-            placeholder="密码">
-      </div>
-   </div>
-   <div class="form-group">
-      <div class="col-sm-10">
-      <label for="reUserPasswordPhone" class="control-label">重复密码</label>
-         <input type="password" class="form-control" id="reUserPasswordPhone" 
-            placeholder="重复密码">
-      </div>
-      </div>
-   <div class="form-group">
-      <div class="col-sm-6">
-         <input type="text" style="width:60%;" class="form-control pull-left" id="userValidPhone" 
-            placeholder="验证码">
-      </div>
-         <button type="button" class="btn btn-default pull-left" id="userValidPhoneBtn">获取验证码</button>
-   </div>
-   
-   <div class="form-group">
-      <div class="col-sm-10 text-center">
-         <button type="button" class="btn btn-default btn-block btn-primary" id="phoneSubmit">注册</button>
-      </div>
-   </div>
-</form>
   </div>
     
   </body>
@@ -131,8 +135,82 @@
       		});
       	//ahover
       	   myUtils.ahover();
+      	 /**
+         	**手机注册校验
+         	*/
+         		
+         	myUtils.registerFormValid(
+         		//账号
+         		{
+         		userNameValue:"#userNamePhone",
+         		verification:myUtils.userVerification.phone,
+         		userNameError:"#userNamePhoneError",
+         		userNameErrorValue:"请输入正确的手机号",
+         		userNameURL:"/user/chkUserName"
+         	},
+         //密码
+         	{
+         		userPasswordValue:"#userPasswordPhone",
+         		userPasswordError:"#userPasswordPhoneError",
+         		userPasswordErrorValue:"数字、字母、下划线，6-20长度"
+         	},
+         //重复密码
+         	{
+         		userRePasswordValue:"#reUserPasswordPhone",
+         		userRePasswordError:"#reUserPasswordPhoneError",
+         		userRePasswordErrorValue:"两次密码必须相同"
+         	},
+         	//验证码btn
+         	"#userValidPhoneBtn",
+         	//验证码
+         	{	
+         		userValidCodeSendURL:"/user/userValidCode",
+         		userValidCodeValue:"#userValidPhone",
+         		userValidCodeError:"#userValidPhoneError",
+         		userValidCodeCheckedURL:"/user/chkUserValidCode"
+         		
+         	}); 
+         
+         	/**
+         	**表单提交
+         	*/
+         	$("#phoneSubmit").click(function() {
+         		//判断空格
+         		for (var i = 0; i < $("#phoneForm input").length; i++) {
+         			if($("#phoneForm input")[i].value.trim()==""){
+         				return;
+         			}
+   			}
+         		//判断错误
+         		if($(".verification-email").text().trim()!=""){
+         			return ;
+         		}
+         		myUtils.myPrevToast("注册中",function(){
+         			$.ajax({
+         				url:"/user/userRegister",
+         			  data:$("#phoneForm").serialize(),
+         			  type:"POST",
+         			  dataType:"json",
+         			  success:function(data){
+         				  //console.log(JSON.stringify(data))
+         				 if(data.user_msg=="200"){
+         				myUtils.myPrevToast("注册成功",function(){
+         				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+         				myUtils.setCookie("login_state","1",60*60*24*365);
+         				myUtils.setCookie("user_id",data.user_id,60*60*24*365);
+         				location.href="/mall/mobile/user_info";
+         			},"remove");
+         				}
+         			},
+         			error:function(){
+         				myUtils.myPrevToast("注册失败",null,"remove");
+         			}
+         		});
+         		},"add");
+         		
+         	});
       	/**
-      	**注册校验
+      	**邮箱注册校验
       	*/
       		
       	myUtils.registerFormValid(
@@ -160,10 +238,10 @@
       	"#userValidEmailBtn",
       	//验证码
       	{	
-      		userValidCodeSendURL:"/user/userEmailValidCode",
+      		userValidCodeSendURL:"/user/userValidCode",
       		userValidCodeValue:"#userValidEmail",
       		userValidCodeError:"#userValidEmailError",
-      		userValidCodeCheckedURL:"/user/chkUserEmailValidCode"
+      		userValidCodeCheckedURL:"/user/chkUserValidCode"
       		
       	}); 
       
@@ -183,7 +261,7 @@
       		}
       		myUtils.myPrevToast("注册中",function(){
       			$.ajax({
-      				url:"/user/userEmailRegister",
+      				url:"/user/userRegister",
       			  data:$("#emailForm").serialize(),
       			  type:"POST",
       			  dataType:"json",
@@ -193,13 +271,13 @@
       				myUtils.myPrevToast("注册成功",function(){
       				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
       				myUtils.setCookie("login_state","1",60*60*24*365);
-      				myUtils.setCookie("user_id",data.userid,60*60*24*365);
+      				myUtils.setCookie("user_id",data.user_id,60*60*24*365);
       				location.href="/mall/mobile/user_info";
       			},"remove");
       				}
       			},
       			error:function(){
-      				myUtils.myLoadingToast("注册失败");
+      				myUtils.myPrevToast("注册失败",null,"remove");
       			}
       		});
       		},"add");

@@ -40,7 +40,7 @@ public class MerchandiseDTO implements Serializable{
 	/**
 	 * 商品折扣
 	 */
-	private Double merDiscount;
+	private Double merchandiseDiscount;
 	/**
 	 * 商品邮费  0包邮 ,其他为价格
 	 */
@@ -146,16 +146,6 @@ public class MerchandiseDTO implements Serializable{
 	}
 
 
-	public Double getMerDiscount() {
-		return merDiscount;
-	}
-
-
-	public void setMerDiscount(Double merDiscount) {
-		this.merDiscount = merDiscount;
-	}
-
-
 	public Double getMerchandisePostage() {
 		return merchandisePostage;
 	}
@@ -243,6 +233,16 @@ public class MerchandiseDTO implements Serializable{
 
 	public void setMerchandiseMsg(String merchandiseMsg) {
 		this.merchandiseMsg = merchandiseMsg;
+	}
+
+
+	public Double getMerchandiseDiscount() {
+		return merchandiseDiscount;
+	}
+
+
+	public void setMerchandiseDiscount(Double merchandiseDiscount) {
+		this.merchandiseDiscount = merchandiseDiscount;
 	}
 	
 }

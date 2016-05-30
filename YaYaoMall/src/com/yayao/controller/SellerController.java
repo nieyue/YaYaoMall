@@ -1,5 +1,6 @@
 package com.yayao.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.yayao.bean.Seller;
 import com.yayao.messageinterface.SMSInterface;
@@ -20,6 +22,7 @@ import com.yayao.service.MerCategoryService;
 import com.yayao.service.MerchandiseService;
 import com.yayao.service.SellerService;
 import com.yayao.util.DateUtil;
+import com.yayao.util.FileUploadUtil;
 import com.yayao.util.MyDESutil;
 import com.yayao.util.NumberUtil;
 import com.yayao.util.StatusCode;
@@ -240,6 +243,46 @@ public class SellerController {
 			session.invalidate();
 		}
 		
+	}
+	/**
+	 * sellerImg商户店铺图片上传
+	 * 
+	 * @param seller
+	 * @param session
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/sellerImgUpload", method = {RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody String sellerImgUpload(@RequestParam("seller_file") MultipartFile file,HttpSession session,@RequestParam("seller_id")Integer id)  {
+			Seller s = sellerService.loadSeller(id);
+			//删除原图片
+			String	oldIMGURL=s.getSellerImg();
+			String userIMG = null;
+			 try{
+				 userIMG = FileUploadUtil.FormDataFileUpload(file, session,"/resources/sellerUpload",id.toString(),oldIMGURL);
+				 s.setSellerImg(userIMG);
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
+			sellerService.updateSeller(s);
+			 return userIMG;
+		}
+	
+	/**
+	 * 商户修改属性
+	 * 
+	 * @param seller
+	 * @param session
+	 * @return
+	 * @throws Exception 
+	 */   
+	@RequestMapping(value = "/updateSellerInfo", method = {RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody String updateSeller(HttpSession session ,@RequestParam("sellerId")Integer sellerId,@RequestParam(value="sellerNiceName" ,required=false) String sellerNiceName,@RequestParam(value="sellerSignature" ,required=false) String sellerSignature)  {
+		Seller seller = sellerService.loadSeller(sellerId);
+		seller.setSellerNiceName(sellerNiceName);
+		seller.setSellerSignature(sellerSignature);
+		sellerService.updateSeller(seller);
+		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	
 }

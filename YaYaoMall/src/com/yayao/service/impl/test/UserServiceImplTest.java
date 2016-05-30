@@ -83,13 +83,13 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testUpdateUser() {
-		User u = userService.loadUser(9);
+		User u = userService.loadUser(1);
 		//User u=new User();
 		//u.setUserid(9);
 		//UserLevel ul = userService.loadUserLevel(1);
 		//ul=null;
 		//u.setUserLevel(ul);
-		u.setUserImg("1saf23.jpg");
+		u.setUserImg(null);
 		userService.updateUser(u);
 	}
 
@@ -131,7 +131,7 @@ public class UserServiceImplTest {
 		User u22 = userService.loadUser(1);
 		System.out.println(u.getUserEmail());
 		//System.out.println(l);
-		System.out.println(u2);
+		System.out.println(u2.getUserImg());
 		//System.out.println(l2);
 		System.out.println(u22);
 	}

@@ -89,7 +89,7 @@
       		//如果不存在sellerid，则404
       		   userData.refereerSeller();
       			//console.log(JSON.parse(decode64(localStorage.getItem("user"))));
-      			if(myUtils.getCookie("login_state")==1){
+      			if(myUtils.getCookie("login_state")==1&&myUtils.getCookie("user_id")){
       				myUtils.myPrevToast("加载中",function(){
       					//如果缓存，直接取
       					if(sessionStorage.getItem("user")!=null){

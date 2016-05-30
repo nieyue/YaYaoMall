@@ -40,7 +40,7 @@ public class UserLevel implements Serializable{
 	/**
 	 * 账户利率
 	 */
-	private Integer userLevelFavourable;
+	private Double userLevelFavourable;
 	
 	/**
 	 * 账户
@@ -56,7 +56,7 @@ public class UserLevel implements Serializable{
 	}
 
 	public UserLevel(Integer userLevelId, String userLevelName,
-			Integer userLevelFavourable, Set<User> users) {
+			Double userLevelFavourable, Set<User> users) {
 		super();
 		this.userLevelId = userLevelId;
 		this.userLevelName = userLevelName;
@@ -80,11 +80,11 @@ public class UserLevel implements Serializable{
 		this.userLevelName = userLevelName;
 	}
 
-	public Integer getUserLevelFavourable() {
+	public Double getUserLevelFavourable() {
 		return userLevelFavourable;
 	}
 
-	public void setUserLevelFavourable(Integer userLevelFavourable) {
+	public void setUserLevelFavourable(Double userLevelFavourable) {
 		this.userLevelFavourable = userLevelFavourable;
 	}
 

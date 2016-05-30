@@ -11,7 +11,7 @@
   </head>
   <body>
    <div class="person-common-header">
-  	<div><a class="pull-left" id="backhref" href="/mall/mobile/persion">&lt;返回</a></div>
+  	<div><a class="pull-left" id="backPersonHref" href="/mall/mobile/person">&lt;返回</a></div>
   	<div class="text-center person-common-header-center">用户信息</div>
   </div>
    <input type="file" id="fileUserInfoIMG" accept="image/*"/>
@@ -95,25 +95,20 @@
       			//修改回退
       			 $("#backhref").attr("href","/mall/mobile/person?seller_id="+myUtils.GetQueryString("seller_id"));
       			//登录成功的用户信息
-      			if(myUtils.getCookie("login_state")==1){
-      				var user_id=myUtils.getCookie("user_id");
+      			if(myUtils.getCookie("login_state")==1&&myUtils.getCookie("user_id")){
+      				//自动登录
       			myUtils.myPrevToast("加载中...",function(){
-      			//如果缓存，直接取
-  					if(sessionStorage.getItem("user")!=null){
+      				userData.userAutoLoginHandler({
+      					login:function(){
+      					//如果缓存，直接取
       					var data=JSON.parse(decode64(sessionStorage.getItem("user")));
       					userData.userInfo(data);
           				myUtils.myPrevToast("加载中...",null,"remove");
           				return;
-      				}
-      			$.get("/user/loadUser?seller_id="+user_id,"json",function(data){
-      				if(data){
-      				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
-              		userData.userInfo(data);
-      				myUtils.myPrevToast("加载完成",null,"remove");
-      				}
+      					}
       				});
+          				
       				},"add");
-      				
       			}else{
       				location.replace("/mall/mobile/person?seller_id="+sessionStorage.getItem("seller_id"));
       			}
@@ -140,14 +135,14 @@
   		  				inputfile:$("#fileUserInfoIMG"),
   		  				ajaxObj:{
   		  				formData:[{key:"user_id",value:myUtils.getCookie("user_id")},{key:"user_file",value:$("#fileUserInfoIMG").get(0).files[0]}],
-  		  				url:"/user/userIMGUpload",
-  		  				success:function(userIMG){
+  		  				url:"/user/userImgUpload",
+  		  				success:function(userImg){
   		  				var data=JSON.parse(decode64(sessionStorage.getItem("user")));
-  		                data.userIMG=userIMG;
+  		                data.user_img=userImg;
   		                sessionStorage.setItem("user",encode64(JSON.stringify(data)));
   		                userData.userInfo(data);
   		                myUtils.myPrevToast("上传成功",null,"remove");
-  		                $("#userInfoIMG").attr("src",userIMG);
+  		                $("#userInfoIMG").attr("src",userImg);
   		  				}
   		  				}
   		  				});
@@ -168,7 +163,8 @@
    		  		});
   		  		//ahover
   		  		 myUtils.ahover();
-  		  		
+  		  		//返回
+  		  		$("#backPersonHref").attr("href","/mall/mobile/person?seller_id="+sessionStorage.getItem("seller_id"));
       		});
        </script>
 </html>

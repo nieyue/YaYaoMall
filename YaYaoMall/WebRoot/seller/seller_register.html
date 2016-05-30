@@ -104,7 +104,7 @@
 				</div>
 				<div class="form-group">
 					 <input
-						type="text" class="form-control" id="sellerName"
+						type="text" class="form-control" id="sellerNiceName"
 						placeholder="店铺名称">
 				</div>
 				<div class="form-group">
@@ -218,8 +218,7 @@
         				}
         			},
         			error:function(){
-        				myUtils.myPrevToast("注册成功",null,"remove");
-        				myUtils.myLoadingToast("注册失败");
+        				myUtils.myPrevToast("注册失败",null,"remove");
         			}
         		});
         		},"add");
@@ -231,16 +230,15 @@
     	   //图片点击
     	   $("#sellerImgFile").on('change',function(){
     		   myUtils.fileUpload({
-			    	inputfile:$("sellerImgFile"),
+			    	inputfile:$("#sellerImgFile"),
 			    	ajaxObj:
 			    		{
-	  		  				formData:[{key:"seller_file",value:$("sellerImgFile").get(0).files[0]},{key:"seller_id",value:myUtils.getCookie("seller_id")}],
-	  		  				url:"/seller/addSellerImg",
-	  		  				success:function(data){
-       			    		$("#sellerImgSrc").attr("src",data.seller_img);
+	  		  				formData:[{key:"seller_file",value:$("#sellerImgFile").get(0).files[0]},{key:"seller_id",value:myUtils.getCookie("seller_id")}],
+	  		  				url:"/seller/sellerImgUpload",
+	  		  				success:function(seller_img){
+       			    		$("#sellerImgSrc").attr("src",seller_img);
 	  		                myUtils.myPrevToast("上传成功",null,"remove");
     	   					$("#sellerImgBtn").text("修改店铺图片");
-    	   					$("#sellerImgFile").val(data.seller_id);
 	  		  				}
 	  		  				}
 			    	});
@@ -249,18 +247,21 @@
     		  if(!$("#sellerImgFile").val()){
   				return myUtils.myLoadingToast("未添加图片", null);
   			} 
-    		  if($("#sellerName").text().trim().length<=2||$("#sellerName").val().trim().length>=300){
+    		  if($("#sellerNiceName").val().trim().length<2||$("#sellerNiceName").val().trim().length>16){
+  				return myUtils.myLoadingToast("店铺名字2-16字数之间", null);
+  			}
+    		  if($("#sellerDesc").val().trim().length<2||$("#sellerDesc").val().trim().length>300){
   				return myUtils.myLoadingToast("店铺描述2-300字数之间", null);
   			}
     		  myUtils.myPrevToast("注册中",function(){
       			$.ajax({
-      			url:"/seller/sellerPhoneRegister",
-      			  data:$("#sellerForm2").serialize(),
+      			url:"/seller/updateSellerInfo",
+      			  data:{seller_id:myUtils.getCookie("seller_id"),seller_nice_name:$("#sellerNiceName").val().trim(),seller_signature:$("#sellerDesc").val().trim()},
       			  type:"POST",
       			  dataType:"json",
       			  success:function(data){
       				  console.log(data)
-      				 if(data.seller_msg=="200"){
+      				 if(data=="200"){
       				myUtils.myPrevToast("注册成功",function(){
       			//执行下一步
       				  $("#twoForm").hide();
@@ -271,8 +272,7 @@
       				}
       			},
       			error:function(){
-      				myUtils.myPrevToast("注册成功",null,"remove");
-      				myUtils.myLoadingToast("注册失败");
+      				myUtils.myPrevToast("注册失败",null,"remove");
       			}
       		});
       		},"add"); 

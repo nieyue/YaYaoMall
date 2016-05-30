@@ -39,7 +39,7 @@ var sellerData={
     				return;
     			}
     			$.get("/merCategory/addMerCategory?seller_id="+myUtils.getCookie("seller_id")+"&mer_category_name="+mcv,function(data){
-    				if(data.category_msg=="200"){
+    				if(data.mer_category_msg=="200"){
     					$("#closeModal").click();
     					console.log(data)
     					myUtils.myLoadingToast("添加成功", null);
@@ -94,12 +94,12 @@ var sellerData={
     			}
 				$.post("/merCategory/updateMerCategory?seller_id="+myUtils.getCookie("seller_id")+"&mer_category_id="+thisDelCate.parent().parent("tr").attr("data-mercategoryid")+"&new_cate_name="+mcv,
 					function(data){
-					if(data.cateMsg=="200"){
+					if(data.mer_category_msg=="200"){
 						$("#closeModal").click();
     					myUtils.myLoadingToast("修改成功", null);
-    					thisDelCate.parent().parent("tr").attr("data-mercategoryid",mcv);
+    					thisDelCate.parent().parent("tr").attr("data-mercategoryid",data.mer_category_id);
     					thisDelCate.parent().parent("tr").html("<td>"+data.mer_category_name+"</td><td>"+myUtils.timeStampToDate(data.mer_category_date)+"</td><td><a class='button button-3d button-action button-tiny updateCategoryBtn'>修改</a></td><td><a class='button button-3d button-caution button-tiny delCategoryBtn'>删除</a></td>")
-  					}else if(data.cateMsg=="商品分类已经存在"){
+  					}else if(data.mer_category_msg=="商品分类已经存在"){
     					$("#closeModal").click();
     					myUtils.myLoadingToast(data.mer_category_msg, null);
     				}
@@ -173,6 +173,7 @@ var sellerData={
 					var dragMerImgWarp=filebtnthis.prev(".dragMerImgWarp");
 					filebtnthis.next(".dragMerFile").click();
 					filebtnthis.next(".dragMerFile").change(function(){
+						//console.log(filebtnthis.next(".dragMerFile").get(0).files[0])
     			    myUtils.fileUpload({
     			    	inputfile:filebtnthis.next(".dragMerFile"),
     			    	ajaxObj:
@@ -228,7 +229,7 @@ var sellerData={
     				return;
     			}
     			for (var i = 0; i<data.length; i++) {
-				$("#addMerCategoryList").prepend("<label class='radio-inline'><input type='radio' name='mer_ategory_id' value='"+data[i].mer_category_id+"'>  "+data[i].mer_category_name+"</label>");
+				$("#addMerCategoryList").prepend("<label class='radio-inline'><input type='radio' name='mer_category_id' value='"+data[i].mer_category_id+"'>  "+data[i].mer_category_name+"</label>");
     			}
     			$("#addMerCategoryList").append("<a class='button button-small button-raised button-caution hide' id='merCancelCate'>取消分类</a>");
     			$(document).on('click',"input[name='mer_category_id']",function(){
@@ -262,6 +263,7 @@ var sellerData={
 			});
 			//商品id,更新用
 			if(obj.merchandise_id){
+				$("#merchandiseId").attr("name","merchandise_id");
 				$("#merchandiseId").attr("value",obj.merchandise_id);
 			}
     		if(!$(".dragMerImg").prev().attr("value")){
@@ -434,11 +436,11 @@ var sellerData={
 			,function(data){
 				if(data.seller_msg=="200"){
 				sessionStorage.setItem("seller",encode64(JSON.stringify(data)));
-				if(typeof obj.login=='function'){
+				if(obj&&typeof obj.login=='function'){
 					obj.login();//登录成功
 				}
 				}else {
-					if(typeof obj.loginout=='function'){
+					if(obj&&typeof obj.loginout=='function'){
 						obj.loginout();//登录错误
 					}
 				}

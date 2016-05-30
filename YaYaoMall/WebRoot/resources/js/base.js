@@ -161,6 +161,10 @@ var myUtils = {
 		// 请求服务器发送给邮箱验证码
       	$(validBtn).click(function(){
       		var  userNameInfo=$(userName.userNameValue).val().trim();
+      		var  userNameInfoError=$(userName.userNameError).text().trim();
+      		if(userNameInfoError){
+      			return;
+      		}
 			if(!userName.verification.test(userNameInfo)){
       			$(validCode.userNameError).text(userName.userNameErrorValue);
       			return ;
@@ -264,7 +268,7 @@ var myUtils = {
 	  			}
 	  		}
 	  		$.post("/user/updateUserInfo",{
-	  			user_id:localStorage.getItem("user_id"),
+	  			user_id:myUtils.getCookie("user_id"),
 	  			user_info_one:userInfoOne,
 	  			change_value:uiom
 	  		},
@@ -272,6 +276,10 @@ var myUtils = {
 	  			$(userInfoOne).text(uiom);
 	  			$('#closeModal').click();
 	  			myUtils.myLoadingToast("修改成功");
+	  			//重新加载新数据
+	  			$.get("/user/loadUser",{user_id:myUtils.getCookie("user_id")},function(data){
+	  				sessionStorage.setItem("user",encode64(JSON.stringify(data)));
+	  			});
 	  		});	
 	  		});
 	  		});
@@ -324,7 +332,7 @@ var myUtils = {
 	      			if(typeof options.ajaxObj.formData=='object'){
 	      			for (var i = 0; i < options.ajaxObj.formData.length; i++) {
 	      				fd.append(options.ajaxObj.formData[i].key,options.ajaxObj.formData[i].value);
-					}
+	      			}
 	      			}
 			                $.ajax({
 			                  url:options.ajaxObj.url,
@@ -405,13 +413,13 @@ var myUtils = {
 				// console.log(event.originalEvent.touches[0].pageX);
 	           // console.log(event.originalEvent.targetTouches);
 	           // console.log(event.originalEvent.changedTouches);
-				startY=event.originalEvent.targetTouches[0].pageY;
+				startY=event.pageY||event.originalEvent.targetTouches[0].pageY;
 				thismove();
 			});
 			function thismove(){
 		$(attrValue).on(myTouchEvents.touchmove,function(event){
 			event.stopPropagation();
-			moveY=event.originalEvent.targetTouches[0].pageY;
+			moveY=event.pageY||event.originalEvent.targetTouches[0].pageY;
 			event.preventDefault();
 			if(moveY-startY<100&&moveY-startY>0){
 				if(myUtils.isScrollTop()){
@@ -501,7 +509,7 @@ var myUtils = {
 		console.log(value.length*4)
 		$("body")
 				.append(
-						"<div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;max-width:200px;padding:0 10px;margin:-5px -"+value.length*4+"px;top:50%;left:50%;position:fixed;'>"
+						"<div id='loadingToast' style='display:none;color:#fff;background-color:black;text-align:center;line-height:30px;border:1px solid black;border-radius:5px;min-height:30px;max-width:200px;padding:0 10px;margin:-5px -"+value.length*7+"px;top:50%;left:50%;position:fixed;'>"
 						+ value + "</div>");
 		$("#loadingToast").fadeIn();
 		setTimeout(function() {
