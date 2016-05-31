@@ -46,6 +46,40 @@ body{
 		}
 }
 /**
+**分页
+*/
+.pagination-warp{
+	text-align: center;
+	width:100%;
+	border-top:1px solid #ccc; 
+}
+.pagination-warp .pagination li a{
+	color:red;
+}
+@media screen and (max-width:766px){
+.pagination-warp .pagination li a{
+	font-size:8px;
+	padding:6px 8px;
+}
+}
+/**
+**重写分页样式
+*/
+.pagination>.active>a,
+ .pagination>.active>a:focus,
+  .pagination>.active>a:hover, 
+  .pagination>.active>span,
+   .pagination>.active>span:focus,
+    .pagination>.active>span:hover
+{
+	border:0px solid red !important;
+	
+}
+.active a{
+	background-color:red !important;
+	color:white !important;
+}
+/**
 **左边布局
 */
 .left-bar{
@@ -331,6 +365,9 @@ body{
 /**
 **商品管理 merchandise 
 */
+#merchandiseList{
+	margin-top:10px;
+}
 #merchandiseList tbody tr{
 	height: 100px;
 }

@@ -40,7 +40,7 @@ public class MerchandiseImgController {
 	 */
 	@RequestMapping(value = "/browseMerchandiseImg", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody List<MerchandiseImg> browseMerchandiseImg(@RequestParam("merchandiseId") Integer merchandiseId,HttpSession session)  {
-			List<MerchandiseImg> list = merchandiseImgService.browseMerchandiseImg(merchandiseId, "updateMerImgTime", "asc");
+			List<MerchandiseImg> list = merchandiseImgService.browseMerchandiseImg(merchandiseId, "merchandiseImgUpdateTime", "asc");
 			return list;
 	}
 	/**

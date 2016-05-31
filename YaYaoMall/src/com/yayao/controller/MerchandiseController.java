@@ -57,7 +57,7 @@ public class MerchandiseController {
 		count=merchandiseService.countRecord(sellerId,merchandiseStatus, 0);//查询一个商户的所有商品，不分类别
 		if(currentCount!=null&&NumberUtil.isNumeric(currentCount)&&Integer.valueOf(currentCount)<=count){
 			if(Integer.valueOf(currentCount)%pageSize!=0){//前台页面有问题，需重新获取
-				list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerId,merchandiseStatus, "merchandiseid", "asc");
+				list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerId,merchandiseStatus, "merchandiseId", "asc");
 				return list;
 			}
 			//
@@ -66,7 +66,7 @@ public class MerchandiseController {
 			if(count<pageSize*pageNo){
 				return list;
 			}
-			list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerId,merchandiseStatus, "merchandiseid", "asc");
+			list= merchandiseService.browseMerBySeller(pageSize, pageNo, sellerId,merchandiseStatus, "merchandiseId", "asc");
 			return list;
 		}
 		return list;
@@ -140,6 +140,15 @@ public class MerchandiseController {
 		mer.setMerchandiseStatus(merchandiseStatus);
 		merchandiseService.updateMer(mer);
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
+	}
+	/**
+	 * 浏览商品数量
+	 * @return
+	 */
+	@RequestMapping(value = "/browseMerCountBySeller", method = {RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody int browseMerCountBySeller(@RequestParam("sellerId") Integer sellerId,@RequestParam(value="merchandiseStatus",required=false) String merchandiseStatus,HttpSession session)  {
+		int count = merchandiseService.countRecord(sellerId, merchandiseStatus, 0);
+		return count;
 	}
 	/**
 	 * 单个商品加载

@@ -719,7 +719,71 @@ var myUtils = {
 				numthis.val(1);
 			}
 		});
+	},
+	/**
+	 * 分页组件(暂时不用)
+	 * @param obj
+	 */
+	myPaginationHandler:function(obj){
+		if(!obj||typeof obj!='object'){
+			return;
+		}
+		$(obj.prevElement).parent("li").removeClass("disabled");
+		$(obj.nextElement).parent("li").removeClass("disabled");
+		var pageCount=(obj.length%obj.pageSize==0)?parseInt(obj.length/obj.pageSize):parseInt((obj.length/obj.pageSize)+1);//页数=总数/每页大小+1;
+			
+		if(obj.length==0){
+		$(obj.removeElement).remove();
+		}
+		if(pageCount>5){
+			pageCount=5;
+			$(obj.nextElement).parent("li").before("<li class='disabled moreNumber'><a href='#'>...</a></li>");
+		}
+		for (var int = 1; int < pageCount; int++) {
+			$(obj.pageNumber+":first").after($(obj.pageNumber+":first").clone());
+		}
+		$(obj.pageNumber).each(function(index){
+			$(this).children("a").text(index+1);
+			$(this).children("a").removeClass("myactive");
+			$(this).removeClass("disabled");
+		});
+		
+		if(obj.currentCount==1){
+			$(obj.pageNumber).eq(0).addClass("disabled");
+			$(obj.pageNumber).eq(0).children("a").addClass("myactive");
+			$(obj.prevElement).parent("li").addClass("disabled");
+		}
+		if(obj.currentCount==pageCount){
+			$(obj.pageNumber).eq(pageCount-1).children("a").addClass("myactive");
+			$(obj.pageNumber).eq(pageCount-1).addClass("disabled");
+			$(obj.nextElement).parent("li").addClass("disabled");
+		}
+		$(obj.pageNumber).on("click",function(){
+			obj.currentCount=$(this).children("a").text();
+			$(obj.prevElement).parent("li").removeClass("disabled");
+			$(obj.nextElement).parent("li").removeClass("disabled");
+			if(obj.currentCount==1){
+				$(obj.pageNumber).eq(0).addClass("disabled");
+				$(obj.pageNumber).eq(0).children("a").addClass("myactive");
+				$(obj.prevElement).parent("li").addClass("disabled");
+			}
+			if(obj.currentCount==pageCount){
+				$(obj.pageNumber).eq(pageCount-1).children("a").addClass("myactive");
+				$(obj.pageNumber).eq(pageCount-1).addClass("disabled");
+				$(obj.nextElement).parent("li").addClass("disabled");
+			}
+			$(obj.pageNumber).each(function(index){
+				$(this).children("a").text(index+1);
+				$(this).children("a").removeClass("myactive");
+				$(this).removeClass("disabled");
+			});
+			
+			$(this).children("a").addClass("myactive");
+			$(this).addClass("disabled");
+		});
+		
 	}
+
 
 };
 /**
@@ -815,7 +879,6 @@ var myTouchEvents = {
 
            });
 	}
-
 };
 
 

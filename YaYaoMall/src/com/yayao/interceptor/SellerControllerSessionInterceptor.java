@@ -18,7 +18,15 @@ public class SellerControllerSessionInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		String sellerId = request.getParameter("seller_id");
+		String sellerId="";
+		if(request.getParameter("seller_id")!=null){
+			sellerId = request.getParameter("seller_id");
+			
+		}
+		if(request.getParameter("sellerId")!=null){
+			sellerId = request.getParameter("sellerId");
+			
+		}
 		if(request.getSession().getAttribute("seller")==null||!(((Seller)request.getSession().getAttribute("seller")).getSellerId().equals(Integer.valueOf(sellerId)))){
 			return false;
 		}

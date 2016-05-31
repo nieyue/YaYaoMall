@@ -23,9 +23,30 @@
 	<input type="file" name="file_test"/>
 	<input type="submit"/>
 </form>
+<textarea rows="15" cols="50" id="reqbodytest"></textarea>
+<button id="reqbodytestBtn">点击POST</button>
 	<script type="text/javascript">
             $(function () {
+            	var reqdata={"user_id":3};
            	myTouchEvents.myDraggable(".drag img");
+           $("#reqbodytestBtn").click(function(){
+        	   
+           	$.ajax({
+           		url:"/test/reqBody",
+           		type:"POST",
+           		data:$("#reqbodytest").val().trim(),
+           		success:function(data){
+           			console.log("success\n")
+           			console.log(data)
+           		},
+           		error:function(error){
+           			console.log("error\n")
+           			console.log(error)
+           		}
+           			
+           	});
+           });
+           	
             });
         </script>
 </body>

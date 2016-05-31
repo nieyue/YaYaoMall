@@ -4,9 +4,9 @@
   <button type="button" class="button button-3d button-primary" style="width:155px;">销量</button>
   <button type="button" class="button button-3d button-primary"  style="width:155px;">库存</button>
   <button type="button" class="button button-3d button-primary" style="width:155px;">已卖完</button>
-  <button type="button" class="button button-3d button-primary" style="width:155px;">已下架</button>
- </div>
+  <button type="button" class="button button-3d button-primary" style="width:155px;" id="offShelfMer">已下架</button>
  <button type="button" class="button button-3d button-caution" style="width:155px;" id="addMerchandiseBtn">+添加商品</button>
+ </div>
 <hr/>
 	<div class="checkbox-inline">
    <label><input type="checkbox" id="merchandiseCheckboxBoss" >全选</label>
@@ -18,7 +18,7 @@
 <table class="table text-center table-mobile" id="merchandiseList">
  
  <thead>
-      <tr>
+      <tr class="myactive"> 
          <th class="text-center">商品描述</th>
          <th class="text-center">原始价格</th>
          <th class="text-center">折扣</th>
@@ -35,4 +35,20 @@
      
    </tbody>
 </table>
+</div>
+<div class="pagination-warp">
+  <!-- <ul class="pagination pagination-lg">
+    <li>
+      <a href="#" id="prevElement" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="pageNumber"><a href="#">1</a></li>
+    <li>
+      <a href="#" id="nextElement" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul> -->
+  <ul class="pagination pagination-lg" id="merPagination"></ul>
 </div>

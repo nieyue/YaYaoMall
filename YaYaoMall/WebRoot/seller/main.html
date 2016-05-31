@@ -174,6 +174,7 @@
         <script src="/resources/js/sortable.min.js"></script>
         <script src="/resources/js/buttons.js"></script>
        <script src="/resources/js/base64.js"></script> 
+       <script src="/resources/js/jqPaginator.js"></script> 
        <script src="/resources/js/base.js"></script> 
        <script src="/resources/js/seller.js"></script> 
        <script type="text/javascript">
@@ -259,13 +260,17 @@
        		$(document).on("click",".updateSingleMer",function(){
        			sellerData.updateMerchandiseSingleHandler($(this));
        		});
+        	//已经下架商品展示
+       		$(document).on("click","#offShelfMer",function(){
+       			sellerData.showMerchandiseHandler("下架");
+       		});
         			
 								/* $(document).on('change','#addMerForm',function(){
 										console.log($("#addMerForm"))
 										console.log(document.getElementById("addMerForm"))
 										console.log(document.querySelector("#addMerForm"))
 										}); */
-			});
-							</script>
+       });							
+		</script>
         </body>
 </html>

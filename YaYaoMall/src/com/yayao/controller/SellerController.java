@@ -282,6 +282,7 @@ public class SellerController {
 		seller.setSellerNiceName(sellerNiceName);
 		seller.setSellerSignature(sellerSignature);
 		sellerService.updateSeller(seller);
+		 session.setAttribute("seller",seller);
 		return StatusCode.GetValueByKey(StatusCode.SUCCESS);
 	}
 	

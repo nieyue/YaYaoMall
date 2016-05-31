@@ -168,8 +168,8 @@
        		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_nice_name!=null){
        		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_nice_name);
        		}
-       		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).sellerIMGS!=null){
-       		$("#sellerNiceName").text(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_img);
+       		if(JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_img!=null){
+       		$("#sellerImgSrc").attr("src",JSON.parse(decode64(sessionStorage.getItem("seller"))).seller_img);
        		}
        		$("#sellerAutoLogin").click(function(){
        		location.replace("/seller/main");
