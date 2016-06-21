@@ -20,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -109,10 +110,13 @@ public class UserControllerTest {
 			 System.out.println(list.get(i).getUserPassword());
 		}*/
 		//调用路径
+		ResultHandler ssssss = print();
+		this.mockMvc.perform(post("/test/a/d/d/a.xml"))
 		 //this.mockMvc.perform(post("/merCategory/browseMerCategory.json?cateName=绿茶&sellerid=7"))
-		this.mockMvc.perform(post("/merchandise/addMerchandise.json?merchandiseName=sdaf&merchandisePrice=43&merchandiseStock=3&merchandiseCode=dsaf&sellerid=8&merCategoryid=52&merchandisePostage=43&merchandiseImgsid=60&merchandiseImgsid=61"))
+		//this.mockMvc.perform(post("/merchandise/addMerchandise.json?merchandiseName=sdaf&merchandisePrice=43&merchandiseStock=3&merchandiseCode=dsaf&sellerid=8&merCategoryid=52&merchandisePostage=43&merchandiseImgsid=60&merchandiseImgsid=61"))
        // .andExpect(status().isOk())
-          .andDo(print());  ;
+		
+          .andDo(ssssss);  
 	}
 
 

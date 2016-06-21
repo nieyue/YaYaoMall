@@ -18,17 +18,14 @@
 	</context:component-scan>
     <!--  <mvc:annotation-driven  /> -->
     <!-- @responsebody 下 '/'、'.josn'匹配json,'.xml'匹配xml  -->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
-        <property name="contentNegotiationManager" ref="responseContentNegotiationManager"></property>
-        <property name="messageConverters">
-        <list>
-        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+     <mvc:annotation-driven conversion-service="myConverter" content-negotiation-manager="responseContentNegotiationManager" >
+	 <mvc:message-converters>
+	 	<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="objectMapper">
 			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
 				<property name="propertyNamingStrategy">
 					<bean
-						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"></bean>
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy"></bean>
 				</property>
 				<property name="dateFormat">
 				<bean class="java.text.SimpleDateFormat">
@@ -43,7 +40,7 @@
 			<bean class="com.fasterxml.jackson.dataformat.xml.XmlMapper">
 				<property name="propertyNamingStrategy">
 					<bean
-						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy">
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy">
 						</bean>
 				</property>
 				<property name="dateFormat">
@@ -54,9 +51,22 @@
 			</bean>
 		</property>
 	</bean>
-        </list>
-        </property> 
-    </bean> 
+	 </mvc:message-converters>
+	 </mvc:annotation-driven>
+    <!-- @responsebody 下 '/'、'.josn'匹配json,'.xml'匹配xml  -->
+		<bean id="myDateFormatter" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+					<property name="formatters">
+						<bean class="com.yayao.business.MyDateFormatter">
+						</bean>
+					</property>
+		</bean>
+		<bean id="myConverter" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+					
+					<property name="converters">
+						<bean class="com.yayao.business.MyArgConverter">
+						</bean>
+					</property>
+		</bean>
     <bean id="responseContentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
           p:defaultContentType="application/json"  
           p:ignoreAcceptHeader="true"  
@@ -154,7 +164,7 @@
 			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
 				<property name="propertyNamingStrategy">
 					<bean
-						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy"></bean>
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy"></bean>
 				</property>
 		<property name="dateFormat">
 				<bean class="java.text.SimpleDateFormat">
@@ -169,7 +179,7 @@
 			<bean class="com.fasterxml.jackson.dataformat.xml.XmlMapper">
 				<property name="propertyNamingStrategy">
 					<bean
-						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy">
+						class="com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy">
 						</bean>
 				</property>
 				<property name="dateFormat">

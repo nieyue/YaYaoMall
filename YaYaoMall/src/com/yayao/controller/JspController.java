@@ -97,10 +97,11 @@ public class JspController {
 	 *如：[...] 
 	 */
 	@RequestMapping(value = "/a/d/d/{success}", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<MerCategory> asdsa2(@PathVariable("success") String url) {
+	public /*@ResponseBody*/ List<MerCategory> asdsa2(@PathVariable("success") String url) {
 		List<MerCategory> list=null;
 		if(url.equals("a")){
-			list = merCategoryService.browseMerCategory(8);
+			list = merCategoryService.browseMerCategory(5);
+			System.out.println(list.get(0).getMerCategoryName());
 			return list;
 		}
 		if(url.equals("b")){
