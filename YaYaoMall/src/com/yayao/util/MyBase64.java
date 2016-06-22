@@ -1,62 +1,111 @@
 package com.yayao.util;
 
+import java.io.UnsupportedEncodingException;
+
+import org.springframework.util.Base64Utils;
+/**
+ * 自定义 Base64
+ * @author yy
+ *
+ */
 public class MyBase64 {
-	 private static final String CODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-	    public static byte[] base64Decode(String input)    {
-	        if (input.length() % 4 != 0)    {
-	            throw new IllegalArgumentException("Invalid base64 input");
-	        }
-	        byte decoded[] = new byte[((input.length() * 3) / 4) - (input.indexOf('=') > 0 ? (input.length() - input.indexOf('=')) : 0)];
-	        char[] inChars = input.toCharArray();
-	        int j = 0;
-	        int b[] = new int[4];
-	        for (int i = 0; i < inChars.length; i += 4)     {
-	            // This could be made faster (but more complicated) by precomputing these index locations.
-	            b[0] = CODES.indexOf(inChars[i]);
-	            b[1] = CODES.indexOf(inChars[i + 1]);
-	            b[2] = CODES.indexOf(inChars[i + 2]);
-	            b[3] = CODES.indexOf(inChars[i + 3]);
-	            decoded[j++] = (byte) ((b[0] << 2) | (b[1] >> 4));
-	            if (b[2] < 64)      {
-	                decoded[j++] = (byte) ((b[1] << 4) | (b[2] >> 2));
-	                if (b[3] < 64)  {
-	                    decoded[j++] = (byte) ((b[2] << 6) | b[3]);
-		        }
-	            }
-	        }
-
-	        return decoded;
-	    }
-
-	    public static String base64Encode(byte[] in)       {
-	        StringBuilder out = new StringBuilder((in.length * 4) / 3);
-	        int b;
-	        for (int i = 0; i < in.length; i += 3)  {
-	            b = (in[i] & 0xFC) >> 2;
-	            out.append(CODES.charAt(b));
-	            b = (in[i] & 0x03) << 4;
-	            if (i + 1 < in.length)      {
-	                b |= (in[i + 1] & 0xF0) >> 4;
-	                out.append(CODES.charAt(b));
-	                b = (in[i + 1] & 0x0F) << 2;
-	                if (i + 2 < in.length)  {
-	                    b |= (in[i + 2] & 0xC0) >> 6;
-	                    out.append(CODES.charAt(b));
-	                    b = in[i + 2] & 0x3F;
-	                    out.append(CODES.charAt(b));
-	                } else  {
-	                    out.append(CODES.charAt(b));
-	                    out.append('=');
-	                }
-	            } else      {
-	                out.append(CODES.charAt(b));
-	                out.append("==");
-	            }
-	        }
-
-	        return out.toString();
-	    }
-	    public static void main(String[] args) {
-		System.out.println(base64Encode(base64Decode("sdfsdfsd.")));
-		}
+    private static char[] base64EncodeChars = new char[]{
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+            'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+            'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+            'w', 'x', 'y', 'z', '0', '1', '2', '3',
+            '4', '5', '6', '7', '8', '9', '+', '/'};
+    private static byte[] base64DecodeChars = new byte[]{
+            -1, -1, -3, -1, -1, -6, -1, -1, -9, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -2, -1, -1, -4, -1, -1, -8, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
+            52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,
+            -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+            15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
+            -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+            41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1};
+   
+    public static String encode(byte[] data) {
+        StringBuffer sb = new StringBuffer();
+        int len = data.length;
+        int i = 0;
+        int b1, b2, b3;
+        while (i < len) {
+            b1 = data[i++] & 0xff;
+            if (i == len) {
+                sb.append(base64EncodeChars[b1 >>> 2]);
+                sb.append(base64EncodeChars[(b1 & 0x3) << 4]);
+                sb.append("==");
+                break;
+            }
+            b2 = data[i++] & 0xff;
+            if (i == len) {
+                sb.append(base64EncodeChars[b1 >>> 2]);
+                sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
+                sb.append(base64EncodeChars[(b2 & 0x0f) << 2]);
+                sb.append("=");
+                break;
+            }
+            b3 = data[i++] & 0xff;
+            sb.append(base64EncodeChars[b1 >>> 2]);
+            sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
+            sb.append(base64EncodeChars[((b2 & 0x0f) << 2) | ((b3 & 0xc0) >>> 6)]);
+            sb.append(base64EncodeChars[b3 & 0x3f]);
+        }
+        return sb.toString();
+    }
+   
+    public static byte[] decode(String str) throws UnsupportedEncodingException {
+        StringBuffer sb = new StringBuffer();
+        byte[] data = str.getBytes("US-ASCII");
+        int len = data.length;
+        int i = 0;
+        int b1, b2, b3, b4;
+        while (i < len) {
+           
+            do {
+                b1 = base64DecodeChars[data[i++]];
+            } while (i < len && b1 == -1);
+            if (b1 == -1) break;
+           
+            do {
+                b2 = base64DecodeChars
+                        [data[i++]];
+            } while (i < len && b2 == -1);
+            if (b2 == -1) break;
+            sb.append((char) ((b1 << 2) | ((b2 & 0x30) >>> 4)));
+           
+            do {
+                b3 = data[i++];
+                if (b3 == 61) return sb.toString().getBytes("iso8859-1");
+                b3 = base64DecodeChars[b3];
+            } while (i < len && b3 == -1);
+            if (b3 == -1) break;
+            sb.append((char) (((b2 & 0x0f) << 4) | ((b3 & 0x3c) >>> 2)));
+           
+            do {
+                b4 = data[i++];
+                if (b4 == 61) return sb.toString().getBytes("iso8859-1");
+                b4 = base64DecodeChars[b4];
+            } while (i < len && b4 == -1);
+            if (b4 == -1) break;
+            sb.append((char) (((b3 & 0x03) << 6) | b4));
+        }
+        return sb.toString().getBytes("iso8859-1");
+    }
+    public static void main(String[] args) throws UnsupportedEncodingException {
+       // String s = "{\"name\":\"vicken\",\"age\":20}";
+        String s = "sad%fd=sa-f+aaf*sddfsdaf";
+        System.out.println("加密前：" + s);
+        String x = encode(s.getBytes());
+        System.out.println("加密后：" + x);
+        String x1 = new String(decode(x));
+        System.out.println("解密后：" + x1);
+       String y= Base64Utils.encodeToString(s.getBytes());
+        System.out.println("加密后 "+y);
+        System.out.println("解密后 "+new String(Base64Utils.decodeFromString(y)));
+    }
 }

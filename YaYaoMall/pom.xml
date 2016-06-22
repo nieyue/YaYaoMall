@@ -176,6 +176,13 @@
 			<classifier>jdk15</classifier>
 			<version>2.2.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
+		<dependency>
+   			<groupId>com.thoughtworks.xstream</groupId>
+   			<artifactId>xstream</artifactId>
+   			<version>1.4.9</version>
+		</dependency>
+		
 		<!-- fastJson json数组有关的 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -243,7 +250,6 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
-			<scope>provided</scope>
 		</dependency>
 	   <dependency>
 			<groupId>org.hibernate</groupId>
